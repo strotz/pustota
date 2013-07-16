@@ -65,6 +65,7 @@
     <Compile Include="Serialization\ProjectSerializer.cs" />
     <Compile Include="Serialization\ProjectTreeLoader.cs" />
     <Compile Include="Serialization\RepositoryEntryPoint.cs" />
+    <Compile Include="Serialization\Xml.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
