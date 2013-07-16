@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pustota.Maven.Base", "Pustota.Maven.Base\Pustota.Maven.Base.csproj", "{E78A941B-47D7-4733-B412-1D228913C17A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pustota.Maven.Base.Tests", "Pustota.Maven.Base.Tests\Pustota.Maven.Base.Tests.csproj", "{93331965-3A6A-46C8-9E36-C2FB1B197658}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pustota.Maven.Cmd", "Pustota.Maven.Cmd\Pustota.Maven.Cmd.csproj", "{CAA3DE74-EB5C-48DE-92DC-D43F5613985F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E78A941B-47D7-4733-B412-1D228913C17A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E78A941B-47D7-4733-B412-1D228913C17A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E78A941B-47D7-4733-B412-1D228913C17A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E78A941B-47D7-4733-B412-1D228913C17A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93331965-3A6A-46C8-9E36-C2FB1B197658}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93331965-3A6A-46C8-9E36-C2FB1B197658}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93331965-3A6A-46C8-9E36-C2FB1B197658}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93331965-3A6A-46C8-9E36-C2FB1B197658}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAA3DE74-EB5C-48DE-92DC-D43F5613985F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAA3DE74-EB5C-48DE-92DC-D43F5613985F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAA3DE74-EB5C-48DE-92DC-D43F5613985F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAA3DE74-EB5C-48DE-92DC-D43F5613985F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
