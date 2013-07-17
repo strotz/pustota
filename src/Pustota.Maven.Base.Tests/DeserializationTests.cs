@@ -291,7 +291,7 @@ namespace Pustota.Maven.Base.Tests
 		}
 
 		[Test]
-		public void SindlePropertyTest()
+		public void SinglePropertyTest()
 		{
 			const string PropertiesProjectEmptyXml =
 @"<?xml version=""1.0"" encoding=""us-ascii""?>
@@ -303,6 +303,39 @@ namespace Pustota.Maven.Base.Tests
 
 			Project deserialized = new ProjectSerializer().Deserialize(PropertiesProjectEmptyXml);
 		}
+
+		[Test]
+		public void SingleAndCommentPropertyTest()
+		{
+			const string PropertiesProjectEmptyXml =
+@"<?xml version=""1.0"" encoding=""us-ascii""?>
+<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
+<properties>
+	<a>asdas</a>
+	<!-- <target.platform>m2e-wtp-e36</target.platform> -->
+</properties>
+</project>";
+
+			Project deserialized = new ProjectSerializer().Deserialize(PropertiesProjectEmptyXml);
+		}
+
+		[Test]
+		public void DoubleAndCommentPropertyTest()
+		{
+			const string PropertiesProjectEmptyXml =
+@"<?xml version=""1.0"" encoding=""us-ascii""?>
+<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
+<properties>
+	<a>asdas</a>
+	<!-- <target.platform>m2e-wtp-e36</target.platform> -->
+	<a>asdas</a>
+</properties>
+</project>";
+
+			Project deserialized = new ProjectSerializer().Deserialize(PropertiesProjectEmptyXml);
+			Assert.That(deserialized.Properties.Items.Count, Is.EqualTo(2));
+		}
+
 
 
 		[Test]

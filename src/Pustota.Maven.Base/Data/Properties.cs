@@ -41,6 +41,11 @@ namespace Pustota.Maven.Base.Data
 				string name = reader.Name;
 				if (name == "properties")
 					break;
+				if (name == "") // comment?
+				{
+					reader.Read();
+					continue;
+				}
 				string value = reader.ReadElementString();
 				Items.Add(new Property{Name = name, Value = value});
 			}
