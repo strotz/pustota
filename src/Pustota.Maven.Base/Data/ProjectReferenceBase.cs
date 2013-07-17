@@ -1,8 +1,8 @@
 ﻿using System.Xml.Serialization;
 
-namespace Pustota.Maven.Base
+namespace Pustota.Maven.Base.Data
 {
-	public abstract class ProjectReferenceBase : IProjectReference
+	public abstract class ProjectReferenceBase 
 	{
 		[XmlElement("artifactId")]
 		public string ArtifactId { get; set; }

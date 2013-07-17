@@ -4,78 +4,23 @@ using System.Xml.Serialization;
 
 namespace Pustota.Maven.Base
 {
-	[XmlRoot("project", Namespace = "http://maven.apache.org/POM/4.0.0", IsNullable = false)]
-	public class Project :
-		ProjectReferenceBase,
-		IProject
-	{
-		[XmlAttribute("schemaLocation", Namespace = XmlSchema.InstanceNamespace)] public string SchemaLocation =
-			"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd";
+	//[XmlRoot("project", Namespace = "http://maven.apache.org/POM/4.0.0", IsNullable = false)]
+	//public class Project :
+	//	ProjectReferenceBase
+	//	// IProject
+	//{
 
-		public Project()
-		{
-			Modules = new List<Module>();
-			Properties = new List<Property>();
-			Dependencies = new List<Dependency>();
-			Profiles = new List<Profile>();
-			Build = new Build();
-		}
+	//	public Project()
+	//	{
+	//		Properties = new List<Property>();
+	//		Dependencies = new List<Dependency>();
+	//	}
 
-		[XmlElement("name")]
-		public string Name { get; set; }
+	//	[XmlArray("modules")]
+	//	[XmlArrayItem("module")]
+	//	public List<Module> Modules { get; set; }
 
-		[XmlElement("packaging")]
-		public string Packaging { get; set; }
-
-		[XmlElement("modelVersion")]
-		public string ModelVersion { get; set; }
-
-		[XmlElement("parent")]
-		public ParentReference Parent { get; set; }
-
-		[XmlArray("modules")]
-		[XmlArrayItem("module")]
-		public List<Module> Modules { get; set; }
-
-		public bool ShouldSerializeModules()
-		{
-			return Modules != null && Modules.Count != 0;
-		}
-
-		[XmlElement("properties")]
-		public List<Property> Properties { get; set; }
-
-		public bool ShouldSerializeProperties()
-		{
-			return Properties != null && Properties.Count != 0;
-		}
-
-		[XmlArray("dependencies")]
-		[XmlArrayItem("dependency")]
-		public List<Dependency> Dependencies { get; set; }
-
-		public bool ShouldSerializeDependencies()
-		{
-			return Dependencies != null && Dependencies.Count != 0;
-		}
-
-		[XmlArray("profiles")]
-		[XmlArrayItem("profile")]
-		public List<Profile> Profiles { get; set; }
-
-		public bool ShouldSerializeProfiles()
-		{
-			return Profiles != null && Profiles.Count != 0;
-		}
-
-		[XmlElement("build")]
-		public Build Build { get; set; }
-
-		public bool ShouldSerializeBuild()
-		{
-			return Build != null && Build.ShouldSerializeMe();
-		}
-	}
+	//}
 
 	// internal const string ProjectFilePattern = "pom.xml";
 	// public PomXmlDocument Pom { get; private set; }
@@ -206,11 +151,6 @@ namespace Pustota.Maven.Base
 					Modules.Add(newModule);
 					Changed = true;
 				}
-			}
-
-			private void LoadXml()
-			{
-				Pom = new PomXmlDocument(FullPath, PomXmlDocument.DefaultNamespaceName);
 			}
 			*/
 }

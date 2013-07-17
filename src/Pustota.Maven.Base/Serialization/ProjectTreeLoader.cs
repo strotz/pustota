@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Pustota.Maven.Base.Data;
 
 namespace Pustota.Maven.Base.Serialization
 {
@@ -38,7 +39,7 @@ namespace Pustota.Maven.Base.Serialization
 			Project project = LoadProjectFile(projectPath);
 			yield return project;
 			string projectFolder = _fileIO.GetDirectoryName(projectPath);
-			foreach (Module module in project.Modules)
+			foreach (var module in project.Modules)
 			{
 				string modulePath = _fileIO.Combine(projectFolder, module.Path, "pom.xml");
 				if (_fileIO.IsFileExist(modulePath))

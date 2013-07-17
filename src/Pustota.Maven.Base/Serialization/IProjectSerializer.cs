@@ -1,4 +1,6 @@
-﻿namespace Pustota.Maven.Base.Serialization
+﻿using Pustota.Maven.Base.Data;
+
+namespace Pustota.Maven.Base.Serialization
 {
 	public interface IProjectSerializer
 	{

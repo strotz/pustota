@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Moq;
 using NUnit.Framework;
+using Pustota.Maven.Base.Data;
 using Pustota.Maven.Base.Serialization;
 
 namespace Pustota.Maven.Base.Tests
@@ -11,59 +9,59 @@ namespace Pustota.Maven.Base.Tests
 	[TestFixture]
 	public class ProjectTreeTests
 	{
-		private string topFolder;
-		private string secondFolder;
+		private string _topFolder;
+		private string _secondFolder;
 
-		private string topProjectPath;
-		private string secondProjectPath;
+		private string _topProjectPath;
+		private string _secondProjectPath;
 
-		private Project topProject;
-		private Project secondProject;
+		private Project _topProject;
+		private Project _secondProject;
 
-		private string topProjectContent;
-		private string secondProjectContent;
+		private string _topProjectContent;
+		private string _secondProjectContent;
 
 		private Mock<IFileSystemAccess> _fileIOMock;
-		private string secondFolderName;
+		private string _secondFolderName;
 
 		[SetUp]
 		public void SimpleTreeSetup()
 		{
-			topProject = new Project()
+			_topProject = new Project
 			{
 				GroupId = "a",
 				ArtifactId = "a"
 			};
-			secondProject =
-				new Project()
+			_secondProject =
+				new Project
 				{
 					GroupId = "b",
 					ArtifactId = "b"
 				};
 
 			var serializer = new ProjectSerializer();
-			topProjectContent = serializer.Serialize(topProject);
-			secondProjectContent = serializer.Serialize(secondProject);
+			_topProjectContent = serializer.Serialize(_topProject);
+			_secondProjectContent = serializer.Serialize(_secondProject);
 
-			topFolder = "top";
-			secondFolderName = "second";
-			secondFolder = "top\\second";
-			topProjectPath = "top\\pom.xml";
-			secondProjectPath = "top\\second\\pom.xml";
+			_topFolder = "top";
+			_secondFolderName = "second";
+			_secondFolder = "top\\second";
+			_topProjectPath = "top\\pom.xml";
+			_secondProjectPath = "top\\second\\pom.xml";
 
 			_fileIOMock = new Mock<IFileSystemAccess>();
-			_fileIOMock.Setup(io => io.ReadAllText(topProjectPath)).Returns(topProjectContent);
-			_fileIOMock.Setup(io => io.ReadAllText(secondProjectPath)).Returns(secondProjectContent);
-			_fileIOMock.Setup(io => io.IsFileExist(topProjectPath)).Returns(true);
-			_fileIOMock.Setup(io => io.IsFileExist(secondProjectPath)).Returns(true);
-			_fileIOMock.Setup(io => io.IsDirectoryExist(topFolder)).Returns(true);
-			_fileIOMock.Setup(io => io.EnumerateDirectories(topFolder)).Returns(new string[] {secondFolderName});
+			_fileIOMock.Setup(io => io.ReadAllText(_topProjectPath)).Returns(_topProjectContent);
+			_fileIOMock.Setup(io => io.ReadAllText(_secondProjectPath)).Returns(_secondProjectContent);
+			_fileIOMock.Setup(io => io.IsFileExist(_topProjectPath)).Returns(true);
+			_fileIOMock.Setup(io => io.IsFileExist(_secondProjectPath)).Returns(true);
+			_fileIOMock.Setup(io => io.IsDirectoryExist(_topFolder)).Returns(true);
+			_fileIOMock.Setup(io => io.EnumerateDirectories(_topFolder)).Returns(new[] {_secondFolderName});
 			_fileIOMock.Setup(io => io.Combine(It.IsAny<string>(), It.IsAny<string>())).Returns(
 				(string s1, string s2) => (s1 + '\\' + s2));
 			_fileIOMock.Setup(io => io.Combine(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(
 			(string s1, string s2, string s3) => (s1 + '\\' + s2 + '\\' + s3));
-			_fileIOMock.Setup(io => io.GetDirectoryName(topProjectPath)).Returns(topFolder);
-			_fileIOMock.Setup(io => io.GetDirectoryName(secondProjectPath)).Returns(secondFolder);
+			_fileIOMock.Setup(io => io.GetDirectoryName(_topProjectPath)).Returns(_topFolder);
+			_fileIOMock.Setup(io => io.GetDirectoryName(_secondProjectPath)).Returns(_secondFolder);
 		}
 
 		[Test]
@@ -85,16 +83,16 @@ namespace Pustota.Maven.Base.Tests
 
 			var loader = new ProjectTreeLoader(entryPoint, serializer, _fileIOMock.Object);
 
-			Project project = loader.LoadProjectFile(topProjectPath);
+			Project project = loader.LoadProjectFile(_topProjectPath);
 
 			Assert.That(project, Is.Not.Null);
-			Assert.That(project.ArtifactId, Is.EqualTo(topProject.ArtifactId));
+			Assert.That(project.ArtifactId, Is.EqualTo(_topProject.ArtifactId));
 		}
 
 		[Test]
 		public void ProjectRepositoryLoadAllFoldersTest()
 		{
-			var entryPoint = new RepositoryEntryPoint(topFolder);
+			var entryPoint = new RepositoryEntryPoint(_topFolder);
 			var serializer = new ProjectSerializer();
 
 			var loader = new ProjectTreeLoader(entryPoint, serializer, _fileIOMock.Object);
@@ -106,7 +104,7 @@ namespace Pustota.Maven.Base.Tests
 		[Test]
 		public void ProjectRepositoryLoadViaModulesJustOneTest()
 		{
-			var entryPoint = new RepositoryEntryPoint(topProjectPath);
+			var entryPoint = new RepositoryEntryPoint(_topProjectPath);
 			var serializer = new ProjectSerializer();
 
 			var loader = new ProjectTreeLoader(entryPoint, serializer, _fileIOMock.Object);
@@ -118,12 +116,12 @@ namespace Pustota.Maven.Base.Tests
 		[Test]
 		public void ProjectRepositoryLoadViaModulesAllTest()
 		{
-			topProject.Modules.Add(new Module(){Path = secondFolderName});
-			var content = new ProjectSerializer().Serialize(topProject);
+			_topProject.Modules.Add(new Module {Path = _secondFolderName});
+			var content = new ProjectSerializer().Serialize(_topProject);
 
-			_fileIOMock.Setup(io => io.ReadAllText(topProjectPath)).Returns(content);
+			_fileIOMock.Setup(io => io.ReadAllText(_topProjectPath)).Returns(content);
 
-			var entryPoint = new RepositoryEntryPoint(topProjectPath);
+			var entryPoint = new RepositoryEntryPoint(_topProjectPath);
 			var serializer = new ProjectSerializer();
 
 			var loader = new ProjectTreeLoader(entryPoint, serializer, _fileIOMock.Object);

@@ -40,24 +40,62 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Build.cs" />
+    <Compile Include="Data\Activation.cs" />
+    <Compile Include="Data\ActivationFile.cs" />
+    <Compile Include="Data\ActivationOS.cs" />
+    <Compile Include="Data\ActivationProperty.cs" />
+    <Compile Include="Data\Build.cs" />
+    <Compile Include="Data\BuildBase.cs" />
+    <Compile Include="Data\CiManagement.cs" />
+    <Compile Include="Data\Contributor.cs" />
+    <Compile Include="Data\ContributorProperties.cs" />
+    <Compile Include="Data\Dependency.cs" />
+    <Compile Include="Data\DependencyManagement.cs" />
+    <Compile Include="Data\DeploymentRepository.cs" />
+    <Compile Include="Data\Developer.cs" />
+    <Compile Include="Data\DeveloperProperties.cs" />
+    <Compile Include="Data\DistributionManagement.cs" />
+    <Compile Include="Data\Exclusion.cs" />
+    <Compile Include="Data\Extension.cs" />
+    <Compile Include="Data\IssueManagement.cs" />
+    <Compile Include="Data\License.cs" />
+    <Compile Include="Data\MailingList.cs" />
+    <Compile Include="Data\Project.cs" />
+    <Compile Include="Data\Properties.cs" />
+    <Compile Include="Data\ModelReports.cs" />
+    <Compile Include="Data\Notifier.cs" />
+    <Compile Include="Data\NotifierConfiguration.cs" />
+    <Compile Include="Data\Organization.cs" />
+    <Compile Include="Data\Parent.cs" />
+    <Compile Include="Data\Plugin.cs" />
+    <Compile Include="Data\PluginConfiguration.cs" />
+    <Compile Include="Data\PluginExecution.cs" />
+    <Compile Include="Data\PluginExecutionConfiguration.cs" />
+    <Compile Include="Data\PluginGoals.cs" />
+    <Compile Include="Data\PluginManagement.cs" />
+    <Compile Include="Data\Prerequisites.cs" />
+    <Compile Include="Data\Profile.cs" />
+    <Compile Include="Data\ProfileReports.cs" />
+    <Compile Include="Data\Relocation.cs" />
+    <Compile Include="Data\Reporting.cs" />
+    <Compile Include="Data\ReportPlugin.cs" />
+    <Compile Include="Data\ReportPluginConfiguration.cs" />
+    <Compile Include="Data\ReportSet.cs" />
+    <Compile Include="Data\ReportSetConfiguration.cs" />
+    <Compile Include="Data\Repository.cs" />
+    <Compile Include="Data\RepositoryPolicy.cs" />
+    <Compile Include="Data\Resource.cs" />
+    <Compile Include="Data\Scm.cs" />
+    <Compile Include="Data\Site.cs" />
     <Compile Include="Project.cs" />
-    <Compile Include="IItemBuilder.cs" />
     <Compile Include="Dependency.cs" />
-    <Compile Include="IDependency.cs" />
-    <Compile Include="IModule.cs" />
-    <Compile Include="IParentReference.cs" />
-    <Compile Include="IPlugin.cs" />
-    <Compile Include="IProfile.cs" />
-    <Compile Include="IProject.cs" />
-    <Compile Include="IProjectReference.cs" />
-    <Compile Include="IProperty.cs" />
-    <Compile Include="Module.cs" />
-    <Compile Include="ParentReference.cs" />
+    <Compile Include="Data\Module.cs" />
+    <Compile Include="Data\ParentReference.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Profile.cs" />
-    <Compile Include="ProjectReferenceBase.cs" />
+    <Compile Include="Data\ProjectReferenceBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Property.cs" />
+    <Compile Include="Data\Property.cs" />
     <Compile Include="RepositoryEntryPoint.cs" />
     <Compile Include="Serialization\FileSystemAccess.cs" />
     <Compile Include="Serialization\IFileSystemAccess.cs" />
@@ -66,6 +104,9 @@
     <Compile Include="Serialization\ProjectTreeLoader.cs" />
     <Compile Include="Serialization\RepositoryEntryPoint.cs" />
     <Compile Include="Serialization\Xml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="NewFolder1\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

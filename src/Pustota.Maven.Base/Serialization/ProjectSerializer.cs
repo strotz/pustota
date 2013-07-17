@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using Pustota.Maven.Base.Data;
 
 namespace Pustota.Maven.Base.Serialization
 {
