@@ -221,8 +221,8 @@ namespace Pustota.Maven.Base.Tests
 			var project = new Project();
 			var property = new Property
 			{
-				PropertyName = "a" + GetRandomString(),
-				PropertyValue = GetRandomString()
+				Name = "a" + GetRandomString(),
+				Value = GetRandomString()
 			};
 			project.Properties.Items.Add(property);
 			string serialized = new ProjectSerializer().Serialize(project);
@@ -240,8 +240,8 @@ namespace Pustota.Maven.Base.Tests
 			var project = new Project();
 			var property = new Property
 			{
-				PropertyName = "a" + GetRandomString(),
-				PropertyValue = GetRandomString()
+				Name = "a" + GetRandomString(),
+				Value = GetRandomString()
 			};
 			project.Properties.Items.Add(property);
 			string serialized = new ProjectSerializer().Serialize(project);
@@ -251,31 +251,72 @@ namespace Pustota.Maven.Base.Tests
 			Assert.That(obtained.Value, Is.EqualTo(property.Value));
 		}
 
-		const string PropertiesProjectXml =
-@"<?xml version=""1.0"" encoding=""us-ascii""?>
-<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
-<properties>
-<a>aval</a>
-<b>bavl</b>
-</properties>
-</project>";
 
 		[Test]
 		public void PropertyDeserializationTest2()
 		{
+			const string PropertiesProjectXml =
+@"<?xml version=""1.0"" encoding=""us-ascii""?>
+<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
+<properties>
+<a>aval</a>
+<b>bval</b>
+</properties>
+</project>";
+
 			Project deserialized = new ProjectSerializer().Deserialize(PropertiesProjectXml);
-			var obtained = deserialized.Properties.Items.First();
+			
+			Assert.That(deserialized.Properties.Items.Count, Is.EqualTo(2));
+
+			var first = deserialized.Properties.Items.First();
+			Assert.That(first.Name, Is.EqualTo("a"));
+			Assert.That(first.Value, Is.EqualTo("aval"));
+
+			var last = deserialized.Properties.Items.Last();
+			Assert.That(last.Name, Is.EqualTo("b"));
+			Assert.That(last.Value, Is.EqualTo("bval"));
 		}
+
+		[Test]
+		public void EmptyPropertyTest()
+		{
+			const string PropertiesProjectEmptyXml =
+@"<?xml version=""1.0"" encoding=""us-ascii""?>
+<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
+<properties>
+</properties>
+</project>";
+
+			Project deserialized = new ProjectSerializer().Deserialize(PropertiesProjectEmptyXml);
+		}
+
+		[Test]
+		public void SindlePropertyTest()
+		{
+			const string PropertiesProjectEmptyXml =
+@"<?xml version=""1.0"" encoding=""us-ascii""?>
+<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
+<properties>
+<a>asdas</a>
+</properties>
+</project>";
+
+			Project deserialized = new ProjectSerializer().Deserialize(PropertiesProjectEmptyXml);
+		}
+
 
 		[Test]
 		public void ManyPropertyTest()
 		{
 			var project = new Project();
-			project.Properties.Items.Add(new Property { PropertyName = "a" + GetRandomString(), PropertyValue = GetRandomString() });
-			project.Properties.Items.Add(new Property { PropertyName = "a" + GetRandomString(), PropertyValue = GetRandomString() });
-			project.Properties.Items.Add(new Property { PropertyName = "a" + GetRandomString(), PropertyValue = GetRandomString() });
-			project.Properties.Items.Add(new Property { PropertyName = "a" + GetRandomString(), PropertyValue = GetRandomString() });
+			project.Properties.Items.Add(new Property { Name = "a" + GetRandomString(), Value = GetRandomString() });
+			project.Properties.Items.Add(new Property { Name = "a" + GetRandomString(), Value = GetRandomString() });
+			project.Properties.Items.Add(new Property { Name = "a" + GetRandomString(), Value = GetRandomString() });
+			project.Properties.Items.Add(new Property { Name = "a" + GetRandomString(), Value = GetRandomString() });
 			string serialized = new ProjectSerializer().Serialize(project);
+
+			Trace.WriteLine(serialized);
+
 			Project deserialized = new ProjectSerializer().Deserialize(serialized);
 
 			foreach (Property property in project.Properties.Items)
@@ -375,7 +416,7 @@ namespace Pustota.Maven.Base.Tests
 			var profile = new Profile();
 			profile.Modules.Add(new Module {Path = GetRandomString()});
 			profile.Dependencies.Add(new Dependency {ArtifactId = GetRandomString()});
-			profile.Properties.Items.Add(new Property() { PropertyName = "a" + GetRandomString(), Value = GetRandomString() });
+			profile.Properties.Items.Add(new Property() { Name = "a" + GetRandomString(), Value = GetRandomString() });
 			project.Profiles.Add(profile);
 			string serialized = new ProjectSerializer().Serialize(project);
 			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
@@ -409,6 +450,7 @@ namespace Pustota.Maven.Base.Tests
 			var plugin = new Plugin
 			{
 			};
+			project.EnableBuild();
 			project.Build.Plugins.Add(plugin);
 			string serialized = new ProjectSerializer().Serialize(project);
 
@@ -433,6 +475,7 @@ namespace Pustota.Maven.Base.Tests
 				Extensions = true,
 				Inherited = "false"
 			};
+			project.EnableBuild();
 			project.Build.Plugins.Add(plugin);
 
 			string serialized = new ProjectSerializer().Serialize(project);
@@ -485,9 +528,8 @@ namespace Pustota.Maven.Base.Tests
 		public void PluginManagementSerializationTest()
 		{
 			var project = new Project();
-			var plugin = new Plugin
-			{
-			};
+			var plugin = new Plugin();
+			project.EnableBuild();
 			project.Build.PluginManagement.Plugins.Add(plugin);
 
 			string serialized = new ProjectSerializer().Serialize(project);
