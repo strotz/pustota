@@ -13,6 +13,12 @@ namespace Pustota.Maven.Cmd
 		{
 			try
 			{
+				if (args.Length != 1)
+				{
+					Console.WriteLine("Need top folder location");
+					return;
+				}
+
 				string topFolder = args[0];
 
 				var entryPoint = new RepositoryEntryPoint(topFolder);
