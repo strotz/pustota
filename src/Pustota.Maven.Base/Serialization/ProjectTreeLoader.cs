@@ -71,8 +71,6 @@ namespace Pustota.Maven.Base.Serialization
 			}
 		}
 
-		
-
 		public Project LoadProjectFile(string projectFilePath)
 		{
 			string content = _fileIO.ReadAllText(projectFilePath);

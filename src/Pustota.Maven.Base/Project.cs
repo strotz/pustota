@@ -15,11 +15,6 @@ namespace Pustota.Maven.Base
 	//		Properties = new List<Property>();
 	//		Dependencies = new List<Dependency>();
 	//	}
-
-	//	[XmlArray("modules")]
-	//	[XmlArrayItem("module")]
-	//	public List<Module> Modules { get; set; }
-
 	//}
 
 	// internal const string ProjectFilePattern = "pom.xml";

@@ -21,6 +21,8 @@ namespace Pustota.Maven.Base.Data
 			Properties = new Properties();
 			Dependencies = new List<Dependency>();
 			Profiles = new List<Profile>();
+			Repositories = new List<Repository>();
+			PluginRepositories = new List<Repository>();
 		}
 
 		[XmlElement("parent")]
@@ -32,7 +34,6 @@ namespace Pustota.Maven.Base.Data
 		[XmlElement("packaging")]
 		[System.ComponentModel.DefaultValueAttribute("jar")]
 		public string Packaging { get; set; }
-
 
 		[XmlElement("name")]
 		public string Name { get; set; }
@@ -100,23 +101,28 @@ namespace Pustota.Maven.Base.Data
 		[XmlArray("modules")]
 		[XmlArrayItem("module", IsNullable = false)]
 		public List<Module> Modules { get; set; }
-
 		public bool ShouldSerializeModules()
 		{
 			return Modules != null && Modules.Count != 0;
 		}
 
-		/// <remarks/>
-		[XmlArrayItem("repository", IsNullable = false)]
-		public Repository[] repositories { get; set; }
+		[XmlArray("repositories"), XmlArrayItem("repository", IsNullable = false)]
+		public List<Repository> Repositories { get; set; }
+		public bool ShouldSerializeRepositories()
+		{
+			return Repositories != null && Repositories.Count != 0;
+		}
 
 		/// <remarks/>
-		[XmlArrayItem("pluginRepository", IsNullable = false)]
-		public Repository[] pluginRepositories { get; set; }
+		[XmlArray("pluginRepositories"), XmlArrayItem("pluginRepository", IsNullable = false)]
+		public List<Repository> PluginRepositories { get; set; }
+		public bool ShouldSerializePluginRepositories()
+		{
+			return PluginRepositories != null && PluginRepositories.Count != 0;
+		}
 
 		[XmlArray("dependencies"), XmlArrayItem("dependency", IsNullable = false)]
 		public List<Dependency> Dependencies { get; set; }
-
 		public bool ShouldSerializeDependencies()
 		{
 			return Dependencies != null && Dependencies.Count != 0;
