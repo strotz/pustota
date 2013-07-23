@@ -83,10 +83,10 @@ namespace Pustota.Maven.Base.Tests
 
 			var loader = new ProjectTreeLoader(entryPoint, serializer, _fileIOMock.Object);
 
-			Project project = loader.LoadProjectFile(_topProjectPath);
+			var container = loader.LoadProjectFile(_topProjectPath);
 
-			Assert.That(project, Is.Not.Null);
-			Assert.That(project.ArtifactId, Is.EqualTo(_topProject.ArtifactId));
+			Assert.That(container.Project, Is.Not.Null);
+			Assert.That(container.Project.ArtifactId, Is.EqualTo(_topProject.ArtifactId));
 		}
 
 		[Test]

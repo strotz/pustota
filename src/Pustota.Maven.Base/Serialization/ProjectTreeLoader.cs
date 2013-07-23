@@ -21,7 +21,7 @@ namespace Pustota.Maven.Base.Serialization
 			_fileIO = fileIo;
 		}
 
-		public IEnumerable<Project> LoadProjects()
+		public IEnumerable<ProjectContainer> LoadProjects()
 		{
 			if (_fileIO.IsDirectoryExist(_projectRepositoryPath.EntryPath))
 			{
@@ -31,14 +31,14 @@ namespace Pustota.Maven.Base.Serialization
 			{
 				return ScanProject(_projectRepositoryPath.EntryPath);
 			}
-			return new Project[] {};
+			return new ProjectContainer[] { };
 		}
 
-		private IEnumerable<Project> ScanProject(string projectPath)
+		private IEnumerable<ProjectContainer> ScanProject(string projectFilePath)
 		{
-			Project project = LoadProjectFile(projectPath);
+			ProjectContainer project = LoadProjectFile(projectFilePath);
 			yield return project;
-			string projectFolder = _fileIO.GetDirectoryName(projectPath);
+			string projectFolder = _fileIO.GetDirectoryName(projectFilePath);
 			foreach (var module in project.Modules)
 			{
 				string modulePath = _fileIO.Combine(projectFolder, module.Path, "pom.xml");
@@ -53,7 +53,7 @@ namespace Pustota.Maven.Base.Serialization
 			}
 		}
 
-		private IEnumerable<Project> ScanFolder(string folderPath)
+		private IEnumerable<ProjectContainer> ScanFolder(string folderPath)
 		{
 			string pomFileName = _fileIO.Combine(folderPath, "pom.xml");
 			if (_fileIO.IsFileExist(pomFileName))
@@ -71,10 +71,11 @@ namespace Pustota.Maven.Base.Serialization
 			}
 		}
 
-		public Project LoadProjectFile(string projectFilePath)
+		public ProjectContainer LoadProjectFile(string projectFilePath)
 		{
 			string content = _fileIO.ReadAllText(projectFilePath);
-			return _serializer.Deserialize(content);
+			return new ProjectContainer(projectFilePath,
+				_serializer.Deserialize(content));
 		}
 	}
 }

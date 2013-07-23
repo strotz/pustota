@@ -2,7 +2,21 @@
 
 namespace Pustota.Maven.Base.Data
 {
-	public abstract class ProjectReferenceBase 
+	public interface IProjectReference
+	{
+		[XmlElement("artifactId")]
+		string ArtifactId { get; set; }
+
+		[XmlElement("groupId")]
+		string GroupId { get; set; }
+
+		[XmlElement("version")]
+		string Version { get; set; }
+
+		bool HasSpecificVersion { get; }
+	}
+
+	public abstract class ProjectReferenceBase : IProjectReference
 	{
 		[XmlElement("artifactId")]
 		public string ArtifactId { get; set; }

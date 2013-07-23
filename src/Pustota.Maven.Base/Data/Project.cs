@@ -4,12 +4,19 @@ using System.Xml.Serialization;
 
 namespace Pustota.Maven.Base.Data
 {
+	public interface IProject : IProjectReference
+	{
+		[XmlArray("modules")]
+		[XmlArrayItem("module", IsNullable = false)]
+		List<Module> Modules { get; set; }
+	}
+
 	[System.SerializableAttribute]
 	[System.Diagnostics.DebuggerStepThroughAttribute()]
 	[System.ComponentModel.DesignerCategoryAttribute("code")]
 	[XmlType(Namespace = "http://maven.apache.org/POM/4.0.0")]
 	[XmlRoot("project", Namespace = "http://maven.apache.org/POM/4.0.0", IsNullable = false)]
-	public class Project : ProjectReferenceBase 
+	public class Project : ProjectReferenceBase, IProject
 	{
 		[XmlAttribute("schemaLocation", Namespace = XmlSchema.InstanceNamespace)]
 		public string SchemaLocation = "http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd";
