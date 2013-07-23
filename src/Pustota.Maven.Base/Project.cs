@@ -52,20 +52,7 @@ namespace Pustota.Maven.Base
 			public Project(string fileName) : 
 				this()
 			{
-				FullPath = Path.GetFullPath(fileName);
-
-				_directoryName = Path.GetDirectoryName(FullPath);
-				if (_directoryName == null)
-				{
-					throw new InvalidOperationException("DirectoryName for the project cannot be null");
-				}
-
 				CalculatedVersion = Version;
-			}
-
-			internal string GetModulePath(IModule module)
-			{
-				return Path.Combine(Path.Combine(_directoryName, module.Path), ProjectFilePattern);
 			}
 
 			internal IEnumerable<IProject> LoadProjectsTree()

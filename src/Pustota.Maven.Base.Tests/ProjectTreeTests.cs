@@ -50,6 +50,7 @@ namespace Pustota.Maven.Base.Tests
 			_secondProjectPath = "top\\second\\pom.xml";
 
 			_fileIOMock = new Mock<IFileSystemAccess>();
+			_fileIOMock.Setup(io => io.GetFullPath(It.IsAny<string>())).Returns((string s) => s);
 			_fileIOMock.Setup(io => io.ReadAllText(_topProjectPath)).Returns(_topProjectContent);
 			_fileIOMock.Setup(io => io.ReadAllText(_secondProjectPath)).Returns(_secondProjectContent);
 			_fileIOMock.Setup(io => io.IsFileExist(_topProjectPath)).Returns(true);
@@ -67,7 +68,7 @@ namespace Pustota.Maven.Base.Tests
 		[Test]
 		public void ProjectRepositoryBasics()
 		{
-			var entryPoint = new RepositoryEntryPoint("fake project folder path");
+			var entryPoint = new RepositoryEntryPoint("fake project folder path", _fileIOMock.Object);
 			var serializer = new Mock<IProjectSerializer>();
 
 			var loader = new ProjectTreeLoader(entryPoint, serializer.Object, _fileIOMock.Object);
@@ -77,7 +78,7 @@ namespace Pustota.Maven.Base.Tests
 		public void SingleProjectLoadTest()
 		{
 			string projectPath = "fake project path";
-			var entryPoint = new RepositoryEntryPoint(projectPath);
+			var entryPoint = new RepositoryEntryPoint(projectPath, _fileIOMock.Object);
 			
 			var serializer = new ProjectSerializer();
 
@@ -92,7 +93,7 @@ namespace Pustota.Maven.Base.Tests
 		[Test]
 		public void ProjectRepositoryLoadAllFoldersTest()
 		{
-			var entryPoint = new RepositoryEntryPoint(_topFolder);
+			var entryPoint = new RepositoryEntryPoint(_topFolder, _fileIOMock.Object);
 			var serializer = new ProjectSerializer();
 
 			var loader = new ProjectTreeLoader(entryPoint, serializer, _fileIOMock.Object);
@@ -104,7 +105,7 @@ namespace Pustota.Maven.Base.Tests
 		[Test]
 		public void ProjectRepositoryLoadViaModulesJustOneTest()
 		{
-			var entryPoint = new RepositoryEntryPoint(_topProjectPath);
+			var entryPoint = new RepositoryEntryPoint(_topProjectPath, _fileIOMock.Object);
 			var serializer = new ProjectSerializer();
 
 			var loader = new ProjectTreeLoader(entryPoint, serializer, _fileIOMock.Object);
@@ -121,7 +122,7 @@ namespace Pustota.Maven.Base.Tests
 
 			_fileIOMock.Setup(io => io.ReadAllText(_topProjectPath)).Returns(content);
 
-			var entryPoint = new RepositoryEntryPoint(_topProjectPath);
+			var entryPoint = new RepositoryEntryPoint(_topProjectPath, _fileIOMock.Object);
 			var serializer = new ProjectSerializer();
 
 			var loader = new ProjectTreeLoader(entryPoint, serializer, _fileIOMock.Object);

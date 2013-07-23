@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Pustota.Maven.Base;
 using Pustota.Maven.Base.Serialization;
 
 namespace Pustota.Maven.Cmd
@@ -21,13 +22,9 @@ namespace Pustota.Maven.Cmd
 
 				string topFolder = args[0];
 
-				var entryPoint = new RepositoryEntryPoint(topFolder);
-				var serializer = new ProjectSerializer();
-
-				var loader = new ProjectTreeLoader(entryPoint, serializer, new FileSystemAccess());
-				var projects = loader.LoadProjects().ToList();
-
-				Console.WriteLine(projects.Count + " projects loaded");
+				var work = new Work(topFolder);
+				work.LoadProjects();
+				Console.WriteLine(work.Projects.Count() + " projects loaded");
 			}
 			catch (Exception ex)
 			{

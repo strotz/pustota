@@ -103,8 +103,8 @@
     <Compile Include="Serialization\IProjectSerializer.cs" />
     <Compile Include="Serialization\ProjectSerializer.cs" />
     <Compile Include="Serialization\ProjectTreeLoader.cs" />
-    <Compile Include="Serialization\RepositoryEntryPoint.cs" />
     <Compile Include="Serialization\Xml.cs" />
+    <Compile Include="Work.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
