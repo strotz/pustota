@@ -24,6 +24,8 @@ namespace Pustota.Maven.Base.Tests
 		private Mock<IFileSystemAccess> _fileIOMock;
 		private string _secondFolderName;
 
+		private IProjectSerializer _serializer;
+
 		[SetUp]
 		public void SimpleTreeSetup()
 		{
@@ -39,9 +41,9 @@ namespace Pustota.Maven.Base.Tests
 					ArtifactId = "b"
 				};
 
-			var serializer = new ProjectSerializer();
-			_topProjectContent = serializer.Serialize(_topProject);
-			_secondProjectContent = serializer.Serialize(_secondProject);
+			_serializer = new ClassicProjectSerializer();
+			_topProjectContent = _serializer.Serialize(_topProject);
+			_secondProjectContent = _serializer.Serialize(_secondProject);
 
 			_topFolder = "top";
 			_secondFolderName = "second";
@@ -80,9 +82,7 @@ namespace Pustota.Maven.Base.Tests
 			string projectPath = "fake project path";
 			var entryPoint = new RepositoryEntryPoint(projectPath, _fileIOMock.Object);
 			
-			var serializer = new ProjectSerializer();
-
-			var loader = new ProjectTreeLoader(entryPoint, serializer, _fileIOMock.Object);
+			var loader = new ProjectTreeLoader(entryPoint, _serializer, _fileIOMock.Object);
 
 			var container = loader.LoadProjectFile(_topProjectPath);
 
@@ -94,9 +94,8 @@ namespace Pustota.Maven.Base.Tests
 		public void ProjectRepositoryLoadAllFoldersTest()
 		{
 			var entryPoint = new RepositoryEntryPoint(_topFolder, _fileIOMock.Object);
-			var serializer = new ProjectSerializer();
 
-			var loader = new ProjectTreeLoader(entryPoint, serializer, _fileIOMock.Object);
+			var loader = new ProjectTreeLoader(entryPoint, _serializer, _fileIOMock.Object);
 			var projects = loader.LoadProjects().ToList();
 
 			Assert.That(projects.Count, Is.EqualTo(2));
@@ -106,9 +105,8 @@ namespace Pustota.Maven.Base.Tests
 		public void ProjectRepositoryLoadViaModulesJustOneTest()
 		{
 			var entryPoint = new RepositoryEntryPoint(_topProjectPath, _fileIOMock.Object);
-			var serializer = new ProjectSerializer();
 
-			var loader = new ProjectTreeLoader(entryPoint, serializer, _fileIOMock.Object);
+			var loader = new ProjectTreeLoader(entryPoint, _serializer, _fileIOMock.Object);
 			var projects = loader.LoadProjects().ToList();
 
 			Assert.That(projects.Count, Is.EqualTo(1));
@@ -118,14 +116,13 @@ namespace Pustota.Maven.Base.Tests
 		public void ProjectRepositoryLoadViaModulesAllTest()
 		{
 			_topProject.Modules.Add(new Module {Path = _secondFolderName});
-			var content = new ProjectSerializer().Serialize(_topProject);
+			var content = _serializer.Serialize(_topProject);
 
 			_fileIOMock.Setup(io => io.ReadAllText(_topProjectPath)).Returns(content);
 
 			var entryPoint = new RepositoryEntryPoint(_topProjectPath, _fileIOMock.Object);
-			var serializer = new ProjectSerializer();
 
-			var loader = new ProjectTreeLoader(entryPoint, serializer, _fileIOMock.Object);
+			var loader = new ProjectTreeLoader(entryPoint, _serializer, _fileIOMock.Object);
 			var projects = loader.LoadProjects().ToList();
 
 			Assert.That(projects.Count, Is.EqualTo(2));

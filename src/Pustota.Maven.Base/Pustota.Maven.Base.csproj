@@ -101,7 +101,7 @@
     <Compile Include="Serialization\FileSystemAccess.cs" />
     <Compile Include="Serialization\IFileSystemAccess.cs" />
     <Compile Include="Serialization\IProjectSerializer.cs" />
-    <Compile Include="Serialization\ProjectSerializer.cs" />
+    <Compile Include="Serialization\ClassicProjectSerializer.cs" />
     <Compile Include="Serialization\ProjectTreeLoader.cs" />
     <Compile Include="Serialization\Xml.cs" />
     <Compile Include="Work.cs" />

@@ -11,6 +11,8 @@ namespace Pustota.Maven.Base.Tests
 	[TestFixture]
 	public class DeserializationTests
 	{
+		private IProjectSerializer _serializer;
+
 		const string EmptyProjectXml =
 @"<?xml version=""1.0"" encoding=""us-ascii""?>
 <project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
@@ -35,11 +37,16 @@ namespace Pustota.Maven.Base.Tests
 			return GetElementName(name);
 		}
 
+		[SetUp]
+		public void Setup()
+		{
+			_serializer = new ClassicProjectSerializer();
+		}
 
 		[Test]
 		public void EmptyProjectDeserializationTest()
 		{
-			Project project = new ProjectSerializer().Deserialize(EmptyProjectXml);
+			Project project = _serializer.Deserialize(EmptyProjectXml);
 			Assert.That(project, Is.Not.Null);
 		}
 
@@ -47,7 +54,7 @@ namespace Pustota.Maven.Base.Tests
 		public void EmptyProjectSerializationTest()
 		{
 			Project project = new Project();
-			string serialized = new ProjectSerializer().Serialize(project);
+			string serialized = _serializer.Serialize(project);
 
 			var origin = XDocument.Parse(EmptyProjectXml).Element(GetElementName( "project"));
 			var result = XDocument.Parse(serialized).Element(GetElementName("project"));
@@ -72,8 +79,8 @@ namespace Pustota.Maven.Base.Tests
 				GroupId = GetRandomString(),
 				Version = GetRandomString()
 			};
-			string serialized = new ProjectSerializer().Serialize(project);
-			Project deserialized = new ProjectSerializer().Deserialize(serialized);
+			string serialized = _serializer.Serialize(project);
+			Project deserialized = _serializer.Deserialize(serialized);
 
 			Assert.That(deserialized.ArtifactId, Is.EqualTo(project.ArtifactId));
 			Assert.That(deserialized.GroupId, Is.EqualTo(project.GroupId));
@@ -84,7 +91,7 @@ namespace Pustota.Maven.Base.Tests
 		public void EmptyProjectSerialize()
 		{
 			var project = new Project();
-			string serialized = new ProjectSerializer().Serialize(project);
+			string serialized = _serializer.Serialize(project);
 			var document = XDocument.Parse(serialized);
 			var projectElement = document.Descendants(E("project")).Single();
 			Assert.That(projectElement.HasElements, Is.False);
@@ -99,7 +106,7 @@ namespace Pustota.Maven.Base.Tests
 				GroupId = GetRandomString(),
 				Version = GetRandomString()
 			};
-			string serialized = new ProjectSerializer().Serialize(project);
+			string serialized = _serializer.Serialize(project);
 
 			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
 
@@ -122,8 +129,8 @@ namespace Pustota.Maven.Base.Tests
 				Packaging = GetRandomString(),
 				ModelVersion = GetRandomString(),
 			};
-			string serialized = new ProjectSerializer().Serialize(project);
-			Project deserialized = new ProjectSerializer().Deserialize(serialized);
+			string serialized = _serializer.Serialize(project);
+			Project deserialized = _serializer.Deserialize(serialized);
 
 			Assert.That(deserialized.Name, Is.EqualTo(project.Name));
 			Assert.That(deserialized.Packaging, Is.EqualTo(project.Packaging));
@@ -140,7 +147,7 @@ namespace Pustota.Maven.Base.Tests
 		public void NameCanBeOmited()
 		{
 			var project = new Project();
-			string serialized = new ProjectSerializer().Serialize(project);
+			string serialized = _serializer.Serialize(project);
 			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
 			var nameElement = projectElement.Element(GetElementName("name"));
 			Assert.That(nameElement, Is.Null);
@@ -154,7 +161,7 @@ namespace Pustota.Maven.Base.Tests
 			{
 				ArtifactId = GetRandomString()
 			};
-			string serialized = new ProjectSerializer().Serialize(project);
+			string serialized = _serializer.Serialize(project);
 			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
 			var parentElement = projectElement.Element(GetElementName("parent"));
 			Assert.That(parentElement, Is.Not.Null, "parent is missing");
@@ -170,13 +177,13 @@ namespace Pustota.Maven.Base.Tests
 			{
 				RelativePath = GetRandomString()
 			};
-			string serialized = new ProjectSerializer().Serialize(project);
+			string serialized = _serializer.Serialize(project);
 			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
 			var parentElement = projectElement.Element(GetElementName("parent"));
 			Assert.That(parentElement, Is.Not.Null, "parent is missing");
 			Assert.That(parentElement.Element(GetElementName("relativePath")), Is.Not.Null, "parent:relativePath");
 
-			Project deserialized = new ProjectSerializer().Deserialize(serialized);
+			Project deserialized = _serializer.Deserialize(serialized);
 			Assert.That(deserialized.Parent.RelativePath, Is.EqualTo(project.Parent.RelativePath));
 		}
 
@@ -185,7 +192,7 @@ namespace Pustota.Maven.Base.Tests
 		{
 			var project = new Project();
 			project.Modules.Add(new Module { Path = GetRandomString()});
-			string serialized = new ProjectSerializer().Serialize(project);
+			string serialized = _serializer.Serialize(project);
 			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
 			var modules = projectElement.Element(GetElementName("modules"));
 			Assert.That(modules, Is.Not.Null, "modules");
@@ -206,8 +213,8 @@ namespace Pustota.Maven.Base.Tests
 			project.Modules.Add(new Module { Path = GetRandomString() });
 			project.Modules.Add(new Module { Path = GetRandomString() });
 			project.Modules.Add(new Module { Path = GetRandomString() });
-			string serialized = new ProjectSerializer().Serialize(project);
-			Project deserialized = new ProjectSerializer().Deserialize(serialized);
+			string serialized = _serializer.Serialize(project);
+			Project deserialized = _serializer.Deserialize(serialized);
 
 			foreach (var module in project.Modules)
 			{
@@ -225,7 +232,7 @@ namespace Pustota.Maven.Base.Tests
 				Value = GetRandomString()
 			};
 			project.Properties.Items.Add(property);
-			string serialized = new ProjectSerializer().Serialize(project);
+			string serialized = _serializer.Serialize(project);
 
 			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
 			var properties = projectElement.Element(GetElementName("properties"));
@@ -244,8 +251,8 @@ namespace Pustota.Maven.Base.Tests
 				Value = GetRandomString()
 			};
 			project.Properties.Items.Add(property);
-			string serialized = new ProjectSerializer().Serialize(project);
-			Project deserialized = new ProjectSerializer().Deserialize(serialized);
+			string serialized = _serializer.Serialize(project);
+			Project deserialized = _serializer.Deserialize(serialized);
 			var obtained = deserialized.Properties.Items.First();
 			Assert.That(obtained.Name, Is.EqualTo(property.Name));
 			Assert.That(obtained.Value, Is.EqualTo(property.Value));
@@ -264,7 +271,7 @@ namespace Pustota.Maven.Base.Tests
 </properties>
 </project>";
 
-			Project deserialized = new ProjectSerializer().Deserialize(PropertiesProjectXml);
+			Project deserialized = _serializer.Deserialize(PropertiesProjectXml);
 			
 			Assert.That(deserialized.Properties.Items.Count, Is.EqualTo(2));
 
@@ -287,7 +294,7 @@ namespace Pustota.Maven.Base.Tests
 </properties>
 </project>";
 
-			Project deserialized = new ProjectSerializer().Deserialize(PropertiesProjectEmptyXml);
+			Project deserialized = _serializer.Deserialize(PropertiesProjectEmptyXml);
 		}
 
 		[Test]
@@ -301,7 +308,7 @@ namespace Pustota.Maven.Base.Tests
 </properties>
 </project>";
 
-			Project deserialized = new ProjectSerializer().Deserialize(PropertiesProjectEmptyXml);
+			Project deserialized = _serializer.Deserialize(PropertiesProjectEmptyXml);
 		}
 
 		[Test]
@@ -316,7 +323,7 @@ namespace Pustota.Maven.Base.Tests
 </properties>
 </project>";
 
-			Project deserialized = new ProjectSerializer().Deserialize(PropertiesProjectEmptyXml);
+			Project deserialized = _serializer.Deserialize(PropertiesProjectEmptyXml);
 		}
 
 		[Test]
@@ -332,7 +339,7 @@ namespace Pustota.Maven.Base.Tests
 </properties>
 </project>";
 
-			Project deserialized = new ProjectSerializer().Deserialize(PropertiesProjectEmptyXml);
+			Project deserialized = _serializer.Deserialize(PropertiesProjectEmptyXml);
 			Assert.That(deserialized.Properties.Items.Count, Is.EqualTo(2));
 		}
 
@@ -346,11 +353,11 @@ namespace Pustota.Maven.Base.Tests
 			project.Properties.Items.Add(new Property { Name = "a" + GetRandomString(), Value = GetRandomString() });
 			project.Properties.Items.Add(new Property { Name = "a" + GetRandomString(), Value = GetRandomString() });
 			project.Properties.Items.Add(new Property { Name = "a" + GetRandomString(), Value = GetRandomString() });
-			string serialized = new ProjectSerializer().Serialize(project);
+			string serialized = _serializer.Serialize(project);
 
 			Trace.WriteLine(serialized);
 
-			Project deserialized = new ProjectSerializer().Deserialize(serialized);
+			Project deserialized = _serializer.Deserialize(serialized);
 
 			foreach (Property property in project.Properties.Items)
 			{
@@ -363,7 +370,7 @@ namespace Pustota.Maven.Base.Tests
 		{
 			var project = new Project();
 			project.Dependencies.Add(new Dependency());
-			string serialized = new ProjectSerializer().Serialize(project);
+			string serialized = _serializer.Serialize(project);
 			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
 			var dependencies = projectElement.Element(GetElementName("dependencies"));
 			Assert.That(dependencies, Is.Not.Null);
@@ -376,7 +383,7 @@ namespace Pustota.Maven.Base.Tests
 		{
 			var project = new Project();
 			project.Dependencies.Add(new Dependency() {Optional = true});
-			string serialized = new ProjectSerializer().Serialize(project);
+			string serialized = _serializer.Serialize(project);
 			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
 			var dependencies = projectElement.Element(GetElementName("dependencies"));
 			var dependency = dependencies.Element(GetElementName("dependency"));
@@ -388,7 +395,7 @@ namespace Pustota.Maven.Base.Tests
 		{
 			var project = new Project();
 			project.Dependencies.Add(new Dependency());
-			string serialized = new ProjectSerializer().Serialize(project);
+			string serialized = _serializer.Serialize(project);
 			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
 			var dependencies = projectElement.Element(GetElementName("dependencies"));
 			var dependency = dependencies.Element(GetElementName("dependency"));
@@ -400,7 +407,7 @@ namespace Pustota.Maven.Base.Tests
 		{
 			var project = new Project();
 			project.Profiles.Add(new Profile());
-			string serialized = new ProjectSerializer().Serialize(project);
+			string serialized = _serializer.Serialize(project);
 			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
 			var profiles = projectElement.Element(GetElementName("profiles"));
 			var profile = profiles.Element(GetElementName("profile"));
@@ -438,7 +445,7 @@ namespace Pustota.Maven.Base.Tests
 		[Test]
 		public void ProfileActivationDeserialization()
 		{
-			var deserialized = new ProjectSerializer().Deserialize(ProjectWithProfileXml);
+			var deserialized = _serializer.Deserialize(ProjectWithProfileXml);
 			Assert.That(deserialized.Profiles.First().Activation, Is.Not.Null);
 		}
 
@@ -451,7 +458,7 @@ namespace Pustota.Maven.Base.Tests
 			profile.Dependencies.Add(new Dependency {ArtifactId = GetRandomString()});
 			profile.Properties.Items.Add(new Property() { Name = "a" + GetRandomString(), Value = GetRandomString() });
 			project.Profiles.Add(profile);
-			string serialized = new ProjectSerializer().Serialize(project);
+			string serialized = _serializer.Serialize(project);
 			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
 			var profiles = projectElement.Element(GetElementName("profiles"));
 			var profileElement = profiles.Element(GetElementName("profile"));
@@ -467,7 +474,7 @@ namespace Pustota.Maven.Base.Tests
 			var plugin = new Plugin();
 			project.EnableBuild();
 			project.Build.Plugins.Add(plugin);
-			string serialized = new ProjectSerializer().Serialize(project);
+			string serialized = _serializer.Serialize(project);
 
 			Trace.WriteLine(serialized);
 
@@ -485,7 +492,7 @@ namespace Pustota.Maven.Base.Tests
 			};
 			project.EnableBuild();
 			project.Build.Plugins.Add(plugin);
-			string serialized = new ProjectSerializer().Serialize(project);
+			string serialized = _serializer.Serialize(project);
 
 			Trace.WriteLine(serialized);
 
@@ -511,7 +518,7 @@ namespace Pustota.Maven.Base.Tests
 			project.EnableBuild();
 			project.Build.Plugins.Add(plugin);
 
-			string serialized = new ProjectSerializer().Serialize(project);
+			string serialized = _serializer.Serialize(project);
 
 			var document = XDocument.Parse(serialized);
 			var pluginElement = document.Descendants(E("plugin")).Single();
@@ -550,7 +557,7 @@ namespace Pustota.Maven.Base.Tests
 		[Test]
 		public void PluginExecutionDeserialization()
 		{
-			var deserialized = new ProjectSerializer().Deserialize(PluginWithExecution);
+			var deserialized = _serializer.Deserialize(PluginWithExecution);
 
 			Assert.That(deserialized.Build.Plugins.Single().Executions, Is.Not.Null);
 			Assert.That(deserialized.Build.Plugins.Single().Configuration, Is.Not.Null);
@@ -565,7 +572,7 @@ namespace Pustota.Maven.Base.Tests
 			project.EnableBuild();
 			project.Build.PluginManagement.Plugins.Add(plugin);
 
-			string serialized = new ProjectSerializer().Serialize(project);
+			string serialized = _serializer.Serialize(project);
 
 			Trace.WriteLine(serialized);
 

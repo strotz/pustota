@@ -21,7 +21,7 @@ namespace Pustota.Maven.Base
 		{
 			_fileIo = new FileSystemAccess();
 			_entryPoint = new RepositoryEntryPoint(topFolder, _fileIo);
-			_projectSerializer = new ProjectSerializer();
+			_projectSerializer = new ClassicProjectSerializer();
 		}
 
 		public IEnumerable<IProject> Projects

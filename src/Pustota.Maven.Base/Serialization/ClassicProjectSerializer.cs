@@ -11,7 +11,7 @@ using Pustota.Maven.Base.Data;
 
 namespace Pustota.Maven.Base.Serialization
 {
-	public class ProjectSerializer : IProjectSerializer
+	public class ClassicProjectSerializer : IProjectSerializer
 	{
 		private readonly XmlSerializer _serializer = new XmlSerializer(typeof (Project), "http://maven.apache.org/POM/4.0.0");
 
