@@ -16,5 +16,7 @@ namespace Pustota.Maven.Base.Serialization
 		string Combine(string first, string second, string third);
 
 		string ReadAllText(string filePath);
+
+		void WriteAllText(string filePath, string content);
 	}
 }

@@ -49,5 +49,10 @@ namespace Pustota.Maven.Base.Serialization
 		{
 			return File.ReadAllText(filePath);
 		}
+
+		public void WriteAllText(string filePath, string content)
+		{
+			File.WriteAllText(filePath, content);
+		}
 	}
 }

@@ -10,7 +10,7 @@ namespace Pustota.Maven.Base
 {
 	public class ProjectContainer
 	{
-		private string _projectFilePath;
+		private readonly string _projectFilePath;
 		private readonly IProject _project;
 
 		public ProjectContainer(string projectFilePath, IProject project)
@@ -22,6 +22,7 @@ namespace Pustota.Maven.Base
 			_project = project;
 		}
 
+		// TODO: Add support for profiles
 		public IEnumerable<Module> Modules
 		{
 			get
@@ -36,6 +37,11 @@ namespace Pustota.Maven.Base
 		public IProject Project
 		{
 			get { return _project; }
+		}
+
+		public string Path
+		{
+			get { return _projectFilePath; }
 		}
 	}
 }

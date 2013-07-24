@@ -25,6 +25,8 @@ namespace Pustota.Maven.Cmd
 				var work = new Work(topFolder);
 				work.LoadProjects();
 				Console.WriteLine(work.Projects.Count() + " projects loaded");
+
+				work.ForceSaveAll();
 			}
 			catch (Exception ex)
 			{

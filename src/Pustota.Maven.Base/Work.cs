@@ -15,11 +15,13 @@ namespace Pustota.Maven.Base
 		private readonly IFileSystemAccess _fileIo;
 
 		private List<ProjectContainer> _projects;
+		private IProjectSerializer _projectSerializer;
 
 		public Work(string topFolder)
 		{
 			_fileIo = new FileSystemAccess();
 			_entryPoint = new RepositoryEntryPoint(topFolder, _fileIo);
+			_projectSerializer = new ProjectSerializer();
 		}
 
 		public IEnumerable<IProject> Projects
@@ -29,10 +31,18 @@ namespace Pustota.Maven.Base
 
 		public void LoadProjects()
 		{
-			var serializer = new ProjectSerializer();
-			var loader = new ProjectTreeLoader(_entryPoint, serializer, _fileIo);
+			var loader = new ProjectTreeLoader(_entryPoint, _projectSerializer, _fileIo);
 			_projects = loader.LoadProjects().ToList();
 
+		}
+
+		public void ForceSaveAll()
+		{
+			foreach (ProjectContainer container in _projects)
+			{
+				var content = _projectSerializer.Serialize((Project) container.Project);
+				_fileIo.WriteAllText(container.Path, content);
+			}
 		}
 	}
 }
