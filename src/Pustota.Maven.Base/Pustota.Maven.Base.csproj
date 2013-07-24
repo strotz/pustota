@@ -102,7 +102,9 @@
     <Compile Include="Serialization\IFileSystemAccess.cs" />
     <Compile Include="Serialization\IProjectSerializer.cs" />
     <Compile Include="Serialization\ClassicProjectSerializer.cs" />
+    <Compile Include="Serialization\IProjectSerializerWithUpdate.cs" />
     <Compile Include="Serialization\ProjectTreeLoader.cs" />
+    <Compile Include="Serialization\UpdatingProjectSerializer.cs" />
     <Compile Include="Serialization\Xml.cs" />
     <Compile Include="Work.cs" />
   </ItemGroup>
