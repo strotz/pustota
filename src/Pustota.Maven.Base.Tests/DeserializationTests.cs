@@ -40,7 +40,7 @@ namespace Pustota.Maven.Base.Tests
 		[SetUp]
 		public void Setup()
 		{
-			_serializer = new ClassicProjectSerializer();
+			_serializer = new UpdatingProjectSerializer();
 		}
 
 		[Test]
