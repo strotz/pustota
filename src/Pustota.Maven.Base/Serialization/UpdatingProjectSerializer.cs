@@ -81,8 +81,7 @@ namespace Pustota.Maven.Base.Serialization
 				}
 				else if (typeof(IXmlSerializable).IsAssignableFrom(propertyType))
 				{
-					throw new NotImplementedException("IXmlSerializable");
-					//element = CreatePrimitiveElement(data, propertyInfo);
+					element = ProcessXmlSerializable(data, propertyInfo);
 				}
 				else if (typeof(ICollection).IsAssignableFrom(propertyType))
 				{
@@ -108,9 +107,6 @@ namespace Pustota.Maven.Base.Serialization
 				//	element = CreatePrimitiveElement(data, propertyInfo);
 				//}
 			}
-
-			// process simple and collections
-			// (run recursively for complex) 
 		}
 
 		private XElement CreatePrimitiveElement(object data, PropertyInfo propertyInfo)
@@ -149,9 +145,7 @@ namespace Pustota.Maven.Base.Serialization
 			}
 
 			var element = new XElement(name);
-
-			throw new NotImplementedException("CreateComplexElement");
-
+			ApplyToElement(content, element);
 			return element;
 		}
 
@@ -169,11 +163,64 @@ namespace Pustota.Maven.Base.Serialization
 			{
 				return null;
 			}
+			ICollection collection = content as ICollection;
+			if (collection == null)
+			{
+				return null;
+			}
+
+			bool serializeNull = true;
+			string itemName = "Item";
+			XmlArrayItemAttribute attribute = propertyInfo.GetCustomAttribute<XmlArrayItemAttribute>();
+			if (attribute != null)
+			{
+				serializeNull = attribute.IsNullable;
+				itemName = attribute.ElementName;
+			}
 
 			var element = new XElement(name);
 
-			throw new NotImplementedException("CreateCollection");
+			foreach (var item in collection)
+			{
+				if (item == null)
+				{
+					if (serializeNull == true)
+					{
+						throw new NotImplementedException("IsNullable");
+					}
+				}
+				else
+				{
+					var childElement = new XElement(_ns + itemName);
+					ApplyToElement(item, childElement);
+					element.Add(childElement);
+				}
+			}
 
+			return element;
+		}
+
+
+		private XElement ProcessXmlSerializable(object data, PropertyInfo propertyInfo)
+		{
+			if (!CheckShouldSerialize(data, propertyInfo.Name))
+			{
+				return null;
+			}
+
+			XName name = GetElementName(propertyInfo);
+
+			object content = propertyInfo.GetGetMethod().Invoke(data, null);
+			object defaultValue = GetElementDefaultValue(propertyInfo);
+			if (Equals(content, defaultValue))
+			{
+				return null;
+			}
+
+			var element = new XElement(name);
+
+			throw new NotImplementedException("ProcessXmlSerializable");
+			
 			return element;
 		}
 
