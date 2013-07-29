@@ -58,5 +58,41 @@ namespace Pustota.Maven.Base.Tests
 			Assert.That(serialized, Is.Not.EqualTo(emptyProjectXml));
 		}
 
+		public XName GetElementName(string name)
+		{
+			XNamespace ns = @"http://maven.apache.org/POM/4.0.0";
+			return ns + name;
+		}
+
+		[Test]
+		public void ArtifactNotEmptyProjectTest()
+		{
+			const string val = "test";
+			Project project = new Project();
+			project.ArtifactId = val;
+			string serialized = _serializer.UpdateContent(project, emptyProjectXml);
+
+			Trace.WriteLine(serialized);
+
+			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
+			var artifactElement = projectElement.Element(GetElementName("artifactId"));
+			Assert.That(artifactElement.Value, Is.EqualTo(val));
+		}
+
+		[Test]
+		public void EqualsTest()
+		{
+			object a1 = "a";
+			object a2 = "a";
+
+			if (a1 == a2)
+			{
+				
+			}
+			else
+			{
+				Assert.Fail("String compare not called");
+			}
+		}
 	}
 }
