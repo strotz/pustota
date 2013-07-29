@@ -72,8 +72,6 @@ namespace Pustota.Maven.Base.Tests
 			project.ArtifactId = val;
 			string serialized = _serializer.UpdateContent(project, emptyProjectXml);
 
-			Trace.WriteLine(serialized);
-
 			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
 			var artifactElement = projectElement.Element(GetElementName("artifactId"));
 			Assert.That(artifactElement.Value, Is.EqualTo(val));

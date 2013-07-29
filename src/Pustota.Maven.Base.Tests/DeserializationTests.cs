@@ -193,6 +193,7 @@ namespace Pustota.Maven.Base.Tests
 			var project = new Project();
 			project.Modules.Add(new Module { Path = GetRandomString()});
 			string serialized = _serializer.Serialize(project);
+
 			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
 			var modules = projectElement.Element(GetElementName("modules"));
 			Assert.That(modules, Is.Not.Null, "modules");
@@ -355,8 +356,6 @@ namespace Pustota.Maven.Base.Tests
 			project.Properties.Items.Add(new Property { Name = "a" + GetRandomString(), Value = GetRandomString() });
 			string serialized = _serializer.Serialize(project);
 
-			Trace.WriteLine(serialized);
-
 			Project deserialized = _serializer.Deserialize(serialized);
 
 			foreach (Property property in project.Properties.Items)
@@ -476,8 +475,6 @@ namespace Pustota.Maven.Base.Tests
 			project.Build.Plugins.Add(plugin);
 			string serialized = _serializer.Serialize(project);
 
-			Trace.WriteLine(serialized);
-
 			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
 			var buildElement = projectElement.Element(GetElementName("build"));
 			Assert.IsNotNull(buildElement);
@@ -493,8 +490,6 @@ namespace Pustota.Maven.Base.Tests
 			project.EnableBuild();
 			project.Build.Plugins.Add(plugin);
 			string serialized = _serializer.Serialize(project);
-
-			Trace.WriteLine(serialized);
 
 			var document = XDocument.Parse(serialized);
 			var pluginElement = document.Descendants(E("plugin")).Single();
@@ -573,8 +568,6 @@ namespace Pustota.Maven.Base.Tests
 			project.Build.PluginManagement.Plugins.Add(plugin);
 
 			string serialized = _serializer.Serialize(project);
-
-			Trace.WriteLine(serialized);
 
 			var document = XDocument.Parse(serialized);
 			var pluginManagementElement = document.Descendants(E("pluginManagement")).Single();

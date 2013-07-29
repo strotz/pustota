@@ -66,14 +66,13 @@ namespace Pustota.Maven.Base.Serialization
 			{
 				Type propertyType = propertyInfo.PropertyType;
 
-				XElement element = null;
 				if (propertyType.IsPrimitive)
 				{
-					element = CreatePrimitiveElement(data, propertyInfo);
+					ProcessPrimitiveProperty(parentElement, data, propertyInfo);
 				}
 				else if (propertyType == typeof(string))
 				{
-					element = CreatePrimitiveElement(data, propertyInfo);
+					ProcessPrimitiveProperty(parentElement, data, propertyInfo);
 				}
 				else if (propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
 				{
@@ -81,21 +80,29 @@ namespace Pustota.Maven.Base.Serialization
 				}
 				else if (typeof(IXmlSerializable).IsAssignableFrom(propertyType))
 				{
-					element = ProcessXmlSerializable(data, propertyInfo);
+					var element = ProcessXmlSerializable(data, propertyInfo);
+					if (element != null)
+					{
+						parentElement.Add(element);
+					}
 				}
 				else if (typeof(ICollection).IsAssignableFrom(propertyType))
 				{
-					element = CreateCollection(data, propertyInfo);
+					var element = CreateCollection(data, propertyInfo);
+					if (element != null)
+					{
+						parentElement.Add(element);
+					}
 				}
 				else
 				{
-					element = CreateComplexElement(data, propertyInfo);
+					var element = CreateComplexElement(data, propertyInfo);
+					if (element != null)
+					{
+						parentElement.Add(element);
+					}
 				}
 
-				if (element != null)
-				{
-					parentElement.Add(element);
-				}
 
 				//if (intType.IsGenericType
             //&& intType.GetGenericTypeDefinition() == typeof(IEnumerable<>)) 
@@ -103,17 +110,16 @@ namespace Pustota.Maven.Base.Serialization
 				//				else if propertyType.GetInterfaces().Any(
 				//	propertyType.IsGenericType item => typeof(ICollection<>) == item.GetGenericTypeDefinition())
 				//{
-				//	Trace.WriteLine(" generic ICollection element");
 				//	element = CreatePrimitiveElement(data, propertyInfo);
 				//}
 			}
 		}
 
-		private XElement CreatePrimitiveElement(object data, PropertyInfo propertyInfo)
+		private void ProcessPrimitiveProperty(XElement parentElement, object data, PropertyInfo propertyInfo)
 		{
 			if (!CheckShouldSerialize(data, propertyInfo.Name))
 			{
-				return null;
+				return;
 			}
 
 			XName name = GetElementName(propertyInfo);
@@ -122,10 +128,18 @@ namespace Pustota.Maven.Base.Serialization
 			object defaultValue = GetElementDefaultValue(propertyInfo);
 			if (Equals(content, defaultValue))
 			{
-				return null;
+				return;
 			}
 
-			return new XElement(name, content);
+			XmlTextAttribute attribute = propertyInfo.GetCustomAttribute<XmlTextAttribute>();
+			if (attribute != null)
+			{
+				parentElement.SetValue(content);
+			}
+			else
+			{
+				parentElement.Add(new XElement(name, content));
+			}
 		}
 
 		private XElement CreateComplexElement(object data, PropertyInfo propertyInfo)
