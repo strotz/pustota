@@ -58,6 +58,23 @@ namespace Pustota.Maven.Base.Tests
 			Assert.That(serialized, Is.Not.EqualTo(emptyProjectXml));
 		}
 
+		[Test]
+		public void SinglePropertyTest()
+		{
+			const string PropertiesProjectEmptyXml =
+@"<?xml version=""1.0"" encoding=""us-ascii""?>
+<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
+	<properties>
+		<a>asdas</a>
+	</properties>
+</project>";
+
+			Project deserialized = _serializer.Deserialize(PropertiesProjectEmptyXml);
+			string serialized = _serializer.Serialize(deserialized);
+
+			Assert.That(serialized, Is.EqualTo(PropertiesProjectEmptyXml));
+		}
+
 		public XName GetElementName(string name)
 		{
 			XNamespace ns = @"http://maven.apache.org/POM/4.0.0";

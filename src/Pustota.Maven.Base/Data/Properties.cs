@@ -11,6 +11,8 @@ namespace Pustota.Maven.Base.Data
 {
 	public class Properties : IXmlSerializable
 	{
+		readonly string _ns = @"http://maven.apache.org/POM/4.0.0";
+
 		public Properties()
 		{
 			Items = new List<Property>();
@@ -56,7 +58,7 @@ namespace Pustota.Maven.Base.Data
 		{
 			foreach (Property property in Items)
 			{
-				writer.WriteElementString(property.Name, property.Value);
+				writer.WriteElementString(property.Name, _ns, property.Value);
 			}
 		}
 	}

@@ -225,16 +225,18 @@ namespace Pustota.Maven.Base.Serialization
 			XName name = GetElementName(propertyInfo);
 
 			object content = propertyInfo.GetGetMethod().Invoke(data, null);
-			object defaultValue = GetElementDefaultValue(propertyInfo);
-			if (Equals(content, defaultValue))
+			if (Equals(content, null))
 			{
 				return null;
 			}
 
-			var element = new XElement(name);
+			IXmlSerializable serializable = (IXmlSerializable) content;
 
-			throw new NotImplementedException("ProcessXmlSerializable");
-			
+			var element = new XElement(name);
+			using (var writer = element.CreateWriter())
+			{
+				serializable.WriteXml(writer);
+			}
 			return element;
 		}
 
