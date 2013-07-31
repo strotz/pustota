@@ -102,16 +102,6 @@ namespace Pustota.Maven.Base.Serialization
 						parentElement.Add(element);
 					}
 				}
-
-
-				//if (intType.IsGenericType
-            //&& intType.GetGenericTypeDefinition() == typeof(IEnumerable<>)) 
-
-				//				else if propertyType.GetInterfaces().Any(
-				//	propertyType.IsGenericType item => typeof(ICollection<>) == item.GetGenericTypeDefinition())
-				//{
-				//	element = CreatePrimitiveElement(data, propertyInfo);
-				//}
 			}
 		}
 

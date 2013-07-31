@@ -70,8 +70,7 @@ namespace Pustota.Maven.Base.Tests
 </project>";
 
 			Project deserialized = _serializer.Deserialize(PropertiesProjectEmptyXml);
-			string serialized = _serializer.Serialize(deserialized);
-
+			string serialized = _serializer.UpdateContent(deserialized, PropertiesProjectEmptyXml);
 			Assert.That(serialized, Is.EqualTo(PropertiesProjectEmptyXml));
 		}
 
