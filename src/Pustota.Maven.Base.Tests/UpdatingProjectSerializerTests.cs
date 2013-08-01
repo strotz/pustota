@@ -52,10 +52,23 @@ namespace Pustota.Maven.Base.Tests
 		[Test]
 		public void UpdateNotEmptyProjectTest()
 		{
-			Project project = new Project();
-			project.ArtifactId = "test";
-			string serialized = _serializer.UpdateContent(project, emptyProjectXml);
-			Assert.That(serialized, Is.Not.EqualTo(emptyProjectXml));
+			const string ProjectXml =
+@"<?xml version=""1.0"" encoding=""us-ascii""?>
+<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
+	<artifactId>blah</artifactId>
+</project>";
+			const string ResultProjectXml =
+@"<?xml version=""1.0"" encoding=""us-ascii""?>
+<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
+	<artifactId>test</artifactId>
+</project>";
+
+			const string artifact = "test";
+			Project deserialized = _serializer.Deserialize(ProjectXml);
+			deserialized.ArtifactId = artifact;
+
+			string serialized = _serializer.UpdateContent(deserialized, ProjectXml);
+			Assert.That(serialized, Is.EqualTo(ResultProjectXml));
 		}
 
 		[Test]
