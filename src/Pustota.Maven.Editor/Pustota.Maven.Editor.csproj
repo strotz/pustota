@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AFCE915F-E514-44E9-8E65-F3CCA47A5A6C}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Pustota.Maven.Editor</RootNamespace>
+    <AssemblyName>PomEditor</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ICSharpCode.TextEditor">
+      <HintPath>..\3rdParty\ICSharpCode.TextEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BulkSwitchToReleaseAction.cs" />
+    <Compile Include="Actions\CascadeSwitchAction.cs" />
+    <Compile Include="Models\DependencySelector.cs" />
+    <Compile Include="ErrorListColumnSorter.cs" />
+    <Compile Include="Externals\ExternalReferenceManagerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Externals\ExternalReferenceManagerForm.Designer.cs">
+      <DependentUpon>ExternalReferenceManagerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Externals\ExternalModulesRepository.cs" />
+    <Compile Include="Models\BuildContainter.cs" />
+    <Compile Include="Models\DataFactory.cs" />
+    <Compile Include="Models\IBuildContainer.cs" />
+    <Compile Include="Models\IPlugin.cs" />
+    <Compile Include="Models\IProjectReference.cs" />
+    <Compile Include="Models\IProjectLoader.cs" />
+    <Compile Include="Models\Plugin.cs" />
+    <Compile Include="Models\ProjectLoader.cs" />
+    <Compile Include="Models\ProjectReference.cs" />
+    <Compile Include="Models\ProjectReferenceOperations.cs" />
+    <Compile Include="Models\ProjectTreeLoader.cs" />
+    <Compile Include="Models\ResolvedProjectData.cs" />
+    <Compile Include="Models\Solution.cs" />
+    <Compile Include="Models\VersionOperations.cs" />
+    <Compile Include="PomXml\ExternalModulesDocument.cs" />
+    <Compile Include="PomXml\IgnoredValidationsDocument.cs" />
+    <Compile Include="PomXml\PassoloProjectDocument.cs" />
+    <Compile Include="PomXml\TranslationAssemblyDocument.cs" />
+    <Compile Include="PomXml\XmlDocumentBase.cs" />
+    <Compile Include="Models\SearchOptions.cs" />
+    <Compile Include="Validations\FatalValidationException.cs" />
+    <Compile Include="Models\ProjectNode.cs" />
+    <Compile Include="Validations\Fixes\AddToExternalFix.cs" />
+    <Compile Include="Validations\Fixes\SwitchToSnapshotFix.cs" />
+    <Compile Include="Validations\Fixes\VersionFix.cs" />
+    <Compile Include="Validations\Fixes\RelativePathFix.cs" />
+    <Compile Include="Validations\IValidation.cs" />
+    <Compile Include="Validations\IValidationOutput.cs" />
+    <Compile Include="Validations\ParentReferenceExist.cs" />
+    <Compile Include="Validations\ParentSpecificVersionValidation.cs" />
+    <Compile Include="Validations\PathOperations.cs" />
+    <Compile Include="Validations\ProjectPluginVersions.cs" />
+    <Compile Include="Validations\ProjectSpecificVersion.cs" />
+    <Compile Include="Validations\ProjectsValidations.cs" />
+    <Compile Include="Models\ContextAction.cs" />
+    <Compile Include="Models\IModule.cs" />
+    <Compile Include="Validations\IFixable.cs" />
+    <Compile Include="Models\IProjectsRepository.cs" />
+    <Compile Include="Models\IDependency.cs" />
+    <Compile Include="Models\IProfile.cs" />
+    <Compile Include="Models\IProperty.cs" />
+    <Compile Include="Models\IParentReference.cs" />
+    <Compile Include="PomAdvancedEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PomAdvancedEditor.Designer.cs">
+      <DependentUpon>PomAdvancedEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PomTextEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PomTextEditorForm.Designer.cs">
+      <DependentUpon>PomTextEditorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\ErrorsResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ErrorsResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Validations\DelegatedFix.cs" />
+    <Compile Include="Validations\ErrorLevel.cs" />
+    <Compile Include="Externals\ExternalModule.cs" />
+    <Compile Include="Externals\ExternalModules.cs" />
+    <Compile Include="Validations\Fix.cs" />
+    <Compile Include="Models\Module.cs" />
+    <Compile Include="Models\ParentReference.cs" />
+    <Compile Include="PomXml\PomXmlElement.cs" />
+    <Compile Include="Models\Profile.cs" />
+    <Compile Include="Models\Project.cs" />
+    <Compile Include="Models\Dependency.cs" />
+    <Compile Include="Models\IProject.cs" />
+    <Compile Include="Models\ProjectsRepository.cs" />
+    <Compile Include="Models\ProjectType.cs" />
+    <Compile Include="Models\Property.cs" />
+    <Compile Include="Validations\ValidationError.cs" />
+    <Compile Include="PomXml\PomXmlDocument.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\CommonResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CommonResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\ValidationsResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ValidationsResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="EditorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EditorControl.Designer.cs">
+      <DependentUpon>EditorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Validations\ValidationResult.cs" />
+    <Compile Include="VersionDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VersionDialog.Designer.cs">
+      <DependentUpon>VersionDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectViewMap.cs" />
+    <Compile Include="ViewModels\ProjectTypeMap.cs" />
+    <Compile Include="ViewModels\ProjectView.cs" />
+    <EmbeddedResource Include="Externals\ExternalReferenceManagerForm.resx">
+      <DependentUpon>ExternalReferenceManagerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PomAdvancedEditor.resx">
+      <DependentUpon>PomAdvancedEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PomTextEditorForm.resx">
+      <DependentUpon>PomTextEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ErrorsResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ErrorsResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MessageResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MessageResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Resources\MessageResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MessageResources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="Resources\CommonResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ValidationsResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ValidationsResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditorControl.resx">
+      <DependentUpon>EditorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VersionDialog.resx">
+      <DependentUpon>VersionDialog.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

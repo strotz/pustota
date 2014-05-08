@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Novo Development Group")]
 [assembly: AssemblyProduct("Pustota.Maven.Base.Tests")]
-[assembly: AssemblyCopyright("Copyright © Novo Development Group 2013")]
+[assembly: AssemblyCopyright("Copyright © Novo Development Group 2013-2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
