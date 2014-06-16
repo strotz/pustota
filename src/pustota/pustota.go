@@ -1,8 +1,8 @@
 package main
 
 import (
-	"pustota/dirty"
 	"fmt"
+	"pustota/dirty"
 )
 
 func main() {
