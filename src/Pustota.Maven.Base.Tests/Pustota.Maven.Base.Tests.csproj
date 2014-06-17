@@ -49,15 +49,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DeserializationTests.cs" />
-    <Compile Include="ProjectContainerTests.cs" />
+    <Compile Include="ProjectNodeTests.cs" />
     <Compile Include="ProjectTreeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UpdatingProjectSerializerTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Pustota.Maven.Base\Pustota.Maven.Base.csproj">
-      <Project>{e78a941b-47d7-4733-b412-1d228913c17a}</Project>
-      <Name>Pustota.Maven.Base</Name>
+    <ProjectReference Include="..\Pustota.Maven\Pustota.Maven.csproj">
+      <Project>{5E8F4FA2-3482-4481-B3C7-7F17D619177F}</Project>
+      <Name>Pustota.Maven</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

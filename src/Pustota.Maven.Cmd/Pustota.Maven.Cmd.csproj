@@ -48,9 +48,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Pustota.Maven.Base\Pustota.Maven.Base.csproj">
-      <Project>{E78A941B-47D7-4733-B412-1D228913C17A}</Project>
-      <Name>Pustota.Maven.Base</Name>
+    <ProjectReference Include="..\Pustota.Maven\Pustota.Maven.csproj">
+      <Project>{5E8F4FA2-3482-4481-B3C7-7F17D619177F}</Project>
+      <Name>Pustota.Maven</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
