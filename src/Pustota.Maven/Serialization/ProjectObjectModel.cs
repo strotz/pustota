@@ -12,21 +12,37 @@ namespace Pustota.Maven.Serialization
 		private readonly XDocument _document;
 
 		private const string NamespaceName = DefaultNamespaceName;
-		private readonly XmlNamespaceManager _nsManager;
+
 		internal const string DefaultNamespaceName = "pom";
 
-		internal ProjectObjectModel()
-		{
-			XNamespace xmlns = XNamespace.Get(@"http://maven.apache.org/POM/4.0.0");
-			XNamespace xsi = XNamespace.Get(@"http://www.w3.org/2001/XMLSchema-instance");
-			XNamespace schemaLocation = XNamespace.Get(@"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd");
+		private static readonly XNamespace XmlNs;
+		private static readonly XNamespace Xsi;
+		private static readonly XNamespace SchemaLocation;
+		private static readonly XmlNamespaceManager NsManager;
 
-			_document = new XDocument(
+		static ProjectObjectModel()
+		{
+			XmlNs = XNamespace.Get(@"http://maven.apache.org/POM/4.0.0");
+			Xsi = XNamespace.Get(@"http://www.w3.org/2001/XMLSchema-instance");
+			SchemaLocation = XNamespace.Get(@"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd");
+
+			NsManager = new XmlNamespaceManager(new NameTable());
+			NsManager.AddNamespace(NamespaceName, XmlNs.NamespaceName);
+		}
+
+		internal ProjectObjectModel() :
+			this(BuildEmptyDocument())
+		{
+		}
+
+		private static XDocument BuildEmptyDocument()
+		{
+			return new XDocument(
 				new XDeclaration("1.0", "us-ascii", null),
-				new XElement(xmlns + "project",
-					new XAttribute("xmlns", xmlns),
-					new XAttribute(XNamespace.Xmlns + "xsi", xsi),
-					new XAttribute(xsi + "schemaLocation", schemaLocation)
+				new XElement(XmlNs + "project",
+					new XAttribute("xmlns", XmlNs),
+					new XAttribute(XNamespace.Xmlns + "xsi", Xsi),
+					new XAttribute(Xsi + "schemaLocation", SchemaLocation)
 				)
 			);
 		}
@@ -34,9 +50,6 @@ namespace Pustota.Maven.Serialization
 		internal ProjectObjectModel(XDocument document)
 		{
 			_document = document;
-
-			_nsManager = new XmlNamespaceManager(new NameTable());
-			_nsManager.AddNamespace(NamespaceName, _document.Root.GetDefaultNamespace().NamespaceName);
 		}
 
 		internal XElement RootElement
@@ -52,15 +65,25 @@ namespace Pustota.Maven.Serialization
 
 		public string ReadElementValueOrNull( params string[] pathElems)
 		{
-			var element = ReadElements(_document.Root, pathElems).FirstOrDefault();
+			var element = ReadElements(RootElement, pathElems).FirstOrDefault();
 			return element == null ? null : element.Value;
+		}
+
+		public void SetElementValue(string name, string value)
+		{
+			SetElementValue(RootElement, name, value);
+		}
+
+		private void SetElementValue(XElement startElement, string name, string value)
+		{
+			startElement.SetElementValue(XmlNs + name, value);
 		}
 
 		// REVIEW: redo, to remove ApplyNamespace
 		private IEnumerable<XElement> ReadElements(XElement startElement, params string[] pathElems)
 		{
 			string path = string.Join("/", pathElems.Select(ApplyNamespace).ToArray());
-			return startElement.XPathSelectElements(path, _nsManager);
+			return startElement.XPathSelectElements(path, NsManager);
 		}
 
 		public override string ToString()

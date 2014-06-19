@@ -9,6 +9,7 @@ using Pustota.Maven.System;
 
 namespace Pustota.Maven.Serialization
 {
+	// REVIEW: leave writer/reader part here, Serialize/Deserialize can go ProjectSerializer   
 	internal class ProjectLoader : IProjectLoader
 	{
 		private readonly IFileSystemAccess _fileSystem;
@@ -71,7 +72,7 @@ namespace Pustota.Maven.Serialization
 		public string Serialize(IProject project)
 		{
 			var pom = new ProjectObjectModel();
-			// _serializer.
+			_serializer.SaveProject(project, pom);
 			return pom.ToString();
 		}
 
