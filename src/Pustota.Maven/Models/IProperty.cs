@@ -1,4 +1,4 @@
-namespace Pustota.Maven.Editor.Models
+namespace Pustota.Maven.Models
 {
 	public interface IProperty
 	{

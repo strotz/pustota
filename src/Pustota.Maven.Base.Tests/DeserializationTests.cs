@@ -1,88 +1,103 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using Moq;
 using NUnit.Framework;
+using Pustota.Maven.Models;
+using Pustota.Maven.Serialization;
+using Pustota.Maven.Serialization.Data;
+using Pustota.Maven.System;
 
 namespace Pustota.Maven.Base.Tests
 {
 	[TestFixture]
 	public class DeserializationTests
 	{
-//		private IProjectSerializer _serializer;
+		private IProjectLoader _serializer;
+		private Mock<IFileSystemAccess> _fileSystemMock;
+		private Mock<IDataFactory> _dataFactoryMock;
 
-//		const string EmptyProjectXml =
-//@"<?xml version=""1.0"" encoding=""us-ascii""?>
-//<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
-//</project>";
-		
-//		public static string GetRandomString()     
-//		{         
-//			string path = Path.GetRandomFileName();         
-//			path = path.Replace(".", ""); 
-//			// Remove period.         
-//			return path;     
-//		}
+		private IDataFactory _realDataFactory;
 
-//		public XName GetElementName(string name)
-//		{
-//			XNamespace ns = @"http://maven.apache.org/POM/4.0.0";
-//			return ns + name;
-//		}
+		const string EmptyProjectXml =
+@"<?xml version=""1.0"" encoding=""us-ascii""?>
+<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
+</project>";
 
-//		public XName E(string name)
-//		{
-//			return GetElementName(name);
-//		}
+		public static string GetRandomString()
+		{
+			string path = Path.GetRandomFileName();
+			path = path.Replace(".", "");
+			// Remove period.         
+			return path;
+		}
 
-//		[SetUp]
-//		public void Setup()
-//		{
-//			_serializer = new UpdatingProjectSerializer();
-//		}
+		public XName GetElementName(string name)
+		{
+			XNamespace ns = @"http://maven.apache.org/POM/4.0.0";
+			return ns + name;
+		}
 
-//		[Test]
-//		public void EmptyProjectDeserializationTest()
-//		{
-//			Project project = _serializer.Deserialize(EmptyProjectXml);
-//			Assert.That(project, Is.Not.Null);
-//		}
+		public XName E(string name)
+		{
+			return GetElementName(name);
+		}
 
-//		[Test]
-//		public void EmptyProjectSerializationTest()
-//		{
-//			Project project = new Project();
-//			string serialized = _serializer.Serialize(project);
+		[SetUp]
+		public void Setup()
+		{
+			_fileSystemMock = new Mock<IFileSystemAccess>();
+			_dataFactoryMock = new Mock<IDataFactory>();
 
-//			var origin = XDocument.Parse(EmptyProjectXml).Element(GetElementName( "project"));
-//			var result = XDocument.Parse(serialized).Element(GetElementName("project"));
+			_realDataFactory = new DataFactory();
 
-//			Assert.That(origin, Is.Not.Null);
-//			Assert.That(result, Is.Not.Null);
+			_serializer = new ProjectLoader(_fileSystemMock.Object, _realDataFactory);
+		}
 
-//			foreach (var attribute in origin.Attributes())
-//			{
-//				var resultAttribute = result.Attribute(attribute.Name);
-//				Assert.That(resultAttribute, Is.Not.Null);
-//				Assert.That(resultAttribute.Value, Is.EqualTo(attribute.Value));
-//			}
-//		}
+		[Test]
+		public void EmptyProjectParseTest()
+		{
+			var project = _serializer.Deserialize(EmptyProjectXml);
+			Assert.That(project, Is.Not.Null);
+			Assert.That(project.ArtifactId, Is.Null);
+		}
 
-//		[Test]
-//		public void ProjectIdentificationSerialization()
-//		{
-//			Project project = new Project
-//			{
-//				ArtifactId = GetRandomString(),
-//				GroupId = GetRandomString(),
-//				Version = GetRandomString()
-//			};
-//			string serialized = _serializer.Serialize(project);
-//			Project deserialized = _serializer.Deserialize(serialized);
+		[Test]
+		public void EmptyProjectSerializationTest()
+		{
+			Project project = new Project();
+			string serialized = _serializer.Serialize(project);
 
-//			Assert.That(deserialized.ArtifactId, Is.EqualTo(project.ArtifactId));
-//			Assert.That(deserialized.GroupId, Is.EqualTo(project.GroupId));
-//			Assert.That(deserialized.Version, Is.EqualTo(project.Version));
-//		}
+			var origin = XDocument.Parse(EmptyProjectXml).Element(E("project"));
+			var result = XDocument.Parse(serialized).Element(E("project"));
+
+			Assert.That(origin, Is.Not.Null);
+			Assert.That(result, Is.Not.Null);
+
+			foreach (var attribute in origin.Attributes())
+			{
+				var resultAttribute = result.Attribute(attribute.Name);
+				Assert.That(resultAttribute, Is.Not.Null);
+				Assert.That(resultAttribute.Value, Is.EqualTo(attribute.Value));
+			}
+		}
+
+		[Test]
+		public void ProjectIdentificationSerialization()
+		{
+			Project project = new Project
+			{
+				ArtifactId = GetRandomString(),
+				GroupId = GetRandomString(),
+				Version = GetRandomString()
+			};
+			string serialized = _serializer.Serialize(project);
+			var deserialized = _serializer.Deserialize(serialized);
+
+			Assert.That(deserialized.ArtifactId, Is.EqualTo(project.ArtifactId));
+			Assert.That(deserialized.GroupId, Is.EqualTo(project.GroupId));
+			Assert.That(deserialized.Version, Is.EqualTo(project.Version));
+		}
 
 //		[Test]
 //		public void EmptyProjectSerialize()

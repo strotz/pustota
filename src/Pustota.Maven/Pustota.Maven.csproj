@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -39,7 +39,45 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ISolution.cs" />
+    <Compile Include="Serialization\IProjectTreeLoader.cs" />
+    <Compile Include="Models\AggregatedProject.cs" />
+    <Compile Include="Models\IAggregatedProject.cs" />
+    <Compile Include="Models\ICollected.cs" />
+    <Compile Include="Models\ProjectExtensions.cs" />
+    <Compile Include="Serialization\Data\BuildContainter.cs" />
+    <Compile Include="Serialization\Data\Project.cs" />
+    <Compile Include="Serialization\Data\ProjectReference.cs" />
+    <Compile Include="Models\ProjectReferenceExtensions.cs" />
+    <Compile Include="Serialization\IPersistent.cs" />
+    <Compile Include="ProjectsRepository.cs" />
+    <Compile Include="RepositoryEntryPoint.cs" />
+    <Compile Include="Serialization\Data\DataFactory.cs" />
+    <Compile Include="Serialization\Data\IDataFactory.cs" />
+    <Compile Include="Serialization\ProjectLoader.cs" />
+    <Compile Include="Serialization\Data\ProjectXmlExtensions.cs" />
+    <Compile Include="Serialization\ProjectObjectModel.cs" />
+    <Compile Include="Serialization\ProjectSerializer.cs" />
+    <Compile Include="Serialization\UsAsciiStringWriter.cs" />
+    <Compile Include="System\FileSystemAccess.cs" />
+    <Compile Include="System\IFileSystemAccess.cs" />
+    <Compile Include="Serialization\IProjectLoader.cs" />
+    <Compile Include="Models\IBuildContainer.cs" />
+    <Compile Include="Models\IDependency.cs" />
+    <Compile Include="Models\IModule.cs" />
+    <Compile Include="Models\IParentReference.cs" />
+    <Compile Include="Models\IPlugin.cs" />
+    <Compile Include="Models\IProfile.cs" />
+    <Compile Include="Models\IProject.cs" />
+    <Compile Include="Models\IProjectReference.cs" />
+    <Compile Include="IProjectsRepository.cs" />
+    <Compile Include="Models\IProperty.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serialization\PomXmlDocument.cs" />
+    <Compile Include="Serialization\Data\PomXmlElement.cs" />
+    <Compile Include="Serialization\ProjectTreeLoader.cs" />
+    <Compile Include="Solution.cs" />
+    <Compile Include="SolutionManagement.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

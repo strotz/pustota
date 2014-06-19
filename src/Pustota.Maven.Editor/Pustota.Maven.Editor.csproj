@@ -59,24 +59,15 @@
     </Compile>
     <Compile Include="Externals\ExternalModulesRepository.cs" />
     <Compile Include="Models\BuildContainter.cs" />
-    <Compile Include="Models\DataFactory.cs" />
-    <Compile Include="Models\IBuildContainer.cs" />
-    <Compile Include="Models\IPlugin.cs" />
-    <Compile Include="Models\IProjectReference.cs" />
-    <Compile Include="Models\IProjectLoader.cs" />
+    <Compile Include="Models\ExtendedProject.cs" />
     <Compile Include="Models\Plugin.cs" />
-    <Compile Include="Models\ProjectLoader.cs" />
-    <Compile Include="Models\ProjectReference.cs" />
     <Compile Include="Models\ProjectReferenceOperations.cs" />
-    <Compile Include="Models\ProjectTreeLoader.cs" />
     <Compile Include="Models\ResolvedProjectData.cs" />
-    <Compile Include="Models\Solution.cs" />
     <Compile Include="Models\VersionOperations.cs" />
     <Compile Include="PomXml\ExternalModulesDocument.cs" />
     <Compile Include="PomXml\IgnoredValidationsDocument.cs" />
     <Compile Include="PomXml\PassoloProjectDocument.cs" />
     <Compile Include="PomXml\TranslationAssemblyDocument.cs" />
-    <Compile Include="PomXml\XmlDocumentBase.cs" />
     <Compile Include="Models\SearchOptions.cs" />
     <Compile Include="Validations\FatalValidationException.cs" />
     <Compile Include="Models\ProjectNode.cs" />
@@ -93,13 +84,7 @@
     <Compile Include="Validations\ProjectSpecificVersion.cs" />
     <Compile Include="Validations\ProjectsValidations.cs" />
     <Compile Include="Models\ContextAction.cs" />
-    <Compile Include="Models\IModule.cs" />
     <Compile Include="Validations\IFixable.cs" />
-    <Compile Include="Models\IProjectsRepository.cs" />
-    <Compile Include="Models\IDependency.cs" />
-    <Compile Include="Models\IProfile.cs" />
-    <Compile Include="Models\IProperty.cs" />
-    <Compile Include="Models\IParentReference.cs" />
     <Compile Include="PomAdvancedEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -130,16 +115,12 @@
     <Compile Include="Validations\Fix.cs" />
     <Compile Include="Models\Module.cs" />
     <Compile Include="Models\ParentReference.cs" />
-    <Compile Include="PomXml\PomXmlElement.cs" />
     <Compile Include="Models\Profile.cs" />
-    <Compile Include="Models\Project.cs" />
     <Compile Include="Models\Dependency.cs" />
-    <Compile Include="Models\IProject.cs" />
     <Compile Include="Models\ProjectsRepository.cs" />
     <Compile Include="Models\ProjectType.cs" />
     <Compile Include="Models\Property.cs" />
     <Compile Include="Validations\ValidationError.cs" />
-    <Compile Include="PomXml\PomXmlDocument.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\CommonResources.Designer.cs">
@@ -214,7 +195,12 @@
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Pustota.Maven\Pustota.Maven.csproj">
+      <Project>{5E8F4FA2-3482-4481-B3C7-7F17D619177F}</Project>
+      <Name>Pustota.Maven</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

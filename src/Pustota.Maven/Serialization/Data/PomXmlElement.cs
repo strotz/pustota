@@ -1,23 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using System.Diagnostics;
 
-namespace Pustota.Maven.Editor.PomXml
+namespace Pustota.Maven.Serialization.Data
 {
-	class PomXmlElement
+	// REVIEW: need refactoring: XElement is powerful, need a couple of extensions 
+	public class PomXmlElement
 	{
-		private readonly XmlDocumentBase _doc;
+		//private readonly XmlDocumentBase _doc;
 		private readonly XElement _elem;
 
-		public PomXmlElement(XmlDocumentBase doc, XElement elem)
-		{
-			Debug.Assert(doc != null);
-			Debug.Assert(elem != null);
-			_doc = doc;
-			_elem = elem;
-		}
+		//internal PomXmlElement(XmlDocumentBase doc, XElement elem)
+		//{
+		//	_doc = doc;
+		//	_elem = elem;
+		//}
 
 		public string LocalName
 		{
@@ -39,7 +38,8 @@ namespace Pustota.Maven.Editor.PomXml
 		{
 			get
 			{
-				return _elem.Elements().Select(e => new PomXmlElement(_doc, e));
+				throw new NotImplementedException();
+				// return _elem.Elements().Select(e => new PomXmlElement(_doc, e));
 			}
 		}
 
@@ -69,34 +69,6 @@ namespace Pustota.Maven.Editor.PomXml
 			_elem.SetElementValue(DefaultNamespace + name, value);
 		}
 
-		// REVIEW: redo, to remove ApplyNamespace
-		public IEnumerable<PomXmlElement> ReadElements(params string[] pathElems)
-		{
-			string path = string.Join("/", pathElems.Select(name => _doc.ApplyNamespace(name)).ToArray());
-			if (_doc.NsManager != null)
-			{
-				return _elem.XPathSelectElements(path, _doc.NsManager).Select(WrapElement);
-			}
-			return _elem.XPathSelectElements(path).Select(WrapElement);
-		}
-
-		public PomXmlElement ReadElement(params string[] pathElems)
-		{
-			return ReadElements(pathElems).FirstOrDefault();
-		}
-
-		public PomXmlElement ReadOrCreateElement(params string[] pathElems)
-		{
-			var result = ReadElement(pathElems);
-			return result ?? CreateElement(pathElems);
-		}
-
-		public string ReadElementValue(params string[] pathElems)
-		{
-			var elem = ReadElement(pathElems);
-			return elem == null ? null : elem.Value;
-		}
-
 		public PomXmlElement CreateElement(params string[] pathElems)
 		{
 			string name = pathElems.First();
@@ -111,7 +83,8 @@ namespace Pustota.Maven.Editor.PomXml
 
 		private PomXmlElement WrapElement(XElement elem)
 		{
-			return elem == null ? null : new PomXmlElement(_doc, elem);
+			throw new NotImplementedException();
+			// return elem == null ? null : new PomXmlElement(_doc, elem);
 		}
 
 		public override bool Equals(object obj)

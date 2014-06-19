@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Pustota.Maven.Models;
 
 namespace Pustota.Maven.Editor.Models
 {
@@ -105,6 +106,7 @@ namespace Pustota.Maven.Editor.Models
 			foreach (Project prj in AllProjects.Where(prj => prj.Changed))
 			{
 				_loader.SaveProject(prj, prj.FullPath);
+				prj.Changed = false;
 			}
 
 			// REVIEW: aggregate to solution

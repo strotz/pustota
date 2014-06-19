@@ -1,3 +1,5 @@
+using Pustota.Maven.Models;
+
 namespace Pustota.Maven.Editor.Models
 {
 	internal class ResolvedProjectData : IProjectReference

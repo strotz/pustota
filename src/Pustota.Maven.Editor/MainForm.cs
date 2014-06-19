@@ -496,6 +496,7 @@ namespace Pustota.Maven.Editor
 
 				var loader = new ProjectLoader(); // REVIEW: DI
 				loader.SaveProject(CurrentProject, CurrentProject.FullPath);
+				CurrentProject.Changed = false;
 
 				CleanErrorListAfterSaveProject();
 			}

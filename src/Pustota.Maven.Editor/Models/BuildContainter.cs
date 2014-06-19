@@ -6,12 +6,6 @@ namespace Pustota.Maven.Editor.Models
 {
 	class BuildContainter : IBuildContainer
 	{
-		public List<IModule> Modules { get; set; }
-		public List<IDependency> Dependencies { get; set; }
-		public List<IProperty> Properties { get; set; }
-
-		public List<IPlugin> Plugins { get; set; }
-		public List<IPlugin> PluginManagement { get; set; }
 
 		private readonly DataFactory _dataFactory;
 

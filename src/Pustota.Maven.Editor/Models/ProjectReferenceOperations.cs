@@ -1,4 +1,5 @@
 using System;
+using Pustota.Maven.Models;
 
 namespace Pustota.Maven.Editor.Models
 {
