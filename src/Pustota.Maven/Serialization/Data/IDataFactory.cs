@@ -7,8 +7,9 @@ namespace Pustota.Maven.Serialization.Data
 	{
 		IProject CreateProject();
 
+		IParentReference CreateParentReference();
+
 		// REVIEW: change types
-		IParentReference CreateParentReference(PomXmlElement parentNode);
 		IPlugin CreatePlugin(PomXmlElement element);
 		IProfile CreateProfile(PomXmlElement element);
 		IDependency CreateDependency(PomXmlElement element);

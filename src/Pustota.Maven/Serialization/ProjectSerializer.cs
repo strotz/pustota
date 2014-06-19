@@ -9,35 +9,94 @@ using Pustota.Maven.Serialization.Data;
 
 namespace Pustota.Maven.Serialization
 {
-	internal class ProjectSerializer
+	public interface IProjectSerializer
 	{
-		// REVIEW: element is not ProjectObjectModel, it is wrapper XElement (dependency, parent)
-		internal void LoadProjectReference(ProjectObjectModel element, IProjectReference projectReference)
+		IProject Deserialize(string content);
+		string Serialize(IProject project);
+	}
+
+	internal class ProjectSerializer : IProjectSerializer
+	{
+		private readonly IDataFactory _dataFactory;
+
+		public ProjectSerializer(IDataFactory dataFactory)
 		{
-			projectReference.ArtifactId = element.ReadElementValueOrNull("artifactId");
-			projectReference.GroupId = element.ReadElementValueOrNull("groupId");
-			projectReference.Version = element.ReadElementValueOrNull("version");
+			_dataFactory = dataFactory;
+		}
+
+		public IProject Deserialize(string content)
+		{
+			var document = XDocument.Parse(content, LoadOptions.PreserveWhitespace);
+			var pom = new ProjectObjectModel(document);
+			var project = _dataFactory.CreateProject();
+			LoadProject(pom, project);
+			return project;
+		}
+
+		public string Serialize(IProject project)
+		{
+			var pom = new ProjectObjectModel();
+			SaveProject(project, pom);
+			return pom.ToString();
+		}
+
+
+		// REVIEW: element is not ProjectObjectModel, it is wrapper XElement (dependency, parent)
+		internal void LoadProjectReference(ProjectObjectModel pom, XElement startElement, IProjectReference projectReference)
+		{
+			projectReference.ArtifactId = pom.ReadElementValueOrNull(startElement, "artifactId");
+			projectReference.GroupId = pom.ReadElementValueOrNull(startElement, "groupId");
+			projectReference.Version = pom.ReadElementValueOrNull(startElement, "version");
 		}
 
 		// REVIEW: element is not ProjectObjectModel, it is wrapper XElement (dependency, parent)
-		internal void SaveProjectReference(IProjectReference projectReference, ProjectObjectModel element)
+		internal void SaveProjectReference(IProjectReference projectReference, ProjectObjectModel pom, XElement startElement)
 		{
-			element.SetElementValue("groupId", projectReference.GroupId);
-			element.SetElementValue("artifactId", projectReference.ArtifactId);
-			element.SetElementValue("version", projectReference.Version);
+			pom.SetElementValue(startElement, "groupId", projectReference.GroupId);
+			pom.SetElementValue(startElement, "artifactId", projectReference.ArtifactId);
+			pom.SetElementValue(startElement, "version", projectReference.Version);
 		}
 
-		internal void LoadProject(ProjectObjectModel element, IProject project)
+		internal void LoadParentReference(ProjectObjectModel pom, IProject project)
 		{
-			LoadProjectReference(element, project);
+			var parentElement = pom.ReadElementOrNull("parent");
+			if (parentElement == null)
+			{
+				project.Parent = null;
+			}
+			else
+			{
+				var parentReference = _dataFactory.CreateParentReference();
+				LoadProjectReference(pom, parentElement, parentReference);
+				parentReference.RelativePath = pom.ReadElementValueOrNull(parentElement, "relativePath");
+				project.Parent = parentReference;
+			}
+		}
 
-			project.Packaging = element.ReadElementValueOrNull("packaging");
-			project.Name = element.ReadElementValueOrNull("name");
-			project.ModelVersion = element.ReadElementValueOrNull("modelVersion");
+		internal void SaveParentReference(IProject project, ProjectObjectModel pom)
+		{
+			IParentReference parentReference = project.Parent;
+			if (parentReference == null)
+			{
+				pom.RemoveElement("parent");
+			}
+			else
+			{
+				var parentElement = pom.SingleOrCreate(pom.RootElement, "parent");
+				SaveProjectReference(parentReference, pom, parentElement);
+				pom.SetElementValue(parentElement, "relativePath", parentReference.RelativePath);
+			}
+		}
 
-			////read parent
-			//var parentNode = element.ReadElement("parent");
-			//Parent = parentNode == null ? null : _dataFactory.CreateParentReference(parentNode);
+
+		internal void LoadProject(ProjectObjectModel pom, IProject project)
+		{
+			LoadProjectReference(pom, pom.RootElement, project);
+			LoadParentReference(pom, project);
+
+			project.Packaging = pom.ReadElementValueOrNull("packaging");
+			project.Name = pom.ReadElementValueOrNull("name");
+			project.ModelVersion = pom.ReadElementValueOrNull("modelVersion");
 
 			//_container.LoadFromElement(element);
 
@@ -46,31 +105,21 @@ namespace Pustota.Maven.Serialization
 			//	.Select(e => _dataFactory.CreateProfile(e)).ToList();
 		}
 
-		internal void SaveProject(IProject project, ProjectObjectModel element)
+		internal void SaveProject(IProject project, ProjectObjectModel pom)
 		{
 			// XElement root = element.RootElement;
 
-			SaveProjectReference(project, element);
+			SaveProjectReference(project, pom, pom.RootElement);
+			SaveParentReference(project, pom);
 
-			element.SetElementValue("packaging", project.Packaging);
-			element.SetElementValue("name", project.Name);
-			element.SetElementValue("modelVersion", project.ModelVersion);
-
-			////writing parent
-			//var parentNode = pom.ReadOrCreateElement("parent");
-			//if (Parent == null)
-			//{
-			//	parentNode.Remove();
-			//}
-			//else
-			//{
-			//	((ParentReference)Parent).SaveToElement(parentNode);
-			//}
+			pom.SetElementValue("packaging", project.Packaging);
+			pom.SetElementValue("name", project.Name);
+			pom.SetElementValue("modelVersion", project.ModelVersion);
 
 			//_container.SaveToElement(root);
 
 			////writing profiles
-			//var profileNode = pom.ReadOrCreateElement("profiles");
+			//var profileNode = pom.SingleOrCreate("profiles");
 			//if (!Profiles.Any())
 			//{
 			//	profileNode.Remove();

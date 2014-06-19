@@ -63,27 +63,67 @@ namespace Pustota.Maven.Serialization
 			return NamespaceName + ":" + elementName;
 		}
 
-		public string ReadElementValueOrNull( params string[] pathElems)
+		internal XElement SingleOrCreate(XElement startElement, string name)
 		{
-			var element = ReadElements(RootElement, pathElems).FirstOrDefault();
+			XElement element = startElement.Elements(XmlNs + name).SingleOrDefault();
+			if (element == null)
+			{
+				element = new XElement(XmlNs + name);
+				startElement.Add(element);
+			}
+			return element;
+		}
+
+		internal XElement ReadElementOrNull(params string[] pathElems)
+		{
+			return ReadElements(RootElement, pathElems).SingleOrDefault();
+		}
+
+		internal XElement ReadElementOrNull(XElement startElement, params string[] pathElems)
+		{
+			return ReadElements(startElement, pathElems).SingleOrDefault();
+		}
+
+		internal string ReadElementValueOrNull(params string[] pathElems)
+		{
+			return ReadElementValueOrNull(RootElement, pathElems);
+		}
+
+		internal string ReadElementValueOrNull(XElement startElement, params string[] pathElems)
+		{
+			XElement element = ReadElementOrNull(startElement, pathElems);
 			return element == null ? null : element.Value;
 		}
 
-		public void SetElementValue(string name, string value)
+		internal void SetElementValue(string name, string value)
 		{
 			SetElementValue(RootElement, name, value);
 		}
 
-		private void SetElementValue(XElement startElement, string name, string value)
+		internal void SetElementValue(XElement startElement, string name, string value)
 		{
 			startElement.SetElementValue(XmlNs + name, value);
 		}
 
 		// REVIEW: redo, to remove ApplyNamespace
-		private IEnumerable<XElement> ReadElements(XElement startElement, params string[] pathElems)
+		internal IEnumerable<XElement> ReadElements(XElement startElement, params string[] pathElems)
 		{
 			string path = string.Join("/", pathElems.Select(ApplyNamespace).ToArray());
 			return startElement.XPathSelectElements(path, NsManager);
+		}
+
+		internal void RemoveElement(string name)
+		{
+			RemoveElement(RootElement, name);
+		}
+
+		internal void RemoveElement(XElement startElement, string name)
+		{
+			var child = startElement.Element(XmlNs + name);
+			if (child != null)
+			{
+				child.Remove();
+			}
 		}
 
 		public override string ToString()

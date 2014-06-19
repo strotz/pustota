@@ -13,7 +13,7 @@ namespace Pustota.Maven.Base.Tests
 	[TestFixture]
 	public class DeserializationTests
 	{
-		private IProjectLoader _serializer;
+		private IProjectSerializer _serializer;
 		private Mock<IFileSystemAccess> _fileSystemMock;
 		private Mock<IDataFactory> _dataFactoryMock;
 
@@ -51,7 +51,7 @@ namespace Pustota.Maven.Base.Tests
 
 			_realDataFactory = new DataFactory();
 
-			_serializer = new ProjectLoader(_fileSystemMock.Object, _realDataFactory);
+			_serializer = new ProjectSerializer(_realDataFactory);
 		}
 
 		[Test]
@@ -155,49 +155,49 @@ namespace Pustota.Maven.Base.Tests
 			Assert.That(projectElement.Element(GetElementName("modelVersion")), Is.Not.Null, "modelVersion");
 		}
 
-//		[Test]
-//		public void NameCanBeOmited()
-//		{
-//			var project = new Project();
-//			string serialized = _serializer.Serialize(project);
-//			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
-//			var nameElement = projectElement.Element(GetElementName("name"));
-//			Assert.That(nameElement, Is.Null);
-//		}
+		[Test]
+		public void NameCanBeOmited()
+		{
+			var project = new Project();
+			string serialized = _serializer.Serialize(project);
+			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
+			var nameElement = projectElement.Element(GetElementName("name"));
+			Assert.That(nameElement, Is.Null);
+		}
 
-//		[Test]
-//		public void ParentSerializationTest()
-//		{
-//			var project = new Project();
-//			project.Parent = new Parent
-//			{
-//				ArtifactId = GetRandomString()
-//			};
-//			string serialized = _serializer.Serialize(project);
-//			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
-//			var parentElement = projectElement.Element(GetElementName("parent"));
-//			Assert.That(parentElement, Is.Not.Null, "parent is missing");
+		[Test]
+		public void ParentSerializationTest()
+		{
+			var project = new Project();
+			project.Parent = new ParentReference
+			{
+				ArtifactId = GetRandomString()
+			};
+			string serialized = _serializer.Serialize(project);
+			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
+			var parentElement = projectElement.Element(GetElementName("parent"));
+			Assert.That(parentElement, Is.Not.Null, "parent is missing");
 
-//			Assert.That(parentElement.Element(GetElementName("artifactId")), Is.Not.Null, "parent:artifactId");
-//		}
+			Assert.That(parentElement.Element(GetElementName("artifactId")), Is.Not.Null, "parent:artifactId");
+		}
 
-//		[Test]
-//		public void ParentSerializationPathTest()
-//		{
-//			var project = new Project();
-//			project.Parent = new Parent
-//			{
-//				RelativePath = GetRandomString()
-//			};
-//			string serialized = _serializer.Serialize(project);
-//			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
-//			var parentElement = projectElement.Element(GetElementName("parent"));
-//			Assert.That(parentElement, Is.Not.Null, "parent is missing");
-//			Assert.That(parentElement.Element(GetElementName("relativePath")), Is.Not.Null, "parent:relativePath");
+		[Test]
+		public void ParentSerializationPathTest()
+		{
+			var project = new Project();
+			project.Parent = new ParentReference
+			{
+				RelativePath = GetRandomString()
+			};
+			string serialized = _serializer.Serialize(project);
+			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
+			var parentElement = projectElement.Element(GetElementName("parent"));
+			Assert.That(parentElement, Is.Not.Null, "parent is missing");
+			Assert.That(parentElement.Element(E("relativePath")), Is.Not.Null, "parent:relativePath");
 
-//			Project deserialized = _serializer.Deserialize(serialized);
-//			Assert.That(deserialized.Parent.RelativePath, Is.EqualTo(project.Parent.RelativePath));
-//		}
+			var deserialized = _serializer.Deserialize(serialized);
+			Assert.That(deserialized.Parent.RelativePath, Is.EqualTo(project.Parent.RelativePath));
+		}
 
 //		[Test]
 //		public void ModulesSerializationTest()

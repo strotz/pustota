@@ -1,27 +1,21 @@
 ﻿using System;
-using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using Pustota.Maven.Models;
-using Pustota.Maven.Serialization.Data;
 using Pustota.Maven.System;
 
 namespace Pustota.Maven.Serialization
 {
+
 	// REVIEW: leave writer/reader part here, Serialize/Deserialize can go ProjectSerializer   
 	internal class ProjectLoader : IProjectLoader
 	{
 		private readonly IFileSystemAccess _fileSystem;
-		private readonly IDataFactory _dataFactory;
-		private ProjectSerializer _serializer;
 
-		internal ProjectLoader(IFileSystemAccess fileSystem, IDataFactory dataFactory)
+		internal ProjectLoader(IFileSystemAccess fileSystem)
 		{
 			_fileSystem = fileSystem;
-			_dataFactory = dataFactory;
-
-			_serializer = new ProjectSerializer(); // REVIEW: DI?
 		}
 
 		internal void SaveProjectDocument(XDocument document, string fileName)
@@ -60,21 +54,6 @@ namespace Pustota.Maven.Serialization
 		//	}
 		//}
 
-		public IProject Deserialize(string content)
-		{
-			var document = XDocument.Parse(content, LoadOptions.PreserveWhitespace);
-			var pom = new ProjectObjectModel(document);
-			var project = _dataFactory.CreateProject();
-			_serializer.LoadProject(pom, project);
-			return project;
-		}
-
-		public string Serialize(IProject project)
-		{
-			var pom = new ProjectObjectModel();
-			_serializer.SaveProject(project, pom);
-			return pom.ToString();
-		}
 
 		public IProject LoadProject(string path)
 		{
