@@ -8,6 +8,7 @@ namespace Pustota.Maven.Models
 	{
 		string Name { get; set; }
 		string Packaging { get; set; }
+		string ModelVersion { get; set; }
 
 		List<IProfile> Profiles { get; set; }
 

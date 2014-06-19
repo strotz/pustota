@@ -11,7 +11,7 @@ namespace Pustota.Maven.Serialization
 {
 	internal class ProjectSerializer
 	{
-		// REVIEW: element is not ProjectObjectModel, it is wrapper XElement 
+		// REVIEW: element is not ProjectObjectModel, it is wrapper XElement (dependency, parent)
 		internal void LoadProjectReference(ProjectObjectModel element, IProjectReference projectReference)
 		{
 			projectReference.ArtifactId = element.ReadElementValueOrNull("artifactId");
@@ -19,6 +19,7 @@ namespace Pustota.Maven.Serialization
 			projectReference.Version = element.ReadElementValueOrNull("version");
 		}
 
+		// REVIEW: element is not ProjectObjectModel, it is wrapper XElement (dependency, parent)
 		internal void SaveProjectReference(IProjectReference projectReference, ProjectObjectModel element)
 		{
 			element.SetElementValue("groupId", projectReference.GroupId);
@@ -30,9 +31,9 @@ namespace Pustota.Maven.Serialization
 		{
 			LoadProjectReference(element, project);
 
-			//Packaging = element.ReadElementValue("packaging");
-			//Name = element.ReadElementValue("name");
-			//ModelVersion = element.ReadElementValue("modelVersion");
+			project.Packaging = element.ReadElementValueOrNull("packaging");
+			project.Name = element.ReadElementValueOrNull("name");
+			project.ModelVersion = element.ReadElementValueOrNull("modelVersion");
 
 			////read parent
 			//var parentNode = element.ReadElement("parent");
@@ -51,9 +52,9 @@ namespace Pustota.Maven.Serialization
 
 			SaveProjectReference(project, element);
 
-			//root.SetElementValue("packaging", Packaging);
-			//root.SetElementValue("name", Name);
-			//root.SetElementValue("modelVersion", ModelVersion);
+			element.SetElementValue("packaging", project.Packaging);
+			element.SetElementValue("name", project.Name);
+			element.SetElementValue("modelVersion", project.ModelVersion);
 
 			////writing parent
 			//var parentNode = pom.ReadOrCreateElement("parent");

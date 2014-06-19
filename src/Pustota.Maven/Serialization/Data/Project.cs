@@ -22,6 +22,7 @@ namespace Pustota.Maven.Serialization.Data
 			_container = new BuildContainter();
 			Profiles = new List<IProfile>();
 		}
+
 		// expose build container via adapter
 		public List<IModule> Modules
 		{

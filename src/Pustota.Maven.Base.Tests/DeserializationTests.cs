@@ -99,61 +99,61 @@ namespace Pustota.Maven.Base.Tests
 			Assert.That(deserialized.Version, Is.EqualTo(project.Version));
 		}
 
-//		[Test]
-//		public void EmptyProjectSerialize()
-//		{
-//			var project = new Project();
-//			string serialized = _serializer.Serialize(project);
-//			var document = XDocument.Parse(serialized);
-//			var projectElement = document.Descendants(E("project")).Single();
-//			Assert.That(projectElement.HasElements, Is.False);
-//		}
+		[Test]
+		public void EmptyProjectSerialize()
+		{
+			var project = new Project();
+			string serialized = _serializer.Serialize(project);
+			var document = XDocument.Parse(serialized);
+			var projectElement = document.Descendants(E("project")).Single();
+			Assert.That(projectElement.HasElements, Is.False);
+		}
 
-//		[Test]
-//		public void TagNameTest()
-//		{
-//			Project project = new Project
-//			{
-//				ArtifactId = GetRandomString(),
-//				GroupId = GetRandomString(),
-//				Version = GetRandomString()
-//			};
-//			string serialized = _serializer.Serialize(project);
+		[Test]
+		public void TagNameTest()
+		{
+			Project project = new Project
+			{
+				ArtifactId = GetRandomString(),
+				GroupId = GetRandomString(),
+				Version = GetRandomString()
+			};
+			string serialized = _serializer.Serialize(project);
 
-//			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
+			var projectElement = XDocument.Parse(serialized).Element(E("project"));
 
-//			var artifactElement = projectElement.Element(GetElementName("artifactId"));
-//			Assert.That(artifactElement, Is.Not.Null, "artifactId is missing");
-	
-//			var groupElement = projectElement.Element(GetElementName("groupId"));
-//			Assert.That(groupElement, Is.Not.Null, "groupId is missing");
-			
-//			var versionElement = projectElement.Element(GetElementName("version"));
-//			Assert.That(versionElement, Is.Not.Null, "version is missing");
-//		}
+			var artifactElement = projectElement.Element(E("artifactId"));
+			Assert.That(artifactElement, Is.Not.Null, "artifactId is missing");
 
-//		[Test]
-//		public void MoreProjectSimpleProperties()
-//		{
-//			Project project = new Project
-//			{
-//				Name = GetRandomString(),
-//				Packaging = GetRandomString(),
-//				ModelVersion = GetRandomString(),
-//			};
-//			string serialized = _serializer.Serialize(project);
-//			Project deserialized = _serializer.Deserialize(serialized);
+			var groupElement = projectElement.Element(E("groupId"));
+			Assert.That(groupElement, Is.Not.Null, "groupId is missing");
 
-//			Assert.That(deserialized.Name, Is.EqualTo(project.Name));
-//			Assert.That(deserialized.Packaging, Is.EqualTo(project.Packaging));
-//			Assert.That(deserialized.ModelVersion, Is.EqualTo(project.ModelVersion));
+			var versionElement = projectElement.Element(E("version"));
+			Assert.That(versionElement, Is.Not.Null, "version is missing");
+		}
 
-//			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
+		[Test]
+		public void MoreProjectSimpleProperties()
+		{
+			Project project = new Project
+			{
+				Name = GetRandomString(),
+				Packaging = GetRandomString(),
+				ModelVersion = GetRandomString(),
+			};
+			string serialized = _serializer.Serialize(project);
+			var deserialized = _serializer.Deserialize(serialized);
 
-//			Assert.That(projectElement.Element(GetElementName("name")), Is.Not.Null, "name");
-//			Assert.That(projectElement.Element(GetElementName("packaging")), Is.Not.Null, "packaging");
-//			Assert.That(projectElement.Element(GetElementName("modelVersion")), Is.Not.Null, "modelVersion");
-//		}
+			Assert.That(deserialized.Name, Is.EqualTo(project.Name));
+			Assert.That(deserialized.Packaging, Is.EqualTo(project.Packaging));
+			Assert.That(deserialized.ModelVersion, Is.EqualTo(project.ModelVersion));
+
+			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
+
+			Assert.That(projectElement.Element(GetElementName("name")), Is.Not.Null, "name");
+			Assert.That(projectElement.Element(GetElementName("packaging")), Is.Not.Null, "packaging");
+			Assert.That(projectElement.Element(GetElementName("modelVersion")), Is.Not.Null, "modelVersion");
+		}
 
 //		[Test]
 //		public void NameCanBeOmited()
