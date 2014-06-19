@@ -58,7 +58,6 @@
       <DependentUpon>ExternalReferenceManagerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Externals\ExternalModulesRepository.cs" />
-    <Compile Include="Models\BuildContainter.cs" />
     <Compile Include="Models\ExtendedProject.cs" />
     <Compile Include="Models\Plugin.cs" />
     <Compile Include="Models\ProjectReferenceOperations.cs" />
@@ -113,7 +112,6 @@
     <Compile Include="Externals\ExternalModule.cs" />
     <Compile Include="Externals\ExternalModules.cs" />
     <Compile Include="Validations\Fix.cs" />
-    <Compile Include="Models\Module.cs" />
     <Compile Include="Models\Profile.cs" />
     <Compile Include="Models\Dependency.cs" />
     <Compile Include="Models\ProjectsRepository.cs" />

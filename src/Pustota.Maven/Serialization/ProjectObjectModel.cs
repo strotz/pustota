@@ -68,8 +68,7 @@ namespace Pustota.Maven.Serialization
 			XElement element = startElement.Elements(XmlNs + name).SingleOrDefault();
 			if (element == null)
 			{
-				element = new XElement(XmlNs + name);
-				startElement.Add(element);
+				element = AddElement(startElement, name);
 			}
 			return element;
 		}
@@ -126,9 +125,21 @@ namespace Pustota.Maven.Serialization
 			}
 		}
 
+		internal void RemoveAllChildElements(XElement startElement)
+		{
+			startElement.Elements().Remove();
+		}
+
 		public override string ToString()
 		{
 			return _document.ToString();
+		}
+
+		public XElement AddElement(XElement startElement, string name)
+		{
+			var element = new XElement(XmlNs + name);
+			startElement.Add(element);
+			return element;
 		}
 	}
 }

@@ -6,7 +6,6 @@ namespace Pustota.Maven.Serialization.Data
 {
 	internal class DataFactory : IDataFactory
 	{
-
 		public IPlugin CreatePlugin(PomXmlElement element)
 		{
 			//var plugin = new Plugin();
@@ -31,6 +30,11 @@ namespace Pustota.Maven.Serialization.Data
 		public IParentReference CreateParentReference()
 		{
 			return new ParentReference();
+		}
+
+		public IModule CreateModule()
+		{
+			return new Module();
 		}
 
 		public IDependency CreateDependency(PomXmlElement element)

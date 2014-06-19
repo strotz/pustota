@@ -43,58 +43,6 @@ namespace Pustota.Maven.Serialization.Data
 			}
 		}
 
-		public void RemoveAllChildElements()
-		{
-			_elem.Elements().Remove();
-		}
-
-		private XElement Element
-		{
-			get
-			{
-				return _elem;
-			}
-		}
-
-		public XNamespace DefaultNamespace
-		{
-			get
-			{
-				return _elem.GetDefaultNamespace();
-			}
-		}
-
-		public void SetElementValue(string name, string value)
-		{
-			_elem.SetElementValue(DefaultNamespace + name, value);
-		}
-
-		public PomXmlElement CreateElement(params string[] pathElems)
-		{
-			string name = pathElems.First();
-			XElement newElem = new XElement(DefaultNamespace + name);
-			_elem.Add(newElem);
-
-			if (pathElems.Length == 1)
-				return WrapElement(newElem);
-
-			return WrapElement(newElem).CreateElement(pathElems.Skip(1).ToArray());
-		}
-
-		private PomXmlElement WrapElement(XElement elem)
-		{
-			throw new NotImplementedException();
-			// return elem == null ? null : new PomXmlElement(_doc, elem);
-		}
-
-		public override bool Equals(object obj)
-		{
-			PomXmlElement other = obj as PomXmlElement;
-			if (other == null)
-				return false;
-			return other.Element == Element;
-		}
-
 		public override int GetHashCode()
 		{
 			return _elem.GetHashCode();

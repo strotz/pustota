@@ -9,6 +9,8 @@ namespace Pustota.Maven.Serialization.Data
 
 		IParentReference CreateParentReference();
 
+		IModule CreateModule();
+
 		// REVIEW: change types
 		IPlugin CreatePlugin(PomXmlElement element);
 		IProfile CreateProfile(PomXmlElement element);

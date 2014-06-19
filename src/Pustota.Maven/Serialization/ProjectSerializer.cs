@@ -88,6 +88,137 @@ namespace Pustota.Maven.Serialization
 			}
 		}
 
+		internal IModule LoadModule(XElement element)
+		{
+			var module = _dataFactory.CreateModule();
+			module.Path = element.Value;
+			return module;
+		}
+
+		public void SaveModule(IModule module, XElement element)
+		{
+			element.Value = module.Path;
+		}
+
+		internal void LoadBuildContainer(ProjectObjectModel pom, XElement startElement, IBuildContainer container)
+		{
+			////load project properties
+			//var propertiesNode = element.ReadElement("properties");
+			//if (propertiesNode != null)
+			//{
+			//	Properties = propertiesNode.Elements
+			//		.Select(e => (IProperty)new Property(e)).ToList();
+			//}
+
+			//load modules
+			container.Modules = pom
+				.ReadElements(startElement, "modules", "module")
+				.Select(LoadModule)
+				.ToList();
+
+			////load dependencies
+			//Dependencies = element.ReadElements("dependencies", "dependency")
+			//	.Select(e => _dataFactory.CreateDependency(e)).ToList();
+
+			//// load plugins 
+			//Plugins = element.ReadElements("build", "plugins", "plugin")
+			//	.Select(e => _dataFactory.CreatePlugin(e)).ToList();
+
+			//// load pluginManagement 
+			//PluginManagement = element.ReadElements("build", "pluginManagement", "plugins", "plugin")
+			//	.Select(e => _dataFactory.CreatePlugin(e)).ToList();
+		}
+
+		internal void SaveBuildContainer(IBuildContainer container, ProjectObjectModel pom, XElement startElement)
+		{
+			//writing modules
+			if (!container.Modules.Any())
+			{
+				pom.RemoveElement(startElement, "modules");
+			}
+			else
+			{
+				var modulesNode = pom.SingleOrCreate(startElement, "modules");
+				pom.RemoveAllChildElements(modulesNode);
+				foreach (IModule module in container.Modules.Where(m => !string.IsNullOrEmpty(m.Path)))
+				{
+					var moduleNode = pom.AddElement(modulesNode, "module");
+					SaveModule(module, moduleNode);
+				}
+			}
+
+			////writing dependencies
+			//var dependenciesNode = element.ReadOrCreateElement("dependencies");
+			//if (!Dependencies.Any())
+			//{
+			//	dependenciesNode.Remove();
+			//}
+			//else
+			//{
+			//	dependenciesNode.RemoveAllChildElements();
+			//	foreach (Dependency dependency in Dependencies)
+			//	{
+			//		var dependencyNode = dependenciesNode.CreateElement("dependency");
+			//		dependency.SaveToElement(dependencyNode);
+			//	}
+			//}
+
+			////writing properties
+			//var propertiesNode = element.ReadOrCreateElement("properties");
+			//if (!Properties.Any())
+			//{
+			//	propertiesNode.Remove();
+			//}
+			//else
+			//{
+			//	propertiesNode.RemoveAllChildElements();
+			//	foreach (Property prop in Properties)
+			//	{
+			//		prop.SaveTo(propertiesNode);
+			//	}
+			//}
+
+			//var buildNode = element.ReadOrCreateElement("build");
+			//if (!Plugins.Any() && !PluginManagement.Any()) // empty build section 
+			//{
+			//	buildNode.Remove();
+			//}
+			//else
+			//{
+			//	var pluginsNode = buildNode.ReadOrCreateElement("plugins");
+			//	if (!Plugins.Any())
+			//	{
+			//		pluginsNode.Remove();
+			//	}
+			//	else
+			//	{
+			//		pluginsNode.RemoveAllChildElements();
+			//		foreach (Plugin plugin in Plugins)
+			//		{
+			//			var pluginNode = pluginsNode.CreateElement("plugin");
+			//			plugin.SaveToElement(pluginNode);
+			//		}
+			//	}
+
+			//	var pluginManagementNode = buildNode.ReadOrCreateElement("pluginManagement");
+			//	var pluginManagementPluginsNode = pluginManagementNode.ReadOrCreateElement("plugins");
+
+			//	if (!PluginManagement.Any())
+			//	{
+			//		pluginManagementNode.Remove();
+			//	}
+			//	else
+			//	{
+			//		pluginManagementPluginsNode.RemoveAllChildElements();
+			//		foreach (Plugin plugin in PluginManagement)
+			//		{
+			//			var pluginNode = pluginManagementPluginsNode.CreateElement("plugin");
+			//			plugin.SaveToElement(pluginNode);
+			//		}
+			//	}
+			//}
+		}
+
 
 		internal void LoadProject(ProjectObjectModel pom, IProject project)
 		{
@@ -98,6 +229,7 @@ namespace Pustota.Maven.Serialization
 			project.Name = pom.ReadElementValueOrNull("name");
 			project.ModelVersion = pom.ReadElementValueOrNull("modelVersion");
 
+			LoadBuildContainer(pom, pom.RootElement, project);
 			//_container.LoadFromElement(element);
 
 			////load profiles

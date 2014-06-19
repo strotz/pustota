@@ -199,41 +199,41 @@ namespace Pustota.Maven.Base.Tests
 			Assert.That(deserialized.Parent.RelativePath, Is.EqualTo(project.Parent.RelativePath));
 		}
 
-//		[Test]
-//		public void ModulesSerializationTest()
-//		{
-//			var project = new Project();
-//			project.Modules.Add(new Module { Path = GetRandomString()});
-//			string serialized = _serializer.Serialize(project);
+		[Test]
+		public void ModulesSerializationTest()
+		{
+			var project = new Project();
+			project.Modules.Add(new Module { Path = GetRandomString() });
+			string serialized = _serializer.Serialize(project);
 
-//			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
-//			var modules = projectElement.Element(GetElementName("modules"));
-//			Assert.That(modules, Is.Not.Null, "modules");
+			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
+			var modules = projectElement.Element(GetElementName("modules"));
+			Assert.That(modules, Is.Not.Null, "modules");
 
-//			var module = modules.Element(GetElementName("module")); 
-//			Assert.That(module, Is.Not.Null, "module");
+			var module = modules.Element(GetElementName("module"));
+			Assert.That(module, Is.Not.Null, "module");
 
-//			Assert.IsFalse(module.HasElements);
-//			Assert.That(module.Value, Is.EqualTo(project.Modules[0].Path));
-//		}
+			Assert.IsFalse(module.HasElements);
+			Assert.That(module.Value, Is.EqualTo(project.Modules[0].Path));
+		}
 
 
-//		[Test]
-//		public void MultiModulesTest()
-//		{
-//			var project = new Project();
-//			project.Modules.Add(new Module { Path = GetRandomString() });
-//			project.Modules.Add(new Module { Path = GetRandomString() });
-//			project.Modules.Add(new Module { Path = GetRandomString() });
-//			project.Modules.Add(new Module { Path = GetRandomString() });
-//			string serialized = _serializer.Serialize(project);
-//			Project deserialized = _serializer.Deserialize(serialized);
+		[Test]
+		public void MultiModulesTest()
+		{
+			var project = new Project();
+			project.Modules.Add(new Module { Path = GetRandomString() });
+			project.Modules.Add(new Module { Path = GetRandomString() });
+			project.Modules.Add(new Module { Path = GetRandomString() });
+			project.Modules.Add(new Module { Path = GetRandomString() });
+			string serialized = _serializer.Serialize(project);
+			var deserialized = _serializer.Deserialize(serialized);
 
-//			foreach (var module in project.Modules)
-//			{
-//				Assert.IsNotNull(deserialized.Modules.Single(item => item.Path == module.Path));
-//			}
-//		}
+			foreach (var module in project.Modules)
+			{
+				Assert.IsNotNull(deserialized.Modules.Single(item => item.Path == module.Path));
+			}
+		}
 
 //		[Test]
 //		public void PropertySerializationTest()
