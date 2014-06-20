@@ -27,7 +27,7 @@ namespace Pustota.Maven.Serialization
 		public IProject Deserialize(string content)
 		{
 			var document = XDocument.Parse(content, LoadOptions.PreserveWhitespace);
-			var pom = new ProjectObjectModel(document);
+			var pom = new PomDocument(document);
 			var project = _dataFactory.CreateProject();
 			LoadProject(pom, project);
 			return project;
@@ -35,29 +35,29 @@ namespace Pustota.Maven.Serialization
 
 		public string Serialize(IProject project)
 		{
-			var pom = new ProjectObjectModel();
+			var pom = new PomDocument();
 			SaveProject(project, pom);
 			return pom.ToString();
 		}
 
 
-		// REVIEW: element is not ProjectObjectModel, it is wrapper XElement (dependency, parent)
-		internal void LoadProjectReference(ProjectObjectModel pom, XElement startElement, IProjectReference projectReference)
+		// REVIEW: element is not PomDocument, it is wrapper XElement (dependency, parent)
+		internal void LoadProjectReference(PomDocument pom, XElement startElement, IProjectReference projectReference)
 		{
 			projectReference.ArtifactId = pom.ReadElementValueOrNull(startElement, "artifactId");
 			projectReference.GroupId = pom.ReadElementValueOrNull(startElement, "groupId");
 			projectReference.Version = pom.ReadElementValueOrNull(startElement, "version");
 		}
 
-		// REVIEW: element is not ProjectObjectModel, it is wrapper XElement (dependency, parent)
-		internal void SaveProjectReference(IProjectReference projectReference, ProjectObjectModel pom, XElement startElement)
+		// REVIEW: element is not PomDocument, it is wrapper XElement (dependency, parent)
+		internal void SaveProjectReference(IProjectReference projectReference, PomDocument pom, XElement startElement)
 		{
 			pom.SetElementValue(startElement, "groupId", projectReference.GroupId);
 			pom.SetElementValue(startElement, "artifactId", projectReference.ArtifactId);
 			pom.SetElementValue(startElement, "version", projectReference.Version);
 		}
 
-		internal void LoadParentReference(ProjectObjectModel pom, IProject project)
+		internal void LoadParentReference(PomDocument pom, IProject project)
 		{
 			var parentElement = pom.SingleOrNull("parent");
 			if (parentElement == null)
@@ -73,7 +73,7 @@ namespace Pustota.Maven.Serialization
 			}
 		}
 
-		internal void SaveParentReference(IProject project, ProjectObjectModel pom)
+		internal void SaveParentReference(IProject project, PomDocument pom)
 		{
 			IParentReference parentReference = project.Parent;
 			if (parentReference == null)
@@ -96,7 +96,7 @@ namespace Pustota.Maven.Serialization
 			return property;
 		}
 
-		public void SaveProperty(IProperty property, ProjectObjectModel pom, XElement startElement)
+		public void SaveProperty(IProperty property, PomDocument pom, XElement startElement)
 		{
 			pom.SetElementValue(startElement, property.Name, property.Value);
 		}
@@ -115,7 +115,7 @@ namespace Pustota.Maven.Serialization
 		}
 
 
-		internal IDependency LoadDependency(ProjectObjectModel pom, XElement startElement)
+		internal IDependency LoadDependency(PomDocument pom, XElement startElement)
 		{
 			IDependency dependency = _dataFactory.CreateDependency();
 
@@ -131,7 +131,7 @@ namespace Pustota.Maven.Serialization
 			return dependency;
 		}
 
-		internal void SaveDependency(IDependency dependency, ProjectObjectModel pom, XElement startElement)
+		internal void SaveDependency(IDependency dependency, PomDocument pom, XElement startElement)
 		{
 			SaveProjectReference(dependency, pom, startElement);
 
@@ -144,7 +144,7 @@ namespace Pustota.Maven.Serialization
 		}
 
 
-		internal void LoadBuildContainer(ProjectObjectModel pom, XElement startElement, IBuildContainer container)
+		internal void LoadBuildContainer(PomDocument pom, XElement startElement, IBuildContainer container)
 		{
 			var propertiesElement = pom.SingleOrNull(startElement, "properties");
 			if (propertiesElement != null)
@@ -171,7 +171,7 @@ namespace Pustota.Maven.Serialization
 			//	.Select(e => _dataFactory.CreatePlugin(e)).ToList();
 		}
 
-		internal void SaveBuildContainer(IBuildContainer container, ProjectObjectModel pom, XElement startElement)
+		internal void SaveBuildContainer(IBuildContainer container, PomDocument pom, XElement startElement)
 		{
 			if (!container.Properties.Any())
 			{
@@ -259,7 +259,7 @@ namespace Pustota.Maven.Serialization
 		}
 
 
-		internal void LoadProject(ProjectObjectModel pom, IProject project)
+		internal void LoadProject(PomDocument pom, IProject project)
 		{
 			LoadProjectReference(pom, pom.RootElement, project);
 			LoadParentReference(pom, project);
@@ -276,7 +276,7 @@ namespace Pustota.Maven.Serialization
 			//	.Select(e => _dataFactory.CreateProfile(e)).ToList();
 		}
 
-		internal void SaveProject(IProject project, ProjectObjectModel pom)
+		internal void SaveProject(IProject project, PomDocument pom)
 		{
 			// XElement root = element.RootElement;
 

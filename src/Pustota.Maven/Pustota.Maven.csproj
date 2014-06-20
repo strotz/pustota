@@ -59,7 +59,7 @@
     <Compile Include="Serialization\Data\DataFactory.cs" />
     <Compile Include="Serialization\Data\IDataFactory.cs" />
     <Compile Include="Serialization\ProjectLoader.cs" />
-    <Compile Include="Serialization\ProjectObjectModel.cs" />
+    <Compile Include="Serialization\PomDocument.cs" />
     <Compile Include="Serialization\ProjectSerializer.cs" />
     <Compile Include="Serialization\UsAsciiStringWriter.cs" />
     <Compile Include="System\FileSystemAccess.cs" />

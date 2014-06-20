@@ -18,7 +18,7 @@ namespace Pustota.Maven.Base.Tests
 			var content = string.Format(ProjectTemplate, string.Empty);
 			var document = XDocument.Parse(content, LoadOptions.PreserveWhitespace);
 
-			var projectModel = new ProjectObjectModel(document);
+			var projectModel = new PomDocument(document);
 			Assert.That(projectModel.RootElement.Value, Is.Empty);
 		}
 
@@ -28,7 +28,7 @@ namespace Pustota.Maven.Base.Tests
 			var content = string.Format(ProjectTemplate, "<p>abc</p>");
 			var document = XDocument.Parse(content, LoadOptions.PreserveWhitespace);
 
-			var projectModel = new ProjectObjectModel(document);
+			var projectModel = new PomDocument(document);
 			Assert.That(projectModel.ReadElementValueOrNull("p"), Is.EqualTo("abc"));			
 		}
 	}
