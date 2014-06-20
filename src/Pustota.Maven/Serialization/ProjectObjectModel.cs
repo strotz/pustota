@@ -73,12 +73,12 @@ namespace Pustota.Maven.Serialization
 			return element;
 		}
 
-		internal XElement ReadElementOrNull(params string[] pathElems)
+		internal XElement SingleOrNull(params string[] pathElems)
 		{
 			return ReadElements(RootElement, pathElems).SingleOrDefault();
 		}
 
-		internal XElement ReadElementOrNull(XElement startElement, params string[] pathElems)
+		internal XElement SingleOrNull(XElement startElement, params string[] pathElems)
 		{
 			return ReadElements(startElement, pathElems).SingleOrDefault();
 		}
@@ -90,7 +90,7 @@ namespace Pustota.Maven.Serialization
 
 		internal string ReadElementValueOrNull(XElement startElement, params string[] pathElems)
 		{
-			XElement element = ReadElementOrNull(startElement, pathElems);
+			XElement element = SingleOrNull(startElement, pathElems);
 			return element == null ? null : element.Value;
 		}
 

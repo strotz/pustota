@@ -42,6 +42,7 @@
     <Compile Include="ISolution.cs" />
     <Compile Include="Serialization\Data\Module.cs" />
     <Compile Include="Serialization\Data\ParentReference.cs" />
+    <Compile Include="Serialization\Data\Property.cs" />
     <Compile Include="Serialization\IProjectTreeLoader.cs" />
     <Compile Include="Models\AggregatedProject.cs" />
     <Compile Include="Models\IAggregatedProject.cs" />

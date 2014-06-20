@@ -116,7 +116,6 @@
     <Compile Include="Models\Dependency.cs" />
     <Compile Include="Models\ProjectsRepository.cs" />
     <Compile Include="Models\ProjectType.cs" />
-    <Compile Include="Models\Property.cs" />
     <Compile Include="Validations\ValidationError.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

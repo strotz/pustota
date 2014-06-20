@@ -32,6 +32,11 @@ namespace Pustota.Maven.Serialization.Data
 			return new ParentReference();
 		}
 
+		public IProperty CreateProperty()
+		{
+			return new Property();
+		}
+
 		public IModule CreateModule()
 		{
 			return new Module();

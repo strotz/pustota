@@ -1,4 +1,3 @@
-using System.Xml.Linq;
 using Pustota.Maven.Models;
 
 namespace Pustota.Maven.Serialization.Data
@@ -9,11 +8,14 @@ namespace Pustota.Maven.Serialization.Data
 
 		IParentReference CreateParentReference();
 
+		IProperty CreateProperty();
+
 		IModule CreateModule();
 
 		// REVIEW: change types
 		IPlugin CreatePlugin(PomXmlElement element);
 		IProfile CreateProfile(PomXmlElement element);
 		IDependency CreateDependency(PomXmlElement element);
+		
 	}
 }

@@ -230,146 +230,146 @@ namespace Pustota.Maven.Base.Tests
 			}
 		}
 
-//		[Test]
-//		public void PropertySerializationTest()
-//		{
-//			var project = new Project();
-//			var property = new Property
-//			{
-//				Name = "a" + GetRandomString(),
-//				Value = GetRandomString()
-//			};
-//			project.Properties.Items.Add(property);
-//			string serialized = _serializer.Serialize(project);
+		[Test]
+		public void PropertySerializationTest()
+		{
+			var project = new Project();
+			var property = new Property
+			{
+				Name = "a" + GetRandomString(),
+				Value = GetRandomString()
+			};
+			project.Properties.Add(property);
+			string serialized = _serializer.Serialize(project);
 
-//			var projectElement = XDocument.Parse(serialized).Element(E("project"));
-//			var properties = projectElement.Element(E("properties"));
-//			var propertyElement = properties.Elements().First();
-//			Assert.That(propertyElement.Name, Is.EqualTo(E(property.Name)), "name");
-//			Assert.That(propertyElement.Value, Is.EqualTo(property.Value), "value");
-//		}
+			var projectElement = XDocument.Parse(serialized).Element(E("project"));
+			var properties = projectElement.Element(E("properties"));
+			var propertyElement = properties.Elements().First();
+			Assert.That(propertyElement.Name, Is.EqualTo(E(property.Name)), "name");
+			Assert.That(propertyElement.Value, Is.EqualTo(property.Value), "value");
+		}
 
-//		[Test]
-//		public void PropertyDeserializationTest()
-//		{
-//			var project = new Project();
-//			var property = new Property
-//			{
-//				Name = "a" + GetRandomString(),
-//				Value = GetRandomString()
-//			};
-//			project.Properties.Items.Add(property);
-//			string serialized = _serializer.Serialize(project);
-//			Project deserialized = _serializer.Deserialize(serialized);
-//			var obtained = deserialized.Properties.Items.First();
-//			Assert.That(obtained.Name, Is.EqualTo(property.Name));
-//			Assert.That(obtained.Value, Is.EqualTo(property.Value));
-//		}
-
-
-//		[Test]
-//		public void PropertyDeserializationTest2()
-//		{
-//			const string PropertiesProjectXml =
-//@"<?xml version=""1.0"" encoding=""us-ascii""?>
-//<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
-//<properties>
-//<a>aval</a>
-//<b>bval</b>
-//</properties>
-//</project>";
-
-//			Project deserialized = _serializer.Deserialize(PropertiesProjectXml);
-			
-//			Assert.That(deserialized.Properties.Items.Count, Is.EqualTo(2));
-
-//			var first = deserialized.Properties.Items.First();
-//			Assert.That(first.Name, Is.EqualTo("a"));
-//			Assert.That(first.Value, Is.EqualTo("aval"));
-
-//			var last = deserialized.Properties.Items.Last();
-//			Assert.That(last.Name, Is.EqualTo("b"));
-//			Assert.That(last.Value, Is.EqualTo("bval"));
-//		}
-
-//		[Test]
-//		public void EmptyPropertyTest()
-//		{
-//			const string PropertiesProjectEmptyXml =
-//@"<?xml version=""1.0"" encoding=""us-ascii""?>
-//<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
-//<properties>
-//</properties>
-//</project>";
-
-//			Project deserialized = _serializer.Deserialize(PropertiesProjectEmptyXml);
-//		}
-
-//		[Test]
-//		public void SinglePropertyTest()
-//		{
-//			const string PropertiesProjectEmptyXml =
-//@"<?xml version=""1.0"" encoding=""us-ascii""?>
-//<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
-//<properties>
-//<a>asdas</a>
-//</properties>
-//</project>";
-
-//			Project deserialized = _serializer.Deserialize(PropertiesProjectEmptyXml);
-//		}
-
-//		[Test]
-//		public void SingleAndCommentPropertyTest()
-//		{
-//			const string PropertiesProjectEmptyXml =
-//@"<?xml version=""1.0"" encoding=""us-ascii""?>
-//<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
-//<properties>
-//	<a>asdas</a>
-//	<!-- <target.platform>m2e-wtp-e36</target.platform> -->
-//</properties>
-//</project>";
-
-//			Project deserialized = _serializer.Deserialize(PropertiesProjectEmptyXml);
-//		}
-
-//		[Test]
-//		public void DoubleAndCommentPropertyTest()
-//		{
-//			const string PropertiesProjectEmptyXml =
-//@"<?xml version=""1.0"" encoding=""us-ascii""?>
-//<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
-//<properties>
-//	<a>asdas</a>
-//	<!-- <target.platform>m2e-wtp-e36</target.platform> -->
-//	<a>asdas</a>
-//</properties>
-//</project>";
-
-//			Project deserialized = _serializer.Deserialize(PropertiesProjectEmptyXml);
-//			Assert.That(deserialized.Properties.Items.Count, Is.EqualTo(2));
-//		}
+		[Test]
+		public void PropertyDeserializationTest()
+		{
+			var project = new Project();
+			var property = new Property
+			{
+				Name = "a" + GetRandomString(),
+				Value = GetRandomString()
+			};
+			project.Properties.Add(property);
+			string serialized = _serializer.Serialize(project);
+			var deserialized = _serializer.Deserialize(serialized);
+			var obtained = deserialized.Properties.First();
+			Assert.That(obtained.Name, Is.EqualTo(property.Name));
+			Assert.That(obtained.Value, Is.EqualTo(property.Value));
+		}
 
 
+		[Test]
+		public void PropertyDeserializationTest2()
+		{
+			const string PropertiesProjectXml =
+@"<?xml version=""1.0"" encoding=""us-ascii""?>
+<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
+<properties>
+<a>aval</a>
+<b>bval</b>
+</properties>
+</project>";
 
-//		[Test]
-//		public void ManyPropertyTest()
-//		{
-//			var project = new Project();
-//			project.Properties.Items.Add(new Property { Name = "a" + GetRandomString(), Value = GetRandomString() });
-//			project.Properties.Items.Add(new Property { Name = "a" + GetRandomString(), Value = GetRandomString() });
-//			project.Properties.Items.Add(new Property { Name = "a" + GetRandomString(), Value = GetRandomString() });
-//			project.Properties.Items.Add(new Property { Name = "a" + GetRandomString(), Value = GetRandomString() });
-//			string serialized = _serializer.Serialize(project);
+			var deserialized = _serializer.Deserialize(PropertiesProjectXml);
 
-//			Project deserialized = _serializer.Deserialize(serialized);
+			Assert.That(deserialized.Properties.Count, Is.EqualTo(2));
 
-//			foreach (Property property in project.Properties.Items)
-//			{
-//				Assert.IsNotNull(deserialized.Properties.Items.Single(item => item.Name == property.Name && item.Value == property.Value));
-//			}
-//		}
+			var first = deserialized.Properties.First();
+			Assert.That(first.Name, Is.EqualTo("a"));
+			Assert.That(first.Value, Is.EqualTo("aval"));
+
+			var last = deserialized.Properties.Last();
+			Assert.That(last.Name, Is.EqualTo("b"));
+			Assert.That(last.Value, Is.EqualTo("bval"));
+		}
+
+		[Test]
+		public void EmptyPropertyTest()
+		{
+			const string PropertiesProjectEmptyXml =
+@"<?xml version=""1.0"" encoding=""us-ascii""?>
+<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
+<properties>
+</properties>
+</project>";
+
+			var deserialized = _serializer.Deserialize(PropertiesProjectEmptyXml);
+		}
+
+		[Test]
+		public void SinglePropertyTest()
+		{
+			const string PropertiesProjectEmptyXml =
+@"<?xml version=""1.0"" encoding=""us-ascii""?>
+<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
+<properties>
+<a>asdas</a>
+</properties>
+</project>";
+
+			var deserialized = _serializer.Deserialize(PropertiesProjectEmptyXml);
+		}
+
+		[Test]
+		public void SingleAndCommentPropertyTest()
+		{
+			const string PropertiesProjectEmptyXml =
+@"<?xml version=""1.0"" encoding=""us-ascii""?>
+<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
+<properties>
+	<a>asdas</a>
+	<!-- <target.platform>m2e-wtp-e36</target.platform> -->
+</properties>
+</project>";
+
+			var deserialized = _serializer.Deserialize(PropertiesProjectEmptyXml);
+		}
+
+		[Test]
+		public void DoubleAndCommentPropertyTest()
+		{
+			const string PropertiesProjectEmptyXml =
+@"<?xml version=""1.0"" encoding=""us-ascii""?>
+<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
+<properties>
+	<a>asdas</a>
+	<!-- <target.platform>m2e-wtp-e36</target.platform> -->
+	<a>asdas</a>
+</properties>
+</project>";
+
+			var deserialized = _serializer.Deserialize(PropertiesProjectEmptyXml);
+			Assert.That(deserialized.Properties.Count, Is.EqualTo(2));
+		}
+
+
+
+		[Test]
+		public void ManyPropertyTest()
+		{
+			var project = new Project();
+			project.Properties.Add(new Property { Name = "a" + GetRandomString(), Value = GetRandomString() });
+			project.Properties.Add(new Property { Name = "a" + GetRandomString(), Value = GetRandomString() });
+			project.Properties.Add(new Property { Name = "a" + GetRandomString(), Value = GetRandomString() });
+			project.Properties.Add(new Property { Name = "a" + GetRandomString(), Value = GetRandomString() });
+			string serialized = _serializer.Serialize(project);
+
+			var deserialized = _serializer.Deserialize(serialized);
+
+			foreach (Property property in project.Properties)
+			{
+				Assert.IsNotNull(deserialized.Properties.Single(item => item.Name == property.Name && item.Value == property.Value));
+			}
+		}
 
 //		[Test]
 //		public void DependencyTest()

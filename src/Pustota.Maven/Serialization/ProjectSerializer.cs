@@ -59,7 +59,7 @@ namespace Pustota.Maven.Serialization
 
 		internal void LoadParentReference(ProjectObjectModel pom, IProject project)
 		{
-			var parentElement = pom.ReadElementOrNull("parent");
+			var parentElement = pom.SingleOrNull("parent");
 			if (parentElement == null)
 			{
 				project.Parent = null;
@@ -88,6 +88,20 @@ namespace Pustota.Maven.Serialization
 			}
 		}
 
+		public IProperty LoadProperty(XElement element)
+		{
+			var property = _dataFactory.CreateProperty();
+			property.Name = element.Name.LocalName;
+			property.Value = element.Value;
+			return property;
+		}
+
+		public void SaveProperty(IProperty property, ProjectObjectModel pom, XElement startElement)
+		{
+			pom.SetElementValue(startElement, property.Name, property.Value);
+		}
+
+
 		internal IModule LoadModule(XElement element)
 		{
 			var module = _dataFactory.CreateModule();
@@ -102,15 +116,12 @@ namespace Pustota.Maven.Serialization
 
 		internal void LoadBuildContainer(ProjectObjectModel pom, XElement startElement, IBuildContainer container)
 		{
-			////load project properties
-			//var propertiesNode = element.ReadElement("properties");
-			//if (propertiesNode != null)
-			//{
-			//	Properties = propertiesNode.Elements
-			//		.Select(e => (IProperty)new Property(e)).ToList();
-			//}
+			var propertiesElement = pom.SingleOrNull(startElement, "properties");
+			if (propertiesElement != null)
+			{
+				container.Properties = propertiesElement.Elements().Select(LoadProperty).ToList();
+			}
 
-			//load modules
 			container.Modules = pom
 				.ReadElements(startElement, "modules", "module")
 				.Select(LoadModule)
@@ -131,7 +142,20 @@ namespace Pustota.Maven.Serialization
 
 		internal void SaveBuildContainer(IBuildContainer container, ProjectObjectModel pom, XElement startElement)
 		{
-			//writing modules
+			if (!container.Properties.Any())
+			{
+				pom.RemoveElement(startElement, "properties");
+			}
+			else
+			{
+				var propertiesNode = pom.SingleOrCreate(startElement, "properties");
+				pom.RemoveAllChildElements(propertiesNode);
+				foreach (var property in container.Properties)
+				{
+					SaveProperty(property, pom, propertiesNode);
+				}
+			}
+
 			if (!container.Modules.Any())
 			{
 				pom.RemoveElement(startElement, "modules");
@@ -160,21 +184,6 @@ namespace Pustota.Maven.Serialization
 			//	{
 			//		var dependencyNode = dependenciesNode.CreateElement("dependency");
 			//		dependency.SaveToElement(dependencyNode);
-			//	}
-			//}
-
-			////writing properties
-			//var propertiesNode = element.ReadOrCreateElement("properties");
-			//if (!Properties.Any())
-			//{
-			//	propertiesNode.Remove();
-			//}
-			//else
-			//{
-			//	propertiesNode.RemoveAllChildElements();
-			//	foreach (Property prop in Properties)
-			//	{
-			//		prop.SaveTo(propertiesNode);
 			//	}
 			//}
 
