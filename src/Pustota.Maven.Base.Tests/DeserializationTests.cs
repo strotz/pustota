@@ -371,42 +371,42 @@ namespace Pustota.Maven.Base.Tests
 			}
 		}
 
-//		[Test]
-//		public void DependencyTest()
-//		{
-//			var project = new Project();
-//			project.Dependencies.Add(new Dependency());
-//			string serialized = _serializer.Serialize(project);
-//			var projectElement = XDocument.Parse(serialized).Element(E("project"));
-//			var dependencies = projectElement.Element(E("dependencies"));
-//			Assert.That(dependencies, Is.Not.Null);
-//			var dependency = dependencies.Element(E("dependency"));
-//			Assert.That(dependency, Is.Not.Null);
-//		}
+		[Test]
+		public void DependencyTest()
+		{
+			var project = new Project();
+			project.Dependencies.Add(new Dependency());
+			string serialized = _serializer.Serialize(project);
+			var projectElement = XDocument.Parse(serialized).Element(E("project"));
+			var dependencies = projectElement.Element(E("dependencies"));
+			Assert.That(dependencies, Is.Not.Null);
+			var dependency = dependencies.Element(E("dependency"));
+			Assert.That(dependency, Is.Not.Null);
+		}
 
-//		[Test]
-//		public void DependencyOptionalTest()
-//		{
-//			var project = new Project();
-//			project.Dependencies.Add(new Dependency() {Optional = true});
-//			string serialized = _serializer.Serialize(project);
-//			var projectElement = XDocument.Parse(serialized).Element(E("project"));
-//			var dependencies = projectElement.Element(GetElementName("dependencies"));
-//			var dependency = dependencies.Element(GetElementName("dependency"));
-//			Assert.That(dependency.Element(GetElementName("optional")), Is.Not.Null);
-//		}
+		[Test]
+		public void DependencyOptionalTest()
+		{
+			var project = new Project();
+			project.Dependencies.Add(new Dependency() { Optional = true });
+			string serialized = _serializer.Serialize(project);
+			var projectElement = XDocument.Parse(serialized).Element(E("project"));
+			var dependencies = projectElement.Element(E("dependencies"));
+			var dependency = dependencies.Element(E("dependency"));
+			Assert.That(dependency.Element(E("optional")), Is.Not.Null);
+		}
 
-//		[Test]
-//		public void DependencyOptionalOmitTest()
-//		{
-//			var project = new Project();
-//			project.Dependencies.Add(new Dependency());
-//			string serialized = _serializer.Serialize(project);
-//			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
-//			var dependencies = projectElement.Element(GetElementName("dependencies"));
-//			var dependency = dependencies.Element(GetElementName("dependency"));
-//			Assert.That(dependency.Element(GetElementName("optional")), Is.Null);
-//		}
+		[Test]
+		public void DependencyOptionalOmitTest()
+		{
+			var project = new Project();
+			project.Dependencies.Add(new Dependency());
+			string serialized = _serializer.Serialize(project);
+			var projectElement = XDocument.Parse(serialized).Element(E("project"));
+			var dependencies = projectElement.Element(E("dependencies"));
+			var dependency = dependencies.Element(E("dependency"));
+			Assert.That(dependency.Element(E("optional")), Is.Null);
+		}
 
 //		[Test]
 //		public void ProfileBasicSerialization()

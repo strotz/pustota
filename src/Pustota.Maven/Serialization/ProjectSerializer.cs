@@ -114,6 +114,36 @@ namespace Pustota.Maven.Serialization
 			element.Value = module.Path;
 		}
 
+
+		internal IDependency LoadDependency(ProjectObjectModel pom, XElement startElement)
+		{
+			IDependency dependency = _dataFactory.CreateDependency();
+
+			LoadProjectReference(pom, startElement, dependency);
+
+			dependency.Scope = pom.ReadElementValueOrNull(startElement, "scope");
+			dependency.Type = pom.ReadElementValueOrNull(startElement, "type");
+			dependency.Classifier = pom.ReadElementValueOrNull(startElement, "classifier");
+
+			bool optional;
+			dependency.Optional = bool.TryParse(pom.ReadElementValueOrNull(startElement, "optional"), out optional) && optional;
+
+			return dependency;
+		}
+
+		internal void SaveDependency(IDependency dependency, ProjectObjectModel pom, XElement startElement)
+		{
+			SaveProjectReference(dependency, pom, startElement);
+
+			pom.SetElementValue(startElement, "type", dependency.Type);
+			pom.SetElementValue(startElement, "classifier", dependency.Classifier);
+			pom.SetElementValue(startElement, "scope", dependency.Scope);
+
+			if (dependency.Optional)
+				pom.SetElementValue(startElement, "optional", "true");
+		}
+
+
 		internal void LoadBuildContainer(ProjectObjectModel pom, XElement startElement, IBuildContainer container)
 		{
 			var propertiesElement = pom.SingleOrNull(startElement, "properties");
@@ -127,9 +157,10 @@ namespace Pustota.Maven.Serialization
 				.Select(LoadModule)
 				.ToList();
 
-			////load dependencies
-			//Dependencies = element.ReadElements("dependencies", "dependency")
-			//	.Select(e => _dataFactory.CreateDependency(e)).ToList();
+			container.Dependencies = pom
+				.ReadElements(startElement, "dependencies", "dependency")
+				.Select(e => LoadDependency(pom, e))
+				.ToList();
 
 			//// load plugins 
 			//Plugins = element.ReadElements("build", "plugins", "plugin")
@@ -150,7 +181,7 @@ namespace Pustota.Maven.Serialization
 			{
 				var propertiesNode = pom.SingleOrCreate(startElement, "properties");
 				pom.RemoveAllChildElements(propertiesNode);
-				foreach (var property in container.Properties)
+				foreach (IProperty property in container.Properties)
 				{
 					SaveProperty(property, pom, propertiesNode);
 				}
@@ -171,21 +202,20 @@ namespace Pustota.Maven.Serialization
 				}
 			}
 
-			////writing dependencies
-			//var dependenciesNode = element.ReadOrCreateElement("dependencies");
-			//if (!Dependencies.Any())
-			//{
-			//	dependenciesNode.Remove();
-			//}
-			//else
-			//{
-			//	dependenciesNode.RemoveAllChildElements();
-			//	foreach (Dependency dependency in Dependencies)
-			//	{
-			//		var dependencyNode = dependenciesNode.CreateElement("dependency");
-			//		dependency.SaveToElement(dependencyNode);
-			//	}
-			//}
+			if (!container.Dependencies.Any())
+			{
+				pom.RemoveElement(startElement, "dependencies");
+			}
+			else
+			{
+				var dependenciesNode = pom.SingleOrCreate(startElement, "dependencies");
+				pom.RemoveAllChildElements(dependenciesNode);
+				foreach (IDependency dependency in container.Dependencies)
+				{
+					var dependencyNode = pom.AddElement(dependenciesNode, "dependency");
+					SaveDependency(dependency, pom, dependencyNode);
+				}
+			}
 
 			//var buildNode = element.ReadOrCreateElement("build");
 			//if (!Plugins.Any() && !PluginManagement.Any()) // empty build section 

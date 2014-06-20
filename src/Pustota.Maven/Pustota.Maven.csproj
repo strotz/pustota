@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ISolution.cs" />
+    <Compile Include="Serialization\Data\Dependency.cs" />
     <Compile Include="Serialization\Data\Module.cs" />
     <Compile Include="Serialization\Data\ParentReference.cs" />
     <Compile Include="Serialization\Data\Property.cs" />

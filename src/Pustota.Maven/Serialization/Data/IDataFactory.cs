@@ -12,10 +12,11 @@ namespace Pustota.Maven.Serialization.Data
 
 		IModule CreateModule();
 
+		IDependency CreateDependency();
+
 		// REVIEW: change types
 		IPlugin CreatePlugin(PomXmlElement element);
 		IProfile CreateProfile(PomXmlElement element);
-		IDependency CreateDependency(PomXmlElement element);
 		
 	}
 }

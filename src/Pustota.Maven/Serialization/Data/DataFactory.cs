@@ -42,12 +42,9 @@ namespace Pustota.Maven.Serialization.Data
 			return new Module();
 		}
 
-		public IDependency CreateDependency(PomXmlElement element)
+		public IDependency CreateDependency()
 		{
-			//var dependency = new Dependency();
-			//dependency.LoadFromElement(element);
-			//return dependency;
-			throw new NotImplementedException();
+			return new Dependency();
 		}
 	}
 }
