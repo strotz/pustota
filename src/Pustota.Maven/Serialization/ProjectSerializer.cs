@@ -248,7 +248,7 @@ namespace Pustota.Maven.Serialization
 			pom.SetElementValue("name", project.Name);
 			pom.SetElementValue("modelVersion", project.ModelVersion);
 
-			//_container.SaveToElement(root);
+			SaveBuildContainer(project, pom, pom.RootElement);
 
 			////writing profiles
 			//var profileNode = pom.SingleOrCreate("profiles");
