@@ -112,7 +112,6 @@
     <Compile Include="Externals\ExternalModule.cs" />
     <Compile Include="Externals\ExternalModules.cs" />
     <Compile Include="Validations\Fix.cs" />
-    <Compile Include="Models\Profile.cs" />
     <Compile Include="Models\ProjectsRepository.cs" />
     <Compile Include="Models\ProjectType.cs" />
     <Compile Include="Validations\ValidationError.cs" />

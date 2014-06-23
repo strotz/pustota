@@ -15,8 +15,8 @@ namespace Pustota.Maven.Serialization.Data
 		IDependency CreateDependency();
 
 		// REVIEW: change types
-		IPlugin CreatePlugin(PomXmlElement element);
-		IProfile CreateProfile(PomXmlElement element);
+		IPlugin CreatePlugin();
+		IProfile CreateProfile();
 		
 	}
 }

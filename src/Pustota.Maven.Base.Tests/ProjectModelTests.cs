@@ -29,7 +29,7 @@ namespace Pustota.Maven.Base.Tests
 			var document = XDocument.Parse(content, LoadOptions.PreserveWhitespace);
 
 			var projectModel = new PomDocument(document);
-			Assert.That(projectModel.ReadElementValueOrNull("p"), Is.EqualTo("abc"));			
+			Assert.That(projectModel.RootElement.ReadElementValueOrNull("p"), Is.EqualTo("abc"));			
 		}
 	}
 }

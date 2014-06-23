@@ -408,17 +408,17 @@ namespace Pustota.Maven.Base.Tests
 			Assert.That(dependency.Element(E("optional")), Is.Null);
 		}
 
-//		[Test]
-//		public void ProfileBasicSerialization()
-//		{
-//			var project = new Project();
-//			project.Profiles.Add(new Profile());
-//			string serialized = _serializer.Serialize(project);
-//			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
-//			var profiles = projectElement.Element(GetElementName("profiles"));
-//			var profile = profiles.Element(GetElementName("profile"));
-//			Assert.That(profile, Is.Not.Null);
-//		}
+		[Test]
+		public void ProfileBasicSerialization()
+		{
+			var project = new Project();
+			project.Profiles.Add(new Profile());
+			string serialized = _serializer.Serialize(project);
+			var projectElement = XDocument.Parse(serialized).Element(E("project"));
+			var profiles = projectElement.Element(E("profiles"));
+			var profile = profiles.Element(E("profile"));
+			Assert.That(profile, Is.Not.Null);
+		}
 
 //		const string ProjectWithProfileXml =
 //@"<?xml version=""1.0"" encoding=""us-ascii""?>

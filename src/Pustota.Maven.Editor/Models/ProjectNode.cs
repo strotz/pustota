@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Pustota.Maven.Editor.Validations;
+using Pustota.Maven.Models;
 
 namespace Pustota.Maven.Editor.Models
 {

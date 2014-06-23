@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using Pustota.Maven.Models;
 using Pustota.Maven.Serialization.Data;
@@ -42,24 +39,24 @@ namespace Pustota.Maven.Serialization
 
 
 		// REVIEW: element is not PomDocument, it is wrapper XElement (dependency, parent)
-		internal void LoadProjectReference(PomDocument pom, XElement startElement, IProjectReference projectReference)
+		internal void LoadProjectReference(PomElement element, IProjectReference projectReference)
 		{
-			projectReference.ArtifactId = pom.ReadElementValueOrNull(startElement, "artifactId");
-			projectReference.GroupId = pom.ReadElementValueOrNull(startElement, "groupId");
-			projectReference.Version = pom.ReadElementValueOrNull(startElement, "version");
+			projectReference.ArtifactId = element.ReadElementValueOrNull("artifactId");
+			projectReference.GroupId = element.ReadElementValueOrNull("groupId");
+			projectReference.Version = element.ReadElementValueOrNull("version");
 		}
 
 		// REVIEW: element is not PomDocument, it is wrapper XElement (dependency, parent)
-		internal void SaveProjectReference(IProjectReference projectReference, PomDocument pom, XElement startElement)
+		internal void SaveProjectReference(IProjectReference projectReference, PomElement element)
 		{
-			pom.SetElementValue(startElement, "groupId", projectReference.GroupId);
-			pom.SetElementValue(startElement, "artifactId", projectReference.ArtifactId);
-			pom.SetElementValue(startElement, "version", projectReference.Version);
+			element.SetElementValue("groupId", projectReference.GroupId);
+			element.SetElementValue("artifactId", projectReference.ArtifactId);
+			element.SetElementValue("version", projectReference.Version);
 		}
 
-		internal void LoadParentReference(PomDocument pom, IProject project)
+		internal void LoadParentReference(PomElement rootElement, IProject project)
 		{
-			var parentElement = pom.SingleOrNull("parent");
+			var parentElement = rootElement.SingleOrNull("parent");
 			if (parentElement == null)
 			{
 				project.Parent = null;
@@ -67,99 +64,99 @@ namespace Pustota.Maven.Serialization
 			else
 			{
 				var parentReference = _dataFactory.CreateParentReference();
-				LoadProjectReference(pom, parentElement, parentReference);
-				parentReference.RelativePath = pom.ReadElementValueOrNull(parentElement, "relativePath");
+				LoadProjectReference(rootElement, parentReference);
+				parentReference.RelativePath = parentElement.ReadElementValueOrNull("relativePath");
 				project.Parent = parentReference;
 			}
 		}
 
-		internal void SaveParentReference(IProject project, PomDocument pom)
+		internal void SaveParentReference(IProject project, PomElement rootElement)
 		{
 			IParentReference parentReference = project.Parent;
 			if (parentReference == null)
 			{
-				pom.RemoveElement("parent");
+				rootElement.RemoveElement("parent");
 			}
 			else
 			{
-				var parentElement = pom.SingleOrCreate(pom.RootElement, "parent");
-				SaveProjectReference(parentReference, pom, parentElement);
-				pom.SetElementValue(parentElement, "relativePath", parentReference.RelativePath);
+				var parentElement = rootElement.SingleOrCreate("parent");
+				SaveProjectReference(parentReference, parentElement);
+				parentElement.SetElementValue("relativePath", parentReference.RelativePath);
 			}
 		}
 
-		public IProperty LoadProperty(XElement element)
+		public IProperty LoadProperty(PomElement element)
 		{
 			var property = _dataFactory.CreateProperty();
-			property.Name = element.Name.LocalName;
+			property.Name = element.LocalName;
 			property.Value = element.Value;
 			return property;
 		}
 
-		public void SaveProperty(IProperty property, PomDocument pom, XElement startElement)
+		public void SaveProperty(IProperty property, PomElement element)
 		{
-			pom.SetElementValue(startElement, property.Name, property.Value);
+			element.SetElementValue(property.Name, property.Value);
 		}
 
 
-		internal IModule LoadModule(XElement element)
+		internal IModule LoadModule(PomElement element)
 		{
 			var module = _dataFactory.CreateModule();
 			module.Path = element.Value;
 			return module;
 		}
 
-		public void SaveModule(IModule module, XElement element)
+		public void SaveModule(IModule module, PomElement element)
 		{
 			element.Value = module.Path;
 		}
 
 
-		internal IDependency LoadDependency(PomDocument pom, XElement startElement)
+		internal IDependency LoadDependency(PomElement element)
 		{
 			IDependency dependency = _dataFactory.CreateDependency();
 
-			LoadProjectReference(pom, startElement, dependency);
+			LoadProjectReference(element, dependency);
 
-			dependency.Scope = pom.ReadElementValueOrNull(startElement, "scope");
-			dependency.Type = pom.ReadElementValueOrNull(startElement, "type");
-			dependency.Classifier = pom.ReadElementValueOrNull(startElement, "classifier");
+			dependency.Scope = element.ReadElementValueOrNull("scope");
+			dependency.Type = element.ReadElementValueOrNull("type");
+			dependency.Classifier = element.ReadElementValueOrNull("classifier");
 
 			bool optional;
-			dependency.Optional = bool.TryParse(pom.ReadElementValueOrNull(startElement, "optional"), out optional) && optional;
+			dependency.Optional = bool.TryParse(element.ReadElementValueOrNull("optional"), out optional) && optional;
 
 			return dependency;
 		}
 
-		internal void SaveDependency(IDependency dependency, PomDocument pom, XElement startElement)
+		internal void SaveDependency(IDependency dependency, PomElement element)
 		{
-			SaveProjectReference(dependency, pom, startElement);
+			SaveProjectReference(dependency, element);
 
-			pom.SetElementValue(startElement, "type", dependency.Type);
-			pom.SetElementValue(startElement, "classifier", dependency.Classifier);
-			pom.SetElementValue(startElement, "scope", dependency.Scope);
+			element.SetElementValue("type", dependency.Type);
+			element.SetElementValue("classifier", dependency.Classifier);
+			element.SetElementValue("scope", dependency.Scope);
 
 			if (dependency.Optional)
-				pom.SetElementValue(startElement, "optional", "true");
+				element.SetElementValue("optional", "true");
 		}
 
 
-		internal void LoadBuildContainer(PomDocument pom, XElement startElement, IBuildContainer container)
+		internal void LoadBuildContainer(PomElement element, IBuildContainer container)
 		{
-			var propertiesElement = pom.SingleOrNull(startElement, "properties");
+			var propertiesElement = element.SingleOrNull("properties");
 			if (propertiesElement != null)
 			{
 				container.Properties = propertiesElement.Elements().Select(LoadProperty).ToList();
 			}
 
-			container.Modules = pom
-				.ReadElements(startElement, "modules", "module")
+			container.Modules = element
+				.ReadElements("modules", "module")
 				.Select(LoadModule)
 				.ToList();
 
-			container.Dependencies = pom
-				.ReadElements(startElement, "dependencies", "dependency")
-				.Select(e => LoadDependency(pom, e))
+			container.Dependencies = element
+				.ReadElements("dependencies", "dependency")
+				.Select(LoadDependency)
 				.ToList();
 
 			//// load plugins 
@@ -171,49 +168,49 @@ namespace Pustota.Maven.Serialization
 			//	.Select(e => _dataFactory.CreatePlugin(e)).ToList();
 		}
 
-		internal void SaveBuildContainer(IBuildContainer container, PomDocument pom, XElement startElement)
+		internal void SaveBuildContainer(IBuildContainer container, PomElement element)
 		{
 			if (!container.Properties.Any())
 			{
-				pom.RemoveElement(startElement, "properties");
+				element.RemoveElement("properties");
 			}
 			else
 			{
-				var propertiesNode = pom.SingleOrCreate(startElement, "properties");
-				pom.RemoveAllChildElements(propertiesNode);
+				var propertiesNode = element.SingleOrCreate("properties");
+				propertiesNode.RemoveAllChildElements();
 				foreach (IProperty property in container.Properties)
 				{
-					SaveProperty(property, pom, propertiesNode);
+					SaveProperty(property, propertiesNode);
 				}
 			}
 
 			if (!container.Modules.Any())
 			{
-				pom.RemoveElement(startElement, "modules");
+				element.RemoveElement("modules");
 			}
 			else
 			{
-				var modulesNode = pom.SingleOrCreate(startElement, "modules");
-				pom.RemoveAllChildElements(modulesNode);
+				var modulesNode = element.SingleOrCreate("modules");
+				modulesNode.RemoveAllChildElements();
 				foreach (IModule module in container.Modules.Where(m => !string.IsNullOrEmpty(m.Path)))
 				{
-					var moduleNode = pom.AddElement(modulesNode, "module");
+					var moduleNode = modulesNode.AddElement("module");
 					SaveModule(module, moduleNode);
 				}
 			}
 
 			if (!container.Dependencies.Any())
 			{
-				pom.RemoveElement(startElement, "dependencies");
+				element.RemoveElement("dependencies");
 			}
 			else
 			{
-				var dependenciesNode = pom.SingleOrCreate(startElement, "dependencies");
-				pom.RemoveAllChildElements(dependenciesNode);
+				var dependenciesNode = element.SingleOrCreate("dependencies");
+				dependenciesNode.RemoveAllChildElements();
 				foreach (IDependency dependency in container.Dependencies)
 				{
-					var dependencyNode = pom.AddElement(dependenciesNode, "dependency");
-					SaveDependency(dependency, pom, dependencyNode);
+					var dependencyNode = dependenciesNode.AddElement("dependency");
+					SaveDependency(dependency, dependencyNode);
 				}
 			}
 
@@ -258,59 +255,81 @@ namespace Pustota.Maven.Serialization
 			//}
 		}
 
+		internal IProfile LoadProfile(PomElement element)
+		{
+			var profile = _dataFactory.CreateProfile();
+			profile.Id = element.ReadElementValueOrNull("id");
+			LoadBuildContainer(element, profile);
+			return profile;
+		}
+
+		internal void SaveProfile(IProfile profile, PomElement element)
+		{
+			if (string.IsNullOrEmpty(profile.Id))
+			{
+				element.RemoveElement("id");
+			}
+			else
+			{
+				element.SetElementValue("id", profile.Id);
+			}
+			SaveBuildContainer(profile, element);
+		}
+
 
 		internal void LoadProject(PomDocument pom, IProject project)
 		{
-			LoadProjectReference(pom, pom.RootElement, project);
-			LoadParentReference(pom, project);
+			var rootElement = pom.RootElement;
 
-			project.Packaging = pom.ReadElementValueOrNull("packaging");
-			project.Name = pom.ReadElementValueOrNull("name");
-			project.ModelVersion = pom.ReadElementValueOrNull("modelVersion");
+			LoadProjectReference(rootElement, project);
+			LoadParentReference(rootElement, project);
 
-			LoadBuildContainer(pom, pom.RootElement, project);
-			//_container.LoadFromElement(element);
+			project.Packaging = rootElement.ReadElementValueOrNull("packaging");
+			project.Name = rootElement.ReadElementValueOrNull("name");
+			project.ModelVersion = rootElement.ReadElementValueOrNull("modelVersion");
 
-			////load profiles
-			//Profiles = element.ReadElements("profiles", "profile")
-			//	.Select(e => _dataFactory.CreateProfile(e)).ToList();
+			LoadBuildContainer(rootElement, project);
+
+			project.Profiles = rootElement.ReadElements("profiles", "profile")
+				.Select(LoadProfile).ToList();
 		}
 
 		internal void SaveProject(IProject project, PomDocument pom)
 		{
-			// XElement root = element.RootElement;
+			var rootElement = pom.RootElement;
 
-			SaveProjectReference(project, pom, pom.RootElement);
-			SaveParentReference(project, pom);
+			SaveProjectReference(project, rootElement);
+			SaveParentReference(project, rootElement);
 
-			pom.SetElementValue("packaging", project.Packaging);
-			pom.SetElementValue("name", project.Name);
-			pom.SetElementValue("modelVersion", project.ModelVersion);
+			rootElement.SetElementValue("packaging", project.Packaging);
+			rootElement.SetElementValue("name", project.Name);
+			rootElement.SetElementValue("modelVersion", project.ModelVersion);
 
-			SaveBuildContainer(project, pom, pom.RootElement);
+			SaveBuildContainer(project, rootElement);
 
-			////writing profiles
-			//var profileNode = pom.SingleOrCreate("profiles");
-			//if (!Profiles.Any())
-			//{
-			//	profileNode.Remove();
-			//}
-			//else
-			//{
-			//	HashSet<PomXmlElement> usedElements = new HashSet<PomXmlElement>();
-			//	foreach (Profile prof in Profiles)
-			//	{
-			//		var profElement = profileNode.Elements.FirstOrDefault(e => e.ReadElementValue("id") == prof.Id) ??
-			//								profileNode.CreateElement("profile");
+			if (!project.Profiles.Any())
+			{
+				rootElement.RemoveElement("profiles");
+			}
+			else
+			{
+				var profileNode = rootElement.SingleOrCreate("profiles");
 
-			//		usedElements.Add(profElement);
-			//		prof.SaveToElement(profElement);
-			//	}
+				HashSet<PomElement> usedElements = new HashSet<PomElement>(new PomElement.Comparer());
+				foreach (var profile in project.Profiles)
+				{
+					var profElement = profileNode
+						.Elements()
+						.FirstOrDefault(e => e.ReadElementValueOrNull("id") == profile.Id) ?? profileNode.AddElement("profile");
 
-			//	//delete all profiles elements which are not in the Profiles array
-			//	foreach (var profElem in profileNode.Elements.Where(e => !usedElements.Contains(e)))
-			//		profElem.Remove();
-			//}
+					usedElements.Add(profElement);
+					SaveProfile(profile, profElement);
+				}
+
+				//delete all profiles elements which are not in the Profiles array
+				foreach (var profElem in profileNode.Elements().Where(e => !usedElements.Contains(e)))
+					profElem.Remove();
+			}
 		}
 
 	}

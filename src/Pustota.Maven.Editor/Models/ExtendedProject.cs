@@ -13,13 +13,10 @@ namespace Pustota.Maven.Editor.Models
 		public string FullPath { get; set; } // REVIEW: remove to ProjectNode
 		public bool Changed { get; set; }
 
-		private readonly DataFactory _dataFactory = new DataFactory(); // TODO: DI
-
 		public string Title
 		{
 			get { return base.ToString(); }
 		}
-
 
 		public string Text
 		{
@@ -40,22 +37,6 @@ namespace Pustota.Maven.Editor.Models
 			}
 		}
 
-		public static bool TryParse(string text, out PomXmlDocument pomXmlDocument)
-		{
-			try
-			{
-				var xmlDoc = XDocument.Parse(text);
-				pomXmlDocument = new PomXmlDocument(xmlDoc, DefaultNamespaceName);
-				return true;
-			}
-			catch (XmlException)
-			{
-				pomXmlDocument = null;
-				return false;
-			}
-		}
-
-
 		public PomXmlDocument GetPomXml()
 		{
 			UpdateXmlFromData(_pom);
@@ -67,8 +48,6 @@ namespace Pustota.Maven.Editor.Models
 			_pom = pom;
 			UpdateXmlFromData(_pom);
 		}
-
-		
 
 		internal void LoadDataFromXml(PomXmlDocument pom)
 		{
@@ -82,25 +61,6 @@ namespace Pustota.Maven.Editor.Models
 			LoadFromElement(root);
 
 			Changed = false;
-		}
-
-		protected internal override void LoadFromElement(PomXmlElement element)
-		{
-			base.LoadFromElement(element);
-
-			Packaging = element.ReadElementValue("packaging");
-			Name = element.ReadElementValue("name");
-			ModelVersion = element.ReadElementValue("modelVersion");
-
-			//read parent
-			var parentNode = element.ReadElement("parent");
-			Parent = parentNode == null ? null : _dataFactory.CreateParentReference(parentNode);
-
-			_container.LoadFromElement(element);
-
-			//load profiles
-			Profiles = element.ReadElements("profiles", "profile")
-				.Select(e => _dataFactory.CreateProfile(e)).ToList();
 		}
 	}
 }

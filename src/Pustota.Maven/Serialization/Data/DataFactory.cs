@@ -6,7 +6,7 @@ namespace Pustota.Maven.Serialization.Data
 {
 	internal class DataFactory : IDataFactory
 	{
-		public IPlugin CreatePlugin(PomXmlElement element)
+		public IPlugin CreatePlugin()
 		{
 			//var plugin = new Plugin();
 			//plugin.LoadFromElement(element);
@@ -14,12 +14,9 @@ namespace Pustota.Maven.Serialization.Data
 			throw new NotImplementedException();
 		}
 
-		public IProfile CreateProfile(PomXmlElement element)
+		public IProfile CreateProfile()
 		{
-			//var profile = new Profile();
-			//profile.LoadFromElement(element);
-			//return profile;
-			throw new NotImplementedException();
+			return new Profile();
 		}
 
 		public IProject CreateProject()
