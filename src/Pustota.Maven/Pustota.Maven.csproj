@@ -80,7 +80,6 @@
     <Compile Include="IProjectsRepository.cs" />
     <Compile Include="Models\IProperty.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Serialization\PomXmlDocument.cs" />
     <Compile Include="Serialization\ProjectTreeLoader.cs" />
     <Compile Include="Solution.cs" />
     <Compile Include="SolutionManagement.cs" />

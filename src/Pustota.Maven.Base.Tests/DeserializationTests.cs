@@ -4,7 +4,6 @@ using System.Linq;
 using System.Xml.Linq;
 using Moq;
 using NUnit.Framework;
-using Pustota.Maven.Models;
 using Pustota.Maven.Serialization;
 using Pustota.Maven.Serialization.Data;
 using Pustota.Maven.System;
@@ -481,8 +480,7 @@ namespace Pustota.Maven.Base.Tests
 		{
 			var project = new Project();
 			var plugin = new Plugin();
-			project.EnableBuild();
-			project.Build.Plugins.Add(plugin);
+			project.Plugins.Add(plugin);
 			string serialized = _serializer.Serialize(project);
 
 			var projectElement = XDocument.Parse(serialized).Element(E("project"));
@@ -490,100 +488,99 @@ namespace Pustota.Maven.Base.Tests
 			Assert.IsNotNull(buildElement);
 		}
 
-//		[Test]
-//		public void PluginEmptySerialization()
-//		{
-//			var project = new Project();
-//			var plugin = new Plugin
-//			{
-//			};
-//			project.EnableBuild();
-//			project.Build.Plugins.Add(plugin);
-//			string serialized = _serializer.Serialize(project);
+		[Test]
+		public void PluginEmptySerialization()
+		{
+			var project = new Project();
+			var plugin = new Plugin
+			{
+			};
+			project.Plugins.Add(plugin);
+			string serialized = _serializer.Serialize(project);
 
-//			var document = XDocument.Parse(serialized);
-//			var pluginElement = document.Descendants(E("plugin")).Single();
-//			Assert.IsNotNull(pluginElement);
-//			Assert.That(pluginElement.HasElements, Is.False);
-//			Assert.That(pluginElement.HasAttributes, Is.False);
-//		}
+			var document = XDocument.Parse(serialized);
+			var pluginElement = document.Descendants(E("plugin")).Single();
+			Assert.IsNotNull(pluginElement);
+			Assert.That(pluginElement.HasElements, Is.False);
+			Assert.That(pluginElement.HasAttributes, Is.False);
+		}
 
-//		[Test]
-//		public void PluginSerializationTest()
-//		{
-//			var project = new Project();
-//			var plugin = new Plugin
-//			{
-//				ArtifactId = GetRandomString(),
-//				GroupId = GetRandomString(),
-//				Version = GetRandomString(),
+		[Test]
+		public void PluginSerializationTest()
+		{
+			var project = new Project();
+			var plugin = new Plugin
+			{
+				ArtifactId = GetRandomString(),
+				GroupId = GetRandomString(),
+				Version = GetRandomString(),
 //				Extensions = true,
 //				Inherited = "false"
-//			};
-//			project.EnableBuild();
-//			project.Build.Plugins.Add(plugin);
+			};
+			project.Plugins.Add(plugin);
 
-//			string serialized = _serializer.Serialize(project);
+			string serialized = _serializer.Serialize(project);
 
-//			var document = XDocument.Parse(serialized);
-//			var pluginElement = document.Descendants(E("plugin")).Single();
-//			Assert.IsNotNull(pluginElement);
-//			Assert.That(pluginElement.Element(E("artifactId")).Value, Is.EqualTo(plugin.ArtifactId));
+			var document = XDocument.Parse(serialized);
+			var pluginElement = document.Descendants(E("plugin")).Single();
+			Assert.IsNotNull(pluginElement);
+			Assert.That(pluginElement.Element(E("artifactId")).Value, Is.EqualTo(plugin.ArtifactId));
 //			Assert.That(pluginElement.Element(E("extensions")).Value, Is.EqualTo("true"));
 //			Assert.That(pluginElement.Element(E("inherited")).Value, Is.EqualTo("false"));
-//		}
+		}
 
-//		const string PluginWithExecution =
-//@"<?xml version=""1.0"" encoding=""us-ascii""?>
-//<project xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"" xmlns=""http://maven.apache.org/POM/4.0.0"">
-//	<modules />
-//	<dependencies />
-//	<profiles />
-//	<build>
-//		<plugins>
-//			<plugin>
-//				<artifactId>1m2xa54bkrv</artifactId>
-//				<groupId>ghyyejpkw0i</groupId>
-//				<version>41zyt5fjrjl</version>
-//				<executions>...</executions>
-//				<configuration>...</configuration>
-//				<dependencies>
-//					<dependency>
-//						<artifactId>1m2xa54bkrv</artifactId>
-//						<groupId>ghyyejpkw0i</groupId>
-//						<version>41zyt5fjrjl</version>
-//					</dependency>
-//				</dependencies>
-//			</plugin>
-//		</plugins>
-//	</build>
-//</project>";
+		const string PluginWithExecution =
+@"<?xml version=""1.0"" encoding=""us-ascii""?>
+<project xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"" xmlns=""http://maven.apache.org/POM/4.0.0"">
+	<modules />
+	<dependencies />
+	<profiles />
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>1m2xa54bkrv</artifactId>
+				<groupId>ghyyejpkw0i</groupId>
+				<version>41zyt5fjrjl</version>
+				<executions>...</executions>
+				<configuration>...</configuration>
+				<dependencies>
+					<dependency>
+						<artifactId>1m2xa54bkrv</artifactId>
+						<groupId>ghyyejpkw0i</groupId>
+						<version>41zyt5fjrjl</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+</project>";
 
-//		[Test]
-//		public void PluginExecutionDeserialization()
-//		{
-//			var deserialized = _serializer.Deserialize(PluginWithExecution);
+		[Test, Ignore]
+		public void PluginExecutionDeserialization()
+		{
+			var deserialized = _serializer.Deserialize(PluginWithExecution);
 
-//			Assert.That(deserialized.Build.Plugins.Single().Executions, Is.Not.Null);
-//			Assert.That(deserialized.Build.Plugins.Single().Configuration, Is.Not.Null);
-//			Assert.That(deserialized.Build.Plugins.Single().Dependencies, Is.Not.Null);
-//		}
+			throw new NotImplementedException();
 
-//		[Test]
-//		public void PluginManagementSerializationTest()
-//		{
-//			var project = new Project();
-//			var plugin = new Plugin();
-//			project.EnableBuild();
-//			project.Build.PluginManagement.Plugins.Add(plugin);
+			//Assert.That(deserialized.Plugins.Single().Executions, Is.Not.Null);
+			//Assert.That(deserialized.Plugins.Single().Configuration, Is.Not.Null);
+			//Assert.That(deserialized.Plugins.Single().Dependencies, Is.Not.Null);
+		}
 
-//			string serialized = _serializer.Serialize(project);
+		[Test]
+		public void PluginManagementSerializationTest()
+		{
+			var project = new Project();
+			var plugin = new Plugin();
+			project.PluginManagement.Add(plugin);
 
-//			var document = XDocument.Parse(serialized);
-//			var pluginManagementElement = document.Descendants(E("pluginManagement")).Single();
-//			var pluginElement = pluginManagementElement.Elements().SingleOrDefault();
+			string serialized = _serializer.Serialize(project);
 
-//			Assert.That(pluginElement, Is.Not.Null);
-//		}
+			var document = XDocument.Parse(serialized);
+			var pluginManagementElement = document.Descendants(E("pluginManagement")).Single();
+			var pluginElement = pluginManagementElement.Elements().SingleOrDefault();
+
+			Assert.That(pluginElement, Is.Not.Null);
+		}
 	}
 }

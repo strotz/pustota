@@ -151,7 +151,7 @@ namespace Pustota.Maven.Serialization
 			return plugin;
 		}
 
-		protected void SaveToElement(IPlugin plugin, PomElement element)
+		protected void SavePlugin(IPlugin plugin, PomElement element)
 		{
 			SaveProjectReference(plugin, element);
 
@@ -234,42 +234,43 @@ namespace Pustota.Maven.Serialization
 				}
 			}
 
-			if (!Plugins.Any() && !PluginManagement.Any()) // empty build section 
+			if (!container.Plugins.Any() && !container.PluginManagement.Any()) // empty build section 
 			{
-				buildNode.Remove();
+				element.RemoveElement("build");
 			}
 			else
 			{
-				var buildNode = element.ReadOrCreateElement("build");
-				var pluginsNode = buildNode.ReadOrCreateElement("plugins");
-				if (!Plugins.Any())
+				var buildNode = element.SingleOrCreate("build");
+				if (!container.Plugins.Any())
 				{
-					pluginsNode.Remove();
+					buildNode.RemoveElement("plugins");
 				}
 				else
 				{
+					var pluginsNode = buildNode.SingleOrCreate("plugins");
 					pluginsNode.RemoveAllChildElements();
-					foreach (Plugin plugin in Plugins)
+					foreach (var plugin in container.Plugins)
 					{
-						var pluginNode = pluginsNode.CreateElement("plugin");
-						plugin.SaveToElement(pluginNode);
+						var pluginNode = pluginsNode.AddElement("plugin");
+						SavePlugin(plugin, pluginNode);
 					}
 				}
 
-				var pluginManagementNode = buildNode.ReadOrCreateElement("pluginManagement");
-				var pluginManagementPluginsNode = pluginManagementNode.ReadOrCreateElement("plugins");
 
-				if (!PluginManagement.Any())
+				if (!container.PluginManagement.Any())
 				{
-					pluginManagementNode.Remove();
+					buildNode.RemoveElement("pluginManagement");
 				}
 				else
 				{
+					var pluginManagementNode = buildNode.SingleOrCreate("pluginManagement");
+					var pluginManagementPluginsNode = pluginManagementNode.SingleOrCreate("plugins");
+
 					pluginManagementPluginsNode.RemoveAllChildElements();
-					foreach (Plugin plugin in PluginManagement)
+					foreach (var plugin in container.PluginManagement)
 					{
-						var pluginNode = pluginManagementPluginsNode.CreateElement("plugin");
-						plugin.SaveToElement(pluginNode);
+						var pluginNode = pluginManagementPluginsNode.AddElement("plugin");
+						SavePlugin(plugin, pluginNode);
 					}
 				}
 			}
