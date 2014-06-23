@@ -8,10 +8,7 @@ namespace Pustota.Maven.Serialization.Data
 	{
 		public IPlugin CreatePlugin()
 		{
-			//var plugin = new Plugin();
-			//plugin.LoadFromElement(element);
-			//return plugin;
-			throw new NotImplementedException();
+			return new Plugin();
 		}
 
 		public IProfile CreateProfile()

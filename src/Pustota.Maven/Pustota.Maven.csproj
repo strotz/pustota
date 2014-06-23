@@ -43,6 +43,7 @@
     <Compile Include="Serialization\Data\Dependency.cs" />
     <Compile Include="Serialization\Data\Module.cs" />
     <Compile Include="Serialization\Data\ParentReference.cs" />
+    <Compile Include="Serialization\Data\Plugin.cs" />
     <Compile Include="Serialization\Data\Profile.cs" />
     <Compile Include="Serialization\Data\Property.cs" />
     <Compile Include="Serialization\IProjectTreeLoader.cs" />

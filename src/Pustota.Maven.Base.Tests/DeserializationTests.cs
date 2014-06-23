@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using Moq;
@@ -420,72 +421,74 @@ namespace Pustota.Maven.Base.Tests
 			Assert.That(profile, Is.Not.Null);
 		}
 
-//		const string ProjectWithProfileXml =
-//@"<?xml version=""1.0"" encoding=""us-ascii""?>
-//<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
-//<profiles>
-//<profile>
-//<id></id>
-//<activation>
-//        <activeByDefault>false</activeByDefault>
-//        <jdk>1.5</jdk>
-//        <os>
-//          <name>Windows XP</name>
-//          <family>Windows</family>
-//          <arch>x86</arch>
-//          <version>5.1.2600</version>
-//        </os>
-//        <property>
-//          <name>sparrow-type</name>
-//          <value>African</value>
-//        </property>
-//        <file>
-//          <exists>${basedir}/file2.properties</exists>
-//          <missing>${basedir}/file1.properties</missing>
-//        </file>
-//      </activation>
-//</profile>
-//</profiles>
-//</project>";
+		const string ProjectWithProfileXml =
+@"<?xml version=""1.0"" encoding=""us-ascii""?>
+<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
+	<profiles>
+		<profile>
+			<id></id>
+				<activation>
+					<activeByDefault>false</activeByDefault>
+		  <jdk>1.5</jdk>
+		  <os>
+			 <name>Windows XP</name>
+			 <family>Windows</family>
+			 <arch>x86</arch>
+			 <version>5.1.2600</version>
+		  </os>
+		  <property>
+			 <name>sparrow-type</name>
+			 <value>African</value>
+		  </property>
+		  <file>
+			 <exists>${basedir}/file2.properties</exists>
+			 <missing>${basedir}/file1.properties</missing>
+		  </file>
+		</activation>
+</profile>
+</profiles>
+</project>";
 
-//		[Test]
-//		public void ProfileActivationDeserialization()
-//		{
-//			var deserialized = _serializer.Deserialize(ProjectWithProfileXml);
-//			Assert.That(deserialized.Profiles.First().Activation, Is.Not.Null);
-//		}
+		[Test, Ignore]
+		public void ProfileActivationDeserialization()
+		{
+			var deserialized = _serializer.Deserialize(ProjectWithProfileXml);
 
-//		[Test]
-//		public void ProfileModulesDependeciesPropertiesTest()
-//		{
-//			var project = new Project();
-//			var profile = new Profile();
-//			profile.Modules.Add(new Module {Path = GetRandomString()});
-//			profile.Dependencies.Add(new Dependency {ArtifactId = GetRandomString()});
-//			profile.Properties.Items.Add(new Property() { Name = "a" + GetRandomString(), Value = GetRandomString() });
-//			project.Profiles.Add(profile);
-//			string serialized = _serializer.Serialize(project);
-//			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
-//			var profiles = projectElement.Element(GetElementName("profiles"));
-//			var profileElement = profiles.Element(GetElementName("profile"));
-//			Assert.That(profileElement, Is.Not.Null);
-//			Assert.That(profileElement.Element(GetElementName("modules")).Element(GetElementName("module")).Value, 
-//				Is.EqualTo(profile.Modules.First().Path));
-//		}
+			throw new NotImplementedException();
+			//Assert.That(deserialized.Profiles.First().Activation, Is.Not.Null);
+		}
 
-//		[Test]
-//		public void BuildSerializationTest()
-//		{
-//			var project = new Project();
-//			var plugin = new Plugin();
-//			project.EnableBuild();
-//			project.Build.Plugins.Add(plugin);
-//			string serialized = _serializer.Serialize(project);
+		[Test]
+		public void ProfileModulesDependeciesPropertiesTest()
+		{
+			var project = new Project();
+			var profile = new Profile();
+			profile.Modules.Add(new Module { Path = GetRandomString() });
+			profile.Dependencies.Add(new Dependency { ArtifactId = GetRandomString() });
+			profile.Properties.Add(new Property() { Name = "a" + GetRandomString(), Value = GetRandomString() });
+			project.Profiles.Add(profile);
+			string serialized = _serializer.Serialize(project);
+			var projectElement = XDocument.Parse(serialized).Element(E("project"));
+			var profiles = projectElement.Element(E("profiles"));
+			var profileElement = profiles.Element(E("profile"));
+			Assert.That(profileElement, Is.Not.Null);
+			Assert.That(profileElement.Element(E("modules")).Element(E("module")).Value,
+				Is.EqualTo(profile.Modules.First().Path));
+		}
 
-//			var projectElement = XDocument.Parse(serialized).Element(GetElementName("project"));
-//			var buildElement = projectElement.Element(GetElementName("build"));
-//			Assert.IsNotNull(buildElement);
-//		}
+		[Test]
+		public void BuildSerializationTest()
+		{
+			var project = new Project();
+			var plugin = new Plugin();
+			project.EnableBuild();
+			project.Build.Plugins.Add(plugin);
+			string serialized = _serializer.Serialize(project);
+
+			var projectElement = XDocument.Parse(serialized).Element(E("project"));
+			var buildElement = projectElement.Element(E("build"));
+			Assert.IsNotNull(buildElement);
+		}
 
 //		[Test]
 //		public void PluginEmptySerialization()

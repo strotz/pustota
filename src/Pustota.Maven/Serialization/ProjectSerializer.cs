@@ -141,6 +141,28 @@ namespace Pustota.Maven.Serialization
 		}
 
 
+		internal IPlugin LoadPlugin(PomElement element)
+		{
+			var plugin = _dataFactory.CreatePlugin();
+			LoadProjectReference(element, plugin);
+
+			//plugin.Executions = element.SingleOrNull("executions");
+			//plugin.Configuration = element.SingleOrNull("configuration");
+			return plugin;
+		}
+
+		protected void SaveToElement(IPlugin plugin, PomElement element)
+		{
+			SaveProjectReference(plugin, element);
+
+			//if (plugin.Executions != null)
+			//	element.AddElement(Executions);
+
+			//if (plugin.Configuration != null)
+			//	element.AddElement(Configuration);
+		}
+
+
 		internal void LoadBuildContainer(PomElement element, IBuildContainer container)
 		{
 			var propertiesElement = element.SingleOrNull("properties");
@@ -159,13 +181,11 @@ namespace Pustota.Maven.Serialization
 				.Select(LoadDependency)
 				.ToList();
 
-			//// load plugins 
-			//Plugins = element.ReadElements("build", "plugins", "plugin")
-			//	.Select(e => _dataFactory.CreatePlugin(e)).ToList();
+			container.Plugins = element.ReadElements("build", "plugins", "plugin")
+				.Select(LoadPlugin).ToList();
 
-			//// load pluginManagement 
-			//PluginManagement = element.ReadElements("build", "pluginManagement", "plugins", "plugin")
-			//	.Select(e => _dataFactory.CreatePlugin(e)).ToList();
+			container.PluginManagement = element.ReadElements("build", "pluginManagement", "plugins", "plugin")
+				.Select(LoadPlugin).ToList();
 		}
 
 		internal void SaveBuildContainer(IBuildContainer container, PomElement element)
@@ -214,45 +234,45 @@ namespace Pustota.Maven.Serialization
 				}
 			}
 
-			//var buildNode = element.ReadOrCreateElement("build");
-			//if (!Plugins.Any() && !PluginManagement.Any()) // empty build section 
-			//{
-			//	buildNode.Remove();
-			//}
-			//else
-			//{
-			//	var pluginsNode = buildNode.ReadOrCreateElement("plugins");
-			//	if (!Plugins.Any())
-			//	{
-			//		pluginsNode.Remove();
-			//	}
-			//	else
-			//	{
-			//		pluginsNode.RemoveAllChildElements();
-			//		foreach (Plugin plugin in Plugins)
-			//		{
-			//			var pluginNode = pluginsNode.CreateElement("plugin");
-			//			plugin.SaveToElement(pluginNode);
-			//		}
-			//	}
+			if (!Plugins.Any() && !PluginManagement.Any()) // empty build section 
+			{
+				buildNode.Remove();
+			}
+			else
+			{
+				var buildNode = element.ReadOrCreateElement("build");
+				var pluginsNode = buildNode.ReadOrCreateElement("plugins");
+				if (!Plugins.Any())
+				{
+					pluginsNode.Remove();
+				}
+				else
+				{
+					pluginsNode.RemoveAllChildElements();
+					foreach (Plugin plugin in Plugins)
+					{
+						var pluginNode = pluginsNode.CreateElement("plugin");
+						plugin.SaveToElement(pluginNode);
+					}
+				}
 
-			//	var pluginManagementNode = buildNode.ReadOrCreateElement("pluginManagement");
-			//	var pluginManagementPluginsNode = pluginManagementNode.ReadOrCreateElement("plugins");
+				var pluginManagementNode = buildNode.ReadOrCreateElement("pluginManagement");
+				var pluginManagementPluginsNode = pluginManagementNode.ReadOrCreateElement("plugins");
 
-			//	if (!PluginManagement.Any())
-			//	{
-			//		pluginManagementNode.Remove();
-			//	}
-			//	else
-			//	{
-			//		pluginManagementPluginsNode.RemoveAllChildElements();
-			//		foreach (Plugin plugin in PluginManagement)
-			//		{
-			//			var pluginNode = pluginManagementPluginsNode.CreateElement("plugin");
-			//			plugin.SaveToElement(pluginNode);
-			//		}
-			//	}
-			//}
+				if (!PluginManagement.Any())
+				{
+					pluginManagementNode.Remove();
+				}
+				else
+				{
+					pluginManagementPluginsNode.RemoveAllChildElements();
+					foreach (Plugin plugin in PluginManagement)
+					{
+						var pluginNode = pluginManagementPluginsNode.CreateElement("plugin");
+						plugin.SaveToElement(pluginNode);
+					}
+				}
+			}
 		}
 
 		internal IProfile LoadProfile(PomElement element)

@@ -59,7 +59,6 @@
     </Compile>
     <Compile Include="Externals\ExternalModulesRepository.cs" />
     <Compile Include="Models\ExtendedProject.cs" />
-    <Compile Include="Models\Plugin.cs" />
     <Compile Include="Models\ProjectReferenceOperations.cs" />
     <Compile Include="Models\ResolvedProjectData.cs" />
     <Compile Include="Models\VersionOperations.cs" />
