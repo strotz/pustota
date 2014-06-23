@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Xml.Linq;
 using Pustota.Maven.Models;
 
 namespace Pustota.Maven.Serialization.Data

@@ -2,16 +2,19 @@
 
 namespace Pustota.Maven.Editor.PomXml
 {
-	internal class IgnoredValidationsDocument : XmlDocumentBase
+	internal class IgnoredValidationsDocument
 	{
+		private XDocument _document;
+
 		internal IgnoredValidationsDocument()
-			: base(new XDocument(new XElement("modules")))
 		{
+			_document = new XDocument(
+				new XElement("modules"));	
 		}
 
 		public IgnoredValidationsDocument(string path)
-			: base(XDocument.Load(path))
 		{
+			_document = XDocument.Load(path);
 		}
 	}
 }

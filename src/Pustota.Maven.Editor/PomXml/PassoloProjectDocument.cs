@@ -3,11 +3,13 @@
 namespace Pustota.Maven.Editor.PomXml
 {
 	// TODO: vender customization
-	internal class PassoloProjectDocument : XmlDocumentBase
+	internal class PassoloProjectDocument
 	{
-		internal PassoloProjectDocument() : 
-			base(CreatePassoloDocument())
+		private XDocument _document;
+
+		internal PassoloProjectDocument() 
 		{
+			_document = CreatePassoloDocument();
 		}
 
 		private static XDocument CreatePassoloDocument()

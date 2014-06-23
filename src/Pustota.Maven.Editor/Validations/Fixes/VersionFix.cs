@@ -1,14 +1,15 @@
 ﻿using Pustota.Maven.Editor.Models;
+using Pustota.Maven.Models;
 
 namespace Pustota.Maven.Editor.Validations.Fixes
 {
 	internal class VersionFix : Fix
 	{
-		private readonly Project _project;
+		private readonly IProject _project;
 		private readonly IProjectReference _reference;
 		private readonly string _version;
 
-		public VersionFix(Project project, IProjectReference reference, string version)
+		public VersionFix(IProject project, IProjectReference reference, string version)
 		{
 			_project = project;
 			_reference = reference;

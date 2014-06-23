@@ -2,16 +2,19 @@
 
 namespace Pustota.Maven.Editor.PomXml
 {
-	internal class ExternalModulesDocument : XmlDocumentBase
+	internal class ExternalModulesDocument
 	{
-		internal ExternalModulesDocument() :
-			base(new XDocument(new XElement("modules")))
+		private XDocument _document;
+
+		internal ExternalModulesDocument()
 		{
+			_document = new XDocument(
+				new XElement("modules"));
 		}
 
 		public ExternalModulesDocument(string path)
-			: base(XDocument.Load(path))
 		{
+			_document = XDocument.Load(path);
 		}
 	}
 }

@@ -1,6 +1,6 @@
 ﻿namespace Pustota.Maven
 {
-	internal interface IProjectsRepository
+	public interface IProjectsRepository
 	{
 	//	IList<ProjectNode> AllProjectNodes { get; }
 

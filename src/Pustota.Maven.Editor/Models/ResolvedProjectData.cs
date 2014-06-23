@@ -4,12 +4,12 @@ namespace Pustota.Maven.Editor.Models
 {
 	internal class ResolvedProjectData : IProjectReference
 	{
-		internal Project Project { get; private set; }
+		internal IProject Project { get; private set; }
 
 		private string _resolvedGroupId;
 		private string _resolvedVersion;
 
-		internal ResolvedProjectData(Project project)
+		internal ResolvedProjectData(IProject project)
 		{
 			Project = project;
 

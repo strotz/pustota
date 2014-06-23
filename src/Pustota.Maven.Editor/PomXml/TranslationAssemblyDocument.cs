@@ -2,12 +2,14 @@ using System.Xml.Linq;
 
 namespace Pustota.Maven.Editor.PomXml
 {
-	// TODO: vender customization
-	internal class TranslationAssemblyDocument : XmlDocumentBase
+	// TODO: vendor customization
+	internal class TranslationAssemblyDocument
 	{
-		internal TranslationAssemblyDocument() :
-			base(CreateTranslationAssemblyDocument())
+		private XDocument _document;
+
+		internal TranslationAssemblyDocument()
 		{
+			_document = CreateTranslationAssemblyDocument();
 		}
 
 		private static XDocument CreateTranslationAssemblyDocument()
