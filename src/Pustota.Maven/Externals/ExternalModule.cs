@@ -1,14 +1,12 @@
 ﻿using System.ComponentModel;
-using Pustota.Maven.Editor.Models;
-using Pustota.Maven.Editor.PomXml;
-using Pustota.Maven.Editor.Validations;
 using Pustota.Maven.Models;
+using Pustota.Maven.Serialization.Data;
 
-namespace Pustota.Maven.Editor.Externals
+namespace Pustota.Maven.Externals
 {
 	class ExternalModule : 
-		ProjectReference,
-		IFixable
+		ProjectReference
+		// IFixable
 	{
 		public string FullPath { get; private set; }
 
@@ -52,11 +50,11 @@ namespace Pustota.Maven.Editor.Externals
 			return Title;
 		}
 
-		public void SaveTo(PomXmlElement externalModuleNode)
-		{
-			externalModuleNode.SetElementValue("artifactId", ArtifactId);
-			externalModuleNode.SetElementValue("groupId", GroupId);
-			externalModuleNode.SetElementValue("version", Version);
-		}
+		//public void SaveTo(PomXmlElement externalModuleNode)
+		//{
+		//	externalModuleNode.SetElementValue("artifactId", ArtifactId);
+		//	externalModuleNode.SetElementValue("groupId", GroupId);
+		//	externalModuleNode.SetElementValue("version", Version);
+		//}
 	}
 }

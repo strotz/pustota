@@ -2,10 +2,6 @@
 {
 	public static class ProjectReferenceExtensions
 	{
-		public static bool HasSpecificVersion(this IProjectReference reference)
-		{
-			return !string.IsNullOrEmpty(reference.Version);
-		}
 
 		public static string GetProjectKey(this IProjectReference reference)
 		{

@@ -2,7 +2,7 @@
 
 namespace Pustota.Maven
 {
-	internal interface ISolution // REVIEW: has all
+	public interface ISolution // REVIEW: has all
 	{
 		// REVIEW: support many RepositoryEntryPoint
 

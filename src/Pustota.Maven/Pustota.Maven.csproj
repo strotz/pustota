@@ -39,6 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Externals\ExternalModule.cs" />
+    <Compile Include="Externals\ExternalModules.cs" />
+    <Compile Include="Externals\ExternalModulesDocument.cs" />
+    <Compile Include="Externals\ExternalModulesRepository.cs" />
     <Compile Include="ISolution.cs" />
     <Compile Include="Serialization\Data\Dependency.cs" />
     <Compile Include="Serialization\Data\Module.cs" />
@@ -83,6 +87,7 @@
     <Compile Include="Serialization\ProjectTreeLoader.cs" />
     <Compile Include="Solution.cs" />
     <Compile Include="SolutionManagement.cs" />
+    <Compile Include="VersionOperations.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

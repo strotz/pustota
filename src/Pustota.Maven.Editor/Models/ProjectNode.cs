@@ -14,7 +14,7 @@ namespace Pustota.Maven.Editor.Models
 		private readonly List<string> _modulesPathList;
 		private string _parentPath;
 
-		internal ProjectNode(string fullPath, Project project) :
+		internal ProjectNode(string fullPath, IProject project) :
 			base(project)
 		{
 			FullPath = Path.GetFullPath(fullPath);

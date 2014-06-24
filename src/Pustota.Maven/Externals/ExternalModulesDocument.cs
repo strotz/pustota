@@ -1,6 +1,6 @@
 ﻿using System.Xml.Linq;
 
-namespace Pustota.Maven.Editor.PomXml
+namespace Pustota.Maven.Externals
 {
 	internal class ExternalModulesDocument
 	{

@@ -1,6 +1,9 @@
-namespace Pustota.Maven.Editor.Models
+using Pustota.Maven.Models;
+
+namespace Pustota.Maven
 {
-	internal static class VersionOperations
+	// REVIEW: to the IProjectReference extension
+	public static class VersionOperations
 	{
 		private const string SnapshotPosfix = "-SNAPSHOT";
 		public const string DefaultVersion = "1.0.0";
@@ -10,9 +13,14 @@ namespace Pustota.Maven.Editor.Models
 			return version != null && version.ToUpper().EndsWith(SnapshotPosfix);
 		}
 
+		public static bool HasSpecificVersion(this IProjectReference reference)
+		{
+			return !string.IsNullOrEmpty(reference.Version);
+		}
+
 		public static bool IsSnapshot(this IProjectReference reference)
 		{
-			return reference.HasSpecificVersion && reference.Version.ToUpper().EndsWith(SnapshotPosfix);
+			return reference.HasSpecificVersion() && reference.Version.ToUpper().EndsWith(SnapshotPosfix);
 		}
 
 		public static string ToSnapshot(this string version)

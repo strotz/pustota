@@ -25,13 +25,13 @@ namespace Pustota.Maven.Editor.Models
 				}
 			}
 
-			if (project.HasSpecificVersion)
+			if (project.HasSpecificVersion())
 			{
 				_resolvedVersion = project.Version;
 			}
 			else
 			{
-				if (project.Parent != null && project.Parent.HasSpecificVersion)
+				if (project.Parent != null && project.Parent.HasSpecificVersion())
 				{
 					_resolvedVersion = project.Parent.Version; // inherit from parent reference 
 				}

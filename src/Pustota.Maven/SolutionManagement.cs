@@ -1,6 +1,6 @@
 ﻿namespace Pustota.Maven
 {
-	internal class SolutionManagement
+	public class SolutionManagement
 	{
 		internal ISolution OpenSolution(string fileOrFolderName)
 		{

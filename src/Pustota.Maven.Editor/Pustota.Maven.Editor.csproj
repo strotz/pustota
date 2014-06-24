@@ -36,9 +36,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ICSharpCode.TextEditor">
-      <HintPath>..\3rdParty\ICSharpCode.TextEditor.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -61,8 +58,6 @@
     <Compile Include="Models\ExtendedProject.cs" />
     <Compile Include="Models\ProjectReferenceOperations.cs" />
     <Compile Include="Models\ResolvedProjectData.cs" />
-    <Compile Include="Models\VersionOperations.cs" />
-    <Compile Include="PomXml\ExternalModulesDocument.cs" />
     <Compile Include="PomXml\IgnoredValidationsDocument.cs" />
     <Compile Include="PomXml\PassoloProjectDocument.cs" />
     <Compile Include="PomXml\TranslationAssemblyDocument.cs" />
