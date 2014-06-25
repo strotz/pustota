@@ -6,12 +6,6 @@ using Pustota.Maven.Serialization.Data;
 
 namespace Pustota.Maven.Serialization
 {
-	public interface IProjectSerializer
-	{
-		IProject Deserialize(string content);
-		string Serialize(IProject project);
-	}
-
 	internal class ProjectSerializer : IProjectSerializer
 	{
 		private readonly IDataFactory _dataFactory;

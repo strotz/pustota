@@ -42,7 +42,9 @@
     <Compile Include="Externals\ExternalModule.cs" />
     <Compile Include="Externals\ExternalModules.cs" />
     <Compile Include="Externals\ExternalModulesDocument.cs" />
-    <Compile Include="Externals\ExternalModulesRepository.cs" />
+    <Compile Include="Externals\ExternalModulesLoader.cs" />
+    <Compile Include="Externals\IExternalModule.cs" />
+    <Compile Include="Externals\IExternalModulesRepository.cs" />
     <Compile Include="ISolution.cs" />
     <Compile Include="Serialization\Data\Dependency.cs" />
     <Compile Include="Serialization\Data\Module.cs" />
@@ -50,6 +52,7 @@
     <Compile Include="Serialization\Data\Plugin.cs" />
     <Compile Include="Serialization\Data\Profile.cs" />
     <Compile Include="Serialization\Data\Property.cs" />
+    <Compile Include="Serialization\IProjectSerializer.cs" />
     <Compile Include="Serialization\IProjectTreeLoader.cs" />
     <Compile Include="Models\AggregatedProject.cs" />
     <Compile Include="Models\IAggregatedProject.cs" />
