@@ -1,32 +1,37 @@
-﻿namespace Pustota.Maven
+﻿using System.Collections.Generic;
+using Pustota.Maven.Models;
+
+namespace Pustota.Maven
 {
 	public interface IProjectsRepository
 	{
-	//	IList<ProjectNode> AllProjectNodes { get; }
+		//	IList<ProjectNode> AllProjectNodes { get; }
 
-	//	IEnumerable<ProjectNode> GetRootProjects();
+		//	IEnumerable<ProjectNode> GetRootProjects();
 
-	//	IEnumerable<ProjectNode> GetProjectModules(ProjectNode project);
+		//	IEnumerable<ProjectNode> GetProjectModules(ProjectNode project);
 
-	//	IList<IProject> AllProjects { get; set; }
+		IEnumerable<IProject> AllProjects { get; }
 
-	//	bool Changed { get; }
+		//	IList<IProject> AllProjects { get; set; }
 
-	//	// REVIEW: need refactoring
-	//	void PropagateVersionToSubtree(ProjectNode original);
-	//	void PropagateVersionToAllUsages(ProjectNode original);
+		//	bool Changed { get; }
 
-	//	// REVIEW: remove and refactor usages
-	//	IProject FindFirstProject(IProjectReference projectReference);
+		//	// REVIEW: need refactoring
+		//	void PropagateVersionToSubtree(ProjectNode original);
+		//	void PropagateVersionToAllUsages(ProjectNode original);
 
-	//	void SaveChangedProjects();
+		//	// REVIEW: remove and refactor usages
+		//	IProject FindFirstProject(IProjectReference projectReference);
 
-	//	void LoadOneProject(string path);
-		
-	//	bool IsItUsed(IProjectReference projectReference);
+		//	void SaveChangedProjects();
 
-	//	bool ContainsProject(IProjectReference projectReference, bool strictVersion = false);
+		//	void LoadOneProject(string path);
 
-	//	IEnumerable<ProjectNode> SelectProjectNodes(IProjectReference projectReference, bool strictVersion = false);
+		//	bool IsItUsed(IProjectReference projectReference);
+
+		//	bool ContainsProject(IProjectReference projectReference, bool strictVersion = false);
+
+		//	IEnumerable<ProjectNode> SelectProjectNodes(IProjectReference projectReference, bool strictVersion = false);
 	}
 }

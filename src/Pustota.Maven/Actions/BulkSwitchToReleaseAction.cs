@@ -1,3 +1,6 @@
+using System.Linq;
+using Pustota.Maven.Models;
+
 namespace Pustota.Maven.Actions
 {
 	internal class BulkSwitchToReleaseAction
@@ -24,12 +27,12 @@ namespace Pustota.Maven.Actions
 
 			var selector = new DependencySelector(_projects, searchOptions);
 
-			foreach (var projectNode in _projects.AllProjectNodes.Where(pn => pn.IsSnapshot))
+			foreach (var project in _projects.AllProjects.Where(pn => pn.ReferenceOperations().IsSnapshot))
 			{
-				projectNode.SwitchToRelease(_postfix);
-				foreach (var dependentProject in selector.SelectUsages(projectNode))
+				project.ReferenceOperations().SwitchToRelease(_postfix);
+				foreach (var dependentProject in selector.SelectUsages(project))
 				{
-					dependentProject.PropagateVersionToUsages(projectNode.Project);
+					dependentProject.Operations().PropagateVersionToUsages(project);
 				}
 			}
 		}

@@ -84,7 +84,7 @@ namespace Pustota.Maven.Serialization
 
 				string baseDir = projectContainer.BaseDir;
 				var modules =
-					projectContainer.Project.Aggregated().AllModules
+					projectContainer.Project.Operations().AllModules
 						.Select(module => BuildAbsoluteModulePath(baseDir, module));
 
 				foreach (var modulePath in modules)

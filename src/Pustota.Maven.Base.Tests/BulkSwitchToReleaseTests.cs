@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Moq;
 using NUnit.Framework;
 using Pustota.Maven.Actions;
 
@@ -14,9 +15,10 @@ namespace Pustota.Maven.Base.Tests
 		[Test]
 		public void EmptyTest()
 		{
-			var action = new BulkSwitchToReleaseAction();
+			var repo = new Mock<IProjectsRepository>();
+			var action = new BulkSwitchToReleaseAction(repo.Object, "test");
 
-			throw	new NotImplementedException();
+			action.Execute();
 		}
 	}
 }

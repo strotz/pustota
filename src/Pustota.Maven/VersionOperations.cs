@@ -5,22 +5,12 @@ namespace Pustota.Maven
 	// REVIEW: to the IProjectReference extension
 	public static class VersionOperations
 	{
-		private const string SnapshotPosfix = "-SNAPSHOT";
+		public const string SnapshotPosfix = "-SNAPSHOT";
 		public const string DefaultVersion = "1.0.0";
 
 		public static bool IsSnapshot(this string version)
 		{
 			return version != null && version.ToUpper().EndsWith(SnapshotPosfix);
-		}
-
-		public static bool HasSpecificVersion(this IProjectReference reference)
-		{
-			return !string.IsNullOrEmpty(reference.Version);
-		}
-
-		public static bool IsSnapshot(this IProjectReference reference)
-		{
-			return reference.HasSpecificVersion() && reference.Version.ToUpper().EndsWith(SnapshotPosfix);
 		}
 
 		public static string ToSnapshot(this string version)

@@ -1,4 +1,8 @@
-﻿namespace Pustota.Maven
+﻿using System;
+using System.Collections.Generic;
+using Pustota.Maven.Models;
+
+namespace Pustota.Maven
 {
 	class ProjectsRepository : IProjectsRepository
 	{
@@ -7,6 +11,14 @@
 		internal ProjectsRepository(string fileOrFolderName)
 		{
 			_entryPoint = new RepositoryEntryPoint(fileOrFolderName); // TODO: DI
+		}
+
+		public IEnumerable<IProject> AllProjects
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
 		}
 	}
 }

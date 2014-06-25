@@ -57,8 +57,7 @@
     <Compile Include="Serialization\Data\Property.cs" />
     <Compile Include="Serialization\IProjectSerializer.cs" />
     <Compile Include="Serialization\IProjectTreeLoader.cs" />
-    <Compile Include="Models\AggregatedProject.cs" />
-    <Compile Include="Models\IAggregatedProject.cs" />
+    <Compile Include="Models\ProjectOperations.cs" />
     <Compile Include="Models\ICollected.cs" />
     <Compile Include="Models\ProjectExtensions.cs" />
     <Compile Include="Serialization\Data\BuildContainter.cs" />

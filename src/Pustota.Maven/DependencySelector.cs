@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Pustota.Maven.Models;
 
 namespace Pustota.Maven
 {
@@ -13,17 +14,18 @@ namespace Pustota.Maven
 			_creteria = creteria;
 		}
 
-		internal IEnumerable<ProjectNode> SelectUsages(ProjectNode inputNodes)
+		internal IEnumerable<IProject> SelectUsages(IProjectReference inputNodes)
 		{
 			return SelectUsages(new[] {inputNodes});
 		}
 
-		internal IEnumerable<ProjectNode> SelectUsages(IEnumerable<ProjectNode> inputNodes)
+		internal IEnumerable<IProject> SelectUsages(IEnumerable<IProjectReference> inputNodes)
 		{
-			var nodesToCheck = new Queue<ProjectNode>(inputNodes);
+			var nodesToCheck = new Queue<IProjectReference>(inputNodes);
 
-			HashSet<ProjectNode> checkedProjects = new HashSet<ProjectNode>();
-			HashSet<ProjectNode> result = new HashSet<ProjectNode>(); 
+			// REVIEW: do we need comparer 
+			HashSet<IProjectReference> checkedProjects = new HashSet<IProjectReference>();
+			HashSet<IProject> result = new HashSet<IProject>(); 
 
 			while (nodesToCheck.Count != 0)
 			{
@@ -34,9 +36,9 @@ namespace Pustota.Maven
 
 				checkedProjects.Add(nodeToFind);
 
-				foreach (ProjectNode node in _repository.AllProjectNodes)
+				foreach (IProject node in _repository.AllProjects)
 				{
-					if (node.UsesProjectAs(nodeToFind, _creteria))
+					if (node.Operations().UsesProjectAs(nodeToFind, _creteria))
 					{
 						if (!_creteria.OnlyDirectUsages)
 						{

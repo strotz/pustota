@@ -4,11 +4,11 @@ namespace Pustota.Maven.Models
 {
 	public static class ProjectExtensions
 	{
-		internal static Func<IProject, IAggregatedProject> AggregatedFactory = project => new AggregatedProject(project);
+		internal static Func<IProject, IProjectOperations> OperationsFactory = project => new ProjectOperations(project);
 
-		public static IAggregatedProject Aggregated(this IProject project)
+		public static IProjectOperations Operations(this IProject project)
 		{
-			return AggregatedFactory(project);
+			return OperationsFactory(project);
 		}
 	}
 }

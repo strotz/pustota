@@ -1,6 +1,6 @@
 namespace Pustota.Maven
 {
-	internal class SearchOptions
+	public class SearchOptions
 	{
 		internal bool LookForParents;
 		internal bool LookForDependent;
