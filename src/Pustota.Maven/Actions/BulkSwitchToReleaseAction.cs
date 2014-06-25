@@ -1,18 +1,12 @@
-using System.Diagnostics;
-using System.Linq;
-using Pustota.Maven.Editor.Models;
-
-namespace Pustota.Maven.Editor
+namespace Pustota.Maven.Actions
 {
 	internal class BulkSwitchToReleaseAction
 	{
-		private readonly ProjectViewMap _views;
 		private readonly IProjectsRepository _projects;
 		private readonly string _postfix;
 
-		public BulkSwitchToReleaseAction(ProjectViewMap views, IProjectsRepository projects, string postfix)
+		public BulkSwitchToReleaseAction(IProjectsRepository projects, string postfix)
 		{
-			_views = views;
 			_projects = projects;
 			_postfix = postfix;
 		}

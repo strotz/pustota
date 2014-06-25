@@ -44,9 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BulkSwitchToReleaseAction.cs" />
     <Compile Include="Actions\CascadeSwitchAction.cs" />
-    <Compile Include="Models\DependencySelector.cs" />
     <Compile Include="ErrorListColumnSorter.cs" />
     <Compile Include="Externals\ExternalReferenceManagerForm.cs">
       <SubType>Form</SubType>
@@ -54,14 +52,12 @@
     <Compile Include="Externals\ExternalReferenceManagerForm.Designer.cs">
       <DependentUpon>ExternalReferenceManagerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Externals\ExternalModulesRepository.cs" />
     <Compile Include="Models\ExtendedProject.cs" />
     <Compile Include="Models\ProjectReferenceOperations.cs" />
     <Compile Include="Models\ResolvedProjectData.cs" />
     <Compile Include="PomXml\IgnoredValidationsDocument.cs" />
     <Compile Include="PomXml\PassoloProjectDocument.cs" />
     <Compile Include="PomXml\TranslationAssemblyDocument.cs" />
-    <Compile Include="Models\SearchOptions.cs" />
     <Compile Include="Validations\FatalValidationException.cs" />
     <Compile Include="Models\ProjectNode.cs" />
     <Compile Include="Validations\Fixes\AddToExternalFix.cs" />
@@ -103,8 +99,6 @@
     </Compile>
     <Compile Include="Validations\DelegatedFix.cs" />
     <Compile Include="Validations\ErrorLevel.cs" />
-    <Compile Include="Externals\ExternalModule.cs" />
-    <Compile Include="Externals\ExternalModules.cs" />
     <Compile Include="Validations\Fix.cs" />
     <Compile Include="Models\ProjectsRepository.cs" />
     <Compile Include="Models\ProjectType.cs" />

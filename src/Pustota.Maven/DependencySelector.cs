@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Pustota.Maven.Editor.Models
+namespace Pustota.Maven
 {
 	internal class DependencySelector // TODO: TDD
 	{

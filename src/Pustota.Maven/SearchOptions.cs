@@ -1,11 +1,7 @@
-namespace Pustota.Maven.Editor.Models
+namespace Pustota.Maven
 {
 	internal class SearchOptions
 	{
-		internal SearchOptions()
-		{
-		}
-
 		internal bool LookForParents;
 		internal bool LookForDependent;
 		internal bool LookForPlugin;

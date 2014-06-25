@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\BulkSwitchToReleaseAction.cs" />
+    <Compile Include="DependencySelector.cs" />
     <Compile Include="Externals\ExternalModule.cs" />
     <Compile Include="Externals\ExternalModules.cs" />
     <Compile Include="Externals\ExternalModulesDocument.cs" />
@@ -46,6 +48,7 @@
     <Compile Include="Externals\IExternalModule.cs" />
     <Compile Include="Externals\IExternalModulesRepository.cs" />
     <Compile Include="ISolution.cs" />
+    <Compile Include="SearchOptions.cs" />
     <Compile Include="Serialization\Data\Dependency.cs" />
     <Compile Include="Serialization\Data\Module.cs" />
     <Compile Include="Serialization\Data\ParentReference.cs" />

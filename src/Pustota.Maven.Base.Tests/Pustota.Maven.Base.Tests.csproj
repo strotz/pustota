@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BulkSwitchToReleaseTests.cs" />
     <Compile Include="DeserializationTests.cs" />
     <Compile Include="ExternalModulesTests.cs" />
     <Compile Include="ProjectNodeTests.cs" />

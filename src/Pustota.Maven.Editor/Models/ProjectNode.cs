@@ -130,12 +130,6 @@ namespace Pustota.Maven.Editor.Models
 			}
 		}
 
-		public void SwitchToRelease(string postfix = null)
-		{
-			string version = VersionOperations.ResetVersion(Version);
-			Version = VersionOperations.AddPostfix(version, postfix); 
-		}
-
 		public bool UsesProjectAs(IProjectReference projectReference, SearchOptions creteria)
 		{
 			if (creteria.LookForParents && HasProjectAsParent(projectReference, creteria.StrictVersion))
