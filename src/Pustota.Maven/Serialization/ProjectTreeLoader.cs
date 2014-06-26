@@ -39,15 +39,15 @@ namespace Pustota.Maven.Serialization
 			}
 		}
 
-		private readonly IProjectLoader _loader;
+		private readonly IProjectReader _reader;
 		private readonly IFileSystemAccess _fileSystem;
 
 		public const string ProjectFilePattern = "pom.xml";
 
-		internal ProjectTreeLoader(IFileSystemAccess fileSystem, IProjectLoader loader)
+		internal ProjectTreeLoader(IFileSystemAccess fileSystem, IProjectReader reader)
 		{
 			_fileSystem = fileSystem;
-			_loader = loader;
+			_reader = reader;
 		}
 
 		public IEnumerable<IProject> LoadProjectTree(string fileOrFolderName)
@@ -66,7 +66,7 @@ namespace Pustota.Maven.Serialization
 		private IEnumerable<IProject> ScanFolder(string folderName)
 		{
 			string[] files = _fileSystem.GetFiles(folderName, ProjectFilePattern, SearchOption.AllDirectories);
-			return files.Select(fileName => _loader.LoadProject(fileName));
+			return files.Select(fileName => _reader.ReadProject(fileName));
 		}
 
 		private IEnumerable<IProject> ScanProject(string fileName)
@@ -103,7 +103,7 @@ namespace Pustota.Maven.Serialization
 
 		private ProjectContainer AddProject(LoadTreeState treeState, string path)
 		{
-			var project = _loader.LoadProject(path);
+			var project = _reader.ReadProject(path);
 			string baseDir = _fileSystem.GetDirectoryName(path);
 			var projectContainer = new ProjectContainer(baseDir, project);
 			treeState.ScannedProjects.Add(projectContainer);

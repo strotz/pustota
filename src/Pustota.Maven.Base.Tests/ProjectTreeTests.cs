@@ -1,5 +1,9 @@
-﻿using Moq;
+﻿using System.Linq;
+using Moq;
 using NUnit.Framework;
+using Pustota.Maven.Serialization;
+using Pustota.Maven.Serialization.Data;
+using Pustota.Maven.System;
 
 namespace Pustota.Maven.Base.Tests
 {
@@ -9,83 +13,91 @@ namespace Pustota.Maven.Base.Tests
 		//private string _topFolder;
 		//private string _secondFolder;
 
-		//private string _topProjectPath;
-		//private string _secondProjectPath;
+		private string _topProjectPath;
+		private string _secondProjectPath;
 
-		//private Project _topProject;
-		//private Project _secondProject;
+		private Project _topProject;
+		private Project _secondProject;
 
-		//private string _topProjectContent;
+		private string _topProjectContent;
 		//private string _secondProjectContent;
 
-		//private Mock<IFileSystemAccess> _fileIOMock;
-		//private string _secondFolderName;
+		private Mock<IFileSystemAccess> _fileIOMock;
 
+		private string _secondFolderName;
+
+		private Mock<IProjectSerializer> _serializerMock;
 		//private IProjectSerializer _serializer;
 
-		//[SetUp]
-		//public void SimpleTreeSetup()
-		//{
-		//	_topProject = new Project
-		//	{
-		//		GroupId = "a",
-		//		ArtifactId = "a"
-		//	};
-		//	_secondProject =
-		//		new Project
-		//		{
-		//			GroupId = "b",
-		//			ArtifactId = "b"
-		//		};
+		private Mock<IProjectReader> _readerMock;
 
-		//	_serializer = new ClassicProjectSerializer();
-		//	_topProjectContent = _serializer.Serialize(_topProject);
-		//	_secondProjectContent = _serializer.Serialize(_secondProject);
+		[SetUp]
+		public void SimpleTreeSetup()
+		{
+			_topProject = new Project
+			{
+				GroupId = "a",
+				ArtifactId = "a"
+			};
+			_secondProject = new Project
+				{
+					GroupId = "b",
+					ArtifactId = "b"
+				};
 
-		//	_topFolder = "top";
-		//	_secondFolderName = "second";
-		//	_secondFolder = "top\\second";
-		//	_topProjectPath = "top\\pom.xml";
-		//	_secondProjectPath = "top\\second\\pom.xml";
 
-		//	_fileIOMock = new Mock<IFileSystemAccess>();
-		//	_fileIOMock.Setup(io => io.GetFullPath(It.IsAny<string>())).Returns((string s) => s);
-		//	_fileIOMock.Setup(io => io.ReadAllText(_topProjectPath)).Returns(_topProjectContent);
-		//	_fileIOMock.Setup(io => io.ReadAllText(_secondProjectPath)).Returns(_secondProjectContent);
-		//	_fileIOMock.Setup(io => io.IsFileExist(_topProjectPath)).Returns(true);
-		//	_fileIOMock.Setup(io => io.IsFileExist(_secondProjectPath)).Returns(true);
-		//	_fileIOMock.Setup(io => io.IsDirectoryExist(_topFolder)).Returns(true);
-		//	_fileIOMock.Setup(io => io.EnumerateDirectories(_topFolder)).Returns(new[] {_secondFolderName});
-		//	_fileIOMock.Setup(io => io.Combine(It.IsAny<string>(), It.IsAny<string>())).Returns(
-		//		(string s1, string s2) => (s1 + '\\' + s2));
-		//	_fileIOMock.Setup(io => io.Combine(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(
-		//	(string s1, string s2, string s3) => (s1 + '\\' + s2 + '\\' + s3));
-		//	_fileIOMock.Setup(io => io.GetDirectoryName(_topProjectPath)).Returns(_topFolder);
-		//	_fileIOMock.Setup(io => io.GetDirectoryName(_secondProjectPath)).Returns(_secondFolder);
-		//}
+			_serializerMock = new Mock<IProjectSerializer>();
+			_readerMock = new Mock<IProjectReader>();
 
-		//[Test]
-		//public void ProjectRepositoryBasics()
-		//{
-		//	var entryPoint = new RepositoryEntryPoint("fake project folder path", _fileIOMock.Object);
-		//	var serializer = new Mock<IProjectSerializer>();
+			var realSerializer = new ProjectSerializer(new DataFactory());
+			_topProjectContent = realSerializer.Serialize(_topProject);
+			//	_secondProjectContent = _serializer.Serialize(_secondProject);
 
-		//	var loader = new ProjectTreeLoader(entryPoint, serializer.Object, _fileIOMock.Object);
-		//}
+			_serializerMock.Setup(s => s.Deserialize(_topProjectContent)).Returns(_topProject);
 
-		//[Test]
-		//public void SingleProjectLoadTest()
-		//{
-		//	string projectPath = "fake project path";
-		//	var entryPoint = new RepositoryEntryPoint(projectPath, _fileIOMock.Object);
-			
-		//	var loader = new ProjectTreeLoader(entryPoint, _serializer, _fileIOMock.Object);
+			//	_topFolder = "top";
+			_secondFolderName = "second";
+			//	_secondFolder = "top\\second";
+			_topProjectPath = "top\\pom.xml";
+			_secondProjectPath = "top\\second\\pom.xml";
 
-		//	var container = loader.LoadProjectFile(_topProjectPath);
+			_fileIOMock = new Mock<IFileSystemAccess>();
+			//	_fileIOMock.Setup(io => io.GetFullPath(It.IsAny<string>())).Returns((string s) => s);
+			_fileIOMock.Setup(io => io.ReadAllText(_topProjectPath)).Returns(_topProjectContent);
+			//	_fileIOMock.Setup(io => io.ReadAllText(_secondProjectPath)).Returns(_secondProjectContent);
+			_fileIOMock.Setup(io => io.IsFileExist(_topProjectPath)).Returns(true);
+			_fileIOMock.Setup(io => io.IsFileExist(_secondProjectPath)).Returns(true);
+			//	_fileIOMock.Setup(io => io.IsDirectoryExist(_topFolder)).Returns(true);
+			//	_fileIOMock.Setup(io => io.EnumerateDirectories(_topFolder)).Returns(new[] {_secondFolderName});
 
-		//	Assert.That(container.Project, Is.Not.Null);
-		//	Assert.That(container.Project.ArtifactId, Is.EqualTo(_topProject.ArtifactId));
-		//}
+			_fileIOMock.Setup(io => io.Combine(It.IsAny<string>(), _secondFolderName, It.IsAny<string>())).Returns(_secondProjectPath);
+
+			//	_fileIOMock.Setup(io => io.Combine(It.IsAny<string>(), It.IsAny<string>())).Returns(
+			//		(string s1, string s2) => (s1 + '\\' + s2));
+			//	_fileIOMock.Setup(io => io.Combine(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(
+			//	(string s1, string s2, string s3) => (s1 + '\\' + s2 + '\\' + s3));
+			//	_fileIOMock.Setup(io => io.GetDirectoryName(_topProjectPath)).Returns(_topFolder);
+			//	_fileIOMock.Setup(io => io.GetDirectoryName(_secondProjectPath)).Returns(_secondFolder);
+
+			_readerMock.Setup(l => l.ReadProject(_topProjectPath)).Returns(_topProject);
+			_readerMock.Setup(l => l.ReadProject(_secondProjectPath)).Returns(_secondProject);
+		}
+
+		[Test]
+		public void ProjectLoaderTest()
+		{
+			var loader = new ProjectLoader(_fileIOMock.Object, _serializerMock.Object);
+			var project = loader.ReadProject(_topProjectPath);
+
+			Assert.That(project, Is.Not.Null);
+			Assert.That(project.ArtifactId, Is.EqualTo(_topProject.ArtifactId));
+		}
+
+		[Test]
+		public void ProjectRepositoryBasics()
+		{
+			var loader = new ProjectTreeLoader(_fileIOMock.Object, _readerMock.Object);
+		}
 
 		//[Test]
 		//public void ProjectRepositoryLoadAllFoldersTest()
@@ -98,32 +110,26 @@ namespace Pustota.Maven.Base.Tests
 		//	Assert.That(projects.Count, Is.EqualTo(2));
 		//}
 
-		//[Test]
-		//public void ProjectRepositoryLoadViaModulesJustOneTest()
-		//{
-		//	var entryPoint = new RepositoryEntryPoint(_topProjectPath, _fileIOMock.Object);
+		[Test]
+		public void ProjectRepositoryLoadViaModulesJustOneTest()
+		{
+			var loader = new ProjectTreeLoader(_fileIOMock.Object, _readerMock.Object);
+			var projects = loader.LoadProjectTree(_topProjectPath).ToList();
 
-		//	var loader = new ProjectTreeLoader(entryPoint, _serializer, _fileIOMock.Object);
-		//	var projects = loader.LoadProjects().ToList();
+			Assert.That(projects.Count, Is.EqualTo(1));
+			Assert.That(projects.Single().ArtifactId, Is.EqualTo(_topProject.ArtifactId));
+		}
 
-		//	Assert.That(projects.Count, Is.EqualTo(1));
-		//}
+		[Test]
+		public void ProjectRepositoryLoadViaModulesAllTest()
+		{
+			_topProject.Modules.Add(new Module { Path = _secondFolderName });
 
-		//[Test]
-		//public void ProjectRepositoryLoadViaModulesAllTest()
-		//{
-		//	_topProject.Modules.Add(new Module {Path = _secondFolderName});
-		//	var content = _serializer.Serialize(_topProject);
+			var loader = new ProjectTreeLoader(_fileIOMock.Object, _readerMock.Object);
+			var projects = loader.LoadProjectTree(_topProjectPath).ToList();
 
-		//	_fileIOMock.Setup(io => io.ReadAllText(_topProjectPath)).Returns(content);
+			Assert.That(projects.Count, Is.EqualTo(2));
+		}
 
-		//	var entryPoint = new RepositoryEntryPoint(_topProjectPath, _fileIOMock.Object);
-
-		//	var loader = new ProjectTreeLoader(entryPoint, _serializer, _fileIOMock.Object);
-		//	var projects = loader.LoadProjects().ToList();
-
-		//	Assert.That(projects.Count, Is.EqualTo(2));
-		//}
-	
 	}
 }

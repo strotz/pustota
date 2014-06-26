@@ -2,9 +2,16 @@
 
 namespace Pustota.Maven.Serialization
 {
-	internal interface IProjectLoader
+	public interface IProjectReader
 	{
-		IProject LoadProject(string path); // REVIEW: IProject?
-		void SaveProject(IProject project, string path); // REVIEW: IProject?
+		IProject ReadProject(string path);
+	}
+
+	internal interface IProjectLoader :
+		IProjectReader
+		// TODO: IProjectWriter
+	{
+		//void WriteProject(IProject project, string path);
+		//void UpdateProject(IProject project, string path);
 	}
 }

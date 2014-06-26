@@ -12,10 +12,21 @@ namespace Pustota.Maven.Serialization
 	internal class ProjectLoader : IProjectLoader
 	{
 		private readonly IFileSystemAccess _fileSystem;
+		private readonly IProjectSerializer _serializer;
 
-		internal ProjectLoader(IFileSystemAccess fileSystem)
+		internal ProjectLoader(IFileSystemAccess fileSystem, IProjectSerializer serializer)
 		{
 			_fileSystem = fileSystem;
+			_serializer = serializer;
+		}
+
+		public IProject ReadProject(string path)
+		{
+			// string fullPath = _fileSystem.GetFullPath(path);
+			string content = _fileSystem.ReadAllText(path);
+			var project = _serializer.Deserialize(content);
+			// REVIEW: project.FullPath = fullPath;
+			return project;
 		}
 
 		internal void SaveProjectDocument(XDocument document, string fileName)
@@ -39,12 +50,6 @@ namespace Pustota.Maven.Serialization
 			}
 		}
 
-		internal XDocument LoadXmlDocument(string fileName)
-		{
-			// DefaultNamespaceName
-			return XDocument.Load(fileName);
-		}
-
 		//internal string SaveMavenProject(MavenProjectDocument mavenProject)
 		//{
 		//	using (TextWriter writer = new UsAsciiStringWriter())
@@ -54,20 +59,6 @@ namespace Pustota.Maven.Serialization
 		//	}
 		//}
 
-
-		public IProject LoadProject(string path)
-		{
-			//string fullPath = _fileSystem.GetFullPath(path);
-
-			//XDocument document = LoadXmlDocument(fullPath);
-			//// var pom = new PomXmlDocument(fullPath); // load file to document
-
-			//var project = _dataFactory.CreateProject();
-			//// REVIEW: project.FullPath = fullPath;
-			//return project;
-
-			throw new NotImplementedException();
-		}
 
 		public void SaveProject(IProject project, string path)
 		{
