@@ -184,5 +184,48 @@ namespace Pustota.Maven.Base.Tests
 			Assert.False(plugin.ReferenceOperations().IsSnapshot);
 		}
 
+		[Test]
+		public void ExternalReferenceTest()
+		{
+			var projectA = new Project
+			{
+				GroupId = "group",
+				ArtifactId = "a",
+				Version = "1.0.0-SNAPSHOT",
+			};
+
+			var projectB = new Project
+			{
+				GroupId = "group",
+				ArtifactId = "b",
+				Version = "1.0.1-SNAPSHOT",
+				Parent = new ParentReference
+				{
+					GroupId = "group",
+					ArtifactId = "x",
+					Version = "1.0.0-SNAPSHOT",
+				},
+			};
+
+			projectB.Plugins.Add(
+				new Plugin
+				{
+					GroupId = "group",
+					ArtifactId = "a",
+					Version = "1.0.0-SNAPSHOT",
+				}
+			);
+
+			var repo = new Mock<IProjectsRepository>();
+			repo.SetupGet(r => r.AllProjects).Returns(new IProject[] { projectA, projectB });
+
+			var action = new BulkSwitchToReleaseAction(repo.Object, "-test");
+
+			action.Execute();
+
+			Assert.That(projectB.Parent.Version, Is.EqualTo("1.0.0-SNAPSHOT"));
+			Assert.True(projectB.Parent.ReferenceOperations().IsSnapshot); // REVIEW: should we fail, when switch to release and parent is snapshot?
+		}
+
 	}
 }

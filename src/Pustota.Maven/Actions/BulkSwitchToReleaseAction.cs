@@ -16,21 +16,10 @@ namespace Pustota.Maven.Actions
 
 		public void Execute()
 		{
-			var searchOptions = new SearchOptions
-			{
-				LookForDependent = true,
-				LookForParents = true,
-				LookForPlugin = true,
-				OnlyDirectUsages = true,
-				StrictVersion = false
-			};
-
-			var selector = new DependencySelector(_projects, searchOptions);
-
 			foreach (var project in _projects.AllProjects.Where(pn => pn.ReferenceOperations().IsSnapshot))
 			{
 				project.ReferenceOperations().SwitchToRelease(_postfix);
-				foreach (var dependentProject in selector.SelectUsages(project))
+				foreach (var dependentProject in _projects.AllProjects)
 				{
 					dependentProject.Operations().PropagateVersionToUsages(project);
 				}
