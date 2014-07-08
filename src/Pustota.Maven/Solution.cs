@@ -14,11 +14,11 @@ namespace Pustota.Maven
 		private readonly IFileSystemAccess _fileIo;
 		private readonly IProjectTreeLoader _loader;
 
-		private IList<IProject> _projects;
+		private IList<Tuple<string,IProject>> _projects;
 
 		public string BaseDir { get; private set; }
 
-		public IEnumerable<IProject> AllProjects { get { return _projects; } }
+		public IEnumerable<IProject> AllProjects { get { return _projects.Select(item => item.Item2); } }
 
 		//public ProjectsValidations Validations { get; private set; }
 		//public ExternalModulesRepository ExternalModules { get; private set; }
@@ -79,21 +79,14 @@ namespace Pustota.Maven
 //			get { return _projects.Select(pc => pc.Project); }
 //		}
 
-//		public void LoadProjects()
-//		{
-//			// var loader = new ProjectTreeLoader(_entryPoint, _projectSerializer, _fileIo);
-//			// _projects = loader.LoadProjects().ToList();
-
-//		}
-
-//		public void ForceSaveAll()
-//		{
-//			foreach (ProjectContainer container in _projects)
-//			{
-////				var content = _projectSerializer.Serialize((Project) container.Project);
-////				_fileIo.WriteAllText(container.Path, content);
-//			}
-//		}
+		public void ForceSaveAll()
+		{
+			foreach (var tuple in _projects)
+			{
+				//				var content = _projectSerializer.Serialize((Project) container.Project);
+				//				_fileIo.WriteAllText(container.Path, content);
+			}
+		}
 
 	}
 }

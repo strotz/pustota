@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Pustota.Maven.Models;
@@ -11,10 +12,12 @@ namespace Pustota.Maven.Serialization
 		private class ProjectContainer
 		{
 			private readonly IProject _project;
+			private readonly string _path;
 			private readonly string _baseDir;
 
-			public ProjectContainer(string baseDir, IProject project)
+			public ProjectContainer(string path, string baseDir, IProject project)
 			{
+				_path = path;
 				_baseDir = baseDir;
 				_project = project;
 			}
@@ -27,6 +30,11 @@ namespace Pustota.Maven.Serialization
 			internal string BaseDir
 			{
 				get { return _baseDir; }
+			}
+
+			internal string Path
+			{
+				get { return _path; }
 			}
 		}
 
@@ -50,7 +58,7 @@ namespace Pustota.Maven.Serialization
 			_reader = reader;
 		}
 
-		public IEnumerable<IProject> LoadProjectTree(string fileOrFolderName)
+		public IEnumerable<Tuple<string, IProject>> LoadProjectTree(string fileOrFolderName)
 		{
 			if (_fileSystem.IsDirectoryExist(fileOrFolderName))
 			{
@@ -60,16 +68,16 @@ namespace Pustota.Maven.Serialization
 			{
 				return ScanProject(fileOrFolderName);
 			}
-			return new IProject[] { };
+			return new Tuple<string,IProject> [] { };
 		}
 
-		private IEnumerable<IProject> ScanFolder(string folderName)
+		private IEnumerable<Tuple<string, IProject>> ScanFolder(string folderName)
 		{
 			string[] files = _fileSystem.GetFiles(folderName, ProjectFilePattern, SearchOption.AllDirectories);
-			return files.Select(fileName => _reader.ReadProject(fileName));
+			return files.Select(fileName => new Tuple<string, IProject>(fileName, _reader.ReadProject(fileName)));
 		}
 
-		private IEnumerable<IProject> ScanProject(string fileName)
+		private IEnumerable<Tuple<string, IProject>> ScanProject(string fileName)
 		{
 			var treeState = new LoadTreeState();
 
@@ -98,14 +106,14 @@ namespace Pustota.Maven.Serialization
 				}
 			}
 
-			return treeState.ScannedProjects.Select(item => item.Project);
+			return treeState.ScannedProjects.Select(item => new Tuple<string, IProject>(item.Path, item.Project));
 		}
 
 		private ProjectContainer AddProject(LoadTreeState treeState, string path)
 		{
 			var project = _reader.ReadProject(path);
 			string baseDir = _fileSystem.GetDirectoryName(path);
-			var projectContainer = new ProjectContainer(baseDir, project);
+			var projectContainer = new ProjectContainer(path, baseDir, project);
 			treeState.ScannedProjects.Add(projectContainer);
 			return projectContainer;
 		}

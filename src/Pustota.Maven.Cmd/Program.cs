@@ -21,10 +21,9 @@ namespace Pustota.Maven.Cmd
 				var solutionManagement = new SolutionManagement();
 				var solution = solutionManagement.OpenSolution(topFolder);
 
-				//work.LoadProjects();
 				Console.WriteLine(solution.AllProjects.Count() + " projects loaded");
 
-				// work.ForceSaveAll();
+				solution.ForceSaveAll();
 			}
 			catch (Exception ex)
 			{

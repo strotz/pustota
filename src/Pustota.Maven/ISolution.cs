@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Pustota.Maven
+﻿namespace Pustota.Maven
 {
 	// REVIEW: has all
 	public interface ISolution : IProjectsRepository
@@ -19,5 +17,7 @@ namespace Pustota.Maven
 		//IEnumerable<ValidationError> Validate();
 
 		//bool Changed { get; }
+
+		void ForceSaveAll();
 	}
 }
