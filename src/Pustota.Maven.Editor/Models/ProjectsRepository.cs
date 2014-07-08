@@ -9,7 +9,6 @@ namespace Pustota.Maven.Editor.Models
 	{
 		public const string ProjectFilePattern = "pom.xml";
 
-		private readonly IProjectLoader _loader;
 
 		private readonly IList<ProjectNode> _allProjectNodes;
 

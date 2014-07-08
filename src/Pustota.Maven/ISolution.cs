@@ -2,15 +2,14 @@
 
 namespace Pustota.Maven
 {
-	public interface ISolution // REVIEW: has all
+	// REVIEW: has all
+	public interface ISolution : IProjectsRepository
 	{
 		// REVIEW: support many RepositoryEntryPoint
 
 		string BaseDir { get; }
 
 		// string FullPath { get; }
-
-		//IProjectsRepository ProjectsRepository { get; }
 
 		//ProjectsValidations Validations { get; } // REVIEW: encapsulate
 		//ExternalModulesRepository ExternalModules { get; } // REVIEW: encapsulate

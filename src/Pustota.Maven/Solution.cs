@@ -1,32 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Pustota.Maven.Models;
 using Pustota.Maven.Serialization;
 using Pustota.Maven.System;
 
 namespace Pustota.Maven
 {
+	// TODO: support multiple repositories within solution
 	internal class Solution : ISolution
 	{
 		private readonly IFileSystemAccess _fileIo;
+		private readonly IProjectTreeLoader _loader;
 
-		// private IProjectSerializer _projectSerializer;
+		private IList<IProject> _projects;
 
 		public string BaseDir { get; private set; }
 
-		public IProjectsRepository ProjectsRepository { get; private set; }
+		public IEnumerable<IProject> AllProjects { get { return _projects; } }
+
 		//public ProjectsValidations Validations { get; private set; }
 		//public ExternalModulesRepository ExternalModules { get; private set; }
 
-		// public string FullPath { get; private set; }
-
-		internal Solution()
+		internal Solution(IFileSystemAccess fileIo, IProjectTreeLoader loader)
 		{
-			_fileIo = new FileSystemAccess(); // TODO: DI
-			//_projectSerializer = new ClassicProjectSerializer();
+			_fileIo = fileIo;
+			_loader = loader;
 		}
 
-		public void Open(string fileOrFolderName)
+		internal void Open(string fileOrFolderName)
 		{
 			if (fileOrFolderName == null) throw new ArgumentNullException("fileOrFolderName");
 
@@ -44,11 +47,7 @@ namespace Pustota.Maven
 				throw new FileNotFoundException(fullPath);
 			}
 
-			ProjectsRepository = new ProjectsRepository(fullPath);
-
-			throw new NotImplementedException();
-
-			//Load();
+			_projects = _loader.LoadProjectTree(fileOrFolderName).ToList();
 		}
 
 //		public void Reload()
@@ -64,13 +63,8 @@ namespace Pustota.Maven
 
 //		private void Load()
 //		{
-//			var treeLoader = new ProjectTreeLoader(_fileOrFolderName, _fileBasedRepo);
-//			treeLoader.LoadProjects();
-
-//			ProjectsRepository = new ProjectsRepository(treeLoader);
-
-//			ExternalModules = new ExternalModulesRepository(BaseDir); // REVIEW: BaseDir should be solution 
-//			Validations = new ProjectsValidations(ProjectsRepository, ExternalModules);
+////			ExternalModules = new ExternalModulesRepository(BaseDir); // REVIEW: BaseDir should be solution 
+////			Validations = new ProjectsValidations(ProjectsRepository, ExternalModules);
 //		}
 
 //		public bool Changed

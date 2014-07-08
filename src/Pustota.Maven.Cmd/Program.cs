@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using Pustota.Maven.System;
 
 namespace Pustota.Maven.Cmd
 {
@@ -16,11 +18,13 @@ namespace Pustota.Maven.Cmd
 
 				string topFolder = args[0];
 
-				//var work = new Work(topFolder);
-				//work.LoadProjects();
-				//Console.WriteLine(work.Projects.Count() + " projects loaded");
+				var solutionManagement = new SolutionManagement();
+				var solution = solutionManagement.OpenSolution(topFolder);
 
-				//work.ForceSaveAll();
+				//work.LoadProjects();
+				Console.WriteLine(solution.AllProjects.Count() + " projects loaded");
+
+				// work.ForceSaveAll();
 			}
 			catch (Exception ex)
 			{
