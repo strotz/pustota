@@ -55,6 +55,7 @@
     <Compile Include="ProjectTreeTests.cs" />
     <Compile Include="ProjectModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SerializationWithUpdateTests.cs" />
     <Compile Include="SolutionTests.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -10,7 +10,7 @@ namespace Pustota.Maven
 		{
 			FileSystemAccess fileIo = new FileSystemAccess();
 			IDataFactory factory = new DataFactory();
-			IProjectSerializer serializer = new ProjectSerializer(factory);
+			IProjectSerializerWithUpdate serializer = new ProjectSerializer(factory);
 			IProjectLoader projectLoader = new ProjectLoader(fileIo, serializer);
 			var loader = new ProjectTreeLoader(fileIo, projectLoader, projectLoader);
 

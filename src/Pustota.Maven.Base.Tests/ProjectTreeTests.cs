@@ -28,7 +28,7 @@ namespace Pustota.Maven.Base.Tests
 
 		private string _secondFolderName;
 
-		private Mock<IProjectSerializer> _serializerMock;
+		private Mock<IProjectSerializerWithUpdate> _serializerMock;
 		//private IProjectSerializer _serializer;
 
 		private Mock<IProjectReader> _readerMock;
@@ -50,7 +50,7 @@ namespace Pustota.Maven.Base.Tests
 				ArtifactId = "b"
 			};
 
-			_serializerMock = new Mock<IProjectSerializer>();
+			_serializerMock = new Mock<IProjectSerializerWithUpdate>();
 			_readerMock = new Mock<IProjectReader>();
 			_writerMock = new Mock<IProjectWriter>();
 

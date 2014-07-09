@@ -6,7 +6,7 @@ using Pustota.Maven.Serialization.Data;
 
 namespace Pustota.Maven.Serialization
 {
-	internal class ProjectSerializer : IProjectSerializer
+	internal class ProjectSerializer : IProjectSerializerWithUpdate
 	{
 		private readonly IDataFactory _dataFactory;
 
@@ -27,6 +27,14 @@ namespace Pustota.Maven.Serialization
 		public string Serialize(IProject project)
 		{
 			var pom = new PomDocument();
+			SaveProject(project, pom);
+			return pom.ToString();
+		}
+
+		public string Serialize(IProject project, string contentToUpdate)
+		{
+			var document = XDocument.Parse(contentToUpdate, LoadOptions.PreserveWhitespace);
+			var pom = new PomDocument(document);
 			SaveProject(project, pom);
 			return pom.ToString();
 		}

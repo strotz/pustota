@@ -12,9 +12,9 @@ namespace Pustota.Maven.Serialization
 	internal class ProjectLoader : IProjectLoader
 	{
 		private readonly IFileSystemAccess _fileSystem;
-		private readonly IProjectSerializer _serializer;
+		private readonly IProjectSerializerWithUpdate _serializer;
 
-		internal ProjectLoader(IFileSystemAccess fileSystem, IProjectSerializer serializer)
+		internal ProjectLoader(IFileSystemAccess fileSystem, IProjectSerializerWithUpdate serializer)
 		{
 			_fileSystem = fileSystem;
 			_serializer = serializer;
@@ -88,7 +88,7 @@ namespace Pustota.Maven.Serialization
 
 		public void UpdateProject(IProject project, string path)
 		{
-			throw new NotImplementedException();
+			_serializer.Serialize(project, null);
 		}
 	}
 }
