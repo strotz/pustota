@@ -81,11 +81,7 @@ namespace Pustota.Maven
 
 		public void ForceSaveAll()
 		{
-			foreach (var tuple in _projects)
-			{
-				//				var content = _projectSerializer.Serialize((Project) container.Project);
-				//				_fileIo.WriteAllText(container.Path, content);
-			}
+			_loader.SaveProjects(_projects);
 		}
 
 	}

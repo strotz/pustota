@@ -47,15 +47,17 @@ namespace Pustota.Maven.Serialization
 			}
 		}
 
-		private readonly IProjectReader _reader;
+		private readonly IProjectReader _projectReader;
+		private readonly IProjectWriter _projectWriter;
 		private readonly IFileSystemAccess _fileSystem;
 
 		public const string ProjectFilePattern = "pom.xml";
 
-		internal ProjectTreeLoader(IFileSystemAccess fileSystem, IProjectReader reader)
+		internal ProjectTreeLoader(IFileSystemAccess fileSystem, IProjectReader projectReader, IProjectWriter projectWriter)
 		{
 			_fileSystem = fileSystem;
-			_reader = reader;
+			_projectReader = projectReader;
+			_projectWriter = projectWriter;
 		}
 
 		public IEnumerable<Tuple<string, IProject>> LoadProjectTree(string fileOrFolderName)
@@ -71,10 +73,18 @@ namespace Pustota.Maven.Serialization
 			return new Tuple<string,IProject> [] { };
 		}
 
+		public void SaveProjects(IEnumerable<Tuple<string, IProject>> projects)
+		{
+			foreach (var tuple in projects)
+			{
+				_projectWriter.UpdateProject(tuple.Item2, tuple.Item1);
+			}
+		}
+
 		private IEnumerable<Tuple<string, IProject>> ScanFolder(string folderName)
 		{
 			string[] files = _fileSystem.GetFiles(folderName, ProjectFilePattern, SearchOption.AllDirectories);
-			return files.Select(fileName => new Tuple<string, IProject>(fileName, _reader.ReadProject(fileName)));
+			return files.Select(fileName => new Tuple<string, IProject>(fileName, _projectReader.ReadProject(fileName)));
 		}
 
 		private IEnumerable<Tuple<string, IProject>> ScanProject(string fileName)
@@ -111,7 +121,7 @@ namespace Pustota.Maven.Serialization
 
 		private ProjectContainer AddProject(LoadTreeState treeState, string path)
 		{
-			var project = _reader.ReadProject(path);
+			var project = _projectReader.ReadProject(path);
 			string baseDir = _fileSystem.GetDirectoryName(path);
 			var projectContainer = new ProjectContainer(path, baseDir, project);
 			treeState.ScannedProjects.Add(projectContainer);

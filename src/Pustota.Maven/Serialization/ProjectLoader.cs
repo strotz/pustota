@@ -85,5 +85,10 @@ namespace Pustota.Maven.Serialization
 
 			// TODO: make sure it is covered by caller project.Changed = false;
 		}
+
+		public void UpdateProject(IProject project, string path)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

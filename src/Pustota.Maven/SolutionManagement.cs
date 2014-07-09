@@ -11,8 +11,8 @@ namespace Pustota.Maven
 			FileSystemAccess fileIo = new FileSystemAccess();
 			IDataFactory factory = new DataFactory();
 			IProjectSerializer serializer = new ProjectSerializer(factory);
-			IProjectReader reader = new ProjectLoader(fileIo, serializer);
-			var loader = new ProjectTreeLoader(fileIo, reader);
+			IProjectLoader projectLoader = new ProjectLoader(fileIo, serializer);
+			var loader = new ProjectTreeLoader(fileIo, projectLoader, projectLoader);
 
 			var solution = new Solution(fileIo, loader);
 			solution.Open(fileOrFolderName);

@@ -8,5 +8,6 @@ namespace Pustota.Maven.Serialization
 	{
 		// TODO: coordinate with RepositoryEntryPoint entryPoint
 		IEnumerable<Tuple<string,IProject>> LoadProjectTree(string fileOrFolderName);
+		void SaveProjects(IEnumerable<Tuple<string, IProject>> projects);
 	}
 }

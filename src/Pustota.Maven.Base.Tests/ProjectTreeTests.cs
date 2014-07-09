@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Moq;
 using NUnit.Framework;
 using Pustota.Maven.Serialization;
@@ -30,6 +31,9 @@ namespace Pustota.Maven.Base.Tests
 		//private IProjectSerializer _serializer;
 
 		private Mock<IProjectReader> _readerMock;
+		private Mock<IProjectWriter> _writerMock;
+
+		private ProjectTreeLoader _loader;
 
 		[SetUp]
 		public void SimpleTreeSetup()
@@ -40,14 +44,14 @@ namespace Pustota.Maven.Base.Tests
 				ArtifactId = "a"
 			};
 			_secondProject = new Project
-				{
-					GroupId = "b",
-					ArtifactId = "b"
-				};
-
+			{
+				GroupId = "b",
+				ArtifactId = "b"
+			};
 
 			_serializerMock = new Mock<IProjectSerializer>();
 			_readerMock = new Mock<IProjectReader>();
+			_writerMock = new Mock<IProjectWriter>();
 
 			var realSerializer = new ProjectSerializer(new DataFactory());
 			_topProjectContent = realSerializer.Serialize(_topProject);
@@ -81,6 +85,8 @@ namespace Pustota.Maven.Base.Tests
 
 			_readerMock.Setup(l => l.ReadProject(_topProjectPath)).Returns(_topProject);
 			_readerMock.Setup(l => l.ReadProject(_secondProjectPath)).Returns(_secondProject);
+
+			_loader = new ProjectTreeLoader(_fileIOMock.Object, _readerMock.Object, _writerMock.Object);
 		}
 
 		[Test]
@@ -93,28 +99,23 @@ namespace Pustota.Maven.Base.Tests
 			Assert.That(project.ArtifactId, Is.EqualTo(_topProject.ArtifactId));
 		}
 
-		[Test]
-		public void ProjectRepositoryBasics()
+		[Test, Ignore]
+		public void ProjectRepositoryLoadAllFoldersTest()
 		{
-			var loader = new ProjectTreeLoader(_fileIOMock.Object, _readerMock.Object);
+			throw new NotImplementedException();
+
+			//var entryPoint = new RepositoryEntryPoint(_topFolder, _fileIOMock.Object);
+
+			//var loader = new ProjectTreeLoader(entryPoint, _serializer, _fileIOMock.Object);
+			//var projects = loader.LoadProjects().ToList();
+
+			//Assert.That(projects.Count, Is.EqualTo(2));
 		}
-
-		//[Test]
-		//public void ProjectRepositoryLoadAllFoldersTest()
-		//{
-		//	var entryPoint = new RepositoryEntryPoint(_topFolder, _fileIOMock.Object);
-
-		//	var loader = new ProjectTreeLoader(entryPoint, _serializer, _fileIOMock.Object);
-		//	var projects = loader.LoadProjects().ToList();
-
-		//	Assert.That(projects.Count, Is.EqualTo(2));
-		//}
 
 		[Test]
 		public void ProjectRepositoryLoadViaModulesJustOneTest()
 		{
-			var loader = new ProjectTreeLoader(_fileIOMock.Object, _readerMock.Object);
-			var projects = loader.LoadProjectTree(_topProjectPath).ToList();
+			var projects = _loader.LoadProjectTree(_topProjectPath).ToList();
 
 			Assert.That(projects.Count, Is.EqualTo(1));
 			Assert.That(projects.Single().Item2.ArtifactId, Is.EqualTo(_topProject.ArtifactId));
@@ -125,12 +126,14 @@ namespace Pustota.Maven.Base.Tests
 		public void ProjectRepositoryLoadViaModulesAllTest()
 		{
 			_topProject.Modules.Add(new Module { Path = _secondFolderName });
-
-			var loader = new ProjectTreeLoader(_fileIOMock.Object, _readerMock.Object);
-			var projects = loader.LoadProjectTree(_topProjectPath).ToList();
-
+			var projects = _loader.LoadProjectTree(_topProjectPath).ToList();
 			Assert.That(projects.Count, Is.EqualTo(2));
 		}
 
+		[Test]
+		public void ProjectSaveCallsWritereTests()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

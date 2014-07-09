@@ -55,6 +55,7 @@
     <Compile Include="Serialization\Data\Plugin.cs" />
     <Compile Include="Serialization\Data\Profile.cs" />
     <Compile Include="Serialization\Data\Property.cs" />
+    <Compile Include="Serialization\IProjectReader.cs" />
     <Compile Include="Serialization\IProjectSerializer.cs" />
     <Compile Include="Serialization\IProjectTreeLoader.cs" />
     <Compile Include="Models\ProjectOperations.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="RepositoryEntryPoint.cs" />
     <Compile Include="Serialization\Data\DataFactory.cs" />
     <Compile Include="Serialization\Data\IDataFactory.cs" />
+    <Compile Include="Serialization\IProjectWriter.cs" />
     <Compile Include="Serialization\MavenSerialization.cs" />
     <Compile Include="Serialization\PomElement.cs" />
     <Compile Include="Serialization\ProjectLoader.cs" />
