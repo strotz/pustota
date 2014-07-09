@@ -14,9 +14,6 @@ namespace Pustota.Maven.Base.Tests
 	public class DeserializationTests
 	{
 		private IProjectSerializer _serializer;
-		private Mock<IFileSystemAccess> _fileSystemMock;
-		private Mock<IDataFactory> _dataFactoryMock;
-
 		private IDataFactory _realDataFactory;
 
 		const string EmptyProjectXml =
@@ -41,11 +38,7 @@ namespace Pustota.Maven.Base.Tests
 		[SetUp]
 		public void Setup()
 		{
-			_fileSystemMock = new Mock<IFileSystemAccess>();
-			_dataFactoryMock = new Mock<IDataFactory>();
-
 			_realDataFactory = new DataFactory();
-
 			_serializer = new ProjectSerializer(_realDataFactory);
 		}
 
