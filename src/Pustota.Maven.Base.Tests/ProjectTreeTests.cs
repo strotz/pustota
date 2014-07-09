@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using NUnit.Framework;
@@ -131,9 +132,18 @@ namespace Pustota.Maven.Base.Tests
 		}
 
 		[Test]
-		public void ProjectSaveCallsWritereTests()
+		public void ProjectSaveCallsWriterTests()
 		{
-			throw new NotImplementedException();
+			var elements = new List<ProjectTreeElement>
+			{
+				new ProjectTreeElement(_topProjectPath, _topProject),
+				new ProjectTreeElement(_secondProjectPath, _secondProject)
+			};
+
+			_loader.SaveProjects(elements);
+
+			_writerMock.Verify(w => w.UpdateProject(_topProject, _topProjectPath), Times.Once());
+			_writerMock.Verify(w => w.UpdateProject(_secondProject, _secondProjectPath), Times.Once());
 		}
 	}
 }
