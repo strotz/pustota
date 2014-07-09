@@ -75,6 +75,7 @@
     <Compile Include="Serialization\ProjectLoader.cs" />
     <Compile Include="Serialization\PomDocument.cs" />
     <Compile Include="Serialization\ProjectSerializer.cs" />
+    <Compile Include="Serialization\ProjectTreeElement.cs" />
     <Compile Include="Serialization\UsAsciiStringWriter.cs" />
     <Compile Include="System\FileSystemAccess.cs" />
     <Compile Include="System\IFileSystemAccess.cs" />

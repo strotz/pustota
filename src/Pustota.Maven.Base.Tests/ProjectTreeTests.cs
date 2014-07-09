@@ -118,8 +118,8 @@ namespace Pustota.Maven.Base.Tests
 			var projects = _loader.LoadProjectTree(_topProjectPath).ToList();
 
 			Assert.That(projects.Count, Is.EqualTo(1));
-			Assert.That(projects.Single().Item2.ArtifactId, Is.EqualTo(_topProject.ArtifactId));
-			Assert.That(projects.Single().Item1, Is.EqualTo(_topProjectPath));
+			Assert.That(projects.Single().Project.ArtifactId, Is.EqualTo(_topProject.ArtifactId));
+			Assert.That(projects.Single().Path, Is.EqualTo(_topProjectPath));
 		}
 
 		[Test]

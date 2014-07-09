@@ -9,41 +9,12 @@ namespace Pustota.Maven.Serialization
 {
 	internal class ProjectTreeLoader : IProjectTreeLoader
 	{
-		private class ProjectContainer
-		{
-			private readonly IProject _project;
-			private readonly string _path;
-			private readonly string _baseDir;
-
-			public ProjectContainer(string path, string baseDir, IProject project)
-			{
-				_path = path;
-				_baseDir = baseDir;
-				_project = project;
-			}
-
-			internal IProject Project
-			{
-				get { return _project; }
-			}
-
-			internal string BaseDir
-			{
-				get { return _baseDir; }
-			}
-
-			internal string Path
-			{
-				get { return _path; }
-			}
-		}
-
 		private class LoadTreeState
 		{
-			internal IList<ProjectContainer> ScannedProjects { get; private set; }
+			internal IList<ProjectTreeElement> ScannedProjects { get; private set; }
 			internal LoadTreeState()
 			{
-				ScannedProjects = new List<ProjectContainer>();
+				ScannedProjects = new List<ProjectTreeElement>();
 			}
 		}
 
@@ -60,7 +31,7 @@ namespace Pustota.Maven.Serialization
 			_projectWriter = projectWriter;
 		}
 
-		public IEnumerable<Tuple<string, IProject>> LoadProjectTree(string fileOrFolderName)
+		public IEnumerable<ProjectTreeElement> LoadProjectTree(string fileOrFolderName)
 		{
 			if (_fileSystem.IsDirectoryExist(fileOrFolderName))
 			{
@@ -70,28 +41,28 @@ namespace Pustota.Maven.Serialization
 			{
 				return ScanProject(fileOrFolderName);
 			}
-			return new Tuple<string,IProject> [] { };
+			return new ProjectTreeElement[] { };
 		}
 
-		public void SaveProjects(IEnumerable<Tuple<string, IProject>> projects)
+		public void SaveProjects(IEnumerable<ProjectTreeElement> projects)
 		{
-			foreach (var tuple in projects)
+			foreach (var projectTreeElement in projects)
 			{
-				_projectWriter.UpdateProject(tuple.Item2, tuple.Item1);
+				_projectWriter.UpdateProject(projectTreeElement.Project, projectTreeElement.Path);
 			}
 		}
 
-		private IEnumerable<Tuple<string, IProject>> ScanFolder(string folderName)
+		private IEnumerable<ProjectTreeElement> ScanFolder(string folderName)
 		{
 			string[] files = _fileSystem.GetFiles(folderName, ProjectFilePattern, SearchOption.AllDirectories);
-			return files.Select(fileName => new Tuple<string, IProject>(fileName, _projectReader.ReadProject(fileName)));
+			return files.Select(fileName => new ProjectTreeElement(fileName, _projectReader.ReadProject(fileName)));
 		}
 
-		private IEnumerable<Tuple<string, IProject>> ScanProject(string fileName)
+		private IEnumerable<ProjectTreeElement> ScanProject(string fileName)
 		{
 			var treeState = new LoadTreeState();
 
-			Queue<ProjectContainer> queue = new Queue<ProjectContainer>();
+			Queue<ProjectTreeElement> queue = new Queue<ProjectTreeElement>();
 
 			var rootNode = AddProject(treeState, fileName);
 			queue.Enqueue(rootNode);
@@ -99,8 +70,7 @@ namespace Pustota.Maven.Serialization
 			while (queue.Count != 0)
 			{
 				var projectContainer = queue.Dequeue();
-
-				string baseDir = projectContainer.BaseDir;
+				string baseDir = _fileSystem.GetDirectoryName(projectContainer.Path);
 				var modules =
 					projectContainer.Project.Operations().AllModules
 						.Select(module => BuildAbsoluteModulePath(baseDir, module));
@@ -116,14 +86,13 @@ namespace Pustota.Maven.Serialization
 				}
 			}
 
-			return treeState.ScannedProjects.Select(item => new Tuple<string, IProject>(item.Path, item.Project));
+			return treeState.ScannedProjects;
 		}
 
-		private ProjectContainer AddProject(LoadTreeState treeState, string path)
+		private ProjectTreeElement AddProject(LoadTreeState treeState, string path)
 		{
 			var project = _projectReader.ReadProject(path);
-			string baseDir = _fileSystem.GetDirectoryName(path);
-			var projectContainer = new ProjectContainer(path, baseDir, project);
+			var projectContainer = new ProjectTreeElement(path, project);
 			treeState.ScannedProjects.Add(projectContainer);
 			return projectContainer;
 		}

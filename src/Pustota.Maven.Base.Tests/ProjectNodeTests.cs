@@ -20,7 +20,7 @@ namespace Pustota.Maven.Base.Tests
 		//public void AllModulesTest()
 		//{
 		//	_project.Setup(p => p.AllModules).Returns(new List<Module>());
-		//	var container = new ProjectContainer(null, _project.Object);
+		//	var container = new ProjectTreeElement(null, _project.Object);
 		//}
 	}
 }
