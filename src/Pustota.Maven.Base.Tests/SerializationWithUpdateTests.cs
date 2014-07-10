@@ -1,3 +1,6 @@
+using System.Text;
+using System.Xml;
+using System.Xml.Linq;
 using NUnit.Framework;
 using Pustota.Maven.Serialization;
 using Pustota.Maven.Serialization.Data;
@@ -29,6 +32,28 @@ namespace Pustota.Maven.Base.Tests
 			var updated = _serializer.Serialize(project, EmptyProjectXml);
 
 			Assert.That(updated, Is.EqualTo(EmptyProjectXml));
+		}
+
+		[Test]
+		public void XDeclarationFixTests()
+		{
+			var document = new XDocument(
+				new XDeclaration("1.0", "us-ascii", null),
+				new XElement(MavenSerialization.XmlNs + "project",
+					new XAttribute("xmlns", MavenSerialization.XmlNs),
+					new XAttribute(XNamespace.Xmlns + "xsi", MavenSerialization.Xsi),
+					new XAttribute(MavenSerialization.Xsi + "schemaLocation", MavenSerialization.SchemaLocation)
+				));
+
+			using (var output = new UsAsciiStringWriter())
+			{
+				using (var xmlWriter = XmlWriter.Create(output))
+				{
+					document.WriteTo(xmlWriter);
+				}
+
+				Assert.That(output.ToString(), Is.StringStarting(@"<?xml version=""1.0"" encoding=""us-ascii""?>"));
+			}
 		}
 
 	}

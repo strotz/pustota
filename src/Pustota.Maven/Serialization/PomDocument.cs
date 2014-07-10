@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace Pustota.Maven.Serialization
@@ -36,7 +37,19 @@ namespace Pustota.Maven.Serialization
 
 		public override string ToString()
 		{
-			return _document.ToString();
+			return ToMavenXml();
+		}
+
+		private string ToMavenXml()
+		{
+			using (var output = new UsAsciiStringWriter())
+			{
+				using (var xmlWriter = XmlWriter.Create(output))
+				{
+					_document.WriteTo(xmlWriter);
+				}
+				return output.ToString();
+			}
 		}
 	}
 }

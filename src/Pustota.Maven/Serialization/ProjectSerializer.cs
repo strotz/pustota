@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
 using System.Xml.Linq;
 using Pustota.Maven.Models;
 using Pustota.Maven.Serialization.Data;
@@ -38,7 +39,6 @@ namespace Pustota.Maven.Serialization
 			SaveProject(project, pom);
 			return pom.ToString();
 		}
-
 
 		// REVIEW: element is not PomDocument, it is wrapper XElement (dependency, parent)
 		internal void LoadProjectReference(PomElement element, IProjectReference projectReference)
