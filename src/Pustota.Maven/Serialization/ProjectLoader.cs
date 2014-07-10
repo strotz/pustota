@@ -29,26 +29,26 @@ namespace Pustota.Maven.Serialization
 			return project;
 		}
 
-		internal void SaveProjectDocument(XDocument document, string fileName)
-		{
-			XmlWriterSettings settings = new XmlWriterSettings
-			{
-				Encoding = Encoding.ASCII,
-				Indent = true,
-				IndentChars = "\t"
-			};
+		//internal void SaveProjectDocument(XDocument document, string fileName)
+		//{
+		//	XmlWriterSettings settings = new XmlWriterSettings
+		//	{
+		//		Encoding = Encoding.ASCII,
+		//		Indent = true,
+		//		IndentChars = "\t"
+		//	};
 
-			string directoryName = _fileSystem.GetDirectoryName(fileName);
-			if (!_fileSystem.IsDirectoryExist(directoryName))
-			{
-				_fileSystem.CreateDirectory(directoryName);
-			}
+		//	string directoryName = _fileSystem.GetDirectoryName(fileName);
+		//	if (!_fileSystem.IsDirectoryExist(directoryName))
+		//	{
+		//		_fileSystem.CreateDirectory(directoryName);
+		//	}
 
-			using (XmlWriter writer = XmlWriter.Create(fileName, settings))
-			{
-				document.WriteTo(writer);
-			}
-		}
+		//	using (XmlWriter writer = XmlWriter.Create(fileName, settings))
+		//	{
+		//		document.WriteTo(writer);
+		//	}
+		//}
 
 		//internal string SaveMavenProject(MavenProjectDocument mavenProject)
 		//{
@@ -88,7 +88,9 @@ namespace Pustota.Maven.Serialization
 
 		public void UpdateProject(IProject project, string path)
 		{
-			_serializer.Serialize(project, null);
+			string content = _fileSystem.ReadAllText(path);
+			string updated = _serializer.Serialize(project, content);
+			_fileSystem.WriteAllText(path, updated);
 		}
 	}
 }
