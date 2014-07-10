@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -157,16 +158,32 @@ namespace Pustota.Maven.Base.Tests
 		public void ParentSerializationTest()
 		{
 			var project = new Project();
+			var parentId = GetRandomString();
 			project.Parent = new ParentReference
 			{
-				ArtifactId = GetRandomString()
+				ArtifactId = parentId
 			};
 			string serialized = _serializer.Serialize(project);
 			var projectElement = XDocument.Parse(serialized).Element(E("project"));
 			var parentElement = projectElement.Element(E("parent"));
 			Assert.That(parentElement, Is.Not.Null, "parent is missing");
 
-			Assert.That(parentElement.Element(E("artifactId")), Is.Not.Null, "parent:artifactId");
+			Assert.That(parentElement.Element(E("artifactId")).Value, Is.EqualTo(parentId), "parent:artifactId");
+		}
+
+		[Test]
+		public void ParentDeserializationTest()
+		{
+			var project = new Project();
+			var parentId = GetRandomString();
+			project.Parent = new ParentReference
+			{
+				ArtifactId = parentId
+			};
+			string content = _serializer.Serialize(project);
+			var deserialized = _serializer.Deserialize(content);
+
+			Assert.That(deserialized.Parent.ArtifactId, Is.EqualTo(parentId));
 		}
 
 		[Test]

@@ -66,7 +66,7 @@ namespace Pustota.Maven.Serialization
 			else
 			{
 				var parentReference = _dataFactory.CreateParentReference();
-				LoadProjectReference(rootElement, parentReference);
+				LoadProjectReference(parentElement, parentReference);
 				parentReference.RelativePath = parentElement.ReadElementValueOrNull("relativePath");
 				project.Parent = parentReference;
 			}
