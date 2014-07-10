@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -37,18 +40,25 @@ namespace Pustota.Maven.Serialization
 
 		public override string ToString()
 		{
-			return ToMavenXml();
+			return ToMavenXml(_document);
 		}
 
-		private string ToMavenXml()
+		private string ToMavenXml(XDocument document)
 		{
-			using (var output = new UsAsciiStringWriter())
+			XmlWriterSettings settings = new XmlWriterSettings
 			{
-				using (var xmlWriter = XmlWriter.Create(output))
+				Encoding = new UTF8Encoding(false),
+				Indent = true,
+				IndentChars = "\t"
+			};
+			using (var output = new MemoryStream())
+			{
+				using (var xmlWriter = XmlWriter.Create(output, settings))
 				{
-					_document.WriteTo(xmlWriter);
+					document.WriteTo(xmlWriter);
 				}
-				return output.ToString();
+				string result = Encoding.Default.GetString(output.ToArray());
+				return result;
 			}
 		}
 	}

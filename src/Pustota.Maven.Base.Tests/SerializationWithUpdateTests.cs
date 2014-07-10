@@ -24,7 +24,7 @@ namespace Pustota.Maven.Base.Tests
 		public void UpdateEmptyProjectTest()
 		{
 			const string emptyProjectXml =
-@"<?xml version=""1.0"" encoding=""us-ascii""?>
+@"<?xml version=""1.0"" encoding=""utf-8""?>
 <project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
 </project>";
 
@@ -35,59 +35,10 @@ namespace Pustota.Maven.Base.Tests
 		}
 
 		[Test]
-		public void XDeclarationFixTests()
-		{
-			var document = new XDocument(
-				new XDeclaration("1.0", "us-ascii", null),
-				new XElement(MavenSerialization.XmlNs + "project",
-					new XAttribute("xmlns", MavenSerialization.XmlNs),
-					new XAttribute(XNamespace.Xmlns + "xsi", MavenSerialization.Xsi),
-					new XAttribute(MavenSerialization.Xsi + "schemaLocation", MavenSerialization.SchemaLocation)
-				));
-
-			using (var output = new UsAsciiStringWriter())
-			{
-				using (var xmlWriter = XmlWriter.Create(output))
-				{
-					document.WriteTo(xmlWriter);
-				}
-
-				Assert.That(output.ToString(), Is.StringStarting(@"<?xml version=""1.0"" encoding=""us-ascii""?>"));
-			}
-		}
-
-		[Test]
-		public void NewLineFixTests()
-		{
-			var document = new XDocument(
-				new XDeclaration("1.0", "us-ascii", null),
-				new XElement(MavenSerialization.XmlNs + "project",
-					new XAttribute("xmlns", MavenSerialization.XmlNs),
-					new XAttribute(XNamespace.Xmlns + "xsi", MavenSerialization.Xsi),
-					new XAttribute(MavenSerialization.Xsi + "schemaLocation", MavenSerialization.SchemaLocation)
-				));
-
-			const string projectXml =
-@"<?xml version=""1.0"" encoding=""us-ascii""?>
-<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
-</project>";
-
-			using (var output = new UsAsciiStringWriter())
-			{
-				using (var xmlWriter = XmlWriter.Create(output))
-				{
-					document.WriteTo(xmlWriter);
-				}
-
-				Assert.That(output.ToString(), Is.EqualTo(projectXml));
-			}
-		}
-
-		[Test]
 		public void UpdateProjectWithCommentTest()
 		{
 			const string projectXml =
-@"<?xml version=""1.0"" encoding=""us-ascii""?>
+@"<?xml version=""1.0"" encoding=""utf-8""?>
 <project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
 <!-- test -->
 </project>";
@@ -99,10 +50,30 @@ namespace Pustota.Maven.Base.Tests
 		}
 
 		[Test]
+		public void UpdateProjectWithModulesTest()
+		{
+			const string projectXml =
+@"<?xml version=""1.0"" encoding=""utf-8""?>
+<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
+<!-- test -->
+	<modules>
+		<module>a</module>
+		<module>b</module>
+	</modules>
+</project>";
+
+			var project = _serializer.Deserialize(projectXml);
+			var updated = _serializer.Serialize(project, projectXml);
+
+			Assert.That(updated, Is.EqualTo(projectXml));
+		}
+
+
+		[Test]
 		public void UpdateChangedProjectTest()
 		{
 			const string projectXml =
-@"<?xml version=""1.0"" encoding=""us-ascii""?>
+@"<?xml version=""1.0"" encoding=""utf-8""?>
 <project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
 	<artifactId>a</artifactId>
 </project>";
