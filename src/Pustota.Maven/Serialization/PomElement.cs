@@ -55,6 +55,11 @@ namespace Pustota.Maven.Serialization
 			return Wrap(element);
 		}
 
+		internal void Add(PomElement childElement)
+		{
+			_element.Add(childElement._element);
+		}
+
 		internal void SetElementValue(string name, string value)
 		{
 			_element.SetElementValue(Name(name), value);

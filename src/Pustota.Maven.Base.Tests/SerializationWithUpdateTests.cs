@@ -67,6 +67,35 @@ namespace Pustota.Maven.Base.Tests
 			Assert.That(updated, Is.EqualTo(projectXml));
 		}
 
+		[Test]
+		public void UpdateProjectWithPluginTest()
+		{
+			const string projectXml =
+@"<?xml version=""1.0"" encoding=""utf-8""?>
+<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<configuration>
+							<descriptors>
+								<descriptor>assembly.xml</descriptor>
+							</descriptors>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>";
+
+			var project = _serializer.Deserialize(projectXml);
+			var updated = _serializer.Serialize(project, projectXml);
+
+			Assert.That(updated, Is.EqualTo(projectXml));
+		}
 
 		[Test]
 		public void UpdateChangedProjectTest()

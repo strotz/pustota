@@ -148,8 +148,8 @@ namespace Pustota.Maven.Serialization
 			var plugin = _dataFactory.CreatePlugin();
 			LoadProjectReference(element, plugin);
 
-			//plugin.Executions = element.SingleOrNull("executions");
-			//plugin.Configuration = element.SingleOrNull("configuration");
+			plugin.Executions = new BlackBox(element.SingleOrNull("executions"));
+			plugin.Configuration = new BlackBox(element.SingleOrNull("configuration"));
 			return plugin;
 		}
 
@@ -157,11 +157,11 @@ namespace Pustota.Maven.Serialization
 		{
 			SaveProjectReference(plugin, element);
 
-			//if (plugin.Executions != null)
-			//	element.AddElement(Executions);
+			if (plugin.Configuration != null && plugin.Configuration.Value != null)
+				element.Add(plugin.Configuration.Value as PomElement);
 
-			//if (plugin.Configuration != null)
-			//	element.AddElement(Configuration);
+			if (plugin.Executions != null && plugin.Executions.Value != null)
+				element.Add(plugin.Executions.Value as PomElement);
 		}
 
 

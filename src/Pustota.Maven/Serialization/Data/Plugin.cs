@@ -2,16 +2,21 @@ using Pustota.Maven.Models;
 
 namespace Pustota.Maven.Serialization.Data
 {
-	internal class BlackBox
+	internal class BlackBox : IBlackBox
 	{
-		private PomElement Value;
+		internal BlackBox(object value)
+		{
+			Value = value;
+		}
+
+		public object Value { get; private set; }
 	}
 
 	internal class Plugin :
 		ProjectReference,
 		IPlugin
 	{
-		private BlackBox Executions { get; set; }
-		private BlackBox Configuration { get; set; }
+		public IBlackBox Executions { get; set; }
+		public IBlackBox Configuration { get; set; }
 	}
 }

@@ -565,16 +565,16 @@ namespace Pustota.Maven.Base.Tests
 	</build>
 </project>";
 
-		[Test, Ignore]
+		[Test]
 		public void PluginExecutionDeserialization()
 		{
 			var deserialized = _serializer.Deserialize(PluginWithExecution);
 
-			throw new NotImplementedException();
+			var plugin = deserialized.Plugins.Single() as Plugin; 
 
-			//Assert.That(deserialized.Plugins.Single().Executions, Is.Not.Null);
-			//Assert.That(deserialized.Plugins.Single().Configuration, Is.Not.Null);
-			//Assert.That(deserialized.Plugins.Single().Dependencies, Is.Not.Null);
+			Assert.That(plugin.Executions, Is.Not.Null);
+			Assert.That(plugin.Configuration, Is.Not.Null);
+			// Assert.That(plugin.Dependencies, Is.Not.Null);
 		}
 
 		[Test]

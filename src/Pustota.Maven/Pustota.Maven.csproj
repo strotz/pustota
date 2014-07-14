@@ -48,6 +48,7 @@
     <Compile Include="Externals\IExternalModule.cs" />
     <Compile Include="Externals\IExternalModulesRepository.cs" />
     <Compile Include="ISolution.cs" />
+    <Compile Include="Models\IBlackBox.cs" />
     <Compile Include="SearchOptions.cs" />
     <Compile Include="Serialization\Data\Dependency.cs" />
     <Compile Include="Serialization\Data\Module.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Serialization\ProjectSerializer.cs" />
     <Compile Include="Serialization\ProjectTreeElement.cs" />
     <Compile Include="Serialization\UsAsciiStringWriter.cs" />
+    <Compile Include="Serialization\Utf8StringWriter.cs" />
     <Compile Include="System\FileSystemAccess.cs" />
     <Compile Include="System\IFileSystemAccess.cs" />
     <Compile Include="Serialization\IProjectLoader.cs" />
