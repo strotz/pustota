@@ -92,6 +92,7 @@ namespace Pustota.Maven.Serialization
 
 		internal void RemoveAllChildElements()
 		{
+			_element.Value = string.Empty;
 			_element.Elements().Remove();
 		}
 

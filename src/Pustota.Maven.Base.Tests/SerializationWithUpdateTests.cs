@@ -25,8 +25,7 @@ namespace Pustota.Maven.Base.Tests
 		{
 			const string emptyProjectXml =
 @"<?xml version=""1.0"" encoding=""utf-8""?>
-<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
-</project>";
+<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd""></project>";
 
 			var project = _serializer.Deserialize(emptyProjectXml);
 			var updated = _serializer.Serialize(project, emptyProjectXml);
@@ -40,7 +39,7 @@ namespace Pustota.Maven.Base.Tests
 			const string projectXml =
 @"<?xml version=""1.0"" encoding=""utf-8""?>
 <project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
-<!-- test -->
+	<!-- test -->
 </project>";
 
 			var project = _serializer.Deserialize(projectXml);
@@ -55,7 +54,7 @@ namespace Pustota.Maven.Base.Tests
 			const string projectXml =
 @"<?xml version=""1.0"" encoding=""utf-8""?>
 <project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
-<!-- test -->
+	<!-- test -->
 	<modules>
 		<module>a</module>
 		<module>b</module>

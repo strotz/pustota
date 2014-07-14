@@ -16,7 +16,7 @@ namespace Pustota.Maven.Base.Tests
 		public void EmptyPomTest()
 		{
 			var content = string.Format(ProjectTemplate, string.Empty);
-			var document = XDocument.Parse(content, LoadOptions.PreserveWhitespace);
+			var document = XDocument.Parse(content);
 
 			var projectModel = new PomDocument(document);
 			Assert.That(projectModel.RootElement.Value, Is.Empty);
@@ -26,7 +26,7 @@ namespace Pustota.Maven.Base.Tests
 		public void ElementValueTest()
 		{
 			var content = string.Format(ProjectTemplate, "<p>abc</p>");
-			var document = XDocument.Parse(content, LoadOptions.PreserveWhitespace);
+			var document = XDocument.Parse(content);
 
 			var projectModel = new PomDocument(document);
 			Assert.That(projectModel.RootElement.ReadElementValueOrNull("p"), Is.EqualTo("abc"));			

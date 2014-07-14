@@ -18,7 +18,7 @@ namespace Pustota.Maven.Serialization
 
 		public IProject Deserialize(string content)
 		{
-			var document = XDocument.Parse(content, LoadOptions.PreserveWhitespace);
+			var document = XDocument.Parse(content);
 			var pom = new PomDocument(document);
 			var project = _dataFactory.CreateProject();
 			LoadProject(pom, project);
@@ -34,7 +34,7 @@ namespace Pustota.Maven.Serialization
 
 		public string Serialize(IProject project, string contentToUpdate)
 		{
-			var document = XDocument.Parse(contentToUpdate, LoadOptions.PreserveWhitespace);
+			var document = XDocument.Parse(contentToUpdate);
 			var pom = new PomDocument(document);
 			SaveProject(project, pom);
 			return pom.ToString();
