@@ -148,6 +148,9 @@ namespace Pustota.Maven.Serialization
 			var plugin = _dataFactory.CreatePlugin();
 			LoadProjectReference(element, plugin);
 
+			bool extensions;
+			plugin.Extensions = bool.TryParse(element.ReadElementValueOrNull("extensions"), out extensions) && extensions;
+
 			plugin.Executions = new BlackBox(element.SingleOrNull("executions"));
 			plugin.Configuration = new BlackBox(element.SingleOrNull("configuration"));
 			return plugin;
@@ -156,6 +159,9 @@ namespace Pustota.Maven.Serialization
 		protected void SavePlugin(IPlugin plugin, PomElement element)
 		{
 			SaveProjectReference(plugin, element);
+
+			if (plugin.Extensions)
+				element.SetElementValue("extensions", "true");
 
 			if (plugin.Configuration != null && plugin.Configuration.Value != null)
 				element.Add(plugin.Configuration.Value as PomElement);

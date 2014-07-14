@@ -524,7 +524,7 @@ namespace Pustota.Maven.Base.Tests
 				ArtifactId = GetRandomString(),
 				GroupId = GetRandomString(),
 				Version = GetRandomString(),
-//				Extensions = true,
+				Extensions = true,
 //				Inherited = "false"
 			};
 			project.Plugins.Add(plugin);
@@ -535,7 +535,7 @@ namespace Pustota.Maven.Base.Tests
 			var pluginElement = document.Descendants(E("plugin")).Single();
 			Assert.IsNotNull(pluginElement);
 			Assert.That(pluginElement.Element(E("artifactId")).Value, Is.EqualTo(plugin.ArtifactId));
-//			Assert.That(pluginElement.Element(E("extensions")).Value, Is.EqualTo("true"));
+			Assert.That(pluginElement.Element(E("extensions")).Value, Is.EqualTo("true"));
 //			Assert.That(pluginElement.Element(E("inherited")).Value, Is.EqualTo("false"));
 		}
 

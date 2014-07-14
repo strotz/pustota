@@ -50,6 +50,7 @@
     <Compile Include="ISolution.cs" />
     <Compile Include="Models\IBlackBox.cs" />
     <Compile Include="SearchOptions.cs" />
+    <Compile Include="Serialization\Data\BlackBox.cs" />
     <Compile Include="Serialization\Data\Dependency.cs" />
     <Compile Include="Serialization\Data\Module.cs" />
     <Compile Include="Serialization\Data\ParentReference.cs" />
