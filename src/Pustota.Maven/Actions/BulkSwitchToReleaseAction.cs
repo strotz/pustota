@@ -3,7 +3,7 @@ using Pustota.Maven.Models;
 
 namespace Pustota.Maven.Actions
 {
-	internal class BulkSwitchToReleaseAction
+	public class BulkSwitchToReleaseAction
 	{
 		private readonly IProjectsRepository _projects;
 		private readonly string _postfix;

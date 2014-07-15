@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Pustota.Maven.System;
+using Pustota.Maven.Actions;
 
 namespace Pustota.Maven.Cmd
 {
@@ -10,18 +10,22 @@ namespace Pustota.Maven.Cmd
 		{
 			try
 			{
-				if (args.Length != 1)
+				if (args.Length > 2)
 				{
-					Console.WriteLine("Need top folder location");
+					PrintUsage();
 					return;
 				}
 
-				string topFolder = args[0];
+				string topFolder = args.Length > 0 ? args[0] : Environment.CurrentDirectory;
+				string postfix = args.Length > 1 ? args[1] : string.Empty;
 
 				var solutionManagement = new SolutionManagement();
 				var solution = solutionManagement.OpenSolution(topFolder);
 
 				Console.WriteLine(solution.AllProjects.Count() + " projects loaded");
+
+				BulkSwitchToReleaseAction action = new BulkSwitchToReleaseAction(solution, postfix);
+				action.Execute();
 
 				solution.ForceSaveAll();
 			}
@@ -30,6 +34,11 @@ namespace Pustota.Maven.Cmd
 				Console.WriteLine(ex);
 			}
 
+		}
+
+		private static void PrintUsage()
+		{
+			Console.WriteLine("exe <pathtofolder> <postfix>");
 		}
 	}
 }
