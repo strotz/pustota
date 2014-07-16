@@ -19,6 +19,9 @@ namespace Pustota.Maven.Cmd
 		[VerbOption("normalize", HelpText = "Normalize all projects in repo")]
 		public NormalizeCommand NormalizeCommand { get; set; }
 
+		[VerbOption("applyClassifier", HelpText = "Apply specific value to classifier for all dependencies")]
+		public ApplyClassifierCommand ApplyClassifierCommand { get; set; }
+
 		[HelpVerbOption]
 		public string GetUsage(string verb)
 		{
@@ -35,6 +38,10 @@ namespace Pustota.Maven.Cmd
 
 				case "normalize":
 					NormalizeCommand.Execute();
+					break;
+
+				case "applyClassifier":
+					ApplyClassifierCommand.Execute();
 					break;
 			}
 		}

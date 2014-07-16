@@ -21,7 +21,7 @@ namespace Pustota.Maven.Cmd
 			string invokedVerb = null;
 
 			var options = new Options(); // TODO: seems lioke it is going to be refactoring with commandLine library, wiring will be fixed later
-			if (!CommandLine.Parser.Default.ParseArguments(args, options,
+			if (!CommandLine.Parser.Default.ParseArgumentsStrict(args, options,
 				(verb, subOptions) =>
 				{
 					invokedVerb = verb;

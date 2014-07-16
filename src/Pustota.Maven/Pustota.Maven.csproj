@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\ApplyClassifierAction.cs" />
     <Compile Include="Actions\BulkSwitchToReleaseAction.cs" />
     <Compile Include="DependencySelector.cs" />
     <Compile Include="Externals\ExternalModule.cs" />

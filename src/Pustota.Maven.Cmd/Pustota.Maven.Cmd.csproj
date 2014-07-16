@@ -182,6 +182,7 @@
     <Compile Include="..\..\lib\CommandLine\src\libcmdline\Text\_ParsingErrorsHandler.cs">
       <Link>CommandLine\Text\_ParsingErrorsHandler.cs</Link>
     </Compile>
+    <Compile Include="Commands\ApplyClassifierCommand.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\NormalizeCommand.cs" />
     <Compile Include="Commands\ReleaseAllCommand.cs" />
