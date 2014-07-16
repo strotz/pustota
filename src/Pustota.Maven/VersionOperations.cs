@@ -70,7 +70,15 @@ namespace Pustota.Maven
 			{
 				version = DefaultVersion;
 			}
-			return string.IsNullOrEmpty(postfix) ? version : version	+ postfix;
+			if (string.IsNullOrEmpty(postfix))
+			{
+				return version;
+			}
+			if (postfix.StartsWith("-"))
+			{
+				return version + postfix;
+			}
+			return version	+ "-" + postfix;
 		}
 	}
 }
