@@ -1,1 +1,1 @@
-"C:\Program Files (x86)\Microsoft\ILMerge\ILMerge.exe" /target:winexe /targetplatform:v4 /out:pustota.exe bin\Release\Pustota.Maven.Cmd.exe bin\Release\Pustota.Maven.dll
+"C:\Program Files (x86)\Microsoft\ILMerge\ILMerge.exe" /target:exe /targetplatform:v4 /out:pustota.exe bin\Release\Pustota.Maven.Cmd.exe bin\Release\Pustota.Maven.dll
