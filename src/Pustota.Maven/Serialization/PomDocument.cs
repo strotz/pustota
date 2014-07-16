@@ -28,6 +28,7 @@ namespace Pustota.Maven.Serialization
 			);
 		}
 
+		// REVIEW: add indication that XDocument does not have MavenSerialization.XmlNs
 		internal PomDocument(XDocument document)
 		{
 			_document = document;
