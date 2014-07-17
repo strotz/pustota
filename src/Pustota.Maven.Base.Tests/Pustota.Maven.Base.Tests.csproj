@@ -49,9 +49,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplyClassifierActionTests.cs" />
+    <Compile Include="AspectOrientedTests.cs" />
     <Compile Include="BulkSwitchToReleaseTests.cs" />
     <Compile Include="DeserializationTests.cs" />
     <Compile Include="ExternalModulesTests.cs" />
+    <Compile Include="ProjectChangedTests.cs" />
     <Compile Include="ProjectNodeTests.cs" />
     <Compile Include="ProjectTreeTests.cs" />
     <Compile Include="ProjectModelTests.cs" />

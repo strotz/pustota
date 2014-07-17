@@ -69,7 +69,7 @@
     <Compile Include="Serialization\Data\Project.cs" />
     <Compile Include="Serialization\Data\ProjectReference.cs" />
     <Compile Include="Models\ProjectReferenceExtensions.cs" />
-    <Compile Include="Serialization\IPersistent.cs" />
+    <Compile Include="Serialization\IChangeTracking.cs" />
     <Compile Include="RepositoryEntryPoint.cs" />
     <Compile Include="Serialization\Data\DataFactory.cs" />
     <Compile Include="Serialization\Data\IDataFactory.cs" />

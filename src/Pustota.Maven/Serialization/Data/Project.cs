@@ -53,5 +53,7 @@ namespace Pustota.Maven.Serialization.Data
 			get { return _container.PluginManagement; }
 			set { _container.PluginManagement = value; }
 		}
+
+		public bool Changed { get; set; }
 	}
 }

@@ -74,15 +74,9 @@ namespace Pustota.Maven
 //			get { return ProjectsRepository.Changed; }
 //		}
 
-//		public IEnumerable<IProject> Projects
-//		{
-//			get { return _projects.Select(pc => pc.Project); }
-//		}
-
 		public void ForceSaveAll()
 		{
 			_loader.SaveProjects(_projects);
 		}
-
 	}
 }

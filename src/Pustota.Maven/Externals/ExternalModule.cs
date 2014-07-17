@@ -8,8 +8,6 @@ namespace Pustota.Maven.Externals
 		ProjectReference
 		// IFixable
 	{
-		//public string FullPath { get; private set; }
-
 		//[Browsable(false)]
 		//public bool Changed { get; set; }
 
@@ -18,7 +16,6 @@ namespace Pustota.Maven.Externals
 		//	ArtifactId = reference.ArtifactId;
 		//	GroupId = reference.GroupId;
 		//	Version = reference.Version;
-		//	FullPath = path;
 		//}
 
 		//public ExternalModule(string groupId, string artifactId, string version, string path)
@@ -26,7 +23,6 @@ namespace Pustota.Maven.Externals
 		//	ArtifactId = artifactId;
 		//	GroupId = groupId;
 		//	Version = version;
-		//	FullPath = path;
 		//}
 
 		public override string ToString()
