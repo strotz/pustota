@@ -6,7 +6,7 @@ namespace Pustota.Maven
 {
 	public class SolutionManagement
 	{
-		public ISolution OpenSolution(string fileOrFolderName)
+		public ISolution OpenSolution(string fileOrFolderName, bool loadDisconnectedProjects)
 		{
 			FileSystemAccess fileIo = new FileSystemAccess();
 			IDataFactory factory = new DataFactory();
@@ -15,7 +15,7 @@ namespace Pustota.Maven
 			var loader = new ProjectTreeLoader(fileIo, projectLoader, projectLoader);
 
 			var solution = new Solution(fileIo, loader);
-			solution.Open(fileOrFolderName);
+			solution.Open(fileOrFolderName, loadDisconnectedProjects);
 			return solution;
 		}
 	}

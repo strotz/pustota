@@ -33,7 +33,7 @@ namespace Pustota.Maven.Cmd.Commands
 			Console.WriteLine("Apply value \"{0}\" to property \"{1}\"", value, name);
 
 			var solutionManagement = new SolutionManagement();
-			var solution = solutionManagement.OpenSolution(Path);
+			var solution = solutionManagement.OpenSolution(Path, LoadAllProjects);
 
 			ApplyClassifierAction action = new ApplyClassifierAction(solution, name, value);
 			action.Execute();

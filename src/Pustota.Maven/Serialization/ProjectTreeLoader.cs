@@ -31,17 +31,25 @@ namespace Pustota.Maven.Serialization
 			_projectWriter = projectWriter;
 		}
 
-		public IEnumerable<ProjectTreeElement> LoadProjectTree(string fileOrFolderName)
+		public IEnumerable<ProjectTreeElement> LoadProjectTree(string fileName)
 		{
-			if (_fileSystem.IsDirectoryExist(fileOrFolderName))
+			if (!_fileSystem.IsFileExist(fileName))
 			{
-				return ScanFolder(fileOrFolderName);
+				throw new FileNotFoundException("Entry to project tree not found", fileName);
 			}
-			if (_fileSystem.IsFileExist(fileOrFolderName))
+
+			return ScanProject(fileName);
+		}
+
+		public IEnumerable<ProjectTreeElement> ScanForProjects(string folderName)
+		{
+			if (!_fileSystem.IsDirectoryExist(folderName))
 			{
-				return ScanProject(fileOrFolderName);
+				throw new FileNotFoundException("Project tree not found", folderName);
 			}
-			return new ProjectTreeElement[] { };
+
+			string[] files = _fileSystem.GetFiles(folderName, ProjectFilePattern, SearchOption.AllDirectories);
+			return files.Select(fileName => new ProjectTreeElement(fileName, _projectReader.ReadProject(fileName)));
 		}
 
 		public void SaveProjects(IEnumerable<ProjectTreeElement> projects)
@@ -50,12 +58,6 @@ namespace Pustota.Maven.Serialization
 			{
 				_projectWriter.UpdateProject(projectTreeElement.Project, projectTreeElement.Path);
 			}
-		}
-
-		private IEnumerable<ProjectTreeElement> ScanFolder(string folderName)
-		{
-			string[] files = _fileSystem.GetFiles(folderName, ProjectFilePattern, SearchOption.AllDirectories);
-			return files.Select(fileName => new ProjectTreeElement(fileName, _projectReader.ReadProject(fileName)));
 		}
 
 		private IEnumerable<ProjectTreeElement> ScanProject(string fileName)

@@ -29,31 +29,38 @@ namespace Pustota.Maven
 			_loader = loader;
 		}
 
-		internal void Open(string fileOrFolderName)
+		// REVIEW: loadDisconnectedProjects need to be rewired
+		internal void Open(string fileOrFolderName, bool loadDisconnectedProjects)
 		{
 			if (fileOrFolderName == null) throw new ArgumentNullException("fileOrFolderName");
 
-			var fullPath = _fileIo.GetFullPath(fileOrFolderName);
+			string fullPath = _fileIo.GetFullPath(fileOrFolderName);
+			string filePath;
+
 			if (_fileIo.IsFileExist(fullPath))
 			{
 				BaseDir = _fileIo.GetDirectoryName(fullPath);
+				filePath = fullPath;
 			}
 			else if (_fileIo.IsDirectoryExist(fullPath))
 			{
 				BaseDir = fullPath;
+				filePath = _fileIo.Combine(fullPath, ProjectTreeLoader.ProjectFilePattern);
 			}
 			else
 			{
-				throw new FileNotFoundException(fullPath);
+				throw new FileNotFoundException("Solution entry point is missing", fullPath);
 			}
 
-			_projects = _loader.LoadProjectTree(fileOrFolderName).ToList();
+			if (loadDisconnectedProjects)
+			{
+				_projects = _loader.ScanForProjects(BaseDir).ToList();
+			}
+			else
+			{
+				_projects = _loader.LoadProjectTree(filePath).ToList();
+			}
 		}
-
-//		public void Reload()
-//		{
-//			Load();
-//		}
 
 //		public IEnumerable<ValidationError> Validate()
 //		{

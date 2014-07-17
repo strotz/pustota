@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Moq;
 using NUnit.Framework;
@@ -12,7 +13,7 @@ namespace Pustota.Maven.Base.Tests
 	[TestFixture]
 	public class ProjectTreeTests
 	{
-		//private string _topFolder;
+		private string _topFolder;
 		//private string _secondFolder;
 
 		private string _topProjectPath;
@@ -60,7 +61,7 @@ namespace Pustota.Maven.Base.Tests
 
 			_serializerMock.Setup(s => s.Deserialize(_topProjectContent)).Returns(_topProject);
 
-			//	_topFolder = "top";
+			_topFolder = "top";
 			_secondFolderName = "second";
 			//	_secondFolder = "top\\second";
 			_topProjectPath = "top\\pom.xml";
@@ -72,8 +73,9 @@ namespace Pustota.Maven.Base.Tests
 			//	_fileIOMock.Setup(io => io.ReadAllText(_secondProjectPath)).Returns(_secondProjectContent);
 			_fileIOMock.Setup(io => io.IsFileExist(_topProjectPath)).Returns(true);
 			_fileIOMock.Setup(io => io.IsFileExist(_secondProjectPath)).Returns(true);
-			//	_fileIOMock.Setup(io => io.IsDirectoryExist(_topFolder)).Returns(true);
-			//	_fileIOMock.Setup(io => io.EnumerateDirectories(_topFolder)).Returns(new[] {_secondFolderName});
+			_fileIOMock.Setup(io => io.IsDirectoryExist(_topFolder)).Returns(true);
+			_fileIOMock.Setup(io => io.GetFiles(_topFolder, "pom.xml", SearchOption.AllDirectories))
+				.Returns(new[] { _topProjectPath, _secondProjectPath });
 
 			_fileIOMock.Setup(io => io.Combine(It.IsAny<string>(), _secondFolderName, It.IsAny<string>())).Returns(_secondProjectPath);
 
@@ -100,19 +102,6 @@ namespace Pustota.Maven.Base.Tests
 			Assert.That(project.ArtifactId, Is.EqualTo(_topProject.ArtifactId));
 		}
 
-		[Test, Ignore]
-		public void ProjectRepositoryLoadAllFoldersTest()
-		{
-			throw new NotImplementedException();
-
-			//var entryPoint = new RepositoryEntryPoint(_topFolder, _fileIOMock.Object);
-
-			//var loader = new ProjectTreeLoader(entryPoint, _serializer, _fileIOMock.Object);
-			//var projects = loader.LoadProjects().ToList();
-
-			//Assert.That(projects.Count, Is.EqualTo(2));
-		}
-
 		[Test]
 		public void ProjectRepositoryLoadViaModulesJustOneTest()
 		{
@@ -129,6 +118,14 @@ namespace Pustota.Maven.Base.Tests
 			_topProject.Modules.Add(new Module { Path = _secondFolderName });
 			var projects = _loader.LoadProjectTree(_topProjectPath).ToList();
 			Assert.That(projects.Count, Is.EqualTo(2));
+		}
+
+		[Test]
+		public void ProjectRepositoryScansAllFoldersTest()
+		{
+			var projects = _loader.ScanForProjects(_topFolder).ToList();
+			Assert.That(projects.Count, Is.EqualTo(2));
+			_readerMock.Verify(r => r.ReadProject(It.IsAny<string>()), Times.Exactly(2));
 		}
 
 		[Test]
