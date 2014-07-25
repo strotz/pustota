@@ -1,3 +1,4 @@
+using Pustota.Maven.Externals;
 using Pustota.Maven.Models;
 
 namespace Pustota.Maven.Serialization.Data
@@ -16,7 +17,9 @@ namespace Pustota.Maven.Serialization.Data
 
 		// REVIEW: change types
 		IPlugin CreatePlugin();
+
 		IProfile CreateProfile();
-		
+
+		IExternalModule CreateExternalModule();
 	}
 }

@@ -5,11 +5,16 @@ using Pustota.Maven.Serialization.Data;
 namespace Pustota.Maven.Externals
 {
 	internal class ExternalModule : 
-		ProjectReference
+		ProjectReference,
+		IExternalModule
 		// IFixable
 	{
 		//[Browsable(false)]
 		//public bool Changed { get; set; }
+
+		internal ExternalModule()
+		{
+		}
 
 		//public ExternalModule(IProjectReference reference, string path)
 		//{

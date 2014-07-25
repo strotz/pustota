@@ -1,5 +1,6 @@
 using System;
 using System.Xml.Linq;
+using Pustota.Maven.Externals;
 using Pustota.Maven.Models;
 
 namespace Pustota.Maven.Serialization.Data
@@ -14,6 +15,11 @@ namespace Pustota.Maven.Serialization.Data
 		public IProfile CreateProfile()
 		{
 			return new Profile();
+		}
+
+		public IExternalModule CreateExternalModule()
+		{
+			return new ExternalModule();
 		}
 
 		public IProject CreateProject()
