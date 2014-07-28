@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Moq;
 using NUnit.Framework;
 using Pustota.Maven.Actions;
 using Pustota.Maven.Models;
 using Pustota.Maven.Serialization.Data;
 
-namespace Pustota.Maven.Base.Tests
+namespace Pustota.Maven.Base.Tests.Actions
 {
 	[TestFixture]
 	public class BulkSwitchToReleaseTests

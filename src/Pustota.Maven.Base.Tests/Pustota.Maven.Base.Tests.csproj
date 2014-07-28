@@ -48,9 +48,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplyClassifierActionTests.cs" />
+    <Compile Include="Actions\ApplyClassifierActionTests.cs" />
+    <Compile Include="Actions\CascadeSwitchToSnapshotTests.cs" />
     <Compile Include="AspectOrientedTests.cs" />
-    <Compile Include="BulkSwitchToReleaseTests.cs" />
+    <Compile Include="Actions\BulkSwitchToReleaseTests.cs" />
     <Compile Include="DeserializationTests.cs" />
     <Compile Include="ExternalModulesTests.cs" />
     <Compile Include="ProjectChangedTests.cs" />

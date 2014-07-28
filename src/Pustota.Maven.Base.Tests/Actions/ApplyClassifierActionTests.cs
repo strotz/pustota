@@ -5,7 +5,7 @@ using Pustota.Maven.Actions;
 using Pustota.Maven.Models;
 using Pustota.Maven.Serialization.Data;
 
-namespace Pustota.Maven.Base.Tests
+namespace Pustota.Maven.Base.Tests.Actions
 {
 	[TestFixture]
 	public class ApplyClassifierActionTests
