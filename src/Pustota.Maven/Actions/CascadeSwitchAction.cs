@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Pustota.Maven.Editor.Models;
+using Pustota.Maven.Models;
 
-namespace Pustota.Maven.Editor.Actions
+namespace Pustota.Maven.Actions
 {
 	internal class CascadeSwitchAction
 	{
@@ -12,7 +12,7 @@ namespace Pustota.Maven.Editor.Actions
 			_projects = projects;
 		}
 
-		public void ExecuteFor(ProjectNode currentProjectNode)
+		public void ExecuteFor(IProject targetProject)
 		{
 			// var selected = _views.AllViews.Where(v => v.Checked).Select(v => v.ProjectNode);
 			var searchOptions = new SearchOptions
@@ -26,21 +26,21 @@ namespace Pustota.Maven.Editor.Actions
 
 			var selector = new DependencySelector(_projects, searchOptions);
 
-			var queue = new Queue<ProjectNode>();
-			queue.Enqueue(currentProjectNode);
+			var queue = new Queue<IProject>();
+			queue.Enqueue(targetProject);
 
 			while (queue.Count != 0)
 			{
-				var projectNode = queue.Dequeue();
-				if (!projectNode.IsSnapshot)
+				var project = queue.Dequeue();
+				if (!project.ReferenceOperations().IsSnapshot)
 				{
-					projectNode.IncrementVersionAndEnableSnapshot();
+					project.ReferenceOperations().IncrementVersionAndEnableSnapshot();
 				}
 
-				foreach (var dependentProject in selector.SelectUsages(projectNode))
+				foreach (var dependentProject in selector.SelectUsages(project))
 				{
-					dependentProject.PropagateVersionToUsages(projectNode.Project);
-					if (!dependentProject.IsSnapshot)
+					dependentProject.Operations().PropagateVersionToUsages(project);
+					if (!dependentProject.ReferenceOperations().IsSnapshot)
 					{
 						queue.Enqueue(dependentProject);
 					}
