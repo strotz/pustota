@@ -1,11 +1,11 @@
-﻿using Pustota.Maven.Editor.Models;
-using Pustota.Maven.Editor.Resources;
+﻿using Pustota.Maven.Models;
+using Pustota.Maven.Serialization.Data;
 
-namespace Pustota.Maven.Editor.Validations.Fixes
+namespace Pustota.Maven.Validation
 {
 	internal class RelativePathFix : Fix
 	{
-		private readonly Project _project;
+		private readonly IProject _project;
 		private readonly string _parentPath;
 
 		internal RelativePathFix(Project project, string parentPath)
@@ -13,13 +13,13 @@ namespace Pustota.Maven.Editor.Validations.Fixes
 			_project = project;
 			_parentPath = parentPath;
 
-			Title = MessageResources.FixRelativePath;
+			Title = "Correct relative path";
 		}
 
 		public override void Do()
 		{
 			_project.Parent.RelativePath = _parentPath;
-			_project.Changed = true; // REVIEW: project should be notified
+			// _project.Changed = true; // REVIEW: project should be notified
 		}
 	}
 }

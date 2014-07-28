@@ -115,15 +115,6 @@ namespace Pustota.Maven.Editor.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fix relative path.
-        /// </summary>
-        internal static string FixRelativePath {
-            get {
-                return ResourceManager.GetString("FixRelativePath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to There are unsaved changes in the repository. Proceed reloading?.
         /// </summary>
         internal static string ProceedReloading {

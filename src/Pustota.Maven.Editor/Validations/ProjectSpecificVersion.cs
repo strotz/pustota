@@ -1,4 +1,5 @@
 using Pustota.Maven.Editor.Models;
+using Pustota.Maven.Validation;
 
 namespace Pustota.Maven.Editor.Validations
 {

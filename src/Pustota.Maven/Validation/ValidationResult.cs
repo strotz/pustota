@@ -1,4 +1,4 @@
-namespace Pustota.Maven.Editor.Validations
+namespace Pustota.Maven.Validation
 {
 	public enum ValidationResult // REVIEW: im not sure that it will help
 	{

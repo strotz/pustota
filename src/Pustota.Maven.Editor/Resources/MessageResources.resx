@@ -144,7 +144,4 @@
   <data name="DoYouWantToSaveChanges" xml:space="preserve">
     <value>Do you want to save the changes?</value>
   </data>
-  <data name="FixRelativePath" xml:space="preserve">
-    <value>Fix relative path</value>
-  </data>
 </root>

@@ -100,6 +100,13 @@
     <Compile Include="Serialization\ProjectTreeLoader.cs" />
     <Compile Include="Solution.cs" />
     <Compile Include="SolutionManagement.cs" />
+    <Compile Include="Validation\AddToExternalFix.cs" />
+    <Compile Include="Validation\Fix.cs" />
+    <Compile Include="Validation\IValidation.cs" />
+    <Compile Include="Validation\RelativePathFix.cs" />
+    <Compile Include="Validation\SwitchToSnapshotFix.cs" />
+    <Compile Include="Validation\ValidationResult.cs" />
+    <Compile Include="Validation\VersionFix.cs" />
     <Compile Include="VersionOperations.cs" />
   </ItemGroup>
   <ItemGroup />

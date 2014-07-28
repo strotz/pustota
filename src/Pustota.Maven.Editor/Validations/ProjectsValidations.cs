@@ -6,6 +6,7 @@ using Pustota.Maven.Editor.Externals;
 using Pustota.Maven.Editor.Models;
 using Pustota.Maven.Editor.Resources;
 using Pustota.Maven.Editor.Validations.Fixes;
+using Pustota.Maven.Validation;
 
 namespace Pustota.Maven.Editor.Validations
 {

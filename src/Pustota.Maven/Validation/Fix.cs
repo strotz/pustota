@@ -1,4 +1,4 @@
-﻿namespace Pustota.Maven.Editor.Validations
+﻿namespace Pustota.Maven.Validation
 {
 	abstract class Fix
 	{

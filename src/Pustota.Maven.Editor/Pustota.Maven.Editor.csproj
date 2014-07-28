@@ -57,11 +57,6 @@
     <Compile Include="PomXml\TranslationAssemblyDocument.cs" />
     <Compile Include="Validations\FatalValidationException.cs" />
     <Compile Include="Models\ProjectNode.cs" />
-    <Compile Include="Validations\Fixes\AddToExternalFix.cs" />
-    <Compile Include="Validations\Fixes\SwitchToSnapshotFix.cs" />
-    <Compile Include="Validations\Fixes\VersionFix.cs" />
-    <Compile Include="Validations\Fixes\RelativePathFix.cs" />
-    <Compile Include="Validations\IValidation.cs" />
     <Compile Include="Validations\IValidationOutput.cs" />
     <Compile Include="Validations\ParentReferenceExist.cs" />
     <Compile Include="Validations\ParentSpecificVersionValidation.cs" />
@@ -96,7 +91,6 @@
     </Compile>
     <Compile Include="Validations\DelegatedFix.cs" />
     <Compile Include="Validations\ErrorLevel.cs" />
-    <Compile Include="Validations\Fix.cs" />
     <Compile Include="Models\ProjectsRepository.cs" />
     <Compile Include="Models\ProjectType.cs" />
     <Compile Include="Validations\ValidationError.cs" />
@@ -118,7 +112,6 @@
     <Compile Include="EditorControl.Designer.cs">
       <DependentUpon>EditorControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Validations\ValidationResult.cs" />
     <Compile Include="VersionDialog.cs">
       <SubType>Form</SubType>
     </Compile>

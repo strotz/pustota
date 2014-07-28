@@ -1,17 +1,15 @@
-﻿using Pustota.Maven.Editor.Models;
-using Pustota.Maven.Models;
+﻿using Pustota.Maven.Models;
 
-namespace Pustota.Maven.Editor.Validations.Fixes
+namespace Pustota.Maven.Validation
 {
+	// REVIEW: 
 	internal class VersionFix : Fix
 	{
-		private readonly IProject _project;
 		private readonly IProjectReference _reference;
 		private readonly string _version;
 
-		public VersionFix(IProject project, IProjectReference reference, string version)
+		public VersionFix(IProjectReference reference, string version)
 		{
-			_project = project;
 			_reference = reference;
 			_version = version;
 
@@ -21,7 +19,7 @@ namespace Pustota.Maven.Editor.Validations.Fixes
 		public override void Do()
 		{
 			_reference.Version = _version;
-			_project.Changed = true; // REVIEW: project should be notified
+			// _project.Changed = true; // REVIEW: project should be notified
 		}
 	}
 }
