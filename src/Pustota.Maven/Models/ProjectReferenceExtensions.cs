@@ -9,7 +9,7 @@ namespace Pustota.Maven.Models
 		bool HasSpecificVersion { get; }
 		bool IsSnapshot { get; }
 		string SwitchToRelease(string postfix = null);
-		void IncrementVersionAndEnableSnapshot();
+		string IncrementVersionAndEnableSnapshot();
 	}
 
 	internal class ProjectReferenceOperations : IProjectReferenceOperations
@@ -46,9 +46,16 @@ namespace Pustota.Maven.Models
 			return _projectReference.Version = VersionOperations.AddPostfix(version, postfix);
 		}
 
-		public void IncrementVersionAndEnableSnapshot()
+		public string IncrementVersionAndEnableSnapshot()
 		{
-			throw new NotImplementedException();
+			if (!HasSpecificVersion)
+			{
+				return _projectReference.Version = VersionOperations.DefaultVersion.ToSnapshot();
+			}
+
+			string version = VersionOperations.ResetVersion(_projectReference.Version);
+			version = VersionOperations.IncrementNumber(version, 2); // TODO: make it flexable
+			return _projectReference.Version = version.ToSnapshot();
 		}
 
 		private static bool VersionEqual(string version1, string version2)

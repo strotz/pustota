@@ -83,20 +83,6 @@ namespace Pustota.Maven.Editor.Models
 			return this.ReferenceEqualTo(another, false);
 		}
 
-		public void IncrementVersionAndEnableSnapshot()
-		{
-			if (string.IsNullOrEmpty(Version)) // TODO: need refactoring
-			{
-				IsSnapshot = true; // version will be defaulted 
-			}
-			else
-			{
-				string version = VersionOperations.ResetVersion(Version);
-				version = version.ToSnapshot();
-				Version = VersionOperations.IncrementNumber(version, 2); // TODO: make it flexable
-			}
-		}
-
 
 
 

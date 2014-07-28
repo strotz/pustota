@@ -1,8 +1,7 @@
-using Pustota.Maven.Models;
-
 namespace Pustota.Maven
 {
 	// REVIEW: to the IProjectReference extension
+	// REVIEW: has to be refactored as Version class 
 	public static class VersionOperations
 	{
 		public const string SnapshotPosfix = "-SNAPSHOT";
