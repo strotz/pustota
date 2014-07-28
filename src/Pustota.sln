@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pustota.Maven.Editor", "Pus
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pustota.Maven", "Pustota.Maven\Pustota.Maven.csproj", "{5E8F4FA2-3482-4481-B3C7-7F17D619177F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pustota.Maven.UI", "Pustota.Maven.UI\Pustota.Maven.UI.csproj", "{E7A69C89-A91E-4A60-A8CB-8481163647E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pustota.Maven.UI.Tests", "Pustota.Maven.UI.Tests\Pustota.Maven.UI.Tests.csproj", "{DC41BFBB-1CE9-4EB1-8A0C-70431EBF06FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{5E8F4FA2-3482-4481-B3C7-7F17D619177F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E8F4FA2-3482-4481-B3C7-7F17D619177F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E8F4FA2-3482-4481-B3C7-7F17D619177F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7A69C89-A91E-4A60-A8CB-8481163647E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7A69C89-A91E-4A60-A8CB-8481163647E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7A69C89-A91E-4A60-A8CB-8481163647E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7A69C89-A91E-4A60-A8CB-8481163647E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC41BFBB-1CE9-4EB1-8A0C-70431EBF06FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC41BFBB-1CE9-4EB1-8A0C-70431EBF06FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC41BFBB-1CE9-4EB1-8A0C-70431EBF06FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC41BFBB-1CE9-4EB1-8A0C-70431EBF06FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
