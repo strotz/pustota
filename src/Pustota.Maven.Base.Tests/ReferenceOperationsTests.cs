@@ -53,7 +53,7 @@ namespace Pustota.Maven.Base.Tests
 		public void ToSnapshotFromNullBareTest()
 		{
 			_project.Setup(p => p.Version).Returns((string)null);
-			string result = _operations.IncrementVersionAndEnableSnapshot();
+			string result = _operations.SwitchToSnapshotWithVersionIncrement();
 			Assert.That(result, Is.EqualTo("1.0.0-SNAPSHOT"));
 		}
 
@@ -61,7 +61,7 @@ namespace Pustota.Maven.Base.Tests
 		public void ToSnapshotFromReleaseBareTest()
 		{
 			_project.Setup(p => p.Version).Returns("1.0.0");
-			string result = _operations.IncrementVersionAndEnableSnapshot();
+			string result = _operations.SwitchToSnapshotWithVersionIncrement();
 			Assert.That(result, Is.EqualTo("1.0.1-SNAPSHOT"));
 		}
 
@@ -69,9 +69,16 @@ namespace Pustota.Maven.Base.Tests
 		public void ToSnapshotFromReleaseWithSuffixTest()
 		{
 			_project.Setup(p => p.Version).Returns("1.0.0-RE");
-			string result = _operations.IncrementVersionAndEnableSnapshot();
+			string result = _operations.SwitchToSnapshotWithVersionIncrement();
 			Assert.That(result, Is.EqualTo("1.0.1-SNAPSHOT"));
 		}
 
+		[Test]
+		public void ToSnapshotFromSnapshotTest()
+		{
+			_project.Setup(p => p.Version).Returns("1.0.0-SNAPSHOT");
+			string result = _operations.SwitchToSnapshotWithVersionIncrement();
+			Assert.That(result, Is.EqualTo("1.0.0-SNAPSHOT"));
+		}
 	}
 }
