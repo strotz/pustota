@@ -4,10 +4,12 @@ namespace Pustota.Maven.Models
 {
 	public interface IProjectReferenceOperations
 	{
+		bool ReferenceEqualTo(IProjectReference another, bool strictVersion = true);
+
 		bool HasSpecificVersion { get; }
 		bool IsSnapshot { get; }
-		void SwitchToRelease(string postfix = null);
-		bool ReferenceEqualTo(IProjectReference another, bool strictVersion = true);
+		string SwitchToRelease(string postfix = null);
+		void IncrementVersionAndEnableSnapshot();
 	}
 
 	internal class ProjectReferenceOperations : IProjectReferenceOperations
@@ -38,10 +40,15 @@ namespace Pustota.Maven.Models
 				&& _projectReference.Version.ToUpper().EndsWith(VersionOperations.SnapshotPosfix); }
 		}
 
-		public void SwitchToRelease(string postfix = null)
+		public string  SwitchToRelease(string postfix = null)
 		{
 			string version = VersionOperations.ResetVersion(_projectReference.Version);
-			_projectReference.Version = VersionOperations.AddPostfix(version, postfix);
+			return _projectReference.Version = VersionOperations.AddPostfix(version, postfix);
+		}
+
+		public void IncrementVersionAndEnableSnapshot()
+		{
+			throw new NotImplementedException();
 		}
 
 		private static bool VersionEqual(string version1, string version2)
