@@ -1,29 +1,28 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using Pustota.Maven.Editor.Models;
 using Pustota.Maven.Editor.Resources;
+using Pustota.Maven.Externals;
+using Pustota.Maven.Serialization.Data;
 
 namespace Pustota.Maven.Editor.Externals
 {
 	partial class ExternalReferenceManagerForm : Form
 	{
-		private readonly ISolution _solution;
-
 		// REVIEW: remove 
 		private readonly IProjectsRepository _repository;
-		private readonly ExternalModulesRepository _externalModules;
+		private readonly IExternalModulesRepository _externalModules;
 
-		public ExternalReferenceManagerForm(ISolution solution)
+		private IDataFactory _dataFactory;
+
+		public ExternalReferenceManagerForm(ISolution solution, IExternalModulesRepository externalModules)
 		{
 			if (solution == null)
 				throw new ArgumentNullException("solution");
 
-			_solution = solution;
-
 			// REVIEW: encapsulate
-			_repository = _solution.ProjectsRepository;
-			_externalModules = _solution.ExternalModules;
+			_repository = solution;
+			_externalModules = externalModules;
 
 			InitializeComponent();
 			
@@ -35,13 +34,19 @@ namespace Pustota.Maven.Editor.Externals
 			dataGridViewMavenExternal.DataSource = new BindingSource {DataSource = _externalModules.Items};
 		}
 
-		private void ButtonAddMavenExternalClick(object sender, EventArgs e)
+		private void UpdateView()
 		{
-			ExternalModule externalModule = new ExternalModule();
-			_externalModules.Add(externalModule);
 			BindingSource bs = dataGridViewMavenExternal.DataSource as BindingSource;
 			if (bs != null)
 				bs.ResetBindings(true);
+		}
+
+		private void ButtonAddMavenExternalClick(object sender, EventArgs e)
+		{
+			_dataFactory.CreateExternalModule();
+			_externalModules.Add(_dataFactory.CreateExternalModule());
+			
+			UpdateView();
 		}
 
 		private void ButtonDeleteMavenExternalClick(object sender, EventArgs e)
