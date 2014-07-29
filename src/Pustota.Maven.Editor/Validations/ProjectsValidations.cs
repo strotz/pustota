@@ -10,7 +10,7 @@ using Pustota.Maven.Validation;
 
 namespace Pustota.Maven.Editor.Validations
 {
-	class ProjectsValidations : IValidationOutput
+	class ProjectsValidations
 	{
 		private readonly IProjectsRepository _repository;
 		private readonly ExternalModulesRepository _externalModules;
@@ -72,7 +72,7 @@ namespace Pustota.Maven.Editor.Validations
 
 		private IEnumerable<IValidation> BuildValidationSequence(ProjectNode node)
 		{
-			yield return new ParentSpecificVersionValidation(this, node);
+			yield return new ParentSpecificVersion(this, node);
 			yield return new ProjectSpecificVersion(this, node);
 			yield return new ParentReferenceExist(this, node, _repository, _externalModules);
 			yield return new ProjectPluginVersions(this, node, _repository, _externalModules);
@@ -239,16 +239,6 @@ namespace Pustota.Maven.Editor.Validations
 					}
 				}
 			}
-		}
-
-		private void AddGlobal(string title, string details)
-		{
-			ValidationErrors.Add(new ValidationError(null, title, details, ErrorLevel.Error));
-		}
-
-		public void AddError(ValidationError error)
-		{
-			ValidationErrors.Add(error);
 		}
 	}
 }

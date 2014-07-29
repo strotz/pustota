@@ -26,5 +26,11 @@ namespace Pustota.Maven.System
 		void CreateDirectory(string path);
 
 		string[] GetFiles(string path, string searchPattern, SearchOption searchOption);
+
+		string GetRelativePath(string firstPath, string secondPath);
+
+		bool ArePathesEqual(string path1, string path2);
+
+		string Normalize(string path);
 	}
 }

@@ -65,6 +65,7 @@
     <Compile Include="Validations\ParentReferenceExistTests.cs" />
     <Compile Include="Validations\ParentSpecificVersionTests.cs" />
     <Compile Include="Validations\ProjectPluginVersionsTest.cs" />
+    <Compile Include="Validations\ProjectSpecificVersionTests.cs" />
     <Compile Include="VersionsTests.cs" />
     <Compile Include="XmlFormatTests.cs" />
   </ItemGroup>

@@ -108,6 +108,7 @@
     <Compile Include="Validation\ParentReferenceExist.cs" />
     <Compile Include="Validation\ParentSpecificVersion.cs" />
     <Compile Include="Validation\ProjectPluginVersions.cs" />
+    <Compile Include="Validation\ProjectSpecificVersion.cs" />
     <Compile Include="Validation\RelativePathFix.cs" />
     <Compile Include="Validation\SwitchToSnapshotFix.cs" />
     <Compile Include="Validation\ValidationResult.cs" />

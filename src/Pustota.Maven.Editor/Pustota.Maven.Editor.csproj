@@ -56,8 +56,6 @@
     <Compile Include="PomXml\PassoloProjectDocument.cs" />
     <Compile Include="PomXml\TranslationAssemblyDocument.cs" />
     <Compile Include="Models\ProjectNode.cs" />
-    <Compile Include="Validations\PathOperations.cs" />
-    <Compile Include="Validations\ProjectSpecificVersion.cs" />
     <Compile Include="Validations\ProjectsValidations.cs" />
     <Compile Include="Models\ContextAction.cs" />
     <Compile Include="Validations\IFixable.cs" />
@@ -86,7 +84,6 @@
     </Compile>
     <Compile Include="Models\ProjectsRepository.cs" />
     <Compile Include="Models\ProjectType.cs" />
-    <Compile Include="Validations\ValidationError.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\CommonResources.Designer.cs">

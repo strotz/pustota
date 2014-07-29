@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Pustota.Maven.System
@@ -59,6 +60,24 @@ namespace Pustota.Maven.System
 		public string[] GetFiles(string path, string searchPattern, SearchOption searchOption)
 		{
 			return Directory.GetFiles(path, searchPattern, searchOption);
+		}
+
+		public string GetRelativePath(string firstPath, string secondPath)
+		{
+			Uri firstUri = new Uri(firstPath);
+			Uri secondUri = new Uri(secondPath);
+			return Uri.UnescapeDataString(firstUri.MakeRelativeUri(secondUri).ToString());
+		}
+
+		// REVIEW: comparer?
+		public bool ArePathesEqual(string path1, string path2)
+		{
+			return String.Equals(Path.GetFullPath(path1), Path.GetFullPath(path2), StringComparison.InvariantCultureIgnoreCase);
+		}
+
+		public string Normalize(string path)
+		{
+			return path.Replace('/', Path.DirectorySeparatorChar);
 		}
 	}
 }
