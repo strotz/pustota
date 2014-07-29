@@ -63,6 +63,7 @@
     <Compile Include="SerializationWithUpdateTests.cs" />
     <Compile Include="SolutionTests.cs" />
     <Compile Include="Validations\ParentReferenceExistTests.cs" />
+    <Compile Include="Validations\ParentSpecificVersionTests.cs" />
     <Compile Include="Validations\ProjectPluginVersionsTest.cs" />
     <Compile Include="VersionsTests.cs" />
     <Compile Include="XmlFormatTests.cs" />

@@ -106,6 +106,7 @@
     <Compile Include="Validation\Fix.cs" />
     <Compile Include="Validation\IValidation.cs" />
     <Compile Include="Validation\ParentReferenceExist.cs" />
+    <Compile Include="Validation\ParentSpecificVersion.cs" />
     <Compile Include="Validation\ProjectPluginVersions.cs" />
     <Compile Include="Validation\RelativePathFix.cs" />
     <Compile Include="Validation\SwitchToSnapshotFix.cs" />

@@ -56,7 +56,6 @@
     <Compile Include="PomXml\PassoloProjectDocument.cs" />
     <Compile Include="PomXml\TranslationAssemblyDocument.cs" />
     <Compile Include="Models\ProjectNode.cs" />
-    <Compile Include="Validations\ParentSpecificVersionValidation.cs" />
     <Compile Include="Validations\PathOperations.cs" />
     <Compile Include="Validations\ProjectSpecificVersion.cs" />
     <Compile Include="Validations\ProjectsValidations.cs" />

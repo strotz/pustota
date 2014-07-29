@@ -13,13 +13,13 @@ namespace Pustota.Maven.Validation
 	public interface IValidationProblem
 	{
 		ProblemSeverity Severity { get; }
-		string Title { get; }
+		string Description { get; }
 	}
 
 	public class ValidationProblem : IValidationProblem
 	{
-		public ProblemSeverity Severity { get; protected set; }
-		public string Title { get; protected set; }
+		public ProblemSeverity Severity { get; internal protected set; }
+		public string Description { get; internal protected set; }
 	}
 
 
