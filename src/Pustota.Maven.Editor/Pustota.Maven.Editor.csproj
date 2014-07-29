@@ -55,10 +55,7 @@
     <Compile Include="PomXml\IgnoredValidationsDocument.cs" />
     <Compile Include="PomXml\PassoloProjectDocument.cs" />
     <Compile Include="PomXml\TranslationAssemblyDocument.cs" />
-    <Compile Include="Validations\FatalValidationException.cs" />
     <Compile Include="Models\ProjectNode.cs" />
-    <Compile Include="Validations\IValidationOutput.cs" />
-    <Compile Include="Validations\ParentReferenceExist.cs" />
     <Compile Include="Validations\ParentSpecificVersionValidation.cs" />
     <Compile Include="Validations\PathOperations.cs" />
     <Compile Include="Validations\ProjectSpecificVersion.cs" />
@@ -88,7 +85,6 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Validations\ErrorLevel.cs" />
     <Compile Include="Models\ProjectsRepository.cs" />
     <Compile Include="Models\ProjectType.cs" />
     <Compile Include="Validations\ValidationError.cs" />

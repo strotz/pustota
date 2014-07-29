@@ -1,6 +1,6 @@
 using System;
 
-namespace Pustota.Maven.Editor.Validations
+namespace Pustota.Maven.Validation
 {
 	public class FatalValidationException : Exception
 	{

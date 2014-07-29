@@ -102,8 +102,10 @@
     <Compile Include="SolutionManagement.cs" />
     <Compile Include="Validation\AddToExternalFix.cs" />
     <Compile Include="Validation\DelegatedFix.cs" />
+    <Compile Include="Validation\FatalValidationException.cs" />
     <Compile Include="Validation\Fix.cs" />
     <Compile Include="Validation\IValidation.cs" />
+    <Compile Include="Validation\ParentReferenceExist.cs" />
     <Compile Include="Validation\ProjectPluginVersions.cs" />
     <Compile Include="Validation\RelativePathFix.cs" />
     <Compile Include="Validation\SwitchToSnapshotFix.cs" />
