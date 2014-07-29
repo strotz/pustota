@@ -100,19 +100,26 @@
     <Compile Include="Serialization\ProjectTreeLoader.cs" />
     <Compile Include="Solution.cs" />
     <Compile Include="SolutionManagement.cs" />
-    <Compile Include="Validation\AddToExternalFix.cs" />
+    <Compile Include="Validation\DuplicatedProjectValidation.cs" />
+    <Compile Include="Validation\Fixes\AddExternalModuleFix.cs" />
     <Compile Include="Validation\DelegatedFix.cs" />
     <Compile Include="Validation\FatalValidationException.cs" />
     <Compile Include="Validation\Fix.cs" />
+    <Compile Include="Validation\Fixes\DeleteExternalModuleFix.cs" />
     <Compile Include="Validation\IValidation.cs" />
-    <Compile Include="Validation\ParentReferenceExist.cs" />
-    <Compile Include="Validation\ParentSpecificVersion.cs" />
-    <Compile Include="Validation\ProjectPluginVersions.cs" />
-    <Compile Include="Validation\ProjectSpecificVersion.cs" />
-    <Compile Include="Validation\RelativePathFix.cs" />
-    <Compile Include="Validation\SwitchToSnapshotFix.cs" />
+    <Compile Include="Validation\ParentReferenceExistValidation.cs" />
+    <Compile Include="Validation\ParentSpecificVersionValidation.cs" />
+    <Compile Include="Validation\ProjecModulesValidation.cs" />
+    <Compile Include="Validation\ProjectDependencyValidation.cs" />
+    <Compile Include="Validation\ProjectPluginVersionsValidation.cs" />
+    <Compile Include="Validation\ProjectSpecificVersionValidation.cs" />
+    <Compile Include="Validation\RepositortValidator.cs" />
+    <Compile Include="Validation\Fixes\RelativePathFix.cs" />
+    <Compile Include="Validation\Fixes\SwitchToSnapshotFix.cs" />
+    <Compile Include="Validation\UselessExternalModulesValidation.cs" />
+    <Compile Include="Validation\ValidationFactory.cs" />
     <Compile Include="Validation\ValidationResult.cs" />
-    <Compile Include="Validation\VersionFix.cs" />
+    <Compile Include="Validation\Fixes\ApplyVersionFix.cs" />
     <Compile Include="VersionOperations.cs" />
   </ItemGroup>
   <ItemGroup />

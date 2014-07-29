@@ -3,11 +3,11 @@ using Pustota.Maven.Models;
 
 namespace Pustota.Maven.Validation
 {
-	internal class ParentSpecificVersion : IValidation
+	internal class ParentSpecificVersionValidation : IValidation
 	{
 		private readonly IProject _project;
 
-		public ParentSpecificVersion(IProject project) 
+		public ParentSpecificVersionValidation(IProject project) 
 		{
 			_project = project; 
 		}

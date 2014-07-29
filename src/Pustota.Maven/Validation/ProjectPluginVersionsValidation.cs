@@ -5,14 +5,14 @@ using Pustota.Maven.Models;
 
 namespace Pustota.Maven.Validation
 {
-	internal class ProjectPluginVersions :
+	internal class ProjectPluginVersionsValidation :
 		IValidation
 	{
 		private readonly IProject _project;
 		private readonly IProjectsRepository _repository;
 		private readonly IExternalModulesRepository _externalModules;
 
-		public ProjectPluginVersions(IProject project, IProjectsRepository repository, IExternalModulesRepository externalModules)
+		public ProjectPluginVersionsValidation(IProject project, IProjectsRepository repository, IExternalModulesRepository externalModules)
 		{
 			_project = project;
 			_repository = repository;
@@ -35,19 +35,19 @@ namespace Pustota.Maven.Validation
 			//	if (potencial.Length == 0)
 			//	{
 			//		error.Details = string.Format("Project {0} uses undefined plugin {1}.", _projectNode.Project, plugin);
-			//		error.AddFix(new AddToExternalFix(_externalModules, plugin));
+			//		error.AddFix(new AddExternalModuleFix(_externalModules, plugin));
 			//	}
 			//	else if (potencial.Length == 1)
 			//	{
 			//		error.Details = string.Format("Project {0} references different plugin version {1}.", _projectNode.Project, plugin);
-			//		error.AddFix(new VersionFix(_projectNode.Project, plugin, potencial.Single().Version));
+			//		error.AddFix(new ApplyVersionFix(_projectNode.Project, plugin, potencial.Single().Version));
 			//	}
 			//	else
 			//	{
 			//		error.Details = string.Format("Project {0} references different plugin version {1}.", _projectNode.Project, plugin);
 			//		foreach (var candicate in potencial)
 			//		{
-			//			error.AddFix(new VersionFix(_projectNode.Project, plugin, candicate.Version));
+			//			error.AddFix(new ApplyVersionFix(_projectNode.Project, plugin, candicate.Version));
 			//		}
 			//	}
 

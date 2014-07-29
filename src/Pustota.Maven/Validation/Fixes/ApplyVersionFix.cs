@@ -1,14 +1,14 @@
 ﻿using Pustota.Maven.Models;
 
-namespace Pustota.Maven.Validation
+namespace Pustota.Maven.Validation.Fixes
 {
 	// REVIEW: 
-	internal class VersionFix : Fix
+	internal class ApplyVersionFix : Fix
 	{
 		private readonly IProjectReference _reference;
 		private readonly string _version;
 
-		public VersionFix(IProjectReference reference, string version)
+		public ApplyVersionFix(IProjectReference reference, string version)
 		{
 			_reference = reference;
 			_version = version;

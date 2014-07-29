@@ -2,20 +2,20 @@
 using Pustota.Maven.Externals;
 using Pustota.Maven.Models;
 
-namespace Pustota.Maven.Validation
+namespace Pustota.Maven.Validation.Fixes
 {
-	internal class AddToExternalFix : Fix
+	internal class DeleteExternalModuleFix : Fix
 	{
 		private readonly IExternalModulesRepository _externalModules;
 		private readonly IProjectReference _externalReference;
 
-		internal AddToExternalFix(IExternalModulesRepository externalModules, IProjectReference externalReference)
+		internal DeleteExternalModuleFix(IExternalModulesRepository externalModules, IProjectReference externalReference)
 		{
 			_externalModules = externalModules;
 			_externalReference = externalReference;
 
 			ShouldBeConfirmed = true;
-			Title = "Mark as external module";
+			Title = "Delete external module";
 		}
 
 		public override void Do()
@@ -23,7 +23,7 @@ namespace Pustota.Maven.Validation
 			throw new NotImplementedException();
 
 			//var module = new ExternalModule(_externalReference, string.Empty);
-			//_externalModules.Add(module);
+			//_externalModules.Remove(module);
 			//_externalModules.AllModules.Save();
 		}
 	}

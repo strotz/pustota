@@ -15,7 +15,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 		private Mock<IProject> _project;
 		private Mock<IProjectsRepository> _repo;
 		private Mock<IExternalModulesRepository> _externals;
-		private ProjectPluginVersions _validation;
+		private ProjectPluginVersionsValidation _validation;
 
 		[SetUp]
 		public void Initialize()
@@ -24,7 +24,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 			_repo = new Mock<IProjectsRepository>();
 			_externals = new Mock<IExternalModulesRepository>();
 
-			_validation = new ProjectPluginVersions(_project.Object, _repo.Object, _externals.Object);
+			_validation = new ProjectPluginVersionsValidation(_project.Object, _repo.Object, _externals.Object);
 
 		}
 

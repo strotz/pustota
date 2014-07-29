@@ -1,7 +1,7 @@
 ﻿using Pustota.Maven.Models;
 using Pustota.Maven.Serialization.Data;
 
-namespace Pustota.Maven.Validation
+namespace Pustota.Maven.Validation.Fixes
 {
 	internal class RelativePathFix : Fix
 	{

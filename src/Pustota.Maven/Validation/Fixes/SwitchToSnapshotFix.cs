@@ -1,7 +1,7 @@
 ﻿using Pustota.Maven.Actions;
 using Pustota.Maven.Models;
 
-namespace Pustota.Maven.Validation
+namespace Pustota.Maven.Validation.Fixes
 {
 	internal class SwitchToSnapshotFix : Fix
 	{

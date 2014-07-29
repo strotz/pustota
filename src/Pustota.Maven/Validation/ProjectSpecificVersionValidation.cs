@@ -4,12 +4,12 @@ using Pustota.Maven.Models;
 
 namespace Pustota.Maven.Validation
 {
-	internal class ProjectSpecificVersion : 
+	internal class ProjectSpecificVersionValidation : 
 		IValidation
 	{
 		private readonly IProject _project;
 
-		public ProjectSpecificVersion(IProject project)
+		public ProjectSpecificVersionValidation(IProject project)
 		{
 			_project = project;
 		}
