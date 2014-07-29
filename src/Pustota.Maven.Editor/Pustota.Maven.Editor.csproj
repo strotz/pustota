@@ -61,7 +61,6 @@
     <Compile Include="Validations\ParentReferenceExist.cs" />
     <Compile Include="Validations\ParentSpecificVersionValidation.cs" />
     <Compile Include="Validations\PathOperations.cs" />
-    <Compile Include="Validations\ProjectPluginVersions.cs" />
     <Compile Include="Validations\ProjectSpecificVersion.cs" />
     <Compile Include="Validations\ProjectsValidations.cs" />
     <Compile Include="Models\ContextAction.cs" />
@@ -89,7 +88,6 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Validations\DelegatedFix.cs" />
     <Compile Include="Validations\ErrorLevel.cs" />
     <Compile Include="Models\ProjectsRepository.cs" />
     <Compile Include="Models\ProjectType.cs" />

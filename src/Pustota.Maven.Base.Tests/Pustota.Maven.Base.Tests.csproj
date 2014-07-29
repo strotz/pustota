@@ -62,6 +62,7 @@
     <Compile Include="ReferenceOperationsTests.cs" />
     <Compile Include="SerializationWithUpdateTests.cs" />
     <Compile Include="SolutionTests.cs" />
+    <Compile Include="Validations\ProjectPluginVersionsTest.cs" />
     <Compile Include="VersionsTests.cs" />
     <Compile Include="XmlFormatTests.cs" />
   </ItemGroup>

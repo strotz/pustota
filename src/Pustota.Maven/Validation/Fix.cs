@@ -2,8 +2,8 @@
 {
 	abstract class Fix
 	{
-		public string Title { get; set; }
-		public bool ShouldBeConfirmed { get; set; }
+		public string Title { get; protected set; }
+		public bool ShouldBeConfirmed { get; protected set; }
 
 		public abstract void Do();
 	}

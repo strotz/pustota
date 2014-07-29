@@ -1,7 +1,9 @@
-﻿namespace Pustota.Maven.Validation
+﻿using System.Collections.Generic;
+
+namespace Pustota.Maven.Validation
 {
 	public interface IValidation
 	{
-		ValidationResult Validate();
+		IEnumerable<ValidationProblem> Validate();
 	}
 }
