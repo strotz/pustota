@@ -6,9 +6,9 @@ using Pustota.Maven.Validation.Fixes;
 
 namespace Pustota.Maven.Editor.Validations
 {
-	class ProjectDependencyValidation : IValidation
+	class ProjectDependencyValidation : IProjectValidator
 	{
-		public IEnumerable<ValidationProblem> Validate()
+		public IEnumerable<ValidationProblem> Validate(ValidationContext context, IProject project)
 		{
 			//foreach (IDependency dependencyReference in project.AllDependencies)
 			//{

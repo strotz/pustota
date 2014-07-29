@@ -7,14 +7,9 @@ using Pustota.Maven.Models;
 
 namespace Pustota.Maven.Validation
 {
-	class ProjecModulesValidation : IValidation
+	class ProjecModulesValidation : IProjectValidator
 	{
-		public ProjecModulesValidation(IProject project)
-		{
-			throw new NotImplementedException();
-		}
-
-		public IEnumerable<ValidationProblem> Validate()
+		public IEnumerable<ValidationProblem> Validate(ValidationContext context, IProject project)
 		{
 			//string baseDir = Path.GetDirectoryName(project.FullPath);
 			//if (baseDir == null) continue;

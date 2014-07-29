@@ -7,20 +7,11 @@ using Pustota.Maven.Externals;
 
 namespace Pustota.Maven.Validation
 {
-	class UselessExternalModulesValidation : IValidation
+	class UselessExternalModulesValidation : IRepositoryValidator
 	{
-		private readonly IProjectsRepository _repository;
-		private readonly IExternalModulesRepository _externalModules;
-
-		public UselessExternalModulesValidation(IExternalModule module, IProjectsRepository repository, IExternalModulesRepository externalModules)
+		public IEnumerable<ValidationProblem> Validate(ValidationContext context)
 		{
-			_repository = repository;
-			_externalModules = externalModules;
-		}
-
-		public IEnumerable<ValidationProblem> Validate()
-		{
-			foreach (var externalModule in _externalModules.Items)
+			foreach (var externalModule in context.ExternalModules.Items)
 			{
 				//if (!_repository.IsItUsed(externalModule))
 				//{

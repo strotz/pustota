@@ -5,16 +5,9 @@ using Pustota.Maven.Models;
 namespace Pustota.Maven.Validation
 {
 	internal class ProjectSpecificVersionValidation : 
-		IValidation
+		IProjectValidator
 	{
-		private readonly IProject _project;
-
-		public ProjectSpecificVersionValidation(IProject project)
-		{
-			_project = project;
-		}
-
-		public IEnumerable<ValidationProblem> Validate()
+		public IEnumerable<ValidationProblem> Validate(ValidationContext context, IProject project)
 		{
 			//if (_project.IsVersionUnresolved) 
 			//{

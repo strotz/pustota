@@ -7,14 +7,9 @@ using Pustota.Maven.Models;
 
 namespace Pustota.Maven.Validation
 {
-	class DuplicatedProjectValidation : IValidation
+	class DuplicatedProjectValidation : IProjectValidator
 	{
-		public DuplicatedProjectValidation(IProject project, IProjectsRepository repository)
-		{
-			throw new NotImplementedException();
-		}
-
-		public IEnumerable<ValidationProblem> Validate()
+		public IEnumerable<ValidationProblem> Validate(ValidationContext context, IProject project)
 		{
 			//if (_repository.AllProjectNodes
 			//	.Any(p => p.ShareGroupAndArtifactWith(project) && p.FullPath != project.FullPath))

@@ -17,7 +17,8 @@ namespace Pustota.Maven.Base.Tests.Validations
 		private Mock<IProject> _project;
 		private Mock<IProjectsRepository> _repo;
 		private Mock<IExternalModulesRepository> _externals;
-		private ParentReferenceExistValidation _validation;
+		private ParentReferenceExistValidation _projectValidator;
+		private ValidationContext _context;
 
 		[SetUp]
 		public void Initialize()
@@ -26,13 +27,19 @@ namespace Pustota.Maven.Base.Tests.Validations
 			_repo = new Mock<IProjectsRepository>();
 			_externals = new Mock<IExternalModulesRepository>();
 
-			_validation = new ParentReferenceExistValidation(_project.Object, _repo.Object, _externals.Object);
+			_context = new ValidationContext
+			{
+				Repository = _repo.Object,
+				ExternalModules = _externals.Object
+			};
+
+			_projectValidator = new ParentReferenceExistValidation();
 		}
 
 		[Test, Ignore]
 		public void EmptyTest()
 		{
-			var result = _validation.Validate();
+			var result = _projectValidator.Validate(_context, _project.Object);
 			Assert.That(result, Is.Not.Null);
 			Assert.That(result.Count(), Is.EqualTo(0));
 		}

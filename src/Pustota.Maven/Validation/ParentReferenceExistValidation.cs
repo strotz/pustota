@@ -5,20 +5,9 @@ using Pustota.Maven.Models;
 
 namespace Pustota.Maven.Validation
 {
-	internal class ParentReferenceExistValidation : IValidation
+	internal class ParentReferenceExistValidation : IProjectValidator
 	{
-		private readonly IProject _project;
-		private readonly IProjectsRepository _repository;
-		private readonly IExternalModulesRepository _externalModules;
-
-		public ParentReferenceExistValidation(IProject project, IProjectsRepository repository, IExternalModulesRepository externalModules)
-		{
-			_project = project;
-			_repository = repository;
-			_externalModules = externalModules;
-		}
-
-		public IEnumerable<ValidationProblem> Validate()
+		public IEnumerable<ValidationProblem> Validate(ValidationContext context, IProject project)
 		{		
 		//	Project project = _projectNode.Project;
 		//	IParentReference parent = project.Parent;
