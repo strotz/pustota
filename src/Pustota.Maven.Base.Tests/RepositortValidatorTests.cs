@@ -69,5 +69,35 @@ namespace Pustota.Maven.Base.Tests
 			Assert.IsNotNull(result);
 			Assert.That(result.Single(), Is.EqualTo(problem));
 		}
+
+		[Test]
+		public void BreakOnFatalTest()
+		{
+			var project1 = new Mock<IProject>();
+			var project2 = new Mock<IProject>();
+			_repo.Setup(r => r.AllProjects).Returns(new[] { project1.Object, project2.Object });
+
+			var fatal = new ValidationProblem { Severity = ProblemSeverity.ProjectFatal };
+			var warning = new ValidationProblem { Severity = ProblemSeverity.ProjectWarning };
+
+			var v1 = new Mock<IProjectValidator>();
+			v1.Setup(v => v.Validate(It.IsAny<ValidationContext>(), project1.Object)).Returns(new[] { fatal });
+
+			var v2 = new Mock<IProjectValidator>();
+			v2.Setup(v => v.Validate(It.IsAny<ValidationContext>(), project1.Object)).Returns(new[] { warning });
+
+			_factory.Setup(f => f.BuildProjectValidationSequence()).Returns(new[] { v1.Object, v2.Object });
+
+			var result = _validator.Validate(_context);
+			Assert.IsNotNull(result);
+			Assert.That(result.Single(), Is.EqualTo(fatal));
+
+			v1.Verify(v => v.Validate(It.IsAny<ValidationContext>(), project1.Object), Times.Once());
+			v1.Verify(v => v.Validate(It.IsAny<ValidationContext>(), project2.Object), Times.Once());
+
+			v2.Verify(v => v.Validate(It.IsAny<ValidationContext>(), project1.Object), Times.Never());
+			v2.Verify(v => v.Validate(It.IsAny<ValidationContext>(), project2.Object), Times.Once());
+		}
+
 	}
 }
