@@ -2,13 +2,14 @@
 using System.Windows.Forms;
 using Pustota.Maven.Editor.Models;
 using Pustota.Maven.Editor.Resources;
+using Pustota.Maven.Models;
 
 namespace Pustota.Maven.Editor
 {
 	// REVIEW: WPF and binding?
 	partial class PomTextEditorForm : Form
 	{
-		private readonly Project _currentProject;
+		private readonly IProject _currentProject;
 		private bool _textIsChanged;
 
 		private bool ChangesAreSaved
@@ -17,7 +18,7 @@ namespace Pustota.Maven.Editor
 			set { _textIsChanged = !value; }
 		}
 
-		public PomTextEditorForm(Project currentProject)
+		public PomTextEditorForm(IProject currentProject)
 		{
 			InitializeComponent();
 			MouseWheel += PomEditorTextBoxMouseWheel;

@@ -42,6 +42,7 @@
     <Compile Include="Actions\ApplyClassifierAction.cs" />
     <Compile Include="Actions\BulkSwitchToReleaseAction.cs" />
     <Compile Include="Actions\CascadeSwitchAction.cs" />
+    <Compile Include="Actions\PropageVersionToAllUsagesAction.cs" />
     <Compile Include="DependencySelector.cs" />
     <Compile Include="Externals\ExternalModule.cs" />
     <Compile Include="Externals\ExternalModules.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Serialization\ProjectTreeLoader.cs" />
     <Compile Include="Solution.cs" />
     <Compile Include="SolutionManagement.cs" />
+    <Compile Include="Validation\Data\ResolvedProjectData.cs" />
     <Compile Include="Validation\DuplicatedProjectValidation.cs" />
     <Compile Include="Validation\Fixes\AddExternalModuleFix.cs" />
     <Compile Include="Validation\DelegatedFix.cs" />

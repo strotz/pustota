@@ -51,13 +51,11 @@
       <DependentUpon>ExternalReferenceManagerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ExtendedProject.cs" />
-    <Compile Include="Models\ResolvedProjectData.cs" />
     <Compile Include="PomXml\IgnoredValidationsDocument.cs" />
     <Compile Include="PomXml\PassoloProjectDocument.cs" />
     <Compile Include="PomXml\TranslationAssemblyDocument.cs" />
     <Compile Include="Models\ProjectNode.cs" />
     <Compile Include="Models\ContextAction.cs" />
-    <Compile Include="Validations\IFixable.cs" />
     <Compile Include="PomAdvancedEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -81,7 +79,6 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\ProjectsRepository.cs" />
     <Compile Include="Models\ProjectType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

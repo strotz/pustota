@@ -45,8 +45,8 @@
 			// 
 			this.PomEditorTextBox.AcceptsTab = true;
 			this.PomEditorTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+				| System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
 			this.PomEditorTextBox.AutoWordSelection = true;
 			this.PomEditorTextBox.BulletIndent = 4;
 			this.PomEditorTextBox.DetectUrls = false;
@@ -61,7 +61,7 @@
 			// _pomTextEditorMenuStrip
 			// 
 			this._pomTextEditorMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+				this.fileToolStripMenuItem});
 			this._pomTextEditorMenuStrip.Location = new System.Drawing.Point(0, 0);
 			this._pomTextEditorMenuStrip.Name = "_pomTextEditorMenuStrip";
 			this._pomTextEditorMenuStrip.Size = new System.Drawing.Size(879, 24);
@@ -71,9 +71,9 @@
 			// fileToolStripMenuItem
 			// 
 			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveToolStripMenuItem,
-            this.reloadToolStripMenuItem,
-            this.closeToolStripMenuItem});
+				this.saveToolStripMenuItem,
+				this.reloadToolStripMenuItem,
+				this.closeToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
 			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
 			this.fileToolStripMenuItem.Text = "File";
@@ -104,8 +104,8 @@
 			// _pomTextEditorStatusStrip
 			// 
 			this._pomTextEditorStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._projectToolStripStatusLabel,
-            this.pomTextEditorToolStripStatusLabel});
+				this._projectToolStripStatusLabel,
+				this.pomTextEditorToolStripStatusLabel});
 			this._pomTextEditorStatusStrip.Location = new System.Drawing.Point(0, 414);
 			this._pomTextEditorStatusStrip.Name = "_pomTextEditorStatusStrip";
 			this._pomTextEditorStatusStrip.Size = new System.Drawing.Size(879, 22);

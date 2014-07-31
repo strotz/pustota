@@ -152,8 +152,8 @@
 			// ProjectContextMenuStrip
 			// 
 			this.ProjectContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.editAsTextToolStripMenuItem,
-            this.advancedEditorToolStripMenuItem});
+				this.editAsTextToolStripMenuItem,
+				this.advancedEditorToolStripMenuItem});
 			this.ProjectContextMenuStrip.Name = "ProjectContextMenuStrip";
 			this.ProjectContextMenuStrip.ShowImageMargin = false;
 			this.ProjectContextMenuStrip.Size = new System.Drawing.Size(137, 48);
@@ -180,7 +180,7 @@
 			// statusStrip
 			// 
 			this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._lStatus});
+				this._lStatus});
 			this.statusStrip.Location = new System.Drawing.Point(0, 615);
 			this.statusStrip.Name = "statusStrip";
 			this.statusStrip.Size = new System.Drawing.Size(1205, 22);
@@ -198,8 +198,8 @@
 			// _pomPropertiesEditor
 			// 
 			this._pomPropertiesEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+				| System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
 			this._pomPropertiesEditor.HelpVisible = false;
 			this._pomPropertiesEditor.Location = new System.Drawing.Point(0, 0);
 			this._pomPropertiesEditor.Name = "_pomPropertiesEditor";
@@ -253,9 +253,9 @@
 			this._listPoms.Activation = System.Windows.Forms.ItemActivation.OneClick;
 			this._listPoms.AllowColumnReorder = true;
 			this._listPoms.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.GroupColumn,
-            this.ArtifactColumn,
-            this.VersionColumn});
+				this.GroupColumn,
+				this.ArtifactColumn,
+				this.VersionColumn});
 			this._listPoms.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._listPoms.FullRowSelect = true;
 			this._listPoms.HideSelection = false;
@@ -296,7 +296,7 @@
 			// _projectPanel
 			// 
 			this._projectPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+				| System.Windows.Forms.AnchorStyles.Right)));
 			this._projectPanel.Controls.Add(this._cbSnapshot);
 			this._projectPanel.Location = new System.Drawing.Point(3, 344);
 			this._projectPanel.Name = "_projectPanel";
@@ -320,12 +320,12 @@
 			this._errorsList.Activation = System.Windows.Forms.ItemActivation.OneClick;
 			this._errorsList.AllowColumnReorder = true;
 			this._errorsList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.ImageColumn,
-            this.NumberColumn,
-            this.MessageColumn,
-            this.DetailsColumn,
-            this.Project,
-            this.FullPathColumn});
+				this.ImageColumn,
+				this.NumberColumn,
+				this.MessageColumn,
+				this.DetailsColumn,
+				this.Project,
+				this.FullPathColumn});
 			this._errorsList.ContextMenuStrip = this._errorsContextMenuStrip;
 			this._errorsList.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._errorsList.FullRowSelect = true;
@@ -393,9 +393,9 @@
 			// _mainMenu
 			// 
 			this._mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.viewToolStripMenuItem,
-            this.toolsToolStripMenuItem});
+				this.fileToolStripMenuItem,
+				this.viewToolStripMenuItem,
+				this.toolsToolStripMenuItem});
 			this._mainMenu.Location = new System.Drawing.Point(0, 0);
 			this._mainMenu.Name = "_mainMenu";
 			this._mainMenu.Size = new System.Drawing.Size(1205, 24);
@@ -405,12 +405,12 @@
 			// fileToolStripMenuItem
 			// 
 			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openProjectFileToolStripMenuItem,
-            this._miOpenFolder,
-            this._miReload,
-            this._miSaveProject,
-            this._miSaveTree,
-            this.exitToolStripMenuItem});
+				this.openProjectFileToolStripMenuItem,
+				this._miOpenFolder,
+				this._miReload,
+				this._miSaveProject,
+				this._miSaveTree,
+				this.exitToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
 			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
 			this.fileToolStripMenuItem.Text = "File";
@@ -429,7 +429,7 @@
 			this._miOpenFolder.Image = ((System.Drawing.Image)(resources.GetObject("_miOpenFolder.Image")));
 			this._miOpenFolder.Name = "_miOpenFolder";
 			this._miOpenFolder.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.O)));
+				| System.Windows.Forms.Keys.O)));
 			this._miOpenFolder.Size = new System.Drawing.Size(249, 22);
 			this._miOpenFolder.Text = "Open Projects Tree";
 			this._miOpenFolder.Click += new System.EventHandler(this.OpenTree);
@@ -461,7 +461,7 @@
 			this._miSaveTree.Name = "_miSaveTree";
 			this._miSaveTree.ShortcutKeyDisplayString = "";
 			this._miSaveTree.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.S)));
+				| System.Windows.Forms.Keys.S)));
 			this._miSaveTree.Size = new System.Drawing.Size(249, 22);
 			this._miSaveTree.Text = "Save Projects Tree";
 			this._miSaveTree.Click += new System.EventHandler(this.SaveTree);
@@ -477,11 +477,11 @@
 			// viewToolStripMenuItem
 			// 
 			this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._miTreeMode,
-            this._miListMode,
-            this._miShowErrors,
-            this._miMultiselect,
-            this._miSnapshotIcons});
+				this._miTreeMode,
+				this._miListMode,
+				this._miShowErrors,
+				this._miMultiselect,
+				this._miSnapshotIcons});
 			this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
 			this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
 			this.viewToolStripMenuItem.Text = "View";
@@ -515,13 +515,13 @@
 			// _miMultiselect
 			// 
 			this._miMultiselect.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._miEnableMultiselect,
-            this.selectAllToolStripMenuItem,
-            this.selectNoneToolStripMenuItem,
-            this.selectDependenciesToolStripMenuItem,
-            this.selectDirectDependenciesToolStripMenuItem,
-            this.selectSubtreeToolStripMenuItem,
-            this.selectPluginUsagesToolStripMenuItem});
+				this._miEnableMultiselect,
+				this.selectAllToolStripMenuItem,
+				this.selectNoneToolStripMenuItem,
+				this.selectDependenciesToolStripMenuItem,
+				this.selectDirectDependenciesToolStripMenuItem,
+				this.selectSubtreeToolStripMenuItem,
+				this.selectPluginUsagesToolStripMenuItem});
 			this._miMultiselect.Enabled = false;
 			this._miMultiselect.Name = "_miMultiselect";
 			this._miMultiselect.Size = new System.Drawing.Size(230, 22);
@@ -588,13 +588,13 @@
 			// toolsToolStripMenuItem
 			// 
 			this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._miValidate,
-            this._miPropagateToDependencies,
-            this._miPropagateToSubtree,
-            this._miVersionOperations,
-            this.externalReferencesManagerToolStripMenuItem,
-            this.cascadeSwitchToSnapshotToolStripMenuItem,
-            this.releaseAllSnapshotsToolStripMenuItem});
+				this._miValidate,
+				this._miPropagateToDependencies,
+				this._miPropagateToSubtree,
+				this._miVersionOperations,
+				this.externalReferencesManagerToolStripMenuItem,
+				this.cascadeSwitchToSnapshotToolStripMenuItem,
+				this.releaseAllSnapshotsToolStripMenuItem});
 			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
 			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
 			this.toolsToolStripMenuItem.Text = "Tools";
@@ -628,13 +628,13 @@
 			// _miVersionOperations
 			// 
 			this._miVersionOperations.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addSNAPSHOTToolStripMenuItem,
-            this.removeSNAPSHOTToolStripMenuItem,
-            this.setVersionToolStripMenuItem,
-            this.toolStripMenuItem2,
-            this.toolStripMenuItem3,
-            this.toolStripMenuItem4,
-            this.propagateVersionToolStripMenuItem});
+				this.addSNAPSHOTToolStripMenuItem,
+				this.removeSNAPSHOTToolStripMenuItem,
+				this.setVersionToolStripMenuItem,
+				this.toolStripMenuItem2,
+				this.toolStripMenuItem3,
+				this.toolStripMenuItem4,
+				this.propagateVersionToolStripMenuItem});
 			this._miVersionOperations.Enabled = false;
 			this._miVersionOperations.Name = "_miVersionOperations";
 			this._miVersionOperations.Size = new System.Drawing.Size(238, 22);

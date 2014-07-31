@@ -127,8 +127,8 @@
 			// tabControlCommon
 			// 
 			this.tabControlCommon.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+				| System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
 			this.tabControlCommon.Controls.Add(this.tabPageProfilesCommon);
 			this.tabControlCommon.Controls.Add(this.tabPageAddNew);
 			this.tabControlCommon.ItemSize = new System.Drawing.Size(50, 18);
@@ -178,8 +178,8 @@
 			// contextMenuStripTabs
 			// 
 			this.contextMenuStripTabs.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemTabRename,
-            this.toolStripMenuItemTabRemove});
+				this.toolStripMenuItemTabRename,
+				this.toolStripMenuItemTabRemove});
 			this.contextMenuStripTabs.Name = "contextMenuStripTabs";
 			this.contextMenuStripTabs.Size = new System.Drawing.Size(118, 48);
 			// 
