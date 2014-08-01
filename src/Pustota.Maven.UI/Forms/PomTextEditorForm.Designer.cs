@@ -1,4 +1,4 @@
-﻿namespace Pustota.Maven.Editor
+﻿namespace Pustota.Maven.UI.Forms
 {
 	partial class PomTextEditorForm
 	{

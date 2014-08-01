@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace Pustota.Maven.System
+namespace Pustota.Maven.SystemServices
 {
 	public interface IFileSystemAccess
 	{

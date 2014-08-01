@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
-using Pustota.Maven.Editor.Models;
-using Pustota.Maven.Editor.Resources;
 using Pustota.Maven.Models;
 
-namespace Pustota.Maven.Editor
+namespace Pustota.Maven.UI.Forms
 {
 	// REVIEW: WPF and binding?
 	partial class PomTextEditorForm : Form
@@ -32,8 +30,8 @@ namespace Pustota.Maven.Editor
 
 		private void FillTextBox()
 		{
-			PomEditorTextBox.Text = _currentProject.Text;
-			_textIsChanged = false;
+			//PomEditorTextBox.Text = _currentProject.Text;
+			//_textIsChanged = false;
 		}
 
 		private void PomEditorTextBoxMouseWheel(object sender, MouseEventArgs e)
@@ -42,22 +40,22 @@ namespace Pustota.Maven.Editor
 				((RichTextBox) sender).ZoomFactor += e.Delta;
 		}
 
-		private void ApplyChangesToDocument()
-		{
-			try
-			{
-				_currentProject.Text = PomEditorTextBox.Text;
-				ChangesAreSaved = true;
-			}
-			catch (ArgumentException e)
-			{
-				MessageBox.Show(e.Message);
-			}
-		}
+		//private void ApplyChangesToDocument()
+		//{
+		//	try
+		//	{
+		//		_currentProject.Text = PomEditorTextBox.Text;
+		//		ChangesAreSaved = true;
+		//	}
+		//	catch (ArgumentException e)
+		//	{
+		//		MessageBox.Show(e.Message);
+		//	}
+		//}
 
 		private void SaveToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			ApplyChangesToDocument();
+			//ApplyChangesToDocument();
 		}
 
 		private void CloseToolStripMenuItemClick(object sender, EventArgs e)
@@ -77,14 +75,14 @@ namespace Pustota.Maven.Editor
 
 		private void PomTextEditorFormFormClosing(object sender, FormClosingEventArgs e)
 		{
-			if (!ChangesAreSaved)
-			{
-				var result = MessageBox.Show(string.Format("Do you want to apply changes to {0}?", _currentProject), CommonResources.PomTextEditorLable, MessageBoxButtons.YesNoCancel);
-				if (result == DialogResult.Yes)
-					ApplyChangesToDocument();
-				if (result == DialogResult.Cancel)
-					e.Cancel = true;
-			}
+			//if (!ChangesAreSaved)
+			//{
+			//	var result = MessageBox.Show(string.Format("Do you want to apply changes to {0}?", _currentProject), CommonResources.PomTextEditorLable, MessageBoxButtons.YesNoCancel);
+			//	if (result == DialogResult.Yes)
+			//		ApplyChangesToDocument();
+			//	if (result == DialogResult.Cancel)
+			//		e.Cancel = true;
+			//}
 		}
 	}
 }

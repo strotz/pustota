@@ -2,27 +2,25 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Linq;
-using Pustota.Maven.Editor.Models;
-using Pustota.Maven.Editor.ViewModels;
 
 namespace Pustota.Maven.Editor
 {
 	partial class PomAdvancedEditor : Form
 	{
-		private readonly ProjectView _projectView;
+		//private readonly ProjectView _projectView;
 		private readonly IProjectsRepository _projectsRepository;
 		private IEnumerable<string> _artifactIds;
 		private IEnumerable<string> _groupIds;
 
-		public PomAdvancedEditor(ProjectView proj, IProjectsRepository projectsRepo)
+		public PomAdvancedEditor(/*ProjectView proj, IProjectsRepository projectsRepo*/)
 		{
 			InitializeComponent();
-			IntPtr h = tabControlCommon.Handle;
-			_projectView = proj;
-			_projectsRepository = projectsRepo;
-			FillGeneralData();
-			PopulateSuperTabs();
-			FillAutocompleteSources();
+			//IntPtr h = tabControlCommon.Handle;
+			//_projectView = proj;
+			//_projectsRepository = projectsRepo;
+			//FillGeneralData();
+			//PopulateSuperTabs();
+			//FillAutocompleteSources();
 		}
 
 		private void FillAutocompleteSources()
@@ -147,29 +145,29 @@ namespace Pustota.Maven.Editor
 
 		private void ToolStripMenuItemTabRemoveClick(object sender, EventArgs e)
 		{
-			RemoveTabProfile(tabControlCommon.SelectedTab);
+			//RemoveTabProfile(tabControlCommon.SelectedTab);
 		}
 
 		private void TabControlCommonSelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (tabControlCommon.SelectedTab == tabPageAddNew)
-			{
-				var profile = new Profile();
-				_projectView.Profiles.Add(profile);
-				PopulateSuperTab(tabControlCommon, profile, true);
-			}
+			//if (tabControlCommon.SelectedTab == tabPageAddNew)
+			//{
+			//	var profile = new Profile();
+			//	_projectView.Profiles.Add(profile);
+			//	PopulateSuperTab(tabControlCommon, profile, true);
+			//}
 		}
 
-		private void DataGridViewDependenciesEditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
-		{
-			var textBox = (TextBox) e.Control;
-			textBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-			textBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
-			var header = ((DataGridView) sender).CurrentCell.OwningColumn.HeaderText;
-			if (header == "ArtifactId")
-				textBox.AutoCompleteCustomSource.AddRange(_artifactIds.Take(10).ToArray());
-			if (header == "GroupId")
-				textBox.AutoCompleteCustomSource.AddRange(_groupIds.Take(10).ToArray());
-		}
+		//private void DataGridViewDependenciesEditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+		//{
+		//	var textBox = (TextBox) e.Control;
+		//	textBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+		//	textBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+		//	var header = ((DataGridView) sender).CurrentCell.OwningColumn.HeaderText;
+		//	if (header == "ArtifactId")
+		//		textBox.AutoCompleteCustomSource.AddRange(_artifactIds.Take(10).ToArray());
+		//	if (header == "GroupId")
+		//		textBox.AutoCompleteCustomSource.AddRange(_groupIds.Take(10).ToArray());
+		//}
 	}
 }

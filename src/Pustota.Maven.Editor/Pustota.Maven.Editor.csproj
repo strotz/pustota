@@ -44,40 +44,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ErrorListColumnSorter.cs" />
-    <Compile Include="Externals\ExternalReferenceManagerForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Externals\ExternalReferenceManagerForm.Designer.cs">
-      <DependentUpon>ExternalReferenceManagerForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Models\ExtendedProject.cs" />
     <Compile Include="PomXml\IgnoredValidationsDocument.cs" />
     <Compile Include="PomXml\PassoloProjectDocument.cs" />
     <Compile Include="PomXml\TranslationAssemblyDocument.cs" />
     <Compile Include="Models\ProjectNode.cs" />
     <Compile Include="Models\ContextAction.cs" />
-    <Compile Include="PomAdvancedEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PomAdvancedEditor.Designer.cs">
-      <DependentUpon>PomAdvancedEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="PomTextEditorForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PomTextEditorForm.Designer.cs">
-      <DependentUpon>PomTextEditorForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Resources\ErrorsResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ErrorsResources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ProjectType.cs" />
     <Compile Include="Program.cs" />
@@ -92,37 +68,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ValidationsResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="EditorControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="EditorControl.Designer.cs">
-      <DependentUpon>EditorControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="VersionDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="VersionDialog.Designer.cs">
-      <DependentUpon>VersionDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="ProjectViewMap.cs" />
     <Compile Include="ViewModels\ProjectTypeMap.cs" />
     <Compile Include="ViewModels\ProjectView.cs" />
-    <EmbeddedResource Include="Externals\ExternalReferenceManagerForm.resx">
-      <DependentUpon>ExternalReferenceManagerForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PomAdvancedEditor.resx">
-      <DependentUpon>PomAdvancedEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PomTextEditorForm.resx">
-      <DependentUpon>PomTextEditorForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Resources\ErrorsResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ErrorsResources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\MessageResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -143,12 +95,6 @@
       <LastGenOutput>ValidationsResources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="EditorControl.resx">
-      <DependentUpon>EditorControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="VersionDialog.resx">
-      <DependentUpon>VersionDialog.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -159,6 +105,7 @@
       <Name>Pustota.Maven</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

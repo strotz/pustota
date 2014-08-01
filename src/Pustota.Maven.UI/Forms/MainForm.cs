@@ -1,16 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Globalization;
-using System.Linq;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
-using Pustota.Maven.Editor.Externals;
-using Pustota.Maven.Editor.Models;
-using Pustota.Maven.Editor.Resources;
-using Pustota.Maven.Editor.ViewModels;
 
 namespace Pustota.Maven.Editor
 {
@@ -19,8 +8,8 @@ namespace Pustota.Maven.Editor
 		// private Project _currentProject;
 		// private ProjectNode _currentProjectNode;
 
-		private readonly List<ContextAction> _actionsList;
-		private ErrorListColumnSorter _errorListColumnSorter;
+		//private readonly List<ContextAction> _actionsList;
+		//private ErrorListColumnSorter _errorListColumnSorter;
 
 		private readonly SolutionManagement _solutionManagement;
 		private ISolution _solution;
@@ -311,8 +300,8 @@ namespace Pustota.Maven.Editor
 
 		//#region owner draw
 
-		//private void DrawTreeNode(object sender, DrawTreeNodeEventArgs e)
-		//{
+		private void DrawTreeNode(object sender, DrawTreeNodeEventArgs e)
+		{
 		//	if ((e.State & TreeNodeStates.Selected) != 0)
 		//	{
 		//		Rectangle bounds = e.Bounds;
@@ -329,10 +318,10 @@ namespace Pustota.Maven.Editor
 		//	{
 		//		e.DrawDefault = true;
 		//	}
-		//}
+		}
 
-		//private void DrawListItem(object sender, DrawListViewItemEventArgs e)
-		//{
+		private void DrawListItem(object sender, DrawListViewItemEventArgs e)
+		{
 		//	ListView list = (ListView)sender;
 		//	if (list.SelectedIndices.Contains(e.ItemIndex))
 		//	{
@@ -342,10 +331,10 @@ namespace Pustota.Maven.Editor
 		//	{
 		//		e.DrawDefault = true;
 		//	}
-		//}
+		}
 
-		//private void DrawListSubItem(object sender, DrawListViewSubItemEventArgs e)
-		//{
+		private void DrawListSubItem(object sender, DrawListViewSubItemEventArgs e)
+		{
 		//	ListView list = (ListView)sender;
 		//	if (list.SelectedIndices.Contains(e.ItemIndex))
 		//	{
@@ -378,18 +367,18 @@ namespace Pustota.Maven.Editor
 		//	{
 		//		e.DrawDefault = true;
 		//	}
-		//}
+		}
 
-		//private void DrawListColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
-		//{
+		private void DrawListColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
+		{
 		//	e.DrawDefault = true;
-		//}
+		}
 
 		//#endregion
 
 		//#region event handlers
-		//private void OpenTree(object sender, EventArgs e)
-		//{
+		private void OpenTree(object sender, EventArgs e)
+		{
 		//	FolderBrowserDialog dialog = new FolderBrowserDialog();
 
 		//	if (dialog.ShowDialog() != DialogResult.OK) return;
@@ -402,10 +391,10 @@ namespace Pustota.Maven.Editor
 		//		ShowError(ex.ToString(), ErrorsResources.ErrorLoadingProjectTree);
 		//	}
 		//	RefreshUI();
-		//}
+		}
 
-		//private void OpenFile(object sender, EventArgs e)
-		//{
+		private void OpenFile(object sender, EventArgs e)
+		{
 		//	OpenFileDialog dialog = new OpenFileDialog
 		//	{
 		//		Filter = CommonResources.POMFilesFilter
@@ -421,11 +410,11 @@ namespace Pustota.Maven.Editor
 		//		ShowError(ex.ToString(), ErrorsResources.ErrorLoadingProjectTree);
 		//	}
 		//	RefreshUI();
-		//}
+		}
 
 
-		//private void ReloadAll(object sender, EventArgs e)
-		//{
+		private void ReloadAll(object sender, EventArgs e)
+		{
 		//	if (ProjectsRepo.Changed)
 		//	{
 		//		var result = MessageBox.Show(MessageResources.ProceedReloading,
@@ -446,22 +435,22 @@ namespace Pustota.Maven.Editor
 		//	}
 		//	RefreshUI();
 		//	_errorsList.Items.Clear();
-		//}
+		}
 
-		//private void AfterProjectSelectInTree(object sender, TreeViewEventArgs e)
-		//{
+		private void AfterProjectSelectInTree(object sender, TreeViewEventArgs e)
+		{
 		//	CurrentProjectView = (ProjectView)e.Node.Tag;
 		//	SelectProjectInList(CurrentProject);
-		//}
+		}
 
-		//private void AfterProjectSelectInList(object sender, EventArgs e)
-		//{
+		private void AfterProjectSelectInList(object sender, EventArgs e)
+		{
 		//	if (_listPoms.SelectedItems.Count == 0)
 		//		return;
 
 		//	CurrentProjectView = (ProjectView)_listPoms.SelectedItems[0].Tag;
 		//	SelectProjectInTree(CurrentProject);
-		//}
+		}
 
 		//private void CleanErrorListAfterSaveProject()
 		//{
@@ -485,8 +474,8 @@ namespace Pustota.Maven.Editor
 		//	}
 		//}
 
-		//private void SaveProject(object sender, EventArgs e)
-		//{
+		private void SaveProject(object sender, EventArgs e)
+		{
 		//	try
 		//	{
 		//		if (!IsProjectSelected(_errorsList.SelectedItems)) 
@@ -502,7 +491,7 @@ namespace Pustota.Maven.Editor
 		//	{
 		//		ShowError(ex.ToString(), ErrorsResources.ErrorSavingProjects);
 		//	}
-		//}
+		}
 
 		//private bool IsProjectSelected(ListView.SelectedListViewItemCollection selected)
 		//{
@@ -518,8 +507,8 @@ namespace Pustota.Maven.Editor
 		//	return true;
 		//}
 
-		//private void SaveTree(object sender, EventArgs e)
-		//{
+		private void SaveTree(object sender, EventArgs e)
+		{
 		//	try
 		//	{
 		//		ProjectsRepo.SaveChangedProjects();
@@ -529,16 +518,16 @@ namespace Pustota.Maven.Editor
 		//	{
 		//		ShowError(ex.ToString(), ErrorsResources.ErrorSavingProjects);
 		//	}
-		//}
+		}
 
-		//private void PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
-		//{
+		private void PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+		{
 		//	((ProjectView)_pomPropertiesEditor.SelectedObject).MarkChanged();
 		//	RefreshPropertyGrid();
-		//}
+		}
 
-		//private void Validate(object sender, EventArgs e)
-		//{
+		private void Validate(object sender, EventArgs e)
+		{
 		//	_errorsList.Items.Clear();
 
 		//	var errors = _solution.Validate(); 
@@ -565,27 +554,27 @@ namespace Pustota.Maven.Editor
 		//		_errorsList.Items.Add(item);
 		//		index++;
 		//	}
-		//}
+		}
 
-		//private void PropagateVersionToAllUsages(object sender, EventArgs e)
-		//{
+		private void PropagateVersionToAllUsages(object sender, EventArgs e)
+		{
 		//	ProjectsRepo.PropagateVersionToAllUsages(_currentProjectNode);
 		//	UpdateAllProjectViews();
-		//}
+		}
 
-		//private void PropagateVersionToSubtree(object sender, EventArgs e)
-		//{
+		private void PropagateVersionToSubtree(object sender, EventArgs e)
+		{
 		//	ProjectsRepo.PropagateVersionToSubtree(_currentProjectNode);
 		//	UpdateAllProjectViews();
-		//}
+		}
 
-		//private void ToggleErrors(object sender, EventArgs e)
-		//{
+		private void ToggleErrors(object sender, EventArgs e)
+		{
 		//	_horizSplit.Panel2Collapsed = !_horizSplit.Panel2Collapsed;
-		//}
+		}
 
-		//private void SelectedErrorChanged(object sender, EventArgs e)
-		//{
+		private void SelectedErrorChanged(object sender, EventArgs e)
+		{
 		//	var selectedItem = _errorsList.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
 		//	if (selectedItem == null)
 		//		return;
@@ -595,10 +584,10 @@ namespace Pustota.Maven.Editor
 		//	if (warning.Source == null || warning.Source as Project == null)
 		//		return;
 		//	SelectProjectInTreeAndList((Project)warning.Source);
-		//}
+		}
 
-		//private void ToggleProjectsView(object sender, EventArgs e)
-		//{
+		private void ToggleProjectsView(object sender, EventArgs e)
+		{
 		//	var toolStripMenuItem = sender as ToolStripMenuItem;
 		//	if (toolStripMenuItem != null && toolStripMenuItem.Checked)
 		//		return;
@@ -612,15 +601,15 @@ namespace Pustota.Maven.Editor
 		//		_listPoms.Focus();
 		//	else
 		//		_treePoms.Focus();
-		//}
+		}
 
-		//private void AppExit(object sender, EventArgs e)
-		//{
-		//	Application.Exit();
-		//}
+		private void AppExit(object sender, EventArgs e)
+		{
+			Application.Exit();
+		}
 
-		//private void ToggleSnapshotIcons(object sender, EventArgs e)
-		//{
+		private void ToggleSnapshotIcons(object sender, EventArgs e)
+		{
 		//	_listPoms.BeginUpdate();
 		//	_treePoms.BeginUpdate();
 		//	foreach (var prjView in _views.AllViews)
@@ -629,25 +618,25 @@ namespace Pustota.Maven.Editor
 		//	}
 		//	_listPoms.EndUpdate();
 		//	_treePoms.EndUpdate();
-		//}
+		}
 
-		//private void ListItemChecked(object sender, ItemCheckedEventArgs e)
-		//{
+		private void ListItemChecked(object sender, ItemCheckedEventArgs e)
+		{
 		//	((ProjectView)e.Item.Tag).Checked = e.Item.Checked;
-		//}
+		}
 
-		//private void TreeItemChecked(object sender, TreeViewEventArgs e)
-		//{
-		//	((ProjectView)e.Node.Tag).Checked = e.Node.Checked;
-		//}
+		private void TreeItemChecked(object sender, TreeViewEventArgs e)
+		{
+			//((ProjectView)e.Node.Tag).Checked = e.Node.Checked;
+		}
 
-		//private void ToggleMultiselect(object sender, EventArgs e)
-		//{
+		private void ToggleMultiselect(object sender, EventArgs e)
+		{
 		//	Multiselect = !Multiselect;
-		//}
+		}
 
-		//private void TreeDoubleClick(object sender, EventArgs e)
-		//{
+		private void TreeDoubleClick(object sender, EventArgs e)
+		{
 		//	if (_treePoms.SelectedNode != null)
 		//	{
 		//		//selected item already changed its state
@@ -656,10 +645,10 @@ namespace Pustota.Maven.Editor
 		//			_treePoms.SelectedNode.ExpandAll();
 		//		}
 		//	}
-		//}
+		}
 
-		//private void SnapshotChanged(object sender, EventArgs e)
-		//{
+		private void SnapshotChanged(object sender, EventArgs e)
+		{
 		//	if (CurrentProjectView != null)
 		//	{
 		//		CurrentProjectView.IsSnapshot = !CurrentProjectView.IsSnapshot;
@@ -668,10 +657,10 @@ namespace Pustota.Maven.Editor
 
 		//		RefreshPropertyGrid();
 		//	}
-		//}
+		}
 
-		//private void SelectAll(object sender, EventArgs e)
-		//{
+		private void SelectAll(object sender, EventArgs e)
+		{
 		//	if (Multiselect)
 		//	{
 		//		_listPoms.BeginUpdate();
@@ -683,10 +672,10 @@ namespace Pustota.Maven.Editor
 		//		_listPoms.EndUpdate();
 		//		_treePoms.EndUpdate();
 		//	}
-		//}
+		}
 
-		//private void SelectNone(object sender, EventArgs e)
-		//{
+		private void SelectNone(object sender, EventArgs e)
+		{
 		//	if (Multiselect)
 		//	{
 		//		_listPoms.BeginUpdate();
@@ -698,10 +687,10 @@ namespace Pustota.Maven.Editor
 		//		_listPoms.EndUpdate();
 		//		_treePoms.EndUpdate();
 		//	}
-		//}
+		}
 
-		//private void SelectDependencies(object sender, EventArgs e)
-		//{
+		private void SelectDependencies(object sender, EventArgs e)
+		{
 		//	if (!Multiselect)
 		//	{
 		//		ShowWarning("Multiselect mode has to be enabled");
@@ -713,10 +702,10 @@ namespace Pustota.Maven.Editor
 		//		LookForDependent = true
 		//	};
 		//	SearchAndSelect(searchOptions);
-		//}
+		}
 
-		//private void SelectDirectDependencies(object sender, EventArgs e)
-		//{
+		private void SelectDirectDependencies(object sender, EventArgs e)
+		{
 		//	if (!Multiselect)
 		//	{
 		//		ShowWarning("Multiselect mode has to be enabled");
@@ -729,10 +718,10 @@ namespace Pustota.Maven.Editor
 		//		OnlyDirectUsages = true
 		//	};
 		//	SearchAndSelect(searchOptions);
-		//}
+		}
 
-		//private void SelectPluginUsages(object sender, EventArgs e)
-		//{
+		private void SelectPluginUsages(object sender, EventArgs e)
+		{
 		//	if (!Multiselect)
 		//	{
 		//		ShowWarning("Multiselect mode has to be enabled");
@@ -744,10 +733,10 @@ namespace Pustota.Maven.Editor
 		//		LookForPlugin = true,
 		//	};
 		//	SearchAndSelect(searchOptions);
-		//}
+		}
 
-		//private void SelectSubtreeSubtree(object sender, EventArgs e)
-		//{
+		private void SelectSubtreeSubtree(object sender, EventArgs e)
+		{
 		//	if (CurrentProjectView == null)
 		//		return;
 
@@ -768,10 +757,10 @@ namespace Pustota.Maven.Editor
 		//	}
 		//	_listPoms.EndUpdate();
 		//	_treePoms.EndUpdate();
-		//}
+		}
 
-		//private void PropagateVersionOfAllSelectedNodes(object sender, EventArgs e)
-		//{
+		private void PropagateVersionOfAllSelectedNodes(object sender, EventArgs e)
+		{
 		//	_listPoms.BeginUpdate();
 		//	_treePoms.BeginUpdate();
 
@@ -784,10 +773,10 @@ namespace Pustota.Maven.Editor
 		//	_treePoms.EndUpdate();
 
 		//	UpdateAllProjectViews();
-		//}
+		}
 
-		//private void SetVersionToAllSelectedNodes(object sender, EventArgs e)
-		//{
+		private void SetVersionToAllSelectedNodes(object sender, EventArgs e)
+		{
 		//	if (!Multiselect)
 		//	{
 		//		ShowWarning("Multiselect mode has to be enabled");
@@ -811,10 +800,10 @@ namespace Pustota.Maven.Editor
 
 		//	RefreshPropertyGrid();
 		//	UpdateAllProjectViews();
-		//}
+		}
 
-		//private void FormClosingHandler(object sender, FormClosingEventArgs e)
-		//{
+		private void FormClosingHandler(object sender, FormClosingEventArgs e)
+		{
 		//	if (_solution != null && _solution.Changed)
 		//	{
 		//		var result = MessageBox.Show(MessageResources.DoYouWantToQuit,
@@ -825,11 +814,11 @@ namespace Pustota.Maven.Editor
 		//			e.Cancel = true;
 		//		}
 		//	}
-		//}
+		}
 		//#endregion
 
-		//private void ErrorsContextMenuStripOpening(object sender, System.ComponentModel.CancelEventArgs e)
-		//{
+		private void ErrorsContextMenuStripOpening(object sender, System.ComponentModel.CancelEventArgs e)
+		{
 		//	if (_errorsList.SelectedItems.Count <= 0)
 		//	{
 		//		e.Cancel = true;
@@ -853,7 +842,7 @@ namespace Pustota.Maven.Editor
 		//		return;
 		//	}
 		//	BuildFixAllMenu();
-		//}
+		}
 
 		//private void BuildFixAllMenu()
 		//{
@@ -994,8 +983,8 @@ namespace Pustota.Maven.Editor
 		//	_errorsContextMenuStrip.ResumeLayout();
 		//}
 
-		//private void ErrorsListKeyDown(object sender, KeyEventArgs e)
-		//{
+		private void ErrorsListKeyDown(object sender, KeyEventArgs e)
+		{
 		//	if (e.KeyCode == Keys.A && e.Control)
 		//	{
 		//		_errorsList.MultiSelect = true;
@@ -1004,10 +993,10 @@ namespace Pustota.Maven.Editor
 		//			item.Selected = true;
 		//		}
 		//	}
-		//}
+		}
 
-		//private void ErrorsListColumnClick(object sender, ColumnClickEventArgs e)
-		//{
+		private void ErrorsListColumnClick(object sender, ColumnClickEventArgs e)
+		{
 		//	if (sender as ListView == null) return;
 		//	if (e.Column == _errorListColumnSorter.SortColumn)
 		//	{
@@ -1019,11 +1008,11 @@ namespace Pustota.Maven.Editor
 		//		_errorListColumnSorter.Order = SortOrder.Ascending;
 		//	}
 		//	((ListView)sender).Sort();
-		//}
+		}
 
 
-		//private void EditAsTextToolStripMenuItemClick(object sender, EventArgs e)
-		//{
+		private void EditAsTextToolStripMenuItemClick(object sender, EventArgs e)
+		{
 		//	var proj = ProjectsRepo.FindFirstProject(_currentProject);
 
 		//	Debug.Assert(proj == _currentProject, "Duplicate projects are found out");
@@ -1032,10 +1021,10 @@ namespace Pustota.Maven.Editor
 		//		form.ShowDialog();
 		//	}
 		//	RefreshPropertyGrid();
-		//}
+		}
 
-		//private void TreePomsNodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
-		//{
+		private void TreePomsNodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+		{
 		//	if (e.Button == MouseButtons.Right)
 		//	{
 		//		_treePoms.SelectedNode = e.Node;
@@ -1045,18 +1034,18 @@ namespace Pustota.Maven.Editor
 		//	{
 		//		_treePoms.SelectedNode = e.Node;
 		//	}
-		//}
+		}
 
-		//private void ListPomsMouseClick(object sender, MouseEventArgs e)
-		//{
+		private void ListPomsMouseClick(object sender, MouseEventArgs e)
+		{
 		//	if (e.Button == MouseButtons.Right)
 		//	{
 		//		ProjectContextMenuStrip.Show(_listPoms, e.Location);
 		//	}
-		//}
+		}
 
-		//private void AdvancedEditorToolStripMenuItemClick(object sender, EventArgs e)
-		//{
+		private void AdvancedEditorToolStripMenuItemClick(object sender, EventArgs e)
+		{
 		//	var proj = ProjectsRepo.FindFirstProject(_currentProject);
 		//	Debug.Assert(proj == _currentProject, "Duplicate projects are found out");
 		//	using (PomAdvancedEditor form = new PomAdvancedEditor(CurrentProjectView, ProjectsRepo))
@@ -1064,19 +1053,19 @@ namespace Pustota.Maven.Editor
 		//		form.ShowDialog();
 		//	}
 		//	RefreshPropertyGrid();
-		//}
+		}
 
-		//private void ExternalReferencesManagerToolStripMenuItemClick(object sender, EventArgs e)
-		//{
+		private void ExternalReferencesManagerToolStripMenuItemClick(object sender, EventArgs e)
+		{
 		//	using (ExternalReferenceManagerForm form = new 
 		//		ExternalReferenceManagerForm(_solution))
 		//	{
 		//		form.ShowDialog();
 		//	}
-		//}
+		}
 
-		//private void ProjectTreeMenuOpening(object sender, System.ComponentModel.CancelEventArgs e)
-		//{
+		private void ProjectTreeMenuOpening(object sender, System.ComponentModel.CancelEventArgs e)
+		{
 		//	TreeNode selected = _treePoms.SelectedNode;
 		//	if (selected == null || selected.Tag as ProjectView == null)
 		//	{
@@ -1085,7 +1074,7 @@ namespace Pustota.Maven.Editor
 		//	ProjectView projectView = (ProjectView) selected.Tag;
 			
 		//	BuildActionsContextMenu(projectView);
-		//}
+		}
 
 		//private void BuildActionsContextMenu(ProjectView projectView)
 		//{
@@ -1150,33 +1139,33 @@ namespace Pustota.Maven.Editor
 		//}
 
 
-		//private void AddSnapshotToAllSelectedNodes(object sender, EventArgs e)
-		//{
+		private void AddSnapshotToAllSelectedNodes(object sender, EventArgs e)
+		{
 		//	SetSnapshotToAllSelectedNodes(true);
-		//}
+		}
 
-		//private void RemoveSnapshotToAllSelectedNodes(object sender, EventArgs e)
-		//{
+		private void RemoveSnapshotToAllSelectedNodes(object sender, EventArgs e)
+		{
 		//	SetSnapshotToAllSelectedNodes(false);
-		//}
+		}
 
-		//private void VersionIncrementFirstNumberClick(object sender, EventArgs e)
-		//{
+		private void VersionIncrementFirstNumberClick(object sender, EventArgs e)
+		{
 		//	VersionIncrementOfSelectedProjects(0);
-		//}
+		}
 
-		//private void VersionIncrementSecondNumberClick(object sender, EventArgs e)
-		//{
+		private void VersionIncrementSecondNumberClick(object sender, EventArgs e)
+		{
 		//	VersionIncrementOfSelectedProjects(1);
-		//}
+		}
 
-		//private void VersionIncrementThirdNumberClick(object sender, EventArgs e)
-		//{
+		private void VersionIncrementThirdNumberClick(object sender, EventArgs e)
+		{
 		//	VersionIncrementOfSelectedProjects(2);
-		//}
+		}
 
-		//private void VersionIncrementOfSelectedProjects(int position)
-		//{
+		private void VersionIncrementOfSelectedProjects(int position)
+		{
 		//	if (!Multiselect)
 		//	{
 		//		ShowWarning("Multiselect mode has to be enabled");
@@ -1196,10 +1185,10 @@ namespace Pustota.Maven.Editor
 
 		//	RefreshPropertyGrid();
 		//	UpdateAllProjectViews();
-		//}
+		}
 
-		//private void CascadeSwitchToSnapshotOnClick(object sender, EventArgs e)
-		//{
+		private void CascadeSwitchToSnapshotOnClick(object sender, EventArgs e)
+		{
 		//	if (CurrentProjectView == null)
 		//		return;
 
@@ -1219,10 +1208,10 @@ namespace Pustota.Maven.Editor
 
 		//	RefreshPropertyGrid();
 		//	UpdateAllProjectViews();
-		//}
+		}
 
-		//private void ReleaseAllSnapshotsOnClick(object sender, EventArgs e)
-		//{
+		private void ReleaseAllSnapshotsOnClick(object sender, EventArgs e)
+		{
 		//	VersionDialog dialog = new VersionDialog();
 		//	if (dialog.ShowDialog() != DialogResult.OK)
 		//		return;
@@ -1243,6 +1232,6 @@ namespace Pustota.Maven.Editor
 
 		//	RefreshPropertyGrid();
 		//	UpdateAllProjectViews();
-		//}
+		}
 	}
 }

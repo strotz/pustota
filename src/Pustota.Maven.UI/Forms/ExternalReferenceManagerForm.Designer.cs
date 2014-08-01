@@ -1,4 +1,4 @@
-﻿namespace Pustota.Maven.Editor.Externals
+﻿namespace Pustota.Maven.UI.Forms
 {
 	partial class ExternalReferenceManagerForm
 	{

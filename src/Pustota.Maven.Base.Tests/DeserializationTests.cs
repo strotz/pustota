@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using Moq;
 using NUnit.Framework;
 using Pustota.Maven.Serialization;
 using Pustota.Maven.Serialization.Data;
-using Pustota.Maven.System;
 
 namespace Pustota.Maven.Base.Tests
 {

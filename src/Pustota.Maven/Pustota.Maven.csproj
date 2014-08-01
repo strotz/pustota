@@ -84,8 +84,8 @@
     <Compile Include="Serialization\ProjectTreeElement.cs" />
     <Compile Include="Serialization\UsAsciiStringWriter.cs" />
     <Compile Include="Serialization\Utf8StringWriter.cs" />
-    <Compile Include="System\FileSystemAccess.cs" />
-    <Compile Include="System\IFileSystemAccess.cs" />
+    <Compile Include="SystemServices\FileSystemAccess.cs" />
+    <Compile Include="SystemServices\IFileSystemAccess.cs" />
     <Compile Include="Serialization\IProjectLoader.cs" />
     <Compile Include="Models\IBuildContainer.cs" />
     <Compile Include="Models\IDependency.cs" />
