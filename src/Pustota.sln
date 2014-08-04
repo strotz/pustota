@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pustota.Maven.UI", "Pustota
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pustota.Maven.UI.Tests", "Pustota.Maven.UI.Tests\Pustota.Maven.UI.Tests.csproj", "{DC41BFBB-1CE9-4EB1-8A0C-70431EBF06FB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pustota.Editor", "Pustota.Editor\Pustota.Editor.csproj", "{EFDFB240-58F0-4491-9500-635F8491BE35}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{DC41BFBB-1CE9-4EB1-8A0C-70431EBF06FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC41BFBB-1CE9-4EB1-8A0C-70431EBF06FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC41BFBB-1CE9-4EB1-8A0C-70431EBF06FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFDFB240-58F0-4491-9500-635F8491BE35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFDFB240-58F0-4491-9500-635F8491BE35}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFDFB240-58F0-4491-9500-635F8491BE35}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFDFB240-58F0-4491-9500-635F8491BE35}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
