@@ -91,5 +91,43 @@ namespace Pustota.Maven.Base.Tests.Actions
 			var dependency2 = projectA.Profiles.Single().Dependencies.Single();
 			Assert.That(dependency2.Classifier, Is.EqualTo("Release"));
 		}
+
+		[Test]
+		public void SearchProjectsDependencyClassifierTest()
+		{
+			var projectA = new Project
+			{
+				GroupId = "group",
+				ArtifactId = "a",
+				Version = "1.0.0-SNAPSHOT",
+			};
+
+			var projectB = new Project
+			{
+				GroupId = "group",
+				ArtifactId = "b",
+				Version = "1.0.1-SNAPSHOT",
+			};
+
+			projectB.Dependencies.Add(
+				new Dependency
+				{
+					GroupId = "group",
+					ArtifactId = "a",
+					Version = "1.0.0-SNAPSHOT",
+					Classifier = "${test}-suffix"
+				}
+				);
+
+			var repo = new Mock<IProjectsRepository>();
+			repo.SetupGet(r => r.AllProjects).Returns(new IProject[] { projectA, projectB });
+
+			var action = new ApplyClassifierAction(repo.Object, "test", "Release");
+
+			action.Execute();
+
+			var dependency = projectB.Dependencies.Single();
+			Assert.That(dependency.Classifier, Is.EqualTo("Release-suffix"));
+		}
 	}
 }
