@@ -25,7 +25,7 @@ namespace Pustota.Maven.Actions
 		{
 			string classifier = WrapProperty(_classifierName);
 
-			foreach (var dependency in _projects.AllProjects.SelectMany(p => p.Operations().AllDependencies).Where(d => d.Classifier.Contains(classifier)))
+			foreach (var dependency in _projects.AllProjects.SelectMany(p => p.Operations().AllDependencies).Where(d => !string.IsNullOrEmpty(d.Classifier) && d.Classifier.Contains(classifier)))
 			{
 				dependency.Classifier = dependency.Classifier.Replace(classifier, _classifierValue);
 			}
