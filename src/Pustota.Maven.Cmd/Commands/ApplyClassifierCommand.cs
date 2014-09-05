@@ -1,6 +1,4 @@
 using System;
-using System.Diagnostics;
-using System.Linq;
 using CommandLine;
 using Pustota.Maven.Actions;
 

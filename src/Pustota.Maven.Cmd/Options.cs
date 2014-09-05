@@ -22,6 +22,9 @@ namespace Pustota.Maven.Cmd
 		[VerbOption("applyClassifier", HelpText = "Apply specific value to classifier for all dependencies")]
 		public ApplyClassifierCommand ApplyClassifierCommand { get; set; }
 
+		[VerbOption("dumpClassifiers", HelpText = "Dump titles of classifiers for all dependencies")]
+		public DumpClassifiersCommand DumpClassifiersCommand { get; set; }
+
 		[HelpVerbOption]
 		public string GetUsage(string verb)
 		{
@@ -42,6 +45,10 @@ namespace Pustota.Maven.Cmd
 
 				case "applyClassifier":
 					ApplyClassifierCommand.Execute();
+					break;
+
+				case "dumpClassifiers":
+					DumpClassifiersCommand.Execute();
 					break;
 			}
 		}

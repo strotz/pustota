@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Actions\ApplyClassifierActionTests.cs" />
     <Compile Include="Actions\CascadeSwitchToSnapshotTests.cs" />
+    <Compile Include="Actions\DumpClassifiersActionTests.cs" />
     <Compile Include="AspectOrientedTests.cs" />
     <Compile Include="Actions\BulkSwitchToReleaseTests.cs" />
     <Compile Include="DeserializationTests.cs" />
