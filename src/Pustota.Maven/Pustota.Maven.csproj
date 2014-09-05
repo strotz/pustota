@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TraceActionLog.cs" />
     <Compile Include="Actions\ApplyClassifierAction.cs" />
     <Compile Include="Actions\BulkSwitchToReleaseAction.cs" />
     <Compile Include="Actions\CascadeSwitchAction.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="Externals\ExternalModulesLoader.cs" />
     <Compile Include="Externals\IExternalModule.cs" />
     <Compile Include="Externals\IExternalModulesRepository.cs" />
+    <Compile Include="IActionLog.cs" />
     <Compile Include="ISolution.cs" />
     <Compile Include="Models\IBlackBox.cs" />
     <Compile Include="SearchOptions.cs" />
