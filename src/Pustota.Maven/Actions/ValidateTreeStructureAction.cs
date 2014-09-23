@@ -30,16 +30,12 @@ namespace Pustota.Maven.Actions
 			_projects = projects;
 		}
 
-		public void Execute()
+		public IEnumerable<IValidationProblem> Execute()
 		{
 			var validationFactory = new ValidationFactory(); 
 			RepositoryValidator validator = new RepositoryValidator(validationFactory);
 			var context = new ValidationContext(_projects); 
-			var problems = validator.Validate(context);
-			foreach (var problem in problems) // REVIEW: output must be provided by environment 
-			{
-				Console.WriteLine(problem.Description);
-			}
+			return validator.Validate(context);
 		}
 	}
 }

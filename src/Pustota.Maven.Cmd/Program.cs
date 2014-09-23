@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Pustota.Maven.Cmd
 {
@@ -12,6 +13,7 @@ namespace Pustota.Maven.Cmd
 			}
 			catch (Exception ex)
 			{
+				Debug.WriteLine(ex);
 				Console.WriteLine(ex);
 			}
 		}

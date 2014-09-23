@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+﻿using System;
 using System.Linq;
 using Pustota.Maven.Actions;
 
@@ -15,12 +15,18 @@ namespace Pustota.Maven.Cmd.Commands
 			var solutionManagement = new SolutionManagement();
 			var solution = solutionManagement.OpenSolution(Path, LoadAllProjects);
 
-			Debug.WriteLine(solution.AllProjects.Count() + " projects loaded");
-
 			ValidateTreeStructureAction action = new ValidateTreeStructureAction(solution);
-			action.Execute();
+			var problems = action.Execute().ToList();
 
-			// solution.ForceSaveAll();
+			foreach (var problem in problems) 
+			{
+				Console.WriteLine(problem.Description);
+			}
+
+			Console.WriteLine("{0} projects validated", solution.AllProjects.Count());
+			Console.WriteLine("{0} problems found", problems.Count());
+
+			// TODO: need to save fixes solution.ForceSaveAll();
 		}
 	}
 }
