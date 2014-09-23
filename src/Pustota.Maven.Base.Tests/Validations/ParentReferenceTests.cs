@@ -7,19 +7,19 @@ using Pustota.Maven.Validation;
 namespace Pustota.Maven.Base.Tests.Validations
 {
 	[TestFixture]
-	public class ParentSpecificVersionTests : ValidationTestBase
+	public class ParentReferenceTests : ValidationTestBase
 	{
-		private ParentSpecificVersionValidation _projectValidator;
+		private ParentReferenceValidation _projectValidator;
 
 		private Mock<IParentReference> _parent;
-		
+
 		[SetUp]
 		public void Initialize()
 		{
 			CreateContext();
 
 			_parent = new Mock<IParentReference>();
-			_projectValidator = new ParentSpecificVersionValidation();
+			_projectValidator = new ParentReferenceValidation();
 		}
 
 		[Test]
@@ -42,10 +42,10 @@ namespace Pustota.Maven.Base.Tests.Validations
 		}
 
 		[Test]
-		public void ParentWithVersionTest()
+		public void ParentWithArtifactTest()
 		{
 			Project.Setup(p => p.Parent).Returns(_parent.Object);
-			_parent.Setup(p => p.Version).Returns("abc");
+			_parent.Setup(p => p.ArtifactId).Returns("abc");
 
 			var result = _projectValidator.Validate(Context, Project.Object).ToList();
 			Assert.That(result, Is.Not.Null);

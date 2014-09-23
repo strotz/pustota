@@ -9,6 +9,7 @@ namespace Pustota.Maven.Validation
 	{
 		public IEnumerable<IProjectValidator> BuildProjectValidationSequence()
 		{
+			yield return new ParentReferenceValidation();
 			yield return new ParentSpecificVersionValidation();
 			yield return new ProjectSpecificVersionValidation();
 			yield return new DuplicatedProjectValidation();

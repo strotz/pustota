@@ -117,6 +117,7 @@
     <Compile Include="Validation\IRepositoryValidationFactory.cs" />
     <Compile Include="Validation\IRepositoryValidator.cs" />
     <Compile Include="Validation\ParentReferenceExistValidation.cs" />
+    <Compile Include="Validation\ParentReferenceValidation.cs" />
     <Compile Include="Validation\ParentSpecificVersionValidation.cs" />
     <Compile Include="Validation\ProjecModulesValidation.cs" />
     <Compile Include="Validation\ProjectDependencyValidation.cs" />
