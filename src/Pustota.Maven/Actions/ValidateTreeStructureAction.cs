@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Pustota.Maven.Externals;
 using Pustota.Maven.Models;
 using Pustota.Maven.Validation;
+using Pustota.Maven.Validation.Data;
 
 namespace Pustota.Maven.Actions
 {
@@ -24,9 +25,15 @@ namespace Pustota.Maven.Actions
 				get { return _projects.AllProjects; }
 			}
 
-			public IDictionary<IProject, IResolvedProjectData> Resolved
+			public IResolvedProjectData GetResolvedData(IProject project)
 			{
-				get { return _resolved; }
+				IResolvedProjectData resolvedData;
+				if (!_resolved.TryGetValue(project, out resolvedData))
+				{
+					resolvedData = Loader.Resolve(project);
+					_resolved[project] = resolvedData;
+				}
+				return resolvedData;
 			}
 		}
 

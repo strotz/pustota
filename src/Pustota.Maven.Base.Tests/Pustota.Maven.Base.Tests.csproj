@@ -61,6 +61,7 @@
     <Compile Include="ProjectModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReferenceOperationsTests.cs" />
+    <Compile Include="Validations\DataResolverTests.cs" />
     <Compile Include="Validations\ParentReferenceTests.cs" />
     <Compile Include="Validations\RepositortValidatorTests.cs" />
     <Compile Include="SerializationWithUpdateTests.cs" />

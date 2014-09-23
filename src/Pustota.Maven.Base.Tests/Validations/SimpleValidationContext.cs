@@ -2,18 +2,12 @@
 using Pustota.Maven.Externals;
 using Pustota.Maven.Models;
 using Pustota.Maven.Validation;
+using Pustota.Maven.Validation.Data;
 
 namespace Pustota.Maven.Base.Tests.Validations
 {
 	public class SimpleValidationContext : IValidationContext
 	{
-		private readonly IDictionary<IProject, IResolvedProjectData> _resolved;
-
-		public SimpleValidationContext()
-		{
-			_resolved = new Dictionary<IProject, IResolvedProjectData>();
-		}
-
 		public IProjectsRepository Repository { get; set; }
 
 		public IExternalModulesRepository ExternalModules { get; set; }
@@ -23,9 +17,9 @@ namespace Pustota.Maven.Base.Tests.Validations
 			get { return Repository.AllProjects; }
 		}
 
-		public IDictionary<IProject, IResolvedProjectData> Resolved
+		public IResolvedProjectData GetResolvedData(IProject project)
 		{
-			get { return _resolved; }
+			return Loader.Resolve(project); // REVIEW: should test Loader and validation separatelly  
 		}
 	}
 }
