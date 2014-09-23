@@ -6,7 +6,7 @@ namespace Pustota.Maven.Actions
 {
 	public class DumpClassifiersAction
 	{
-		private IProjectsRepository _projects;
+		private readonly IProjectsRepository _projects;
 
 		public DumpClassifiersAction(IProjectsRepository projects)
 		{
