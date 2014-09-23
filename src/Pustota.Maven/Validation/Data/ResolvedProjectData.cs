@@ -2,11 +2,11 @@ using Pustota.Maven.Models;
 
 namespace Pustota.Maven.Validation.Data
 {
-	internal class ResolvedProjectData
+	internal class ResolvedProjectData : IResolvedProjectData
 	{
-		internal string GroupId;
-		internal string Version;
-		internal bool? IsSnapshot;
+		public string GroupId { get; internal set; }
+		public string Version { get; internal set; }
+		public bool? IsSnapshot { get; internal set; }
 	}
 
 	// REVIEW: it just one piece

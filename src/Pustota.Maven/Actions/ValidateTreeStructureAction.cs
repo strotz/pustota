@@ -11,15 +11,22 @@ namespace Pustota.Maven.Actions
 		class ValidationContext : IValidationContext
 		{
 			private readonly IProjectsRepository _projects;
+			private readonly IDictionary<IProject, IResolvedProjectData> _resolved;
 
 			internal ValidationContext(IProjectsRepository projects)
 			{
 				_projects = projects;
+				_resolved = new Dictionary<IProject, IResolvedProjectData>();
 			}
 
 			public IEnumerable<IProject> AllProjects
 			{
 				get { return _projects.AllProjects; }
+			}
+
+			public IDictionary<IProject, IResolvedProjectData> Resolved
+			{
+				get { return _resolved; }
 			}
 		}
 

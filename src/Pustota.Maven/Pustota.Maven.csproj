@@ -105,6 +105,7 @@
     <Compile Include="Serialization\ProjectTreeLoader.cs" />
     <Compile Include="Solution.cs" />
     <Compile Include="SolutionManagement.cs" />
+    <Compile Include="Validation\IResolvedProjectData.cs" />
     <Compile Include="Validation\Data\ResolvedProjectData.cs" />
     <Compile Include="Validation\DuplicatedProjectValidation.cs" />
     <Compile Include="Validation\Fixes\AddExternalModuleFix.cs" />

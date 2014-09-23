@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Pustota.Maven.Externals;
 using Pustota.Maven.Models;
+using Pustota.Maven.Validation.Data;
 
 namespace Pustota.Maven.Validation
 {
@@ -10,5 +11,7 @@ namespace Pustota.Maven.Validation
 	{
 		IEnumerable<IProject> AllProjects { get; }
 		// REVIEW: do we need it now? IExternalModulesRepository ExternalModules { get; }
+
+		IDictionary<IProject, IResolvedProjectData> Resolved { get; }
 	}
 }
