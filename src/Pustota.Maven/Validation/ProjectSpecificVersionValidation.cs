@@ -7,7 +7,7 @@ namespace Pustota.Maven.Validation
 	internal class ProjectSpecificVersionValidation : 
 		IProjectValidator
 	{
-		public IEnumerable<ValidationProblem> Validate(ValidationContext context, IProject project)
+		public IEnumerable<ValidationProblem> Validate(IValidationContext context, IProject project)
 		{
 			//if (_project.IsVersionUnresolved) 
 			//{

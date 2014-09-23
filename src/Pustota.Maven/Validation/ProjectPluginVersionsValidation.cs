@@ -8,7 +8,7 @@ namespace Pustota.Maven.Validation
 	internal class ProjectPluginVersionsValidation :
 		IProjectValidator
 	{
-		public IEnumerable<ValidationProblem> Validate(ValidationContext context, IProject project)
+		public IEnumerable<ValidationProblem> Validate(IValidationContext context, IProject project)
 		{
 			//foreach (IPlugin plugin in _project.
 			//	.Project.AllPlugins.Where(

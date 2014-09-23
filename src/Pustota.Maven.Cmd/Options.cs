@@ -25,6 +25,9 @@ namespace Pustota.Maven.Cmd
 		[VerbOption("dumpClassifiers", HelpText = "Dump titles of classifiers for all dependencies")]
 		public DumpClassifiersCommand DumpClassifiersCommand { get; set; }
 
+		[VerbOption("validate", HelpText = "Validate project tree")]
+		public ValidateAndFixCommand ValidateAndFixCommand { get; set; }
+
 		[HelpVerbOption]
 		public string GetUsage(string verb)
 		{
@@ -49,6 +52,10 @@ namespace Pustota.Maven.Cmd
 
 				case "dumpClassifiers":
 					DumpClassifiersCommand.Execute();
+					break;
+
+				case "validate":
+					ValidateAndFixCommand.Execute();
 					break;
 			}
 		}

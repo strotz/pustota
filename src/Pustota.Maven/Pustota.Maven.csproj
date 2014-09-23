@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\DumpClassifiersAction.cs" />
+    <Compile Include="Actions\ValidateTreeStructureAction.cs" />
     <Compile Include="TraceActionLog.cs" />
     <Compile Include="Actions\ApplyClassifierAction.cs" />
     <Compile Include="Actions\BulkSwitchToReleaseAction.cs" />

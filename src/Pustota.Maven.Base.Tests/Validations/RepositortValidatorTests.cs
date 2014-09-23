@@ -1,25 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Moq;
 using NUnit.Framework;
 using Pustota.Maven.Externals;
 using Pustota.Maven.Models;
 using Pustota.Maven.Validation;
 
-namespace Pustota.Maven.Base.Tests
+namespace Pustota.Maven.Base.Tests.Validations
 {
 	[TestFixture]
-	public class RepositortValidatorTests
+	public class RepositoryValidatorTests
 	{
 		private RepositoryValidator _validator;
 
 		private Mock<IProjectValidationFactory> _factory;
 		private Mock<IProjectsRepository> _repo;
 		private Mock<IExternalModulesRepository> _externals;
-		private ValidationContext _context;
+		private SimpleValidationContext _context;
 
 		[SetUp]
 		public void Initialize()
@@ -29,7 +25,7 @@ namespace Pustota.Maven.Base.Tests
 			_externals = new Mock<IExternalModulesRepository>();
 			_validator = new RepositoryValidator(_factory.Object);
 
-			_context = new ValidationContext
+			_context = new SimpleValidationContext
 			{
 				Repository = _repo.Object,
 				ExternalModules = _externals.Object
@@ -61,7 +57,7 @@ namespace Pustota.Maven.Base.Tests
 			};
 
 			var validator = new Mock<IProjectValidator>();
-			validator.Setup(v => v.Validate(It.IsAny<ValidationContext>(), project.Object)).Returns(new[] { problem });
+			validator.Setup(v => v.Validate(It.IsAny<IValidationContext>(), project.Object)).Returns(new[] { problem });
 
 			_factory.Setup(f => f.BuildProjectValidationSequence()).Returns(new[] { validator.Object });
 
@@ -81,10 +77,10 @@ namespace Pustota.Maven.Base.Tests
 			var warning = new ValidationProblem { Severity = ProblemSeverity.ProjectWarning };
 
 			var v1 = new Mock<IProjectValidator>();
-			v1.Setup(v => v.Validate(It.IsAny<ValidationContext>(), project1.Object)).Returns(new[] { fatal });
+			v1.Setup(v => v.Validate(It.IsAny<IValidationContext>(), project1.Object)).Returns(new[] { fatal });
 
 			var v2 = new Mock<IProjectValidator>();
-			v2.Setup(v => v.Validate(It.IsAny<ValidationContext>(), project1.Object)).Returns(new[] { warning });
+			v2.Setup(v => v.Validate(It.IsAny<IValidationContext>(), project1.Object)).Returns(new[] { warning });
 
 			_factory.Setup(f => f.BuildProjectValidationSequence()).Returns(new[] { v1.Object, v2.Object });
 
@@ -92,11 +88,11 @@ namespace Pustota.Maven.Base.Tests
 			Assert.IsNotNull(result);
 			Assert.That(result.Single(), Is.EqualTo(fatal));
 
-			v1.Verify(v => v.Validate(It.IsAny<ValidationContext>(), project1.Object), Times.Once());
-			v1.Verify(v => v.Validate(It.IsAny<ValidationContext>(), project2.Object), Times.Once());
+			v1.Verify(v => v.Validate(It.IsAny<IValidationContext>(), project1.Object), Times.Once());
+			v1.Verify(v => v.Validate(It.IsAny<IValidationContext>(), project2.Object), Times.Once());
 
-			v2.Verify(v => v.Validate(It.IsAny<ValidationContext>(), project1.Object), Times.Never());
-			v2.Verify(v => v.Validate(It.IsAny<ValidationContext>(), project2.Object), Times.Once());
+			v2.Verify(v => v.Validate(It.IsAny<IValidationContext>(), project1.Object), Times.Never());
+			v2.Verify(v => v.Validate(It.IsAny<IValidationContext>(), project2.Object), Times.Once());
 		}
 
 	}

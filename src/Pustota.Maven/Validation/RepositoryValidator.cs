@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Pustota.Maven.Externals;
 
 namespace Pustota.Maven.Validation
 {
@@ -14,20 +12,20 @@ namespace Pustota.Maven.Validation
 			_factory = factory;
 		}
 
-		public IEnumerable<ValidationProblem> Validate(ValidationContext context)
+		public IEnumerable<ValidationProblem> Validate(IValidationContext context)
 		{
 			var validators = _factory.BuildProjectValidationSequence().ToArray();
 
 			var problems = new List<ValidationProblem>();
 
-			foreach (var project in context.Repository.AllProjects)
+			foreach (var project in context.AllProjects)
 			{
 				foreach (var validator in validators)
 				{
 					var result = validator.Validate(context, project).ToArray();
 					problems.AddRange(result);
 
-					if (result.Any(r => r.Severity == ProblemSeverity.ProjectFatal)) // does not make sense to contrinue with project
+					if (result.Any(r => r.Severity == ProblemSeverity.ProjectFatal)) // does not make sense to continue with project
 					{
 						break; 
 					}

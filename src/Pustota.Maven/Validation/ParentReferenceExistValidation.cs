@@ -7,7 +7,7 @@ namespace Pustota.Maven.Validation
 {
 	internal class ParentReferenceExistValidation : IProjectValidator
 	{
-		public IEnumerable<ValidationProblem> Validate(ValidationContext context, IProject project)
+		public IEnumerable<ValidationProblem> Validate(IValidationContext context, IProject project)
 		{		
 		//	Project project = _projectNode.Project;
 		//	IParentReference parent = project.Parent;

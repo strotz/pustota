@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using Pustota.Maven.Externals;
-using Pustota.Maven.Models;
 
 namespace Pustota.Maven.Validation
 {

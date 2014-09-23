@@ -9,10 +9,10 @@ namespace Pustota.Maven.Validation
 {
 	class UselessExternalModulesValidation : IRepositoryValidator
 	{
-		public IEnumerable<ValidationProblem> Validate(ValidationContext context)
+		public IEnumerable<ValidationProblem> Validate(IValidationContext context)
 		{
-			foreach (var externalModule in context.ExternalModules.Items)
-			{
+			//foreach (var externalModule in context.ExternalModules.Items)
+			//{
 				//if (!_repository.IsItUsed(externalModule))
 				//{
 				//	ValidationError error = new ValidationError(
@@ -34,7 +34,7 @@ namespace Pustota.Maven.Validation
 				//	error.AddFix(fix);
 				//	ValidationErrors.Add(error);
 				//}
-			}
+			//}
 			throw new NotImplementedException();
 		}
 	}

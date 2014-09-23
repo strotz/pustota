@@ -4,6 +4,6 @@ namespace Pustota.Maven.Validation
 {
 	public interface IRepositoryValidator
 	{
-		IEnumerable<ValidationProblem> Validate(ValidationContext context);
+		IEnumerable<ValidationProblem> Validate(IValidationContext context);
 	}
 }

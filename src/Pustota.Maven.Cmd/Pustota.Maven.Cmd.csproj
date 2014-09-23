@@ -188,6 +188,7 @@
     <Compile Include="Commands\NormalizeCommand.cs" />
     <Compile Include="Commands\ReleaseAllCommand.cs" />
     <Compile Include="Commands\RepoBased.cs" />
+    <Compile Include="Commands\ValidateAndFixCommand.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
