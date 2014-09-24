@@ -8,18 +8,101 @@ using Pustota.Maven.SystemServices;
 
 namespace Pustota.Maven
 {
+	internal class ProjectTree : IProjectTree
+	{
+		protected IList<IProjectTreeItem> Projects; // REVIEW: hide it
+
+		protected ProjectTree()
+		{
+			Projects = new List<IProjectTreeItem>();
+		}
+
+		public IEnumerable<IProject> AllProjects { get { return Projects.Select(item => item.Project); } }
+		// public IEnumerable<IProjectTreeItem> Tree { get { return Projects; } }
+
+		// TODO: match object reference, but should it be project references? 
+		public bool TryGetPathByProject(IProject project, out FullPath fullPath)
+		{
+			var item = Projects.SingleOrDefault(i => i.Project == project);
+			if (item != null)
+			{
+				fullPath = item.Path;
+				return true;
+			}
+			fullPath = null;
+			return false;
+		}
+
+		// TODO: to match path it use string compare, to simplify 
+		public bool TryGetProjectByPath(FullPath fullPath, out IProject project)
+		{
+			var item = Projects.SingleOrDefault(i => String.Equals(fullPath, i.Path, StringComparison.InvariantCultureIgnoreCase));
+			if (item != null)
+			{
+				project = item.Project;
+				return true;
+			}
+			project = null;
+			return false;
+		}
+	}
+
+	internal class ExecutionContext : 
+		ProjectTree,
+		IExecutionContext
+	{
+		private readonly IDictionary<IProject, IResolvedProjectData> _resolved;
+
+		protected ExecutionContext()
+		{
+			_resolved = new Dictionary<IProject, IResolvedProjectData>();
+		}
+
+		// TODO: it is implementation of lazy project data resolution - probably can switch to explicit model
+		public IResolvedProjectData GetResolvedData(IProject project)
+		{
+			//IResolvedProjectData resolvedData;
+			//if (!_resolved.TryGetValue(project, out resolvedData))
+			//{
+			//	resolvedData = project.Operations().ResolveMoreData();
+			//	_resolved[project] = resolvedData;
+			//}
+			//return resolvedData;
+			throw new NotImplementedException();
+		}
+
+		public bool TryGetParentByPath(IProject project, out IProject parent)
+		{
+			//string currentProjectPath;
+			//if (!TryGetPathByProject(project, out currentProjectPath))
+			//{
+			//	parent = null;
+			//	return false;
+			//}
+
+			//string resolvedParentPath = GetResolvedData(project).ParentPath;
+			//string fullParentPath = _system.Normalize(_system)
+			//return TryGetProjectByPath(fullParentPath, out parent);
+			throw new NotImplementedException();
+		}
+
+		protected void CleanContext()
+		{
+			throw new NotImplementedException();
+		}
+
+
+	}
+
 	// TODO: support multiple repositories within solution
-	internal class Solution : ISolution
+	internal sealed class Solution :
+		ExecutionContext,
+		ISolution
 	{
 		private readonly IFileSystemAccess _fileIo;
 		private readonly IProjectTreeLoader _loader;
 
-		private IList<IProjectTreeItem> _projects;
-
 		public string BaseDir { get; private set; }
-
-		public IEnumerable<IProject> AllProjects { get { return _projects.Select(item => item.Project); } }
-		public IEnumerable<IProjectTreeItem> Tree { get { return _projects; } }
 
 		//public ProjectsValidations Validations { get; private set; }
 		//public ExternalModulesRepository ExternalModules { get; private set; }
@@ -55,19 +138,13 @@ namespace Pustota.Maven
 
 			if (loadDisconnectedProjects)
 			{
-				_projects = _loader.ScanForProjects(BaseDir).ToList();
+				Projects = _loader.ScanForProjects(BaseDir).ToList();
 			}
 			else
 			{
-				_projects = _loader.LoadProjectTree(filePath).ToList();
+				Projects = _loader.LoadProjectTree(filePath).ToList();
 			}
 		}
-
-//		public IEnumerable<ValidationError> Validate()
-//		{
-//			Validations.Validate();
-//			return Validations.ValidationErrors;
-//		}
 
 //		private void Load()
 //		{
@@ -84,13 +161,8 @@ namespace Pustota.Maven
 
 		public void ForceSaveAll()
 		{
-			_loader.SaveProjects(_projects);
+			_loader.SaveProjects(Projects);
 		}
-
-		//public bool Changed
-		//{
-		//	get { return AllProjectNodes.Any(node => node.Changed); }
-		//}
 
 		//public IEnumerable<ProjectNode> GetRootProjects()
 		//{
@@ -149,15 +221,9 @@ namespace Pustota.Maven
 		//	return AllProjectNodes.Where(p => p.ReferenceEqualTo(projectReference, strictVersion));
 		//}
 
-
 		//public IProject FindFirstProject(IProjectReference projectReference)
 		//{
 		//	return AllProjects.FirstOrDefault(p => p.ReferenceEqualTo(projectReference));
-		//}
-
-		//public void LoadOneProject(string path)
-		//{
-		//	AllProjects.Add(_loader.LoadProject(path));
 		//}
 
 		//public void SaveChangedProjects()
@@ -175,6 +241,5 @@ namespace Pustota.Maven
 		//	//if (_ignoredValidations.Changed)
 		//	//	SaveIgnoredValidations();
 		//}
-
 	}
 }

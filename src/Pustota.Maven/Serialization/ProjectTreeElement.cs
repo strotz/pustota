@@ -8,13 +8,13 @@ namespace Pustota.Maven.Serialization
 		{
 		}
 
-		public ProjectTreeElement(string path, IProject project)
+		public ProjectTreeElement(FullPath path, IProject project)
 		{
 			Path = path;
 			Project = project;
 		}
 
 		public IProject Project { get; set; }
-		public string Path { get; set; }
+		public FullPath Path { get; set; }
 	}
 }

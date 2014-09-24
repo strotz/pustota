@@ -2,7 +2,7 @@
 {
 	public interface IProjectTreeItem
 	{
-		string Path { get; }
+		FullPath Path { get; }
 		IProject Project { get; }
 	}
 }

@@ -12,7 +12,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 
 //		protected Mock<IProjectsRepository> Repo;
 		protected Mock<IExternalModulesRepository> Externals;
-		protected Mock<IValidationContext> Context;
+		protected Mock<IExecutionContext> Context;
 
 		protected void CreateContext()
 		{
@@ -22,7 +22,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 //			Repo = new Mock<IProjectsRepository>();
 			Externals = new Mock<IExternalModulesRepository>();
 
-			Context = new Mock<IValidationContext>();
+			Context = new Mock<IExecutionContext>();
 		}
 	}
 }

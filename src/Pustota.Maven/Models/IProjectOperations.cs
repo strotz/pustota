@@ -1,8 +1,7 @@
 namespace Pustota.Maven.Models
 {
 	public interface IProjectOperations : 
-		IProjectQueries,
-		IProjectDataResolver
+		IProjectQueries
 	{
 		void PropagateVersionToUsages(IProjectReference projectReference);
 	}

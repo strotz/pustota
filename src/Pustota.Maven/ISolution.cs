@@ -1,13 +1,10 @@
 ﻿namespace Pustota.Maven
 {
 	// REVIEW: has all
-	public interface ISolution : IProjectsRepository
+	public interface ISolution : IExecutionContext
 	{
 		// REVIEW: support many RepositoryEntryPoint
-
 		string BaseDir { get; }
-
-		// string FullPath { get; }
 
 		//ProjectsValidations Validations { get; } // REVIEW: encapsulate
 		//ExternalModulesRepository ExternalModules { get; } // REVIEW: encapsulate

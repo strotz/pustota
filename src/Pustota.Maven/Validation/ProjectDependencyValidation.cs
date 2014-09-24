@@ -8,7 +8,7 @@ namespace Pustota.Maven.Editor.Validations
 {
 	class ProjectDependencyValidation : IProjectValidator
 	{
-		public IEnumerable<ValidationProblem> Validate(IValidationContext context, IProject project)
+		public IEnumerable<ValidationProblem> Validate(IExecutionContext context, IProject project)
 		{
 			//foreach (IDependency dependencyReference in project.AllDependencies)
 			//{

@@ -132,8 +132,8 @@ namespace Pustota.Maven.Base.Tests
 		{
 			var elements = new List<ProjectTreeElement>
 			{
-				new ProjectTreeElement(_topProjectPath, _topProject),
-				new ProjectTreeElement(_secondProjectPath, _secondProject)
+				new ProjectTreeElement(new FullPath(_topProjectPath), _topProject),
+				new ProjectTreeElement(new FullPath(_secondProjectPath), _secondProject)
 			};
 
 			_loader.SaveProjects(elements);

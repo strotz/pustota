@@ -5,18 +5,21 @@ namespace Pustota.Maven
 {
 	public interface IProjectsRepository
 	{
-		//	IList<ProjectNode> AllProjectNodes { get; }
+		IEnumerable<IProject> AllProjects { get; }
+	}
+
+	public interface IProjectTree : IProjectsRepository
+	{
+		// IEnumerable<IProjectTreeItem> Tree { get; }
+
+		bool TryGetPathByProject(IProject project, out FullPath fullPath);
+		bool TryGetProjectByPath(FullPath fullParentPath, out IProject parent);
+	}
 
 		//	IEnumerable<ProjectNode> GetRootProjects();
-
 		//	IEnumerable<ProjectNode> GetProjectModules(ProjectNode project);
 
-		IEnumerable<IProject> AllProjects { get; }
-
-		IEnumerable<IProjectTreeItem> Tree { get; }
-
-		//	IList<IProject> AllProjects { get; set; }
-
+		
 		//	bool Changed { get; }
 
 		//	// REVIEW: need refactoring
@@ -35,5 +38,12 @@ namespace Pustota.Maven
 		//	bool ContainsProject(IProjectReference projectReference, bool strictVersion = false);
 
 		//	IEnumerable<ProjectNode> SelectProjectNodes(IProjectReference projectReference, bool strictVersion = false);
+
+	public interface IExecutionContext : 
+		IProjectTree
+	{
+		IResolvedProjectData GetResolvedData(IProject project);
+
+		bool TryGetParentByPath(IProject project, out IProject parent);
 	}
 }

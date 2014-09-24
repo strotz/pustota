@@ -7,16 +7,32 @@ namespace Pustota.Maven.Validation
 {
 	internal class ParentReferenceExistValidation : IProjectValidator
 	{
-		public IEnumerable<ValidationProblem> Validate(IValidationContext context, IProject project)
+		public IEnumerable<ValidationProblem> Validate(IExecutionContext context, IProject project)
 		{
 			if (project.Parent == null)
 			{
 				yield break;
 			}
 
-			var resolved = context.GetResolvedData(project);
-			string parentPath = resolved.ParentPath;
+			IProject parent;
+			if (context.TryGetParentByPath(project, out parent))
+			{
+				if (!parent.ReferenceOperations().ReferenceEqualTo(project.Parent, true))
+				{
+					yield return new ValidationProblem
+					{
+						Severity = ProblemSeverity.ProjectWarning,
+						Description = string.Format("Reference to project parent {0} is different from actual parent {1}.", project.Parent, parent)
+					};
 
+					// TODO: could be fixable
+				}
+			}
+
+			// var resolved = context.GetResolvedData(project);
+
+
+			//: "../pom.xml";
 
 
 		//	var error = new ValidationError(_projectNode.Project, "Project parent error", ErrorLevel.Warning);

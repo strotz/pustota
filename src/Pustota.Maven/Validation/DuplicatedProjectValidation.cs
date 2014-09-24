@@ -9,7 +9,7 @@ namespace Pustota.Maven.Validation
 {
 	class DuplicatedProjectValidation : IProjectValidator
 	{
-		public IEnumerable<ValidationProblem> Validate(IValidationContext context, IProject project)
+		public IEnumerable<ValidationProblem> Validate(IExecutionContext context, IProject project)
 		{
 			//if (_repository.AllProjectNodes
 			//	.Any(p => p.ShareGroupAndArtifactWith(project) && p.FullPath != project.FullPath))

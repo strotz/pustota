@@ -6,7 +6,7 @@ namespace Pustota.Maven.Validation
 	internal class ProjectSpecificVersionValidation : 
 		IProjectValidator
 	{
-		public IEnumerable<ValidationProblem> Validate(IValidationContext context, IProject project)
+		public IEnumerable<ValidationProblem> Validate(IExecutionContext context, IProject project)
 		{
 			var resolvedData = context.GetResolvedData(project);
 			if (string.IsNullOrEmpty(resolvedData.Version)) // REVIEW: class for Version

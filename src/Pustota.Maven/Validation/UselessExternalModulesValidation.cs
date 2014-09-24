@@ -9,7 +9,7 @@ namespace Pustota.Maven.Validation
 {
 	class UselessExternalModulesValidation : IRepositoryValidator
 	{
-		public IEnumerable<ValidationProblem> Validate(IValidationContext context)
+		public IEnumerable<ValidationProblem> Validate(IExecutionContext context)
 		{
 			//foreach (var externalModule in context.ExternalModules.Items)
 			//{

@@ -17,7 +17,7 @@ namespace Pustota.Maven.SystemServices
 			return Directory.Exists(path);
 		}
 
-		public string GetFullPath(string path)
+		public string GetFullPath(string path) // TODO: return FullPath?
 		{
 			return Path.GetFullPath(path);
 		}

@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Actions\DumpClassifiersAction.cs" />
     <Compile Include="Actions\ValidateTreeStructureAction.cs" />
+    <Compile Include="FullPath.cs" />
     <Compile Include="Models\IProjectOperations.cs" />
     <Compile Include="Models\IProjectQueries.cs" />
     <Compile Include="Models\IProjectTreeItem.cs" />
@@ -108,7 +109,6 @@
     <Compile Include="Serialization\ProjectTreeLoader.cs" />
     <Compile Include="Solution.cs" />
     <Compile Include="SolutionManagement.cs" />
-    <Compile Include="Models\IProjectDataResolver.cs" />
     <Compile Include="Models\ProjectDataExtractor.cs" />
     <Compile Include="Models\IResolvedProjectData.cs" />
     <Compile Include="Models\ResolvedProjectData.cs" />
@@ -133,7 +133,6 @@
     <Compile Include="Validation\Fixes\RelativePathFix.cs" />
     <Compile Include="Validation\Fixes\SwitchToSnapshotFix.cs" />
     <Compile Include="Validation\UselessExternalModulesValidation.cs" />
-    <Compile Include="Validation\ValidationContext.cs" />
     <Compile Include="Validation\ValidationFactory.cs" />
     <Compile Include="Validation\ValidationResult.cs" />
     <Compile Include="Validation\Fixes\ApplyVersionFix.cs" />
