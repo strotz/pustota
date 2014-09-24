@@ -15,7 +15,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 		private Mock<IProjectValidationFactory> _factory;
 		private Mock<IProjectsRepository> _repo;
 		private Mock<IExternalModulesRepository> _externals;
-		private SimpleValidationContext _context;
+		private Mock<IValidationContext> _context;
 
 		[SetUp]
 		public void Initialize()
@@ -25,11 +25,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 			_externals = new Mock<IExternalModulesRepository>();
 			_validator = new RepositoryValidator(_factory.Object);
 
-			_context = new SimpleValidationContext
-			{
-				Repository = _repo.Object,
-				ExternalModules = _externals.Object
-			};
+			_context = new Mock<IValidationContext>();
 		}
 
 		[TearDown]
@@ -40,7 +36,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 		[Test]
 		public void EmptyTest()
 		{
-			var result = _validator.Validate(_context);
+			var result = _validator.Validate(_context.Object);
 			Assert.IsNotNull(result);
 			Assert.That(result, Is.Empty);
 		}
@@ -61,7 +57,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 
 			_factory.Setup(f => f.BuildProjectValidationSequence()).Returns(new[] { validator.Object });
 
-			var result = _validator.Validate(_context);
+			var result = _validator.Validate(_context.Object);
 			Assert.IsNotNull(result);
 			Assert.That(result.Single(), Is.EqualTo(problem));
 		}
@@ -84,7 +80,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 
 			_factory.Setup(f => f.BuildProjectValidationSequence()).Returns(new[] { v1.Object, v2.Object });
 
-			var result = _validator.Validate(_context);
+			var result = _validator.Validate(_context.Object);
 			Assert.IsNotNull(result);
 			Assert.That(result.Single(), Is.EqualTo(fatal));
 

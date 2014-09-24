@@ -1,6 +1,7 @@
 using Moq;
 using Pustota.Maven.Externals;
 using Pustota.Maven.Models;
+using Pustota.Maven.Validation;
 
 namespace Pustota.Maven.Base.Tests.Validations
 {
@@ -9,7 +10,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 		protected Mock<IProject> Project;
 		protected Mock<IProjectsRepository> Repo;
 		protected Mock<IExternalModulesRepository> Externals;
-		protected SimpleValidationContext Context;
+		protected Mock<IValidationContext> Context;
 
 		protected void CreateContext()
 		{
@@ -17,11 +18,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 			Repo = new Mock<IProjectsRepository>();
 			Externals = new Mock<IExternalModulesRepository>();
 
-			Context = new SimpleValidationContext
-			{
-				Repository = Repo.Object,
-				ExternalModules = Externals.Object
-			};
+			Context = new Mock<IValidationContext>();
 		}
 	}
 }

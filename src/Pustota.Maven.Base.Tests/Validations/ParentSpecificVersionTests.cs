@@ -25,7 +25,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 		[Test]
 		public void EmptyTest()
 		{
-			var result = _projectValidator.Validate(Context, Project.Object);
+			var result = _projectValidator.Validate(Context.Object, Project.Object);
 			Assert.That(result, Is.Not.Null);
 			Assert.That(result.Count(), Is.EqualTo(0));
 		}
@@ -35,7 +35,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 		{
 			Project.Setup(p => p.Parent).Returns(_parent.Object);
 
-			var result = _projectValidator.Validate(Context, Project.Object).ToList();
+			var result = _projectValidator.Validate(Context.Object, Project.Object).ToList();
 			Assert.That(result, Is.Not.Null);
 			Assert.That(result.Count(), Is.EqualTo(1));
 			Assert.That(result.Single().Severity, Is.EqualTo(ProblemSeverity.ProjectFatal));
@@ -47,7 +47,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 			Project.Setup(p => p.Parent).Returns(_parent.Object);
 			_parent.Setup(p => p.Version).Returns("abc");
 
-			var result = _projectValidator.Validate(Context, Project.Object).ToList();
+			var result = _projectValidator.Validate(Context.Object, Project.Object).ToList();
 			Assert.That(result, Is.Not.Null);
 			Assert.That(result.Count(), Is.EqualTo(0));
 		}

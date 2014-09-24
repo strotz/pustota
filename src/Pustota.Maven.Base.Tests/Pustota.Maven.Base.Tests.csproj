@@ -70,7 +70,6 @@
     <Compile Include="Validations\ParentSpecificVersionTests.cs" />
     <Compile Include="Validations\ProjectPluginVersionsTest.cs" />
     <Compile Include="Validations\ProjectSpecificVersionTests.cs" />
-    <Compile Include="Validations\SimpleValidationContext.cs" />
     <Compile Include="Validations\ValidationTestBase.cs" />
     <Compile Include="VersionsTests.cs" />
     <Compile Include="XmlFormatTests.cs" />

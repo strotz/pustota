@@ -17,10 +17,10 @@ namespace Pustota.Maven.Base.Tests.Validations
 			_projectValidator = new ParentReferenceExistValidation();
 		}
 
-		[Test, Ignore]
+		[Test]
 		public void EmptyTest()
 		{
-			var result = _projectValidator.Validate(Context, Project.Object);
+			var result = _projectValidator.Validate(Context.Object, Project.Object);
 			Assert.That(result, Is.Not.Null);
 			Assert.That(result.Count(), Is.EqualTo(0));
 		}
