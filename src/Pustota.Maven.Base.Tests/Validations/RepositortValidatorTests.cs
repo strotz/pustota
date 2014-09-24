@@ -13,7 +13,6 @@ namespace Pustota.Maven.Base.Tests.Validations
 		private RepositoryValidator _validator;
 
 		private Mock<IProjectValidationFactory> _factory;
-		private Mock<IProjectsRepository> _repo;
 		private Mock<IExternalModulesRepository> _externals;
 		private Mock<IValidationContext> _context;
 
@@ -21,7 +20,6 @@ namespace Pustota.Maven.Base.Tests.Validations
 		public void Initialize()
 		{
 			_factory = new Mock<IProjectValidationFactory>();
-			_repo = new Mock<IProjectsRepository>();
 			_externals = new Mock<IExternalModulesRepository>();
 			_validator = new RepositoryValidator(_factory.Object);
 
@@ -45,7 +43,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 		public void SingleTest()
 		{
 			var project = new Mock<IProject>();
-			_repo.Setup(r => r.AllProjects).Returns(new[] {project.Object});
+			_context.Setup(r => r.AllProjects).Returns(new[] {project.Object});
 
 			var problem = new ValidationProblem
 			{
@@ -67,7 +65,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 		{
 			var project1 = new Mock<IProject>();
 			var project2 = new Mock<IProject>();
-			_repo.Setup(r => r.AllProjects).Returns(new[] { project1.Object, project2.Object });
+			_context.Setup(r => r.AllProjects).Returns(new[] { project1.Object, project2.Object });
 
 			var fatal = new ValidationProblem { Severity = ProblemSeverity.ProjectFatal };
 			var warning = new ValidationProblem { Severity = ProblemSeverity.ProjectWarning };
@@ -90,6 +88,5 @@ namespace Pustota.Maven.Base.Tests.Validations
 			v2.Verify(v => v.Validate(It.IsAny<IValidationContext>(), project1.Object), Times.Never());
 			v2.Verify(v => v.Validate(It.IsAny<IValidationContext>(), project2.Object), Times.Once());
 		}
-
 	}
 }

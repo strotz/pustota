@@ -10,14 +10,13 @@ namespace Pustota.Maven.Base.Tests.Validations
 	{
 		private ProjectSpecificVersionValidation _projectValidator;
 
-		private Mock<IParentReference> _parent;
-
 		[SetUp]
 		public void Initialize()
 		{
 			CreateContext();
 
-			_parent = new Mock<IParentReference>();
+			Context.Setup(c => c.GetResolvedData(Project.Object)).Returns(ResolvedProjectData.Object);
+
 			_projectValidator = new ProjectSpecificVersionValidation();
 		}
 
@@ -30,20 +29,9 @@ namespace Pustota.Maven.Base.Tests.Validations
 		}
 
 		[Test]
-		public void ProjectHasVersionTest()
+		public void ResolvedDataHasVersionTest()
 		{
-			Project.Setup(p => p.Version).Returns("abc");
-
-			var result = _projectValidator.Validate(Context.Object, Project.Object);
-			Assert.That(result, Is.Not.Null);
-			Assert.That(result.Count(), Is.EqualTo(0));
-		}
-
-		[Test]
-		public void ParentHasVersionTest()
-		{
-			Project.Setup(p => p.Parent).Returns(_parent.Object);
-			_parent.Setup(p => p.Version).Returns("abc");
+			ResolvedProjectData.Setup(p => p.Version).Returns("abc");
 
 			var result = _projectValidator.Validate(Context.Object, Project.Object);
 			Assert.That(result, Is.Not.Null);

@@ -24,6 +24,7 @@ namespace Pustota.Maven.Actions
 				get { return _projects.AllProjects; }
 			}
 
+			// TODO: it is implementation of lazy project data resolution - probably can switch to explicit model
 			public IResolvedProjectData GetResolvedData(IProject project)
 			{
 				IResolvedProjectData resolvedData;
