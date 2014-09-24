@@ -30,7 +30,7 @@ namespace Pustota.Maven.Serialization
 			_projectWriter = projectWriter;
 		}
 
-		public IEnumerable<ProjectTreeElement> LoadProjectTree(string fileName)
+		public IEnumerable<IProjectTreeItem> LoadProjectTree(string fileName)
 		{
 			if (!_fileSystem.IsFileExist(fileName))
 			{
@@ -40,7 +40,7 @@ namespace Pustota.Maven.Serialization
 			return ScanProject(fileName);
 		}
 
-		public IEnumerable<ProjectTreeElement> ScanForProjects(string folderName)
+		public IEnumerable<IProjectTreeItem> ScanForProjects(string folderName)
 		{
 			if (!_fileSystem.IsDirectoryExist(folderName))
 			{
@@ -51,7 +51,7 @@ namespace Pustota.Maven.Serialization
 			return files.Select(fileName => new ProjectTreeElement(fileName, _projectReader.ReadProject(fileName)));
 		}
 
-		public void SaveProjects(IEnumerable<ProjectTreeElement> projects)
+		public void SaveProjects(IEnumerable<IProjectTreeItem> projects)
 		{
 			foreach (var projectTreeElement in projects)
 			{

@@ -1,7 +1,5 @@
 ﻿using System.Linq;
-using Moq;
 using NUnit.Framework;
-using Pustota.Maven.Models;
 using Pustota.Maven.Validation;
 
 namespace Pustota.Maven.Base.Tests.Validations

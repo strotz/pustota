@@ -13,6 +13,8 @@ namespace Pustota.Maven
 
 		IEnumerable<IProject> AllProjects { get; }
 
+		IEnumerable<IProjectTreeItem> Tree { get; }
+
 		//	IList<IProject> AllProjects { get; set; }
 
 		//	bool Changed { get; }

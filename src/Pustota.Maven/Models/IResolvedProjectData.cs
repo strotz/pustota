@@ -5,5 +5,6 @@ namespace Pustota.Maven.Models
 		string GroupId { get; }
 		string Version { get; }
 		bool? IsSnapshot { get; }
+		string ParentPath { get; }
 	}
 }

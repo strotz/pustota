@@ -2,7 +2,7 @@
 
 namespace Pustota.Maven.Serialization
 {
-	public class ProjectTreeElement
+	public class ProjectTreeElement : IProjectTreeItem
 	{
 		public ProjectTreeElement()
 		{

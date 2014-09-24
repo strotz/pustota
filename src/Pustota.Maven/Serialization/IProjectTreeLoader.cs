@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using Pustota.Maven.Models;
 
 namespace Pustota.Maven.Serialization
 {
 	public interface IProjectTreeLoader
 	{
-		IEnumerable<ProjectTreeElement> LoadProjectTree(string fileName);
-		IEnumerable<ProjectTreeElement> ScanForProjects(string folderName);
-		void SaveProjects(IEnumerable<ProjectTreeElement> projects);
+		IEnumerable<IProjectTreeItem> LoadProjectTree(string fileName);
+		IEnumerable<IProjectTreeItem> ScanForProjects(string folderName);
+		void SaveProjects(IEnumerable<IProjectTreeItem> projects);
 	}
 }

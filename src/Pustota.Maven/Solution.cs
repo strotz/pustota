@@ -14,11 +14,12 @@ namespace Pustota.Maven
 		private readonly IFileSystemAccess _fileIo;
 		private readonly IProjectTreeLoader _loader;
 
-		private IList<ProjectTreeElement> _projects;
+		private IList<IProjectTreeItem> _projects;
 
 		public string BaseDir { get; private set; }
 
 		public IEnumerable<IProject> AllProjects { get { return _projects.Select(item => item.Project); } }
+		public IEnumerable<IProjectTreeItem> Tree { get { return _projects; } }
 
 		//public ProjectsValidations Validations { get; private set; }
 		//public ExternalModulesRepository ExternalModules { get; private set; }

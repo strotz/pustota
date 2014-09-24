@@ -14,6 +14,11 @@ namespace Pustota.Maven.Validation
 				yield break;
 			}
 
+			var resolved = context.GetResolvedData(project);
+			string parentPath = resolved.ParentPath;
+
+
+
 		//	var error = new ValidationError(_projectNode.Project, "Project parent error", ErrorLevel.Warning);
 
 		//	if (_externalModules.Contains(parent, true))
