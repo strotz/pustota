@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Pustota.Maven.Externals;
 using Pustota.Maven.Models;
 using Pustota.Maven.Validation;
-using Pustota.Maven.Validation.Data;
 
 namespace Pustota.Maven.Actions
 {
@@ -30,7 +29,7 @@ namespace Pustota.Maven.Actions
 				IResolvedProjectData resolvedData;
 				if (!_resolved.TryGetValue(project, out resolvedData))
 				{
-					resolvedData = Loader.Resolve(project);
+					resolvedData = project.Operations().ResolveMoreData();
 					_resolved[project] = resolvedData;
 				}
 				return resolvedData;

@@ -1,4 +1,4 @@
-namespace Pustota.Maven.Validation
+namespace Pustota.Maven.Models
 {
 	public interface IResolvedProjectData
 	{

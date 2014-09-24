@@ -1,29 +1,17 @@
-using Pustota.Maven.Models;
 using Pustota.Maven.SystemServices;
 
-namespace Pustota.Maven.Validation.Data
+namespace Pustota.Maven.Models
 {
-	internal class ResolvedProjectData : IResolvedProjectData
+	internal class ProjectDataExtractor
 	{
-		public string GroupId { get; internal set; }
+		private readonly IFileSystemAccess _system;
 
-		public string Version { get; internal set; }
-		public bool? IsSnapshot { get; internal set; }
+		internal ProjectDataExtractor(IFileSystemAccess system)
+		{
+			_system = system;
+		}
 
-		public string ParentPath { get; internal set; }
-	}
-
-	public interface IProjectDataResolver
-	{
-		IResolvedProjectData Resolve(IProject project);
-	}
-
-	// REVIEW: it just one piece
-	internal class Loader : IProjectDataResolver
-	{
-		static readonly IFileSystemAccess System = new FileSystemAccess(); // REVIEW: refactor as a service
-
-		public IResolvedProjectData Resolve(IProject project)
+		public IResolvedProjectData Extract(IProject project)
 		{
 			var data = new ResolvedProjectData();
 
@@ -56,7 +44,7 @@ namespace Pustota.Maven.Validation.Data
 			string parentPath = (project.Parent != null && !string.IsNullOrEmpty(project.Parent.RelativePath)) ?
 				project.Parent.RelativePath : "../pom.xml";
 
-			data.ParentPath = System.Normalize(parentPath);
+			data.ParentPath = _system.Normalize(parentPath);
 
 			return data;
 		}

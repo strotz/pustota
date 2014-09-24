@@ -1,30 +1,18 @@
 using System.Collections.Generic;
 using System.Linq;
+using Pustota.Maven.SystemServices;
 
 namespace Pustota.Maven.Models
 {
-	public interface IProjectQueries
-	{
-		IEnumerable<IModule> AllModules { get; }
-		IEnumerable<IDependency> AllDependencies { get; }
-		IEnumerable<IProperty> AllProperties { get; }
-		IEnumerable<IPlugin> AllPlugins { get; }
-
-		bool UsesProjectAs(IProjectReference projectReference, SearchOptions creteria);
-	}
-
-	public interface IProjectOperations : IProjectQueries
-	{
-		void PropagateVersionToUsages(IProjectReference projectReference);
-	}
-
 	internal class ProjectOperations : IProjectOperations
 	{
 		private readonly IProject _project;
+		private readonly IFileSystemAccess _fileSystem;
 
-		internal ProjectOperations(IProject project)
+		internal ProjectOperations(IProject project, IFileSystemAccess fileSystem)
 		{
 			_project = project;
+			_fileSystem = fileSystem;
 		}
 
 		// REVIEW: also possible to do it base on activated profiles
@@ -132,6 +120,12 @@ namespace Pustota.Maven.Models
 			}
 
 			return false;
+		}
+
+		public IResolvedProjectData ResolveMoreData()
+		{
+			var extractor = new ProjectDataExtractor(_fileSystem);
+			return extractor.Extract(_project);
 		}
 	}
 }

@@ -41,6 +41,8 @@
   <ItemGroup>
     <Compile Include="Actions\DumpClassifiersAction.cs" />
     <Compile Include="Actions\ValidateTreeStructureAction.cs" />
+    <Compile Include="Models\IProjectOperations.cs" />
+    <Compile Include="Models\IProjectQueries.cs" />
     <Compile Include="TraceActionLog.cs" />
     <Compile Include="Actions\ApplyClassifierAction.cs" />
     <Compile Include="Actions\BulkSwitchToReleaseAction.cs" />
@@ -105,8 +107,10 @@
     <Compile Include="Serialization\ProjectTreeLoader.cs" />
     <Compile Include="Solution.cs" />
     <Compile Include="SolutionManagement.cs" />
-    <Compile Include="Validation\IResolvedProjectData.cs" />
-    <Compile Include="Validation\Data\ResolvedProjectData.cs" />
+    <Compile Include="Models\IProjectDataResolver.cs" />
+    <Compile Include="Models\ProjectDataExtractor.cs" />
+    <Compile Include="Models\IResolvedProjectData.cs" />
+    <Compile Include="Models\ResolvedProjectData.cs" />
     <Compile Include="Validation\DuplicatedProjectValidation.cs" />
     <Compile Include="Validation\Fixes\AddExternalModuleFix.cs" />
     <Compile Include="Validation\DelegatedFix.cs" />
@@ -134,7 +138,9 @@
     <Compile Include="Validation\Fixes\ApplyVersionFix.cs" />
     <Compile Include="VersionOperations.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Validation\Data\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
