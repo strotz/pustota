@@ -36,8 +36,6 @@ namespace Pustota.Maven
 	public interface IExecutionContext : 
 		IProjectTree
 	{
-		IResolvedProjectData GetResolvedData(IProject project);
-
 		bool TryGetParentByPath(IProject project, out IProject parent);
 	}
 }

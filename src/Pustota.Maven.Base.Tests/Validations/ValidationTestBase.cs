@@ -1,14 +1,12 @@
 using Moq;
 using Pustota.Maven.Externals;
 using Pustota.Maven.Models;
-using Pustota.Maven.Validation;
 
 namespace Pustota.Maven.Base.Tests.Validations
 {
 	public class ValidationTestBase
 	{
 		protected Mock<IProject> Project;
-		protected Mock<IResolvedProjectData> ResolvedProjectData; 
 
 //		protected Mock<IProjectsRepository> Repo;
 		protected Mock<IExternalModulesRepository> Externals;
@@ -17,8 +15,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 		protected void CreateContext()
 		{
 			Project = new Mock<IProject>();
-			ResolvedProjectData = new Mock<IResolvedProjectData>();
-
+			
 //			Repo = new Mock<IProjectsRepository>();
 			Externals = new Mock<IExternalModulesRepository>();
 

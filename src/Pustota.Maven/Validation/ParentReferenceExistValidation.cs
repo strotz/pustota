@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Pustota.Maven.Externals;
 using Pustota.Maven.Models;
+using Pustota.Maven.Serialization.Data;
 
 namespace Pustota.Maven.Validation
 {
@@ -10,7 +11,7 @@ namespace Pustota.Maven.Validation
 	{
 		public IEnumerable<IValidationProblem> Validate(IExecutionContext context, IProject project)
 		{
-			var result = ValidateIntenal(context, project);
+			var result = ValidateInternal(context, project);
 			if (result != null)
 			{
 				yield return result;
@@ -18,7 +19,7 @@ namespace Pustota.Maven.Validation
 		}
 
 		// REVIEW need logical refactoring
-		private IValidationProblem ValidateIntenal(IExecutionContext context, IProject project)
+		private IValidationProblem ValidateInternal(IExecutionContext context, IProject project)
 		{
 			var parentReference = project.Parent;
 			if (parentReference == null)
@@ -26,26 +27,31 @@ namespace Pustota.Maven.Validation
 				return null;
 			}
 
-			IProject parent;
-			if (context.TryGetParentByPath(project, out parent))
+			var extractor = new ProjectDataExtractor();
+
+			IProject parentByPath;
+			if (context.TryGetParentByPath(project, out parentByPath))
 			{
-				if (project.Operations().HasProjectAsParent(parent))
+				var resolved = extractor.Extract(parentByPath);
+				if (project.Operations().HasProjectAsParent(resolved))
 				{
 					return null;
 				}
 
-				if (project.Operations().HasProjectAsParent(parent, false))
+				if (project.Operations().HasProjectAsParent(resolved, false))
 				{
 					return new ValidationProblem // TODO: fixable
 					{
 						Severity = ProblemSeverity.ProjectWarning,
-						Description = string.Format("Version of parent reference {0} is different from actual parent {1}.", project.Parent, parent)
+						Description = string.Format("Version of parent reference {0} is different from actual parent {1}.", project.Parent, resolved)
 					};
 				}
 			}
 
 			var operation = parentReference.ReferenceOperations();
-			var potencial = context.AllProjects.Where(p => operation.ReferenceEqualTo(p, false)).ToArray();
+			var potencial = context.AllProjects.
+				Select(extractor.Extract).
+				Where(p => operation.ReferenceEqualTo(p, false)).ToArray();
 
 			if (potencial.Length == 0)
 			{

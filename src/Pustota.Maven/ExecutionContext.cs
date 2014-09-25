@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Pustota.Maven.Models;
-using Pustota.Maven.SystemServices;
+﻿using Pustota.Maven.Models;
 
 namespace Pustota.Maven
 {
@@ -9,21 +6,19 @@ namespace Pustota.Maven
 		ProjectTree,
 		IExecutionContext
 	{
-		private readonly IDictionary<IProject, IResolvedProjectData> _resolved;
 		private readonly ProjectDataExtractor _extractor;
 
 		private readonly IPathCalculator _pathCalculator;
 
-		protected ExecutionContext(IFileSystemAccess system, IPathCalculator pathCalculator)
+		protected ExecutionContext(IPathCalculator pathCalculator)
 		{
-			_resolved = new Dictionary<IProject, IResolvedProjectData>();
-			_extractor = new ProjectDataExtractor(system);
+			_extractor = new ProjectDataExtractor();
 			_pathCalculator = pathCalculator;
 		}
 
-		public IResolvedProjectData GetResolvedData(IProject project)
+		public IProjectReference GetResolvedData(IProject project)
 		{
-			return _resolved[project];
+			return _extractor.Extract(project);
 		}
 
 		// TODO: test
@@ -38,22 +33,11 @@ namespace Pustota.Maven
 				return false;
 			}
 
-			string relativePath = GetResolvedData(project).RelativeParentPath;
-			var fullPath = _pathCalculator.CalculateParentPath(currentProjectPath, relativePath);
+			string parentRelativePath = (project.Parent != null && !string.IsNullOrEmpty(project.Parent.RelativePath)) ?
+				project.Parent.RelativePath : "../pom.xml";
+
+			var fullPath = _pathCalculator.CalculateParentPath(currentProjectPath, parentRelativePath);
 			return TryGetProjectByPath(fullPath, out parent);
-		}
-
-		protected override void Reset()
-		{
-			base.Reset();
-			_resolved.Clear();
-		}
-
-		protected override void Add(IProjectTreeItem item)
-		{
-			base.Add(item);
-			var data = _extractor.Extract(item.Project);
-			_resolved.Add(item.Project, data);
 		}
 	}
 }

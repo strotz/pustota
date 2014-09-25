@@ -19,8 +19,8 @@ namespace Pustota.Maven.Base.Tests
 
 		internal class ExecutionContextInstance : ExecutionContext
 		{
-			internal ExecutionContextInstance(IFileSystemAccess system, IPathCalculator pathCalculator)
-				: base(system, pathCalculator)
+			internal ExecutionContextInstance(IPathCalculator pathCalculator)
+				: base(pathCalculator)
 			{
 			}
 
@@ -38,10 +38,9 @@ namespace Pustota.Maven.Base.Tests
 		[SetUp]
 		public void Initialize()
 		{
-			var system = new Mock<IFileSystemAccess>();
 			_pathCalculator = new Mock<IPathCalculator>();
 
-			_context = new ExecutionContextInstance(system.Object, _pathCalculator.Object);
+			_context = new ExecutionContextInstance(_pathCalculator.Object);
 
 			_project = new Mock<IProject>();
 			_projectPath = new FullPath("/a/b/c/d/pom.xml");
@@ -62,7 +61,7 @@ namespace Pustota.Maven.Base.Tests
 			_context.CallReset();
 
 			_context.CallAdd(_item);
-			_context.GetResolvedData(_project.Object);
+
 			IProject found;
 			_context.TryGetParentByPath(null, out found);
 		}

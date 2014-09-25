@@ -1,23 +1,19 @@
 using System;
-using Pustota.Maven.SystemServices;
+using Pustota.Maven.Serialization.Data;
 
 namespace Pustota.Maven.Models
 {
 	internal class ProjectDataExtractor
 	{
-		private readonly IFileSystemAccess _system;
-
-		internal ProjectDataExtractor(IFileSystemAccess system)
-		{
-			_system = system;
-		}
-
-		public IResolvedProjectData Extract(IProject project)
+		public IProjectReference Extract(IProject project)
 		{
 			if (project == null)
 				throw new ArgumentNullException("project");
 
-			var data = new ResolvedProjectData();
+			var data = new ProjectReference
+			{
+				ArtifactId = project.ArtifactId
+			};
 
 			if (!string.IsNullOrEmpty(project.GroupId))
 			{
@@ -34,22 +30,14 @@ namespace Pustota.Maven.Models
 			if (project.ReferenceOperations().HasSpecificVersion)
 			{
 				data.Version = project.Version;
-				data.IsSnapshot = project.ReferenceOperations().IsSnapshot;
 			}
 			else
 			{
 				if (project.Parent != null && project.Parent.ReferenceOperations().HasSpecificVersion)
 				{
 					data.Version = project.Parent.Version; // inherit from parent reference 
-					data.IsSnapshot = project.Parent.ReferenceOperations().IsSnapshot;
 				}
 			}
-
-			string parentPath = (project.Parent != null && !string.IsNullOrEmpty(project.Parent.RelativePath)) ?
-				project.Parent.RelativePath : "../pom.xml";
-
-			data.RelativeParentPath = parentPath;
-
 			return data;
 		}
 	}

@@ -9,7 +9,6 @@ namespace Pustota.Maven.Base.Tests.Validations
 	{
 		protected Mock<IProject> Project;
 		
-		private Mock<IFileSystemAccess> _system;
 		private ProjectDataExtractor _extractor;
 
 		private Mock<IParentReference> _parent;
@@ -18,9 +17,8 @@ namespace Pustota.Maven.Base.Tests.Validations
 		public void Initialize()
 		{
 			Project = new Mock<IProject>();
-			_system = new Mock<IFileSystemAccess>();
 			_parent = new Mock<IParentReference>();
-			_extractor = new ProjectDataExtractor(_system.Object);
+			_extractor = new ProjectDataExtractor();
 		}
 
 		[Test]

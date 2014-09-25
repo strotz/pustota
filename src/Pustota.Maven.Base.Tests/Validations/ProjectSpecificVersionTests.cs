@@ -1,5 +1,7 @@
 ﻿using System.Linq;
+using Moq;
 using NUnit.Framework;
+using Pustota.Maven.Models;
 using Pustota.Maven.Validation;
 
 namespace Pustota.Maven.Base.Tests.Validations
@@ -13,8 +15,6 @@ namespace Pustota.Maven.Base.Tests.Validations
 		{
 			CreateContext();
 
-			Context.Setup(c => c.GetResolvedData(Project.Object)).Returns(ResolvedProjectData.Object);
-
 			_projectValidator = new ProjectSpecificVersionValidation();
 		}
 
@@ -27,9 +27,11 @@ namespace Pustota.Maven.Base.Tests.Validations
 		}
 
 		[Test]
-		public void ResolvedDataHasVersionTest()
+		public void ParentVersionTest()
 		{
-			ResolvedProjectData.Setup(p => p.Version).Returns("abc");
+			var parentReference = new Mock<IParentReference>();
+			parentReference.Setup(p => p.Version).Returns("abc");
+			Project.Setup(p => p.Parent).Returns(parentReference.Object);
 
 			var result = _projectValidator.Validate(Context.Object, Project.Object);
 			Assert.That(result, Is.Not.Null);

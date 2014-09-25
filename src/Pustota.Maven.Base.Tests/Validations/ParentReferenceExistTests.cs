@@ -54,6 +54,24 @@ namespace Pustota.Maven.Base.Tests.Validations
 		}
 
 		[Test]
+		public void ProjectHasMatchedParentThatInheritsItsVersionTest() // to use inherited version 
+		{
+			_parent.Setup(pr => pr.Version).Returns((string)null);
+
+			var grandReference = new Mock<IParentReference>();
+			grandReference.Setup(pr => pr.ArtifactId).Returns("grandId");
+			grandReference.Setup(g => g.Version).Returns("parentVersion1");
+			_parent.Setup(pr => pr.Parent).Returns(grandReference.Object);
+
+			IProject foundParent = _parent.Object;
+			Context.Setup(c => c.TryGetParentByPath(Project.Object, out foundParent)).Returns(true);
+
+			var result = _projectValidator.Validate(Context.Object, Project.Object);
+			Assert.That(result, Is.Not.Null);
+			Assert.That(result.Count(), Is.EqualTo(0));
+		}
+
+		[Test]
 		public void ProjectHasSemiMatchedParentTest()
 		{
 			_parent.Setup(pr => pr.Version).Returns("parentVersion2");

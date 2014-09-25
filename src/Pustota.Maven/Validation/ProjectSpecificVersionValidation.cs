@@ -8,7 +8,7 @@ namespace Pustota.Maven.Validation
 	{
 		public IEnumerable<IValidationProblem> Validate(IExecutionContext context, IProject project)
 		{
-			var resolvedData = context.GetResolvedData(project);
+			var resolvedData = new ProjectDataExtractor().Extract(project);
 			if (string.IsNullOrEmpty(resolvedData.Version)) // REVIEW: class for Version
 			{
 				//	var error = new ValidationError(project, "Project does not have version", ErrorLevel.Error);
