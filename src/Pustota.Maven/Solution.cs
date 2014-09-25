@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Resources;
 using Pustota.Maven.Models;
 using Pustota.Maven.Serialization;
 using Pustota.Maven.SystemServices;
@@ -10,7 +11,7 @@ namespace Pustota.Maven
 {
 	internal class ProjectTree : IProjectTree
 	{
-		protected IList<IProjectTreeItem> Projects; // REVIEW: hide it
+		protected IList<IProjectTreeItem> Projects { get; private set; } // REVIEW: hide it
 
 		protected ProjectTree()
 		{
@@ -45,6 +46,16 @@ namespace Pustota.Maven
 			project = null;
 			return false;
 		}
+
+		protected virtual void Reset()
+		{
+			Projects.Clear();
+		}
+
+		protected virtual void Add(IProjectTreeItem item)
+		{
+			Projects.Add(item);
+		}
 	}
 
 	internal class ExecutionContext : 
@@ -52,6 +63,7 @@ namespace Pustota.Maven
 		IExecutionContext
 	{
 		private readonly IDictionary<IProject, IResolvedProjectData> _resolved;
+		private readonly ProjectDataExtractor _extractor;
 
 		protected ExecutionContext()
 		{
@@ -61,14 +73,7 @@ namespace Pustota.Maven
 		// TODO: it is implementation of lazy project data resolution - probably can switch to explicit model
 		public IResolvedProjectData GetResolvedData(IProject project)
 		{
-			//IResolvedProjectData resolvedData;
-			//if (!_resolved.TryGetValue(project, out resolvedData))
-			//{
-			//	resolvedData = project.Operations().ResolveMoreData();
-			//	_resolved[project] = resolvedData;
-			//}
-			//return resolvedData;
-			throw new NotImplementedException();
+			return _resolved[project];
 		}
 
 		public bool TryGetParentByPath(IProject project, out IProject parent)
@@ -86,12 +91,18 @@ namespace Pustota.Maven
 			throw new NotImplementedException();
 		}
 
-		protected void CleanContext()
+		protected override void Reset()
 		{
-			throw new NotImplementedException();
+			base.Reset();
+			_resolved.Clear();
 		}
 
-
+		protected override void Add(IProjectTreeItem item)
+		{
+			base.Add(item);
+			var data = _extractor.Extract(item.Project);
+			_resolved.Add(item.Project, data);
+		}
 	}
 
 	// TODO: support multiple repositories within solution
@@ -138,11 +149,17 @@ namespace Pustota.Maven
 
 			if (loadDisconnectedProjects)
 			{
-				Projects = _loader.ScanForProjects(BaseDir).ToList();
+				foreach (var project in _loader.ScanForProjects(BaseDir))
+				{
+					Projects.Add(project);
+				}
 			}
 			else
 			{
-				Projects = _loader.LoadProjectTree(filePath).ToList();
+				foreach (var project in _loader.LoadProjectTree(filePath))
+				{
+					Projects.Add(project);
+				}
 			}
 		}
 

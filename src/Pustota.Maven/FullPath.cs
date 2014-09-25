@@ -12,10 +12,10 @@ namespace Pustota.Maven
 		public string Value { get; private set; }
 
 		// TODO: ensure that FullPath always contains full path value
-		public static FullPath Create(string path, IFileSystemAccess fileIo)
-		{
-			return new FullPath(fileIo.GetFullPath(path));
-		}
+		//public static FullPath Create(string path, IFileSystemAccess fileIo)
+		//{
+		//	return new FullPath(fileIo.GetFullPath(path));
+		//}
 
 		static public implicit operator string(FullPath fullPath)
 		{

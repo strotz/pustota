@@ -49,7 +49,7 @@ namespace Pustota.Maven.Serialization
 
 			string[] files = _fileSystem.GetFiles(folderName, ProjectFilePattern, SearchOption.AllDirectories);
 			return files.
-				Select(fileName => FullPath.Create(fileName, _fileSystem)).
+				Select(fileName => new FullPath(_fileSystem.GetFullPath(fileName))).
 				Select(fullPath => new ProjectTreeElement(fullPath, _projectReader.ReadProject(fullPath)));
 		}
 
@@ -95,7 +95,7 @@ namespace Pustota.Maven.Serialization
 		private ProjectTreeElement AddProject(LoadTreeState treeState, string path)
 		{
 			var project = _projectReader.ReadProject(path);
-			var fullPath = FullPath.Create(path, _fileSystem);
+			var fullPath = new FullPath(_fileSystem.GetFullPath(path));
 			var projectContainer = new ProjectTreeElement(fullPath, project);
 			treeState.ScannedProjects.Add(projectContainer);
 			return projectContainer;

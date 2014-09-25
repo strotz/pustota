@@ -67,7 +67,7 @@ namespace Pustota.Maven.Base.Tests
 			_secondProjectPath = "top\\second\\pom.xml";
 
 			_fileIOMock = new Mock<IFileSystemAccess>();
-			//	_fileIOMock.Setup(io => io.GetFullPath(It.IsAny<string>())).Returns((string s) => s);
+			_fileIOMock.Setup(io => io.GetFullPath(It.IsAny<string>())).Returns((string s) => s);
 			_fileIOMock.Setup(io => io.ReadAllText(_topProjectPath)).Returns(_topProjectContent);
 			//	_fileIOMock.Setup(io => io.ReadAllText(_secondProjectPath)).Returns(_secondProjectContent);
 			_fileIOMock.Setup(io => io.IsFileExist(_topProjectPath)).Returns(true);
@@ -108,7 +108,7 @@ namespace Pustota.Maven.Base.Tests
 
 			Assert.That(projects.Count, Is.EqualTo(1));
 			Assert.That(projects.Single().Project.ArtifactId, Is.EqualTo(_topProject.ArtifactId));
-			Assert.That(projects.Single().Path, Is.EqualTo(_topProjectPath));
+			Assert.That(projects.Single().Path.Value, Is.EqualTo(_topProjectPath));
 		}
 
 		[Test]

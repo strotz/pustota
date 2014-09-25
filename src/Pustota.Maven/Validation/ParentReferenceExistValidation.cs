@@ -17,16 +17,18 @@ namespace Pustota.Maven.Validation
 			IProject parent;
 			if (context.TryGetParentByPath(project, out parent))
 			{
-				if (!parent.ReferenceOperations().ReferenceEqualTo(project.Parent, true))
+				if (project.Parent.ReferenceOperations().ReferenceEqualTo(parent))
 				{
-					yield return new ValidationProblem
-					{
-						Severity = ProblemSeverity.ProjectWarning,
-						Description = string.Format("Reference to project parent {0} is different from actual parent {1}.", project.Parent, parent)
-					};
-
-					// TODO: could be fixable
+					yield break;
 				}
+
+				yield return new ValidationProblem
+				{
+					Severity = ProblemSeverity.ProjectWarning,
+					Description = string.Format("Reference to project parent {0} is different from actual parent {1}.", project.Parent, parent)
+				};
+
+				// TODO: could be fixable
 			}
 
 			// var resolved = context.GetResolvedData(project);
