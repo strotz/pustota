@@ -6,6 +6,8 @@ namespace Pustota.Maven
 	public interface IProjectsRepository
 	{
 		IEnumerable<IProject> AllProjects { get; }
+
+		bool TryGetProject(IProjectReference reference, out IProject project, bool strictVersion = true);
 	}
 
 	public interface IProjectTree : IProjectsRepository

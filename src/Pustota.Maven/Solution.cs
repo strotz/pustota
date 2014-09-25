@@ -19,8 +19,18 @@ namespace Pustota.Maven
 		}
 
 		public IEnumerable<IProject> AllProjects { get { return Projects.Select(item => item.Project); } }
+
+		// TODO: test it
+		public bool TryGetProject(IProjectReference reference, out IProject project, bool strictVersion = true)
+		{
+			var operation = reference.ReferenceOperations();
+			project = AllProjects.SingleOrDefault(p => operation.ReferenceEqualTo(p, strictVersion));
+			return project != null;
+		}
+
 		// public IEnumerable<IProjectTreeItem> Tree { get { return Projects; } }
 
+		// TODO: test it
 		// TODO: match object reference, but should it be project references? 
 		public bool TryGetPathByProject(IProject project, out FullPath fullPath)
 		{
@@ -34,6 +44,7 @@ namespace Pustota.Maven
 			return false;
 		}
 
+		// TODO: test it
 		// TODO: to match path it use string compare, to simplify 
 		public bool TryGetProjectByPath(FullPath fullPath, out IProject project)
 		{
