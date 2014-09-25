@@ -9,6 +9,7 @@ namespace Pustota.Maven.Models
 		bool IsEmpty { get; }
 
 		// TODO: maybe move to version
+		bool VersionEqualTo(string anotherVersion);
 		bool HasSpecificVersion { get; }
 		bool IsSnapshot { get; }
 		string SwitchToRelease(string postfix = null);
@@ -35,6 +36,11 @@ namespace Pustota.Maven.Models
 		public bool IsEmpty
 		{
 			get { return string.IsNullOrEmpty(_projectReference.ArtifactId); }
+		}
+
+		public bool VersionEqualTo(string anotherVersion)
+		{
+			return HasSpecificVersion && VersionEqual(_projectReference.Version, anotherVersion);
 		}
 
 		public bool HasSpecificVersion
