@@ -1,61 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Resources;
-using Pustota.Maven.Models;
 using Pustota.Maven.Serialization;
 using Pustota.Maven.SystemServices;
 
 namespace Pustota.Maven
 {
-	internal class ExecutionContext : 
-		ProjectTree,
-		IExecutionContext
-	{
-		private readonly IDictionary<IProject, IResolvedProjectData> _resolved;
-		private readonly ProjectDataExtractor _extractor;
-
-		protected ExecutionContext()
-		{
-			_resolved = new Dictionary<IProject, IResolvedProjectData>();
-		}
-
-		// TODO: it is implementation of lazy project data resolution - probably can switch to explicit model
-		public IResolvedProjectData GetResolvedData(IProject project)
-		{
-			return _resolved[project];
-		}
-
-		// TODO: test
-		public bool TryGetParentByPath(IProject project, out IProject parent)
-		{
-			//string currentProjectPath;
-			//if (!TryGetPathByProject(project, out currentProjectPath))
-			//{
-			//	parent = null;
-			//	return false;
-			//}
-
-			//string resolvedParentPath = GetResolvedData(project).ParentPath;
-			//string fullParentPath = _system.Normalize(_system)
-			//return TryGetProjectByPath(fullParentPath, out parent);
-			throw new NotImplementedException();
-		}
-
-		protected override void Reset()
-		{
-			base.Reset();
-			_resolved.Clear();
-		}
-
-		protected override void Add(IProjectTreeItem item)
-		{
-			base.Add(item);
-			var data = _extractor.Extract(item.Project);
-			_resolved.Add(item.Project, data);
-		}
-	}
-
 	// TODO: support multiple repositories within solution
 	internal sealed class Solution :
 		ExecutionContext,
@@ -69,7 +18,7 @@ namespace Pustota.Maven
 		//public ProjectsValidations Validations { get; private set; }
 		//public ExternalModulesRepository ExternalModules { get; private set; }
 
-		internal Solution(IFileSystemAccess fileIo, IProjectTreeLoader loader)
+		internal Solution(IFileSystemAccess fileIo, IProjectTreeLoader loader) : base(fileIo)
 		{
 			_fileIo = fileIo;
 			_loader = loader;

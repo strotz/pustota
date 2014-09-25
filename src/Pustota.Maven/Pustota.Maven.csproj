@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Actions\DumpClassifiersAction.cs" />
     <Compile Include="Actions\ValidateTreeStructureAction.cs" />
+    <Compile Include="ExecutionContext.cs" />
     <Compile Include="FullPath.cs" />
     <Compile Include="Models\IProjectOperations.cs" />
     <Compile Include="Models\IProjectQueries.cs" />
