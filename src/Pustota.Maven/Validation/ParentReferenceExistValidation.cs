@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Pustota.Maven.Externals;
 using Pustota.Maven.Models;
 
@@ -7,11 +8,22 @@ namespace Pustota.Maven.Validation
 {
 	internal class ParentReferenceExistValidation : IProjectValidator
 	{
-		public IEnumerable<ValidationProblem> Validate(IExecutionContext context, IProject project)
+		public IEnumerable<IValidationProblem> Validate(IExecutionContext context, IProject project)
 		{
-			if (project.Parent == null)
+			var result = ValidateIntenal(context, project);
+			if (result != null)
 			{
-				yield break;
+				yield return result;
+			}
+		}
+
+		// REVIEW need logical refactoring
+		private IValidationProblem ValidateIntenal(IExecutionContext context, IProject project)
+		{
+			var parentReference = project.Parent;
+			if (parentReference == null)
+			{
+				return null;
 			}
 
 			IProject parent;
@@ -19,39 +31,65 @@ namespace Pustota.Maven.Validation
 			{
 				if (project.Operations().HasProjectAsParent(parent))
 				{
-					yield break;
+					return null;
 				}
 
 				if (project.Operations().HasProjectAsParent(parent, false))
 				{
-					yield return new ValidationProblem // TODO: fixable
+					return new ValidationProblem // TODO: fixable
 					{
 						Severity = ProblemSeverity.ProjectWarning,
 						Description = string.Format("Version of parent reference {0} is different from actual parent {1}.", project.Parent, parent)
 					};
-
-					yield break;
 				}
-
-				// relative path is wrong?
-
-				yield return new ValidationProblem
-				{
-					Severity = ProblemSeverity.ProjectWarning,
-					Description = string.Format("Reference to project parent {0} is different from actual parent {1}.", project.Parent, parent)
-				};
-
-				// TODO: could be fixable
 			}
 
+			var operation = parentReference.ReferenceOperations();
+			var potencial = context.AllProjects.Where(p => operation.ReferenceEqualTo(p, false)).ToArray();
 
+			if (potencial.Length == 0)
+			{
+				//	if (_externalModules.Contains(parent, true))
+				//	{
+				//		return ValidationResult.Good;
+				//	}
 
-		//	var error = new ValidationError(_projectNode.Project, "Project parent error", ErrorLevel.Warning);
+				return new ValidationProblem // TODO: fixable
+				{
+					Severity = ProblemSeverity.ProjectWarning,
+					Description = string.Format("Project {0} references unknown parent {1}", project, project.Parent)
+				};
+				// error.AddFix(new AddExternalModuleFix(_externalModules, parent));
+			}
 
-		//	if (_externalModules.Contains(parent, true))
-		//	{
-		//		return ValidationResult.Good;
-		//	}
+			var exact = potencial.SingleOrDefault(p => operation.VersionEqualTo(p.Version));
+			if (exact != null)
+			{
+				return new ValidationProblem // TODO: fixable
+				{
+					Severity = ProblemSeverity.ProjectWarning,
+					Description = string.Format("Project {0} has incorrect relative path ({2}) to parent {1}", project, project.Parent, project.Parent.RelativePath)
+				};
+			}
+			if (potencial.Length == 1)
+			{
+				return new ValidationProblem // TODO: fixable
+				{
+					Severity = ProblemSeverity.ProjectWarning,
+					Description = string.Format("Project {0} parent reference {1} is wrong. Found potencial candidate {2}", project, project.Parent, potencial.Single())
+				};
+				// error.AddFix(new ApplyVersionFix(_projectNode.Project, parent, potencial.Single().Version));
+			}
+			return new ValidationProblem // TODO: fixable
+			{
+				Severity = ProblemSeverity.ProjectWarning,
+				Description = string.Format("Project {0} parent reference {1} is wrong. Found multiple potencial candidates", project, project.Parent)
+			};
+			//foreach (var candicate in potencial)
+			//{
+			//	error.AddFix(new ApplyVersionFix(_projectNode.Project, parent, candicate.Version));
+			//}
+
 
 		//	if (_repository.ContainsProject(parent, true))
 		//	{
@@ -67,36 +105,6 @@ namespace Pustota.Maven.Validation
 		//			error.AddFix(new RelativePathFix(project, resolvedPathToParent));
 		//			_validationOutput.AddError(error);
 		//		}
-
-		//		return ValidationResult.Good;
-		//	}
-
-		//	var potencial = _repository.SelectProjectNodes(parent, false).ToArray();
-		//	if (potencial.Length == 0)
-		//	{
-		//		error.Details = string.Format("Project {0} rererences unknown parent {1}.", _projectNode, parent);
-		//		error.AddFix(new AddExternalModuleFix(_externalModules, parent));
-
-		//		// REVIEW: try to resolve via parent path
-		//	}
-		//	else if (potencial.Length == 1)
-		//	{
-		//		error.Details = string.Format("Project {0} references does not match actual version {1}.", _projectNode.Project, parent); // TODO: better message
-		//		error.AddFix(new ApplyVersionFix(_projectNode.Project, parent, potencial.Single().Version));
-		//	}
-		//	else
-		//	{
-		//		error.Details = string.Format("Project {0} references different plugin version {1}.", _projectNode.Project, parent);
-		//		foreach (var candicate in potencial)
-		//		{
-		//			error.AddFix(new ApplyVersionFix(_projectNode.Project, parent, candicate.Version));
-		//		}
-		//	}
-
-		//	_validationOutput.AddError(error);
-		//	return ValidationResult.Good;
-
-			throw new NotImplementedException();
 		}
 	}
 }
