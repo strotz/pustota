@@ -18,7 +18,7 @@ namespace Pustota.Maven
 		//public ProjectsValidations Validations { get; private set; }
 		//public ExternalModulesRepository ExternalModules { get; private set; }
 
-		internal Solution(IFileSystemAccess fileIo, IProjectTreeLoader loader) : base(fileIo)
+		internal Solution(IFileSystemAccess fileIo, IProjectTreeLoader loader) : base(fileIo, new PathCalculator(fileIo))
 		{
 			_fileIo = fileIo;
 			_loader = loader;

@@ -43,9 +43,11 @@
     <Compile Include="Actions\ValidateTreeStructureAction.cs" />
     <Compile Include="ExecutionContext.cs" />
     <Compile Include="FullPath.cs" />
+    <Compile Include="IPathCalculator.cs" />
     <Compile Include="Models\IProjectOperations.cs" />
     <Compile Include="Models\IProjectQueries.cs" />
     <Compile Include="Models\IProjectTreeItem.cs" />
+    <Compile Include="PathCalculator.cs" />
     <Compile Include="ProjectTree.cs" />
     <Compile Include="TraceActionLog.cs" />
     <Compile Include="Actions\ApplyClassifierAction.cs" />

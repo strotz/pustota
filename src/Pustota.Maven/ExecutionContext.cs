@@ -9,15 +9,16 @@ namespace Pustota.Maven
 		ProjectTree,
 		IExecutionContext
 	{
-		private readonly IFileSystemAccess _system;
 		private readonly IDictionary<IProject, IResolvedProjectData> _resolved;
 		private readonly ProjectDataExtractor _extractor;
 
-		protected ExecutionContext(IFileSystemAccess system)
+		private readonly IPathCalculator _pathCalculator;
+
+		protected ExecutionContext(IFileSystemAccess system, IPathCalculator pathCalculator)
 		{
-			_system = system;
 			_resolved = new Dictionary<IProject, IResolvedProjectData>();
 			_extractor = new ProjectDataExtractor(system);
+			_pathCalculator = pathCalculator;
 		}
 
 		public IResolvedProjectData GetResolvedData(IProject project)
@@ -36,9 +37,9 @@ namespace Pustota.Maven
 			{
 				return false;
 			}
+
 			string relativePath = GetResolvedData(project).RelativeParentPath;
-			string combined = _system.Combine(currentProjectPath, relativePath);
-			var fullPath = new FullPath(_system.GetFullPath(combined));
+			var fullPath = _pathCalculator.CalculateParentPath(currentProjectPath, relativePath);
 			return TryGetProjectByPath(fullPath, out parent);
 		}
 

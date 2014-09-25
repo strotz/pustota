@@ -48,7 +48,7 @@ namespace Pustota.Maven.Models
 			string parentPath = (project.Parent != null && !string.IsNullOrEmpty(project.Parent.RelativePath)) ?
 				project.Parent.RelativePath : "../pom.xml";
 
-			data.RelativeParentPath = _system.Normalize(parentPath);
+			data.RelativeParentPath = parentPath;
 
 			return data;
 		}

@@ -10,11 +10,17 @@ namespace Pustota.Maven.Base.Tests
 	public class ExecutionContextTests
 	{
 		private ExecutionContextInstance _context;
+		private Mock<IProject> _project;
+		private Mock<IProject> _parent;
+		private ProjectTreeElement _item;
+		private Mock<IParentReference> _parentReference;
+		private FullPath _projectPath;
+		private Mock<IPathCalculator> _pathCalculator;
 
 		internal class ExecutionContextInstance : ExecutionContext
 		{
-			internal ExecutionContextInstance(IFileSystemAccess system)
-				: base(system)
+			internal ExecutionContextInstance(IFileSystemAccess system, IPathCalculator pathCalculator)
+				: base(system, pathCalculator)
 			{
 			}
 
@@ -33,7 +39,21 @@ namespace Pustota.Maven.Base.Tests
 		public void Initialize()
 		{
 			var system = new Mock<IFileSystemAccess>();
-			_context = new ExecutionContextInstance(system.Object);
+			_pathCalculator = new Mock<IPathCalculator>();
+
+			_context = new ExecutionContextInstance(system.Object, _pathCalculator.Object);
+
+			_project = new Mock<IProject>();
+			_projectPath = new FullPath("/a/b/c/d/pom.xml");
+
+			_item = new ProjectTreeElement
+			{
+				Project = _project.Object,
+				Path = _projectPath
+			};
+			_parent = new Mock<IProject>();
+
+			_parentReference = new Mock<IParentReference>();
 		}
 
 		[Test] // to cover not implemented 
@@ -41,16 +61,36 @@ namespace Pustota.Maven.Base.Tests
 		{
 			_context.CallReset();
 
-			var project = new Mock<IProject>();
-			var item = new ProjectTreeElement
-			{
-				Project = project.Object
-			};
-
-			_context.CallAdd(item);
-			_context.GetResolvedData(project.Object);
+			_context.CallAdd(_item);
+			_context.GetResolvedData(_project.Object);
 			IProject found;
 			_context.TryGetParentByPath(null, out found);
+		}
+
+		[Test]
+		public void GoodFindDirectTest()
+		{
+			_parentReference.Setup(pr => pr.RelativePath).Returns("../pom.xml");
+			_project.Setup(p => p.Parent).Returns(_parentReference.Object);
+
+			var parentPath = new FullPath("/a/b/c/pom.xml");
+			var parentItem = new ProjectTreeElement
+			{
+				Project = _parent.Object,
+				Path = parentPath
+			};
+
+			_pathCalculator.Setup(c => c.CalculateParentPath(_projectPath, "../pom.xml")).Returns(parentPath);
+
+			_context.CallAdd(_item);
+			_context.CallAdd(parentItem);
+
+			IProject foundProject;
+			bool found = _context.TryGetParentByPath(_project.Object, out foundProject);
+
+			Assert.True(found);
+			Assert.That(foundProject, Is.Not.Null);
+			Assert.That(foundProject, Is.EqualTo(_parent.Object));
 		}
 	}
 }
