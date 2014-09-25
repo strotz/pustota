@@ -17,10 +17,23 @@ namespace Pustota.Maven.Validation
 			IProject parent;
 			if (context.TryGetParentByPath(project, out parent))
 			{
-				if (project.Parent.ReferenceOperations().ReferenceEqualTo(parent))
+				if (project.Operations().HasProjectAsParent(parent))
 				{
 					yield break;
 				}
+
+				if (project.Operations().HasProjectAsParent(parent, false))
+				{
+					yield return new ValidationProblem // TODO: fixable
+					{
+						Severity = ProblemSeverity.ProjectWarning,
+						Description = string.Format("Version of parent reference {0} is different from actual parent {1}.", project.Parent, parent)
+					};
+
+					yield break;
+				}
+
+				// relative path is wrong?
 
 				yield return new ValidationProblem
 				{
@@ -31,10 +44,6 @@ namespace Pustota.Maven.Validation
 				// TODO: could be fixable
 			}
 
-			// var resolved = context.GetResolvedData(project);
-
-
-			//: "../pom.xml";
 
 
 		//	var error = new ValidationError(_projectNode.Project, "Project parent error", ErrorLevel.Warning);

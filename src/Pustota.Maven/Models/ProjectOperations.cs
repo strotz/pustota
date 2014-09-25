@@ -45,7 +45,7 @@ namespace Pustota.Maven.Models
 			}
 		}
 
-		private bool HasProjectAsParent(IProjectReference projectReference, bool strictVersion)
+		public bool HasProjectAsParent(IProjectReference projectReference, bool strictVersion)
 		{
 			var parentReference = _project.Parent;
 
