@@ -7,14 +7,16 @@ namespace Pustota.Maven
 {
 	internal class ProjectTree : IProjectTree
 	{
-		protected IList<IProjectTreeItem> Projects { get; private set; } // REVIEW: hide it
+		private readonly IList<IProjectTreeItem> _projects;
 
 		protected ProjectTree()
 		{
-			Projects = new List<IProjectTreeItem>();
+			_projects = new List<IProjectTreeItem>();
 		}
 
-		public IEnumerable<IProject> AllProjects { get { return Projects.Select(item => item.Project); } }
+		protected IEnumerable<IProjectTreeItem> Tree { get { return _projects; } }
+
+		public IEnumerable<IProject> AllProjects { get { return _projects.Select(item => item.Project); } }
 
 		// TODO: test it
 		public bool TryGetProject(IProjectReference reference, out IProject project, bool strictVersion = true)
@@ -24,12 +26,11 @@ namespace Pustota.Maven
 			return project != null;
 		}
 
-		// public IEnumerable<IProjectTreeItem> Tree { get { return Projects; } }
 
 		// TODO: test it
 		public bool TryGetPathByProject(IProject project, out FullPath fullPath)
 		{
-			var item = Projects.SingleOrDefault(i => i.Project == project);
+			var item = _projects.SingleOrDefault(i => i.Project == project);
 			if (item != null)
 			{
 				fullPath = item.Path;
@@ -43,7 +44,7 @@ namespace Pustota.Maven
 		// TODO: to match path it use string compare, to simplify 
 		public bool TryGetProjectByPath(FullPath fullPath, out IProject project)
 		{
-			var item = Projects.SingleOrDefault(i => String.Equals(fullPath, i.Path, StringComparison.InvariantCultureIgnoreCase));
+			var item = _projects.SingleOrDefault(i => String.Equals(fullPath, i.Path, StringComparison.InvariantCultureIgnoreCase));
 			if (item != null)
 			{
 				project = item.Project;
@@ -55,12 +56,12 @@ namespace Pustota.Maven
 
 		protected virtual void Reset()
 		{
-			Projects.Clear();
+			_projects.Clear();
 		}
 
 		protected virtual void Add(IProjectTreeItem item)
 		{
-			Projects.Add(item);
+			_projects.Add(item);
 		}
 	}
 }

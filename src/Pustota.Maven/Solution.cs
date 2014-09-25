@@ -51,14 +51,14 @@ namespace Pustota.Maven
 			{
 				foreach (var project in _loader.ScanForProjects(BaseDir))
 				{
-					Projects.Add(project);
+					Add(project);
 				}
 			}
 			else
 			{
 				foreach (var project in _loader.LoadProjectTree(filePath))
 				{
-					Projects.Add(project);
+					Add(project);
 				}
 			}
 		}
@@ -78,7 +78,7 @@ namespace Pustota.Maven
 
 		public void ForceSaveAll()
 		{
-			_loader.SaveProjects(Projects);
+			_loader.SaveProjects(Tree);
 		}
 
 		//public IEnumerable<ProjectNode> GetRootProjects()
