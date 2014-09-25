@@ -8,10 +8,12 @@ namespace Pustota.Maven
 	internal class ProjectTree : IProjectTree
 	{
 		private readonly IList<IProjectTreeItem> _projects;
+		private readonly ProjectDataExtractor _extractor;
 
 		protected ProjectTree()
 		{
 			_projects = new List<IProjectTreeItem>();
+			_extractor = new ProjectDataExtractor();
 		}
 
 		protected IEnumerable<IProjectTreeItem> Tree { get { return _projects; } }
@@ -22,7 +24,13 @@ namespace Pustota.Maven
 		public bool TryGetProject(IProjectReference reference, out IProject project, bool strictVersion = true)
 		{
 			var operation = reference.ReferenceOperations();
-			project = AllProjects.SingleOrDefault(p => operation.ReferenceEqualTo(p, strictVersion));
+
+			project = AllProjects.
+				SingleOrDefault(p =>
+				{
+					var r = _extractor.Extract(p);
+					return operation.ReferenceEqualTo(r, strictVersion);
+				});
 			return project != null;
 		}
 

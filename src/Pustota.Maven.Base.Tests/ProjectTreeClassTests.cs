@@ -31,7 +31,8 @@ namespace Pustota.Maven.Base.Tests
 			FullPath path;
 			_tree.TryGetPathByProject(foundProject, out path);
 			_tree.TryGetProjectByPath(path, out foundProject);
-
 		}
+
+
 	}
 }
