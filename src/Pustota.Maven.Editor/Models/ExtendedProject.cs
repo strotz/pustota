@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
-using Pustota.Maven.Editor.Validations;
 
 namespace Pustota.Maven.Editor.Models
 {

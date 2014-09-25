@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using Pustota.Maven.Models;
-using Pustota.Maven.Validation;
-using Pustota.Maven.Validation.Fixes;
 
-namespace Pustota.Maven.Editor.Validations
+namespace Pustota.Maven.Validation
 {
 	class ProjectDependencyValidation : IProjectValidator
 	{
-		public IEnumerable<ValidationProblem> Validate(IExecutionContext context, IProject project)
+		public IEnumerable<IValidationProblem> Validate(IExecutionContext context, IProject project)
 		{
 			//foreach (IDependency dependencyReference in project.AllDependencies)
 			//{

@@ -12,11 +12,11 @@ namespace Pustota.Maven.Validation
 			_factory = factory;
 		}
 
-		public IEnumerable<ValidationProblem> Validate(IExecutionContext context)
+		public IEnumerable<IValidationProblem> Validate(IExecutionContext context)
 		{
 			var validators = _factory.BuildProjectValidationSequence().ToArray();
 
-			var problems = new List<ValidationProblem>();
+			var problems = new List<IValidationProblem>();
 
 			foreach (var project in context.AllProjects)
 			{

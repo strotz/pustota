@@ -5,7 +5,7 @@ namespace Pustota.Maven.Validation
 {
 	internal class ParentSpecificVersionValidation : IProjectValidator
 	{
-		public IEnumerable<ValidationProblem> Validate(IExecutionContext context, IProject project)
+		public IEnumerable<IValidationProblem> Validate(IExecutionContext context, IProject project)
 		{
 			if (project.Parent != null) 
 			{
