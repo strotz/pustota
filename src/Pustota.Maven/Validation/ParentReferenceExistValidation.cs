@@ -97,10 +97,10 @@ namespace Pustota.Maven.Validation
 		//		string resolvedPathToParent = PathOperations.GetRelativePath(_projectNode.FullPath, parentProject.FullPath);
 		//		resolvedPathToParent = PathOperations.Normalize(resolvedPathToParent);
 
-		//		if (!string.Equals(_projectNode.ParentPath, resolvedPathToParent, StringComparison.OrdinalIgnoreCase))
+		//		if (!string.Equals(_projectNode.RelativeParentPath, resolvedPathToParent, StringComparison.OrdinalIgnoreCase))
 		//		{
 		//			error.Details = string.Format("Parent path '{0}' does not point to {1}, should be {2}",
-		//				_projectNode.ParentPath, parentProject, resolvedPathToParent);
+		//				_projectNode.RelativeParentPath, parentProject, resolvedPathToParent);
 
 		//			error.AddFix(new RelativePathFix(project, resolvedPathToParent));
 		//			_validationOutput.AddError(error);

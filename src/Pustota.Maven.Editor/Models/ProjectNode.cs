@@ -57,7 +57,7 @@ namespace Pustota.Maven.Editor.Models
 	//		}
 	//	}
 
-	//	public string ParentPath
+	//	public string RelativeParentPath
 	//	{
 	//		get { return _parentPath; }
 	//	}

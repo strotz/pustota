@@ -8,6 +8,6 @@ namespace Pustota.Maven.Models
 		public string Version { get; internal set; }
 		public bool? IsSnapshot { get; internal set; }
 
-		public string ParentPath { get; internal set; }
+		public string RelativeParentPath { get; internal set; }
 	}
 }

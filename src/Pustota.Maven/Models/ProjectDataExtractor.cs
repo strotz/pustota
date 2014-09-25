@@ -1,3 +1,4 @@
+using System;
 using Pustota.Maven.SystemServices;
 
 namespace Pustota.Maven.Models
@@ -13,6 +14,9 @@ namespace Pustota.Maven.Models
 
 		public IResolvedProjectData Extract(IProject project)
 		{
+			if (project == null)
+				throw new ArgumentNullException("project");
+
 			var data = new ResolvedProjectData();
 
 			if (!string.IsNullOrEmpty(project.GroupId))
@@ -44,7 +48,7 @@ namespace Pustota.Maven.Models
 			string parentPath = (project.Parent != null && !string.IsNullOrEmpty(project.Parent.RelativePath)) ?
 				project.Parent.RelativePath : "../pom.xml";
 
-			data.ParentPath = _system.Normalize(parentPath);
+			data.RelativeParentPath = _system.Normalize(parentPath);
 
 			return data;
 		}
