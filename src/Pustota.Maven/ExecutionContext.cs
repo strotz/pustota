@@ -6,19 +6,11 @@ namespace Pustota.Maven
 		ProjectTree,
 		IExecutionContext
 	{
-		private readonly ProjectDataExtractor _extractor;
-
 		private readonly IPathCalculator _pathCalculator;
 
 		protected ExecutionContext(IPathCalculator pathCalculator)
 		{
-			_extractor = new ProjectDataExtractor();
 			_pathCalculator = pathCalculator;
-		}
-
-		public IProjectReference GetResolvedData(IProject project)
-		{
-			return _extractor.Extract(project);
 		}
 
 		// TODO: test

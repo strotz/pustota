@@ -45,6 +45,7 @@ namespace Pustota.Maven.Models
 			}
 		}
 
+		// my parent reference is equal to project reference 
 		public bool HasProjectAsParent(IProjectReference projectReference, bool strictVersion)
 		{
 			var parentReference = _project.Parent;

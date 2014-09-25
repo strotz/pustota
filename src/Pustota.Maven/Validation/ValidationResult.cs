@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-
 namespace Pustota.Maven.Validation
 {
 	public enum ProblemSeverity // REVIEW: im not sure that it will help
@@ -20,6 +17,4 @@ namespace Pustota.Maven.Validation
 		public ProblemSeverity Severity { get; internal protected set; }
 		public string Description { get; internal protected set; }
 	}
-
-
 }
