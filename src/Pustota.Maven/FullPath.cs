@@ -1,15 +1,23 @@
-﻿using Pustota.Maven.SystemServices;
+﻿using System;
 
 namespace Pustota.Maven
 {
-	public sealed class FullPath
+	public struct FullPath
 	{
+		private readonly string _value;
+
 		internal FullPath(string value)
 		{
-			Value = value;
+			if (value == null)
+				throw new ArgumentNullException("value");
+
+			_value = value;
 		}
 
-		public string Value { get; private set; }
+		public string Value
+		{
+			get { return _value; }
+		}
 
 		// TODO: ensure that FullPath always contains full path value
 		//public static FullPath Create(string path, IFileSystemAccess fileIo)
@@ -20,6 +28,11 @@ namespace Pustota.Maven
 		static public implicit operator string(FullPath fullPath)
 		{
 			return fullPath.Value;
+		}
+
+		public static FullPath Undefined
+		{
+			get { return new FullPath(String.Empty); }
 		}
 	}
 }
