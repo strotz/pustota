@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Pustota.Maven.Models;
+using Pustota.Maven.Serialization.Data;
 
 namespace Pustota.Maven
 {
@@ -21,6 +22,17 @@ namespace Pustota.Maven
 		public IEnumerable<IProject> AllProjects { get { return _projects.Select(item => item.Project); } }
 
 		// TODO: test it
+		public bool TryGetProject(string groupId, string artifactId, string version, out IProject project, bool strictVersion = true)
+		{
+			var reference = new ProjectReference
+			{
+				GroupId = groupId,
+				ArtifactId = artifactId,
+				Version = version
+			};
+			return TryGetProject(reference, out project, strictVersion);
+		}
+
 		public bool TryGetProject(IProjectReference reference, out IProject project, bool strictVersion = true)
 		{
 			var operation = reference.ReferenceOperations();

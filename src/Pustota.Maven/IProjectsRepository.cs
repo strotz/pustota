@@ -7,6 +7,7 @@ namespace Pustota.Maven
 	{
 		IEnumerable<IProject> AllProjects { get; }
 
+		bool TryGetProject(string groupId, string artifactId, string version, out IProject project, bool strictVersion = true);
 		bool TryGetProject(IProjectReference reference, out IProject project, bool strictVersion = true);
 	}
 

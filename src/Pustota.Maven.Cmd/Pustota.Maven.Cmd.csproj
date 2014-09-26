@@ -184,6 +184,7 @@
     </Compile>
     <Compile Include="Commands\ApplyClassifierCommand.cs" />
     <Compile Include="Commands\DumpClassifiersCommand.cs" />
+    <Compile Include="Commands\EnableSnapshotCommand.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\NormalizeCommand.cs" />
     <Compile Include="Commands\ReleaseAllCommand.cs" />

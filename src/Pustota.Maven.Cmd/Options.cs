@@ -16,6 +16,9 @@ namespace Pustota.Maven.Cmd
 		[VerbOption("releaseAll", HelpText = "Release all snapshot projects in repo")]
 		public ReleaseAllCommand ReleaseAllCommand { get; set; }
 
+		[VerbOption("enableSnapshot", HelpText = "Switch to snapshot project and all dependent projects in repo")]
+		public EnableSnapshotCommand EnableSnapshotCommand { get; set; }
+
 		[VerbOption("normalize", HelpText = "Normalize all projects in repo")]
 		public NormalizeCommand NormalizeCommand { get; set; }
 
@@ -56,6 +59,10 @@ namespace Pustota.Maven.Cmd
 
 				case "validate":
 					ValidateAndFixCommand.Execute();
+					break;
+
+				case "enableSnapshot":
+					EnableSnapshotCommand.Execute();
 					break;
 			}
 		}

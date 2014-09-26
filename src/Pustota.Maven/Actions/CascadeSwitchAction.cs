@@ -3,11 +3,11 @@ using Pustota.Maven.Models;
 
 namespace Pustota.Maven.Actions
 {
-	internal class CascadeSwitchAction
+	public class CascadeSwitchAction
 	{
 		private readonly IProjectsRepository _projects;
 
-		internal CascadeSwitchAction(IProjectsRepository projects)
+		public CascadeSwitchAction(IProjectsRepository projects)
 		{
 			_projects = projects;
 		}
