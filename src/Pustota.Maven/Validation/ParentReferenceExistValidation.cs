@@ -45,59 +45,19 @@ namespace Pustota.Maven.Validation
 				}
 			}
 
-//			var validation = new ReferenceValidator(context);
-//			return validation.ValidateReference(project, parentReference, "parent");
-
-			var operation = parentReference.ReferenceOperations();
-			var potencial = context.AllExtractedProjects.
-				Where(p => operation.ReferenceEqualTo(p, false)).ToArray();
-
-			if (potencial.Length == 0)
+			var validation = new ReferenceValidator(context);
+			var result = validation.ValidateReference(project, parentReference, "parent");
+			if (result != null)
 			{
-				//	if (_externalModules.Contains(parent, true))
-				//	{
-				//		return ValidationResult.Good;
-				//	}
-
-				return new ValidationProblem // TODO: fixable
-				{
-					Severity = ProblemSeverity.ProjectWarning,
-					Description = string.Format("Project {0} references unknown parent {1}", project, project.Parent)
-				};
-				// error.AddFix(new AddExternalModuleFix(_externalModules, parent));
+				return result;
 			}
-
-			var exact = potencial.SingleOrDefault(p => operation.VersionEqualTo(p.Version));
-			if (exact != null)
-			{
-				return new ValidationProblem // TODO: fixable
-				{
-					Severity = ProblemSeverity.ProjectWarning,
-					Description = string.Format("Project {0} has incorrect relative path ({2}) to parent {1}", project, project.Parent, project.Parent.RelativePath)
-				};
-			}
-			if (potencial.Length == 1)
-			{
-				return new ValidationProblem // TODO: fixable
-				{
-					Severity = ProblemSeverity.ProjectWarning,
-					Description = string.Format("Project {0} parent reference {1} is wrong. Found potencial candidate {2}", project, project.Parent, potencial.Single())
-				};
-				// error.AddFix(new ApplyVersionFix(_projectNode.Project, parent, potencial.Single().Version));
-			}
+			// exact match found, but path is wrong
 			return new ValidationProblem // TODO: fixable
 			{
 				Severity = ProblemSeverity.ProjectWarning,
-				Description = string.Format("Project {0} parent reference {1} is wrong. Found multiple potencial candidates", project, project.Parent)
+				Description = string.Format("Project {0} has incorrect relative path ({2}) to parent {1}", project, project.Parent, project.Parent.RelativePath)
 			};
-			//foreach (var candicate in potencial)
-			//{
-			//	error.AddFix(new ApplyVersionFix(_projectNode.Project, parent, candicate.Version));
-			//}
 
-
-		//	if (_repository.ContainsProject(parent, true))
-		//	{
 		//		var parentProject = _repository.SelectProjectNodes(parent, true).Single();
 		//		string resolvedPathToParent = PathOperations.GetRelativePath(_projectNode.FullPath, parentProject.FullPath);
 		//		resolvedPathToParent = PathOperations.Normalize(resolvedPathToParent);
@@ -109,7 +69,6 @@ namespace Pustota.Maven.Validation
 
 		//			error.AddFix(new RelativePathFix(project, resolvedPathToParent));
 		//			_validationOutput.AddError(error);
-		//		}
 		}
 	}
 }
