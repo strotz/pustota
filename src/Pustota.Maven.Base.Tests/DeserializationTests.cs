@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -386,6 +387,20 @@ namespace Pustota.Maven.Base.Tests
 			string serialized = _serializer.Serialize(project);
 			var projectElement = XDocument.Parse(serialized).Element(E("project"));
 			var dependencies = projectElement.Element(E("dependencies"));
+			Assert.That(dependencies, Is.Not.Null);
+			var dependency = dependencies.Element(E("dependency"));
+			Assert.That(dependency, Is.Not.Null);
+		}
+
+		[Test]
+		public void DependencyManagementTest()
+		{
+			var project = new Project();
+			project.DependencyManagement.Add(new Dependency());
+			string serialized = _serializer.Serialize(project);
+			var projectElement = XDocument.Parse(serialized).Element(E("project"));
+			var dependencyManagementElement = projectElement.Element(E("dependencyManagement"));
+			var dependencies = dependencyManagementElement.Element(E("dependencies"));
 			Assert.That(dependencies, Is.Not.Null);
 			var dependency = dependencies.Element(E("dependency"));
 			Assert.That(dependency, Is.Not.Null);

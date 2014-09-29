@@ -188,6 +188,11 @@ namespace Pustota.Maven.Serialization
 				.Select(LoadDependency)
 				.ToList();
 
+			container.DependencyManagement = element
+				.ReadElements("dependencyManagement", "dependencies", "dependency")
+				.Select(LoadDependency)
+				.ToList();
+
 			container.Plugins = element.ReadElements("build", "plugins", "plugin")
 				.Select(LoadPlugin).ToList();
 
@@ -235,6 +240,22 @@ namespace Pustota.Maven.Serialization
 				var dependenciesNode = element.SingleOrCreate("dependencies");
 				dependenciesNode.RemoveAllChildElements();
 				foreach (IDependency dependency in container.Dependencies)
+				{
+					var dependencyNode = dependenciesNode.AddElement("dependency");
+					SaveDependency(dependency, dependencyNode);
+				}
+			}
+
+			if (!container.DependencyManagement.Any())
+			{
+				element.RemoveElement("dependencyManagement");
+			}
+			else
+			{
+				var dependencyManagementNode = element.SingleOrCreate("dependencyManagement");
+				var dependenciesNode = dependencyManagementNode.SingleOrCreate("dependencies");
+				dependenciesNode.RemoveAllChildElements();
+				foreach (IDependency dependency in container.DependencyManagement)
 				{
 					var dependencyNode = dependenciesNode.AddElement("dependency");
 					SaveDependency(dependency, dependencyNode);
