@@ -36,6 +36,12 @@ namespace Pustota.Maven.Serialization.Data
 			set { _container.Dependencies = value; }
 		}
 
+		public List<IDependency> DependencyManagement
+		{
+			get { return _container.DependencyManagement; }
+			set { _container.DependencyManagement = value; }
+		}
+
 		public List<IProperty> Properties
 		{
 			get { return _container.Properties; }

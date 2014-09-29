@@ -7,6 +7,7 @@ namespace Pustota.Maven.Serialization.Data
 	{
 		public List<IModule> Modules { get; set; }
 		public List<IDependency> Dependencies { get; set; }
+		public List<IDependency> DependencyManagement { get; set; }
 		public List<IProperty> Properties { get; set; }
 		public List<IPlugin> Plugins { get; set; }
 		public List<IPlugin> PluginManagement { get; set; }
@@ -16,6 +17,7 @@ namespace Pustota.Maven.Serialization.Data
 			Modules = new List<IModule>();
 			Properties = new List<IProperty>();
 			Dependencies = new List<IDependency>();
+			DependencyManagement = new List<IDependency>();
 			Plugins = new List<IPlugin>();
 			PluginManagement = new List<IPlugin>();
 		}

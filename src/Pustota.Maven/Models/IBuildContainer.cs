@@ -6,6 +6,7 @@ namespace Pustota.Maven.Models
 	{
 		List<IModule> Modules { get; set; }
 		List<IDependency> Dependencies { get; set; }
+		List<IDependency> DependencyManagement { get; set; }
 		List<IProperty> Properties { get; set; }
 		List<IPlugin> Plugins { get; set; }
 		List<IPlugin> PluginManagement { get; set; }

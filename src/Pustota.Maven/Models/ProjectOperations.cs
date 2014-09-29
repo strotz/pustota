@@ -22,7 +22,10 @@ namespace Pustota.Maven.Models
 		{
 			get
 			{
-				return _project.Dependencies.Concat(_project.Profiles.SelectMany(p => p.Dependencies));
+				return _project.Dependencies
+					.Concat(_project.DependencyManagement)
+					.Concat(_project.Profiles.SelectMany(p => p.Dependencies))
+					.Concat(_project.Profiles.SelectMany(p => p.DependencyManagement));
 			}
 		}
 
