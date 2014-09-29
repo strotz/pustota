@@ -19,6 +19,11 @@ namespace Pustota.Maven
 
 		protected IEnumerable<IProjectTreeItem> Tree { get { return _projects; } }
 
+		public IEnumerable<IProjectReference> AllExtractedProjects
+		{
+			get { return _projects.Select(item => _extractor.Extract(item.Project)); } // TODO: cache
+		}
+
 		public IEnumerable<IProject> AllProjects { get { return _projects.Select(item => item.Project); } }
 
 		// TODO: test it

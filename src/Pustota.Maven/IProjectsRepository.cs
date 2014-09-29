@@ -9,6 +9,8 @@ namespace Pustota.Maven
 
 		bool TryGetProject(string groupId, string artifactId, string version, out IProject project, bool strictVersion = true);
 		bool TryGetProject(IProjectReference reference, out IProject project, bool strictVersion = true);
+
+		IEnumerable<IProjectReference> AllExtractedProjects { get; }
 	}
 
 	public interface IProjectTree : IProjectsRepository

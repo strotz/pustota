@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using Pustota.Maven.Models;
 using Pustota.Maven.Validation;
 
 namespace Pustota.Maven.Base.Tests.Validations
@@ -16,6 +18,10 @@ namespace Pustota.Maven.Base.Tests.Validations
 			CreateContext();
 
 			_projectValidator = new ProjectPluginVersionsValidation();
+
+			Project.Setup(p => p.Plugins).Returns(new List<IPlugin>());
+			Project.Setup(p => p.PluginManagement).Returns(new List<IPlugin>());
+			Project.Setup(p => p.Profiles).Returns(new List<IProfile>());
 		}
 
 		[Test]
