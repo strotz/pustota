@@ -12,10 +12,11 @@ namespace Pustota.Maven.Validation
 			yield return new ParentReferenceValidation();
 			yield return new ParentSpecificVersionValidation();
 			yield return new ProjectSpecificVersionValidation();
-			//yield return new DuplicatedProjectValidation();
+			yield return new DuplicatedProjectValidation();
 			yield return new ParentReferenceExistValidation();
 			yield return new ProjectPluginVersionsValidation();
-			//yield return new ProjecModulesValidation();
+			// yield return new ProjectDependencyValidation
+			// yield return new ProjecModulesValidation();
 		}
 
 		public IEnumerable<IRepositoryValidator> BuildRepositoryValidationSequence()

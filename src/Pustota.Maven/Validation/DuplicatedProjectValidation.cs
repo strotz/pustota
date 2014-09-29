@@ -7,25 +7,28 @@ using Pustota.Maven.Models;
 
 namespace Pustota.Maven.Validation
 {
+	// TODO: TEST
 	class DuplicatedProjectValidation : IProjectValidator
 	{
 		public IEnumerable<IValidationProblem> Validate(IExecutionContext context, IProject project)
 		{
-			//if (_repository.AllProjectNodes
-			//	.Any(p => p.ShareGroupAndArtifactWith(project) && p.FullPath != project.FullPath))
-			//{
-			//	string details = string.Format("There should not exist two or more different project files with the same maven coordinates (group id={0} and artifact id={1})", project.GroupId, project.ArtifactId);
+			var extractor = new ProjectDataExtractor();
+			var extracted = extractor.Extract(project);
+			var operation = extracted.ReferenceOperations();
 
-			//	var error = new ValidationError(
-			//		project,
-			//		ErrorsResources.ProjectWithThisGroupAndArtifactIDAlreadyExistsInTree,
-			//		details,
-			//		ErrorLevel.Error);
+			var potencial = context.AllProjects
+				.Where(p => p != project)
+				.Where(p =>
+				{
+					var pe = extractor.Extract(p);
+					return operation.ReferenceEqualTo(pe);
+				});
 
-			//	ValidationErrors.Add(error);
-			//}
-
-			throw new NotImplementedException();
+			return potencial.Select(failed => new ValidationProblem
+			{
+				Severity = ProblemSeverity.ProjectFatal,
+				Description = string.Format("Project {0} has duplication {1}", project, failed)
+			});
 		}
 	}
 }
