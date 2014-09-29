@@ -54,47 +54,12 @@ namespace Pustota.Maven.Validation
 
 		private IValidationProblem ValidateDependency(IExecutionContext context, IProject project, IDependency dependency)
 		{
-			var operation = dependency.ReferenceOperations();
+			IProjectReferenceOperations operation = dependency.ReferenceOperations();
 
 			if (operation.HasSpecificVersion) // REVIEW: inhereited too
 			{
-				var potencial = context.AllExtractedProjects.
-					Where(p => operation.ReferenceEqualTo(p, false)).ToArray();
-
-				if (potencial.Length == 0)
-				{
-					// TODO: should we ignore specific version???
-					return new ValidationProblem // TODO: fixable
-					{
-						Severity = ProblemSeverity.ProjectWarning,
-						Description = string.Format("Project {0} uses unknown dependency {1}", project, dependency)
-					};
-					//		error.AddFix(new AddExternalModuleFix(_externalModules, dependency));
-				}
-				var exact = potencial.SingleOrDefault(p => operation.VersionEqualTo(p.Version));
-				if (exact != null)
-				{
-					return null;
-				}
-
-				if (potencial.Length == 1)
-				{
-					return new ValidationProblem // TODO: fixable
-					{
-						Severity = ProblemSeverity.ProjectWarning,
-						Description = string.Format("Project {0} uses different dependency version {1}", project, dependency)
-					};
-					//		error.AddFix(new ApplyVersionFix(_projectNode.Project, dependency, potencial.Single().Version));
-				}
-				return new ValidationProblem // TODO: fixable
-				{
-					Severity = ProblemSeverity.ProjectWarning,
-					Description = string.Format("Project {0} dependency version {1} is wrong. Found multiple potencial candidates", project, dependency)
-				};
-				//		foreach (var candicate in potencial)
-				//		{
-				//			error.AddFix(new ApplyVersionFix(_projectNode.Project, dependency, candicate.Version));
-				//		}
+				var validation = new ReferenceValidator(context);
+				return validation.ValidateReference(project, dependency, "dependency");
 			}
 			else
 			{

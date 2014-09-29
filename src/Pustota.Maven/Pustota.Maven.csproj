@@ -131,6 +131,7 @@
     <Compile Include="Validation\ProjectDependencyValidation.cs" />
     <Compile Include="Validation\ProjectPluginVersionsValidation.cs" />
     <Compile Include="Validation\ProjectSpecificVersionValidation.cs" />
+    <Compile Include="Validation\ReferenceValidator.cs" />
     <Compile Include="Validation\RepositoryValidator.cs" />
     <Compile Include="Validation\Fixes\RelativePathFix.cs" />
     <Compile Include="Validation\Fixes\SwitchToSnapshotFix.cs" />

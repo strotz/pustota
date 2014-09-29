@@ -45,9 +45,11 @@ namespace Pustota.Maven.Validation
 				}
 			}
 
+//			var validation = new ReferenceValidator(context);
+//			return validation.ValidateReference(project, parentReference, "parent");
+
 			var operation = parentReference.ReferenceOperations();
-			var potencial = context.AllProjects.
-				Select(extractor.Extract).
+			var potencial = context.AllExtractedProjects.
 				Where(p => operation.ReferenceEqualTo(p, false)).ToArray();
 
 			if (potencial.Length == 0)
