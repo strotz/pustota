@@ -21,9 +21,10 @@ namespace Pustota.Maven.Base.Tests.Validations
 		[Test]
 		public void EmptyTest()
 		{
-			var result = _projectValidator.Validate(Context.Object, Project.Object);
-			Assert.That(result, Is.Not.Null);
+			var result = _projectValidator.Validate(Context.Object, Project.Object).ToArray();
 			Assert.That(result.Count(), Is.EqualTo(1));
+			Assert.That(result.Single().ProjectReference, Is.EqualTo(Project.Object));
+
 		}
 
 		[Test]

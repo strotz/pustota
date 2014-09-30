@@ -81,6 +81,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 
 			var result = _projectValidator.Validate(Context.Object, Project.Object).ToArray();
 			Assert.That(result.Single().Severity, Is.EqualTo(ProblemSeverity.ProjectWarning));
+			Assert.That(result.Single().ProjectReference, Is.EqualTo(Project.Object));
 		}
 
 		[Test]
@@ -96,6 +97,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 
 			var result = _projectValidator.Validate(Context.Object, Project.Object).ToArray();
 			Assert.That(result.Single().Severity, Is.EqualTo(ProblemSeverity.ProjectWarning));
+			Assert.That(result.Single().ProjectReference, Is.EqualTo(Project.Object));
 		}
 
 		[Test]
@@ -111,6 +113,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 
 			var result = _projectValidator.Validate(Context.Object, Project.Object).ToArray();
 			Assert.That(result.Single().Severity, Is.EqualTo(ProblemSeverity.ProjectWarning));
+			Assert.That(result.Single().ProjectReference, Is.EqualTo(Project.Object));
 		}
 
 

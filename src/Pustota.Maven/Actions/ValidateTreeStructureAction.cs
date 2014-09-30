@@ -12,7 +12,7 @@ namespace Pustota.Maven.Actions
 			_context = context;
 		}
 
-		public IEnumerable<IValidationProblem> Execute()
+		public IEnumerable<IProjectValidationProblem> Execute()
 		{
 			var validationFactory = new ValidationFactory(); 
 			RepositoryValidator validator = new RepositoryValidator(validationFactory);

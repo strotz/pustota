@@ -12,7 +12,8 @@ namespace Pustota.Maven.Validation
 			_context = context;
 		}
 
-		internal IValidationProblem ValidateReference(IProject project, IProjectReference reference, string referenceTitle)
+		// TODO: TEST
+		internal IProjectValidationProblem ValidateReference(IProject project, IProjectReference reference, string referenceTitle)
 		{
 			IProjectReferenceOperations operation = reference.ReferenceOperations();
 
@@ -23,8 +24,9 @@ namespace Pustota.Maven.Validation
 			{
 				return new ValidationProblem // TODO: fixable
 				{
+					ProjectReference = project,
 					Severity = ProblemSeverity.ProjectWarning,
-					Description = string.Format("Project {0} uses unknown {2} {1}", project, reference, referenceTitle)
+					Description = string.Format("uses unknown {0} {1}", referenceTitle, reference)
 				};
 				//error.AddFix(new AddExternalModuleFix(_externalModules, dependency));
 			}
@@ -38,15 +40,17 @@ namespace Pustota.Maven.Validation
 			{
 				return new ValidationProblem // TODO: fixable
 				{
+					ProjectReference = project,
 					Severity = ProblemSeverity.ProjectWarning,
-					Description = string.Format("Project {0} uses different {2} version {1}", project, reference, referenceTitle)
+					Description = string.Format("version of {0} different from {1}", referenceTitle, reference)
 				};
 				//		error.AddFix(new ApplyVersionFix(_projectNode.Project, dependency, potencial.Single().Version));
 			}
 			return new ValidationProblem // TODO: fixable
 			{
+				ProjectReference = project,
 				Severity = ProblemSeverity.ProjectWarning,
-				Description = string.Format("Project {0} {2} version {1} is wrong. Found multiple potencial candidates", project, reference, referenceTitle)
+				Description = string.Format("version of {0} different from {1}. Found multiple potencial candidates", referenceTitle, reference)
 			};
 			//		foreach (var candicate in potencial)
 			//		{

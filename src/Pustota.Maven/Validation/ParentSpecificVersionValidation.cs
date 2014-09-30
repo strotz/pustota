@@ -5,7 +5,7 @@ namespace Pustota.Maven.Validation
 {
 	internal class ParentSpecificVersionValidation : IProjectValidator
 	{
-		public IEnumerable<IValidationProblem> Validate(IExecutionContext context, IProject project)
+		public IEnumerable<IProjectValidationProblem> Validate(IExecutionContext context, IProject project)
 		{
 			if (project.Parent != null) 
 			{
@@ -16,8 +16,9 @@ namespace Pustota.Maven.Validation
 					// error.AddFix(GetParentVersionFix(project, parent, realParentVersion, MessageResources.FixParentToMatchSource));
 					yield return new ValidationProblem
 					{
+						ProjectReference = project,
 						Severity = ProblemSeverity.ProjectFatal,
-						Description = string.Format("Project {0} does not have parent version specified.", project)
+						Description = string.Format("parent version not specified")
 					};
 				}
 			}

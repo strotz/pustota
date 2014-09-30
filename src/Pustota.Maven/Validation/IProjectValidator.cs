@@ -5,6 +5,6 @@ namespace Pustota.Maven.Validation
 {
 	public interface IProjectValidator
 	{
-		IEnumerable<IValidationProblem> Validate(IExecutionContext context, IProject project);
+		IEnumerable<IProjectValidationProblem> Validate(IExecutionContext context, IProject project);
 	}
 }

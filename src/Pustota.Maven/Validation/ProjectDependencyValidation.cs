@@ -7,7 +7,7 @@ namespace Pustota.Maven.Validation
 {
 	class ProjectDependencyValidation : IProjectValidator
 	{
-		public IEnumerable<IValidationProblem> Validate(IExecutionContext context, IProject project)
+		public IEnumerable<IProjectValidationProblem> Validate(IExecutionContext context, IProject project)
 		{
 			foreach (IDependency dependency in project.Operations().AllDependencies)
 			{
@@ -15,8 +15,9 @@ namespace Pustota.Maven.Validation
 				{
 					yield return new ValidationProblem
 					{
+						ProjectReference = project,
 						Severity = ProblemSeverity.ProjectWarning,
-						Description = string.Format("released project {0} depends on SNAPSHOT {1}", project, dependency)
+						Description = string.Format("release depends on SNAPSHOT {0}", dependency)
 					};
 				}
 
@@ -52,7 +53,7 @@ namespace Pustota.Maven.Validation
 			}
 		}
 
-		private IValidationProblem ValidateDependency(IExecutionContext context, IProject project, IDependency dependency)
+		private IProjectValidationProblem ValidateDependency(IExecutionContext context, IProject project, IDependency dependency)
 		{
 			IProjectReferenceOperations operation = dependency.ReferenceOperations();
 

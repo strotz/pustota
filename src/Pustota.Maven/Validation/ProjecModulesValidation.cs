@@ -9,7 +9,7 @@ namespace Pustota.Maven.Validation
 {
 	class ProjecModulesValidation : IProjectValidator
 	{
-		public IEnumerable<IValidationProblem> Validate(IExecutionContext context, IProject project)
+		public IEnumerable<IProjectValidationProblem> Validate(IExecutionContext context, IProject project)
 		{
 			//string baseDir = Path.GetDirectoryName(project.FullPath);
 			//if (baseDir == null) continue;

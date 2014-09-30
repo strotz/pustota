@@ -66,7 +66,7 @@
     <Compile Include="ReferenceOperationsTests.cs" />
     <Compile Include="Validations\DataResolverTests.cs" />
     <Compile Include="Validations\ParentReferenceTests.cs" />
-    <Compile Include="Validations\RepositortValidatorTests.cs" />
+    <Compile Include="Validations\RepositoryValidatorTests.cs" />
     <Compile Include="SerializationWithUpdateTests.cs" />
     <Compile Include="SolutionTests.cs" />
     <Compile Include="Validations\ParentReferenceExistTests.cs" />

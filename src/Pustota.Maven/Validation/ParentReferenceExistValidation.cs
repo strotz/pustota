@@ -6,7 +6,7 @@ namespace Pustota.Maven.Validation
 {
 	internal class ParentReferenceExistValidation : IProjectValidator
 	{
-		public IEnumerable<IValidationProblem> Validate(IExecutionContext context, IProject project)
+		public IEnumerable<IProjectValidationProblem> Validate(IExecutionContext context, IProject project)
 		{
 			var result = ValidateInternal(context, project);
 			if (result != null)
@@ -16,7 +16,7 @@ namespace Pustota.Maven.Validation
 		}
 
 		// REVIEW need logical refactoring
-		private IValidationProblem ValidateInternal(IExecutionContext context, IProject project)
+		private IProjectValidationProblem ValidateInternal(IExecutionContext context, IProject project)
 		{
 			var parentReference = project.Parent;
 			if (parentReference == null)
@@ -39,8 +39,9 @@ namespace Pustota.Maven.Validation
 				{
 					return new ValidationProblem // TODO: fixable
 					{
+						ProjectReference = project,
 						Severity = ProblemSeverity.ProjectWarning,
-						Description = string.Format("Version of parent reference {0} is different from actual parent {1}.", project.Parent, resolved)
+						Description = string.Format("parent reference version {0} is different from actual parent {1}.", project.Parent, resolved)
 					};
 				}
 			}
@@ -54,8 +55,9 @@ namespace Pustota.Maven.Validation
 			// exact match found, but path is wrong
 			return new ValidationProblem // TODO: fixable
 			{
+				ProjectReference = project,
 				Severity = ProblemSeverity.ProjectWarning,
-				Description = string.Format("Project {0} has incorrect relative path ({2}) to parent {1}", project, project.Parent, project.Parent.RelativePath)
+				Description = string.Format("incorrect relative path ({1}) to parent {0}", project.Parent, project.Parent.RelativePath)
 			};
 
 		//		var parentProject = _repository.SelectProjectNodes(parent, true).Single();

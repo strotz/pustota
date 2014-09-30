@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Pustota.Maven.Models;
 
 namespace Pustota.Maven.Validation
@@ -10,7 +7,7 @@ namespace Pustota.Maven.Validation
 	// TODO: TEST
 	class DuplicatedProjectValidation : IProjectValidator
 	{
-		public IEnumerable<IValidationProblem> Validate(IExecutionContext context, IProject project)
+		public IEnumerable<IProjectValidationProblem> Validate(IExecutionContext context, IProject project)
 		{
 			var extractor = new ProjectDataExtractor();
 			var extracted = extractor.Extract(project);
@@ -26,8 +23,9 @@ namespace Pustota.Maven.Validation
 
 			return potencial.Select(failed => new ValidationProblem
 			{
+				ProjectReference = project,
 				Severity = ProblemSeverity.ProjectFatal,
-				Description = string.Format("Project {0} has duplication {1}", project, failed)
+				Description = string.Format("duplication {0}", failed)
 			});
 		}
 	}

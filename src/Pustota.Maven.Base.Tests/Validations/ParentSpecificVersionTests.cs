@@ -39,6 +39,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 			Assert.That(result, Is.Not.Null);
 			Assert.That(result.Count(), Is.EqualTo(1));
 			Assert.That(result.Single().Severity, Is.EqualTo(ProblemSeverity.ProjectFatal));
+			Assert.That(result.Single().ProjectReference, Is.EqualTo(Project.Object));
 		}
 
 		[Test]
