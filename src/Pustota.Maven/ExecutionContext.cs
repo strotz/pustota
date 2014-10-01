@@ -1,16 +1,24 @@
-﻿using Pustota.Maven.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Pustota.Maven.Externals;
+using Pustota.Maven.Models;
 
 namespace Pustota.Maven
 {
+
+
 	internal class ExecutionContext : 
 		ProjectTree,
 		IExecutionContext
 	{
 		private readonly IPathCalculator _pathCalculator;
 
+		private readonly IList<IExternalModule> _externalModules; 
+
 		protected ExecutionContext(IPathCalculator pathCalculator)
 		{
 			_pathCalculator = pathCalculator;
+			_externalModules = new List<IExternalModule>();
 		}
 
 		// TODO: test
@@ -30,6 +38,22 @@ namespace Pustota.Maven
 
 			var fullPath = _pathCalculator.CalculateParentPath(currentProjectPath, parentRelativePath);
 			return TryGetProjectByPath(fullPath, out parent);
+		}
+
+		public IEnumerable<IProjectReference> AllAvailableProjectReferences
+		{
+			get { return AllExtractedProjects.Concat(_externalModules); }
+		}
+
+		protected override void Reset()
+		{
+			base.Reset();
+			_externalModules.Clear();
+		}
+
+		protected virtual void Add(IExternalModule externalModule)
+		{
+			_externalModules.Add(externalModule);
 		}
 	}
 }

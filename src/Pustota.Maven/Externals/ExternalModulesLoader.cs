@@ -1,16 +1,20 @@
-﻿using Pustota.Maven.SystemServices;
+﻿using System.Collections.Generic;
+using System.Xml.Linq;
+using Pustota.Maven.SystemServices;
 
 namespace Pustota.Maven.Externals
 {
 	// TODO: test
-	public interface IExternalModulesController
+	public interface IExternalModulesLoader
 	{
-		IExternalModulesRepository Load(string filepath);
+		IEnumerable<IExternalModule> Load(string baseDir);
 	}
 
 	// TODO: test
-	public class ExternalModulesLoader : IExternalModulesController
+	public class ExternalModulesLoader : IExternalModulesLoader
 	{
+		private const string ExternalModulesFileName = ".mavenexternal";
+
 		private readonly IFileSystemAccess _fileIo;
 
 		public ExternalModulesLoader(IFileSystemAccess fileIo)
@@ -18,17 +22,18 @@ namespace Pustota.Maven.Externals
 			_fileIo = fileIo;
 		}
 
-		//private const string ExternalModulesFileName = ".mavenexternal";
-
-		//private void LoadExternalModules()
-		//{
-		//	string path = Path.Combine(_baseDir, ExternalModulesFileName);
-		//	_allModules = new ExternalModules(path);
-		//	_allModules.LoadModules();
-		//}
-		public IExternalModulesRepository Load(string filepath)
+		public IEnumerable<IExternalModule> Load(string baseDir)
 		{
-			throw new System.NotImplementedException();
+			var fileName = _fileIo.Combine(baseDir, ExternalModulesFileName);
+			if (!_fileIo.IsFileExist(fileName))
+			{
+				return new IExternalModule[] {};
+			}
+
+			var xdocument = XDocument.Load(fileName);
+			var document = new ExternalModulesDocument(xdocument); // TODO: should be done via serializer  
+
+			return document.ReadModules();
 		}
 	}
 }

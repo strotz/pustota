@@ -37,7 +37,7 @@ namespace Pustota.Maven.Validation
 
 				if (project.Operations().HasProjectAsParent(resolved, false))
 				{
-					return new ValidationProblem // TODO: fixable
+					return new ValidationProblem("actualparentversion") // TODO: fixable
 					{
 						ProjectReference = project,
 						Severity = ProblemSeverity.ProjectWarning,
@@ -53,7 +53,7 @@ namespace Pustota.Maven.Validation
 				return result;
 			}
 			// exact match found, but path is wrong
-			return new ValidationProblem // TODO: fixable
+			return new ValidationProblem("parentpath") // TODO: fixable
 			{
 				ProjectReference = project,
 				Severity = ProblemSeverity.ProjectWarning,

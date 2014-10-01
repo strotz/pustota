@@ -21,7 +21,7 @@ namespace Pustota.Maven.Validation
 					return operation.ReferenceEqualTo(pe);
 				});
 
-			return potencial.Select(failed => new ValidationProblem
+			return potencial.Select(failed => new ValidationProblem("duplication")
 			{
 				ProjectReference = project,
 				Severity = ProblemSeverity.ProjectFatal,

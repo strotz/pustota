@@ -13,14 +13,12 @@ namespace Pustota.Maven.Base.Tests.Validations
 		private RepositoryValidator _validator;
 
 		private Mock<IProjectValidationFactory> _factory;
-		private Mock<IExternalModulesRepository> _externals;
 		private Mock<IExecutionContext> _context;
 
 		[SetUp]
 		public void Initialize()
 		{
 			_factory = new Mock<IProjectValidationFactory>();
-			_externals = new Mock<IExternalModulesRepository>();
 			_validator = new RepositoryValidator(_factory.Object);
 
 			_context = new Mock<IExecutionContext>();
@@ -45,7 +43,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 			var project = new Mock<IProject>();
 			_context.Setup(r => r.AllProjects).Returns(new[] {project.Object});
 
-			var problem = new ValidationProblem
+			var problem = new ValidationProblem("a")
 			{
 				Severity = ProblemSeverity.ProjectWarning
 			};
@@ -67,8 +65,8 @@ namespace Pustota.Maven.Base.Tests.Validations
 			var project2 = new Mock<IProject>();
 			_context.Setup(r => r.AllProjects).Returns(new[] { project1.Object, project2.Object });
 
-			var fatal = new ValidationProblem { Severity = ProblemSeverity.ProjectFatal };
-			var warning = new ValidationProblem { Severity = ProblemSeverity.ProjectWarning };
+			var fatal = new ValidationProblem("a") { Severity = ProblemSeverity.ProjectFatal };
+			var warning = new ValidationProblem("a") { Severity = ProblemSeverity.ProjectWarning };
 
 			var v1 = new Mock<IProjectValidator>();
 			v1.Setup(v => v.Validate(It.IsAny<IExecutionContext>(), project1.Object)).Returns(new[] { fatal });

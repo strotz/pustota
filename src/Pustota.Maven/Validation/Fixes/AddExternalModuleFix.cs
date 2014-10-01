@@ -6,17 +6,16 @@ namespace Pustota.Maven.Validation.Fixes
 {
 	internal class AddExternalModuleFix : Fix
 	{
-		private readonly IExternalModulesRepository _externalModules;
 		private readonly IProjectReference _externalReference;
 
-		internal AddExternalModuleFix(IExternalModulesRepository externalModules, IProjectReference externalReference)
-		{
-			_externalModules = externalModules;
-			_externalReference = externalReference;
+		//internal AddExternalModuleFix(IExternalModulesRepository externalModules, IProjectReference externalReference)
+		//{
+		//	_externalModules = externalModules;
+		//	_externalReference = externalReference;
 
-			ShouldBeConfirmed = true;
-			Title = "Mark as external module";
-		}
+		//	ShouldBeConfirmed = true;
+		//	Title = "Mark as external module";
+		//}
 
 		public override void Do()
 		{

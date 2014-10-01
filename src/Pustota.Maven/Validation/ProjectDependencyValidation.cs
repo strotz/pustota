@@ -13,7 +13,7 @@ namespace Pustota.Maven.Validation
 			{
 				if (dependency.ReferenceOperations().IsSnapshot && !project.ReferenceOperations().IsSnapshot)
 				{
-					yield return new ValidationProblem
+					yield return new ValidationProblem("releasesnapshot")
 					{
 						ProjectReference = project,
 						Severity = ProblemSeverity.ProjectWarning,

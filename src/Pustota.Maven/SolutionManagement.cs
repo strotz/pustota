@@ -15,9 +15,9 @@ namespace Pustota.Maven
 			IProjectLoader projectLoader = new ProjectLoader(fileIo, serializer);
 			var loader = new ProjectTreeLoader(fileIo, projectLoader, projectLoader);
 
-			IExternalModulesController externalModulesController = new ExternalModulesLoader(fileIo);
+			IExternalModulesLoader externalModulesLoader = new ExternalModulesLoader(fileIo);
 
-			var solution = new Solution(fileIo, loader, externalModulesController);
+			var solution = new Solution(fileIo, loader, externalModulesLoader);
 			solution.Open(fileOrFolderName, loadDisconnectedProjects);
 			return solution;
 		}

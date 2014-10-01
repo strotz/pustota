@@ -56,11 +56,9 @@
     <Compile Include="Actions\PropageVersionToAllUsagesAction.cs" />
     <Compile Include="DependencySelector.cs" />
     <Compile Include="Externals\ExternalModule.cs" />
-    <Compile Include="Externals\ExternalModules.cs" />
     <Compile Include="Externals\ExternalModulesDocument.cs" />
     <Compile Include="Externals\ExternalModulesLoader.cs" />
     <Compile Include="Externals\IExternalModule.cs" />
-    <Compile Include="Externals\IExternalModulesRepository.cs" />
     <Compile Include="IActionLog.cs" />
     <Compile Include="ISolution.cs" />
     <Compile Include="Models\IBlackBox.cs" />

@@ -17,12 +17,12 @@ namespace Pustota.Maven.Validation
 		{
 			IProjectReferenceOperations operation = reference.ReferenceOperations();
 
-			var potencial = _context.AllExtractedProjects.
+			var potencial = _context.AllAvailableProjectReferences.
 				Where(p => operation.ReferenceEqualTo(p, false)).ToArray();
 
 			if (potencial.Length == 0)
 			{
-				return new ValidationProblem // TODO: fixable
+				return new ValidationProblem(referenceTitle + "missing") // TODO: fixable
 				{
 					ProjectReference = project,
 					Severity = ProblemSeverity.ProjectWarning,
@@ -38,7 +38,7 @@ namespace Pustota.Maven.Validation
 
 			if (potencial.Length == 1)
 			{
-				return new ValidationProblem // TODO: fixable
+				return new ValidationProblem(referenceTitle + "versionmissmatch") // TODO: fixable
 				{
 					ProjectReference = project,
 					Severity = ProblemSeverity.ProjectWarning,
@@ -46,7 +46,7 @@ namespace Pustota.Maven.Validation
 				};
 				//		error.AddFix(new ApplyVersionFix(_projectNode.Project, dependency, potencial.Single().Version));
 			}
-			return new ValidationProblem // TODO: fixable
+			return new ValidationProblem(referenceTitle + "version") // TODO: fixable
 			{
 				ProjectReference = project,
 				Severity = ProblemSeverity.ProjectWarning,

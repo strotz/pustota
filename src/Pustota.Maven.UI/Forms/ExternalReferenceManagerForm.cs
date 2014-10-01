@@ -9,18 +9,16 @@ namespace Pustota.Maven.UI.Forms
 	{
 		// REVIEW: remove 
 		private readonly IProjectsRepository _repository;
-		private readonly IExternalModulesRepository _externalModules;
 
 		private IDataFactory _dataFactory;
 
-		public ExternalReferenceManagerForm(ISolution solution, IExternalModulesRepository externalModules)
+		public ExternalReferenceManagerForm(ISolution solution)
 		{
 			if (solution == null)
 				throw new ArgumentNullException("solution");
 
 			// REVIEW: encapsulate
 			_repository = solution;
-			_externalModules = externalModules;
 
 			InitializeComponent();
 			
@@ -29,7 +27,10 @@ namespace Pustota.Maven.UI.Forms
 
 		private void PopulateMavenExternalGrid()
 		{
-			dataGridViewMavenExternal.DataSource = new BindingSource {DataSource = _externalModules.Items};
+			//dataGridViewMavenExternal.DataSource = new BindingSource
+			//{
+			//	DataSource = _externalModules.Items
+			//};
 		}
 
 		private void UpdateView()
@@ -41,8 +42,8 @@ namespace Pustota.Maven.UI.Forms
 
 		private void ButtonAddMavenExternalClick(object sender, EventArgs e)
 		{
-			_dataFactory.CreateExternalModule();
-			_externalModules.Add(_dataFactory.CreateExternalModule());
+			//_dataFactory.CreateExternalModule();
+			//_externalModules.Add(_dataFactory.CreateExternalModule());
 			
 			UpdateView();
 		}

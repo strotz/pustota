@@ -55,6 +55,7 @@
     <Compile Include="Actions\BulkSwitchToReleaseTests.cs" />
     <Compile Include="DeserializationTests.cs" />
     <Compile Include="ExecutionContextTests.cs" />
+    <Compile Include="ExternalModulesDocumentTests.cs" />
     <Compile Include="ExternalModulesTests.cs" />
     <Compile Include="PathCalulatorTests.cs" />
     <Compile Include="ProjectChangedTests.cs" />

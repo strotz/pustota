@@ -15,8 +15,6 @@ namespace Pustota.Maven
 
 	public interface IProjectTree : IProjectsRepository
 	{
-		// IEnumerable<IProjectTreeItem> Tree { get; }
-
 		bool TryGetPathByProject(IProject project, out FullPath fullPath);
 		bool TryGetProjectByPath(FullPath fullParentPath, out IProject parent);
 	}
@@ -25,10 +23,6 @@ namespace Pustota.Maven
 		//	IEnumerable<ProjectNode> GetProjectModules(ProjectNode project);
 		
 		//	bool Changed { get; }
-
-		//	// REVIEW: need refactoring
-		//	void PropagateVersionToSubtree(ProjectNode original);
-		//	void PropagateVersionToAllUsages(ProjectNode original);
 
 		//	void SaveChangedProjects();
 		//	void LoadOneProject(string path);
@@ -40,5 +34,7 @@ namespace Pustota.Maven
 		IProjectTree
 	{
 		bool TryGetParentByPath(IProject project, out IProject parent);
+
+		IEnumerable<IProjectReference> AllAvailableProjectReferences { get; } // REVIEW: should it be Get with parameters?
 	}
 }

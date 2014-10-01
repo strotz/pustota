@@ -41,6 +41,37 @@ namespace Pustota.Maven.Base.Tests.Validations
 		}
 
 		[Test]
+		public void ProjectHasNoMatchedParentTest()
+		{
+			IProject foundParent = null;
+			Context.Setup(c => c.TryGetParentByPath(Project.Object, out foundParent)).Returns(false);
+
+			var result = _projectValidator.Validate(Context.Object, Project.Object);
+			Assert.That(result, Is.Not.Null);
+
+			var problem = result.Single();
+			Assert.That(((ValidationProblem)problem).ProblemCode, Is.EqualTo("parentmissing"));
+		}
+
+		[Test]
+		public void ProjectHasNoMatchedParentButExternalTest()
+		{
+			var external = new Mock<IProjectReference>();
+			external.Setup(pr => pr.ArtifactId).Returns("parentId");
+			external.Setup(pr => pr.Version).Returns("parentVersion1");
+
+			IProject foundParent = null;
+			Context.Setup(c => c.TryGetParentByPath(Project.Object, out foundParent)).Returns(false);
+			Context.Setup(c => c.AllAvailableProjectReferences).Returns(new IProjectReference[] {external.Object});
+
+			var result = _projectValidator.Validate(Context.Object, Project.Object);
+			Assert.That(result, Is.Not.Null);
+
+			var problem = result.Single();
+			Assert.That(((ValidationProblem)problem).ProblemCode, Is.EqualTo("parentpath"));
+		}
+
+		[Test]
 		public void ProjectHasMatchedParentTest()
 		{
 			_parent.Setup(pr => pr.Version).Returns("parentVersion1");

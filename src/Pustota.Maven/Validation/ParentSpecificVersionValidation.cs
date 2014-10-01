@@ -14,7 +14,7 @@ namespace Pustota.Maven.Validation
 					// var error = new ValidationError(project, "Project parent error", ErrorLevel.Error);
 					// TODO: if there is correct parent found via relativePath, and it has version (or resolvedVersion) - add fix
 					// error.AddFix(GetParentVersionFix(project, parent, realParentVersion, MessageResources.FixParentToMatchSource));
-					yield return new ValidationProblem
+					yield return new ValidationProblem("parentversion") 
 					{
 						ProjectReference = project,
 						Severity = ProblemSeverity.ProjectFatal,

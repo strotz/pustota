@@ -6,17 +6,16 @@ namespace Pustota.Maven.Validation.Fixes
 {
 	internal class DeleteExternalModuleFix : Fix
 	{
-		private readonly IExternalModulesRepository _externalModules;
 		private readonly IProjectReference _externalReference;
 
-		internal DeleteExternalModuleFix(IExternalModulesRepository externalModules, IProjectReference externalReference)
-		{
-			_externalModules = externalModules;
-			_externalReference = externalReference;
+		//internal DeleteExternalModuleFix(IExternalModulesRepository externalModules, IProjectReference externalReference)
+		//{
+		//	_externalModules = externalModules;
+		//	_externalReference = externalReference;
 
-			ShouldBeConfirmed = true;
-			Title = "Delete external module";
-		}
+		//	ShouldBeConfirmed = true;
+		//	Title = "Delete external module";
+		//}
 
 		public override void Do()
 		{

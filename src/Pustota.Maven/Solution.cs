@@ -13,7 +13,7 @@ namespace Pustota.Maven
 	{
 		private readonly IFileSystemAccess _fileIo;
 		private readonly IProjectTreeLoader _loader;
-		private readonly IExternalModulesController _externalModulesController;
+		private readonly IExternalModulesLoader _externalModulesLoader;
 
 		public string BaseDir { get; private set; }
 
@@ -23,11 +23,11 @@ namespace Pustota.Maven
 		internal Solution(
 			IFileSystemAccess fileIo, 
 			IProjectTreeLoader loader, 
-			IExternalModulesController externalModulesController) : base(new PathCalculator(fileIo))
+			IExternalModulesLoader externalModulesLoader) : base(new PathCalculator(fileIo))
 		{
 			_fileIo = fileIo;
 			_loader = loader;
-			_externalModulesController = externalModulesController;
+			_externalModulesLoader = externalModulesLoader;
 		}
 
 		// REVIEW: loadDisconnectedProjects need to be rewired
@@ -67,11 +67,15 @@ namespace Pustota.Maven
 					Add(project);
 				}
 			}
+
+			foreach (var externalModule in _externalModulesLoader.Load(BaseDir))
+			{
+				Add(externalModule);				
+			}
 		}
 
 //		private void Load()
 //		{
-////			ExternalModules = new ExternalModulesRepository(BaseDir); // REVIEW: BaseDir should be solution 
 ////			Validations = new ProjectsValidations(ProjectsRepository, ExternalModules);
 //		}
 

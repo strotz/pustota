@@ -1,3 +1,4 @@
+using System;
 using Pustota.Maven.Models;
 
 namespace Pustota.Maven.Validation
@@ -15,10 +16,19 @@ namespace Pustota.Maven.Validation
 		string Description { get; }
 	}
 
-	public class ValidationProblem : IProjectValidationProblem
+	internal class ValidationProblem : IProjectValidationProblem
 	{
+		internal ValidationProblem(string code)
+		{
+			if (code == null)
+				throw new ArgumentNullException("code");
+
+			ProblemCode = code;
+		}
+
 		public IProjectReference ProjectReference { get; internal protected set; }
 		public ProblemSeverity Severity { get; internal protected set; }
 		public string Description { get; internal protected set; }
+		internal string ProblemCode { get; private set; }
 	}
 }

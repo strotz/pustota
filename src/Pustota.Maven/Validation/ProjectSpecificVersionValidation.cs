@@ -13,7 +13,7 @@ namespace Pustota.Maven.Validation
 			{
 				//	var error = new ValidationError(project, "Project does not have version", ErrorLevel.Error);
 				//	error.Details = string.Format("Project {0} version is not specified of cannot be inherited from {1}", project, project.Parent);
-				yield return new ValidationProblem
+				yield return new ValidationProblem("projectversionmustbe")
 				{
 					ProjectReference = project,
 					Severity = ProblemSeverity.ProjectFatal,
