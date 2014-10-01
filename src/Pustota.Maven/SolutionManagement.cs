@@ -1,4 +1,5 @@
-﻿using Pustota.Maven.Serialization;
+﻿using Pustota.Maven.Externals;
+using Pustota.Maven.Serialization;
 using Pustota.Maven.Serialization.Data;
 using Pustota.Maven.SystemServices;
 
@@ -8,13 +9,15 @@ namespace Pustota.Maven
 	{
 		public ISolution OpenSolution(string fileOrFolderName, bool loadDisconnectedProjects)
 		{
-			FileSystemAccess fileIo = new FileSystemAccess();
+			IFileSystemAccess fileIo = new FileSystemAccess();
 			IDataFactory factory = new DataFactory();
 			IProjectSerializerWithUpdate serializer = new ProjectSerializer(factory);
 			IProjectLoader projectLoader = new ProjectLoader(fileIo, serializer);
 			var loader = new ProjectTreeLoader(fileIo, projectLoader, projectLoader);
 
-			var solution = new Solution(fileIo, loader);
+			IExternalModulesController externalModulesController = new ExternalModulesLoader(fileIo);
+
+			var solution = new Solution(fileIo, loader, externalModulesController);
 			solution.Open(fileOrFolderName, loadDisconnectedProjects);
 			return solution;
 		}

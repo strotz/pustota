@@ -1,5 +1,6 @@
 ﻿using Moq;
 using NUnit.Framework;
+using Pustota.Maven.Externals;
 using Pustota.Maven.Serialization;
 using Pustota.Maven.SystemServices;
 
@@ -10,6 +11,7 @@ namespace Pustota.Maven.Base.Tests
 	{
 		private Mock<IFileSystemAccess> _fileIo;
 		private Mock<IProjectTreeLoader> _treeLoader;
+		private Mock<IExternalModulesController> _external; 
 		
 		private Solution _solution;
 		
@@ -28,8 +30,9 @@ namespace Pustota.Maven.Base.Tests
 			_fileIo.Setup(f => f.Combine(BaseDir, "pom.xml")).Returns(FileName);
 
 			_treeLoader = new Mock<IProjectTreeLoader>();
+			_external = new Mock<IExternalModulesController>();
 
-			_solution = new Solution(_fileIo.Object, _treeLoader.Object);
+			_solution = new Solution(_fileIo.Object, _treeLoader.Object, _external.Object);
 		}
 
 		[Test]

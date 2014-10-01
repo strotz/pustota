@@ -1,24 +1,24 @@
-﻿using System.IO;
+﻿using Pustota.Maven.SystemServices;
 
 namespace Pustota.Maven.Externals
 {
+	// TODO: test
 	public interface IExternalModulesController
 	{
 		IExternalModulesRepository Load(string filepath);
 	}
 
-	class ExternalModulesLoader // TODO: merge with ExternalModules 
+	// TODO: test
+	public class ExternalModulesLoader : IExternalModulesController
 	{
-		//private readonly string _baseDir;
+		private readonly IFileSystemAccess _fileIo;
+
+		public ExternalModulesLoader(IFileSystemAccess fileIo)
+		{
+			_fileIo = fileIo;
+		}
+
 		//private const string ExternalModulesFileName = ".mavenexternal";
-
-		//private ExternalModules _allModules;
-
-		//internal ExternalModulesLoader(string baseDir)
-		//{
-		//	_baseDir = baseDir;
-		//	LoadExternalModules();
-		//}
 
 		//private void LoadExternalModules()
 		//{
@@ -26,5 +26,9 @@ namespace Pustota.Maven.Externals
 		//	_allModules = new ExternalModules(path);
 		//	_allModules.LoadModules();
 		//}
+		public IExternalModulesRepository Load(string filepath)
+		{
+			throw new System.NotImplementedException();
+		}
 	}
 }

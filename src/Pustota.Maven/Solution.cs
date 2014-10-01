@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Pustota.Maven.Externals;
 using Pustota.Maven.Serialization;
 using Pustota.Maven.SystemServices;
 
@@ -12,16 +13,21 @@ namespace Pustota.Maven
 	{
 		private readonly IFileSystemAccess _fileIo;
 		private readonly IProjectTreeLoader _loader;
+		private readonly IExternalModulesController _externalModulesController;
 
 		public string BaseDir { get; private set; }
 
 		//public ProjectsValidations Validations { get; private set; }
 		//public ExternalModulesRepository ExternalModules { get; private set; }
 
-		internal Solution(IFileSystemAccess fileIo, IProjectTreeLoader loader) : base(new PathCalculator(fileIo))
+		internal Solution(
+			IFileSystemAccess fileIo, 
+			IProjectTreeLoader loader, 
+			IExternalModulesController externalModulesController) : base(new PathCalculator(fileIo))
 		{
 			_fileIo = fileIo;
 			_loader = loader;
+			_externalModulesController = externalModulesController;
 		}
 
 		// REVIEW: loadDisconnectedProjects need to be rewired
@@ -126,21 +132,6 @@ namespace Pustota.Maven
 		//	};
 
 		//	return AllProjectNodes.Any(node => node.UsesProjectAs(projectReference, creteria));
-		//}
-
-		//public bool ContainsProject(IProjectReference projectReference, bool strictVersion)
-		//{
-		//	return AllProjectNodes.Any(p => p.ReferenceEqualTo(projectReference, strictVersion));
-		//}
-
-		//public IEnumerable<ProjectNode> SelectProjectNodes(IProjectReference projectReference, bool strictVersion = false)
-		//{
-		//	return AllProjectNodes.Where(p => p.ReferenceEqualTo(projectReference, strictVersion));
-		//}
-
-		//public IProject FindFirstProject(IProjectReference projectReference)
-		//{
-		//	return AllProjects.FirstOrDefault(p => p.ReferenceEqualTo(projectReference));
 		//}
 
 		//public void SaveChangedProjects()
