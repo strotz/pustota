@@ -27,17 +27,6 @@ namespace Pustota.Maven.Validation
 					yield return result;
 				}
 
-				//	if (potencial.Length > 1)
-				//	{
-				//		error.Details = string.Format("Project {0} dependency {1} not resolved. Multiple corresponding projects found.", projectNode.Project, dependencyReference);
-				//		foreach (var candicate in potencial)
-				//		{
-				//			error.AddFix(new ApplyVersionFix(projectNode.Project, dependencyReference, candicate.Version));
-				//		}
-				//		AddError(error);
-				//		continue;
-				//	}
-
 				//	var dependencyProject = potencial.Single();
 				//	string realDependencyVersion = dependencyProject.Version;
 
