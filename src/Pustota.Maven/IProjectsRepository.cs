@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Pustota.Maven.Externals;
 using Pustota.Maven.Models;
 
 namespace Pustota.Maven
@@ -34,6 +35,8 @@ namespace Pustota.Maven
 		IProjectTree
 	{
 		bool TryGetParentByPath(IProject project, out IProject parent);
+
+		IEnumerable<IExternalModule> AllExternalModules { get; }
 
 		bool IsExternalModule(IProjectReference projectReference);
 		IEnumerable<IProjectReference> AllAvailableProjectReferences { get; } // REVIEW: should it be Get with parameters?

@@ -40,6 +40,11 @@ namespace Pustota.Maven
 			return TryGetProjectByPath(fullPath, out parent);
 		}
 
+		public IEnumerable<IExternalModule> AllExternalModules
+		{
+			get { return _externalModules; }
+		}
+
 		public bool IsExternalModule(IProjectReference projectReference)
 		{
 			var operation = projectReference.ReferenceOperations();

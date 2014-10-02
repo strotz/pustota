@@ -67,6 +67,7 @@ namespace Pustota.Maven.Serialization
 
 		internal PomElement SingleOrCreate(string name)
 		{
+			// TODO: review usage, what will happend if 2
 			PomElement element = _element.Elements(Name(name)).Select(Wrap).SingleOrDefault() ?? AddElement(name);
 			return element;
 		}

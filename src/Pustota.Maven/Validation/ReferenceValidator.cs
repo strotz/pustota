@@ -30,7 +30,10 @@ namespace Pustota.Maven.Validation
 				};
 				//error.AddFix(new AddExternalModuleFix(_externalModules, dependency));
 			}
-			var exact = potencial.SingleOrDefault(p => operation.VersionEqualTo(p.Version));
+
+			// REVIEW: First is enougth
+			// REVIEW: many exact matches is not a problem of project reference, but need to be catched differently 
+			var exact = potencial.FirstOrDefault(p => operation.VersionEqualTo(p.Version));
 			if (exact != null)
 			{
 				return null;

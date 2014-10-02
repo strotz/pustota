@@ -15,13 +15,15 @@ namespace Pustota.Maven.Validation
 
 			var potencial = context.AllProjects
 				.Where(p => p != project)
-				.Where(p =>
-				{
-					var pe = extractor.Extract(p);
-					return operation.ReferenceEqualTo(pe);
-				});
+				.Select(extractor.Extract)
+				.Where(pe => operation.ReferenceEqualTo(pe));
 
-			return potencial.Select(failed => new ValidationProblem("duplication")
+			var external = context.AllExternalModules
+				.Where(ex => operation.ReferenceEqualTo(ex));
+
+			return potencial
+				.Concat(external)
+				.Select(failed => new ValidationProblem("duplication")
 			{
 				ProjectReference = project,
 				Severity = ProblemSeverity.ProjectFatal,
