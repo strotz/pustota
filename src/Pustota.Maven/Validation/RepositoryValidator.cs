@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Pustota.Maven.Validation
@@ -22,20 +23,33 @@ namespace Pustota.Maven.Validation
 			{
 				foreach (var validator in validators)
 				{
-					var result = validator.Validate(context, project).ToArray();
-					problems.AddRange(result);
-
-					if (result.Any(r => r.Severity == ProblemSeverity.ProjectFatal)) // does not make sense to continue with project
+					try
 					{
-						break; 
+						var result = validator.Validate(context, project).ToArray();
+						problems.AddRange(result);
+
+						if (result.Any(r => r.Severity == ProblemSeverity.ProjectFatal)) // does not make sense to continue with project
+						{
+							break;
+						}
+					}
+					catch (Exception ex)
+					{
+						var fatal = new ValidationProblem("fatal")
+						{
+							ProjectReference = project,
+							Severity = ProblemSeverity.ProjectFatal,
+							Description = string.Format("exception during validation {0}", ex)
+						};
+
+						problems.Add(fatal);
+						return problems;
 					}
 				}
 			}
 
 			return problems;
 
-			//ValidateProjects();
-			//ValidateDependencies();
 			//ValidateModules();
 			//ValidateExternalModules();
 		}
