@@ -63,6 +63,26 @@ namespace Pustota.Maven.Base.Tests.Validations
 			IProject foundParent = null;
 			Context.Setup(c => c.TryGetParentByPath(Project.Object, out foundParent)).Returns(false);
 			Context.Setup(c => c.AllAvailableProjectReferences).Returns(new IProjectReference[] {external.Object});
+			Context.Setup(c => c.IsExternalModule(_parentReference.Object)).Returns(true);
+
+			var result = _projectValidator.Validate(Context.Object, Project.Object);
+			Assert.That(result, Is.Not.Null);
+			Assert.That(result.Count(), Is.EqualTo(0));
+		}
+
+		[Test]
+		public void ProjectHasNoMatchedAndPathParentButExternalTest()
+		{
+			var external = new Mock<IProjectReference>();
+			external.Setup(pr => pr.ArtifactId).Returns("parentId");
+			external.Setup(pr => pr.Version).Returns("parentVersion1");
+			
+			_parentReference.Setup(pr => pr.RelativePath).Returns("path");
+
+			IProject foundParent = null;
+			Context.Setup(c => c.TryGetParentByPath(Project.Object, out foundParent)).Returns(false);
+			Context.Setup(c => c.AllAvailableProjectReferences).Returns(new IProjectReference[] { external.Object });
+			Context.Setup(c => c.IsExternalModule(_parentReference.Object)).Returns(true);
 
 			var result = _projectValidator.Validate(Context.Object, Project.Object);
 			Assert.That(result, Is.Not.Null);
@@ -70,6 +90,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 			var problem = result.Single();
 			Assert.That(((ValidationProblem)problem).ProblemCode, Is.EqualTo("parentpath"));
 		}
+
 
 		[Test]
 		public void ProjectHasMatchedParentTest()

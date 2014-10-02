@@ -52,6 +52,13 @@ namespace Pustota.Maven.Validation
 			{
 				return result;
 			}
+
+			// previosly found exact match, but it includes including external modules, should be ignored
+			if (string.IsNullOrEmpty(parentReference.RelativePath) && context.IsExternalModule(parentReference))
+			{
+				return null;
+			}
+
 			// exact match found, but path is wrong
 			return new ValidationProblem("parentpath") // TODO: fixable
 			{

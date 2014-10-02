@@ -35,6 +35,7 @@ namespace Pustota.Maven
 	{
 		bool TryGetParentByPath(IProject project, out IProject parent);
 
+		bool IsExternalModule(IProjectReference projectReference);
 		IEnumerable<IProjectReference> AllAvailableProjectReferences { get; } // REVIEW: should it be Get with parameters?
 	}
 }
