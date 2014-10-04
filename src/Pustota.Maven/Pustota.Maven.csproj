@@ -48,7 +48,7 @@
     <Compile Include="Models\IProjectQueries.cs" />
     <Compile Include="Models\IProjectReferenceOperations.cs" />
     <Compile Include="Models\IProjectTreeItem.cs" />
-    <Compile Include="Models\Version.cs" />
+    <Compile Include="Models\ComponentVersion.cs" />
     <Compile Include="PathCalculator.cs" />
     <Compile Include="ProjectTree.cs" />
     <Compile Include="TraceActionLog.cs" />

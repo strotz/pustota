@@ -4,6 +4,6 @@ namespace Pustota.Maven.Models
 	{
 		string ArtifactId { get; set; }
 		string GroupId { get; set; }
-		Version Version { get; set; }
+		ComponentVersion Version { get; set; }
 	}
 }

@@ -1,10 +1,10 @@
 namespace Pustota.Maven.Models
 {
-	public struct Version
+	public struct ComponentVersion
 	{
 		private readonly string _value;
 
-		public Version(string value)
+		public ComponentVersion(string value)
 		{
 			_value = value;
 		}
@@ -19,17 +19,17 @@ namespace Pustota.Maven.Models
 			get { return !string.IsNullOrEmpty(_value); }
 		}
 
-		static public implicit operator Version(string version) // TODO: remove 
+		static public implicit operator ComponentVersion(string version) // TODO: remove 
 		{
-			return new Version(version);
+			return new ComponentVersion(version);
 		}
 
-		static public implicit operator string(Version version)
+		static public implicit operator string(ComponentVersion version)
 		{
 			return version.Value;
 		}
 
-		public bool Equals(Version other)
+		public bool Equals(ComponentVersion other)
 		{
 			return string.Equals(_value, other._value);
 		}
@@ -38,7 +38,7 @@ namespace Pustota.Maven.Models
 		{
 			if (ReferenceEquals(null, obj))
 				return false;
-			return obj is Version && Equals((Version)obj);
+			return obj is ComponentVersion && Equals((ComponentVersion)obj);
 		}
 
 		public override int GetHashCode()
@@ -46,12 +46,12 @@ namespace Pustota.Maven.Models
 			return (_value != null ? _value.GetHashCode() : 0);
 		}
 
-		public static bool operator ==(Version a, Version b)
+		public static bool operator ==(ComponentVersion a, ComponentVersion b)
 		{
 			return a._value == b._value;
 		}
 
-		public static bool operator !=(Version a, Version b)
+		public static bool operator !=(ComponentVersion a, ComponentVersion b)
 		{
 			return !(a == b);
 		}

@@ -100,7 +100,7 @@ namespace Pustota.Maven.Base.Tests.Actions
 
 			action.Execute();
 
-			Assert.That(projectB.Parent.Version, Is.EqualTo(new Version("1.0.0-test")));
+			Assert.That(projectB.Parent.Version, Is.EqualTo(new ComponentVersion("1.0.0-test")));
 			Assert.False(projectB.Parent.ReferenceOperations().IsSnapshot);
 		}
 
