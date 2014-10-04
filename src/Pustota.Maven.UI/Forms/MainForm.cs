@@ -72,7 +72,7 @@ namespace Pustota.Maven.Editor
 		//			_currentProject = value.Project;
 		//			_currentProjectNode = value.ProjectNode;
 
-		//			_cbSnapshot.Enabled = value.Project.HasSpecificVersion;
+		//			_cbSnapshot.Enabled = value.Project.Version.IsDefined;
 		//			_cbSnapshot.Checked = value.IsSnapshot;
 
 		//			_lStatus.Text = 
@@ -287,7 +287,7 @@ namespace Pustota.Maven.Editor
 
 		//	foreach (var prjView in _views.AllViews)
 		//	{
-		//		if (prjView.Checked && prjView.Project.HasSpecificVersion)
+		//		if (prjView.Checked && prjView.Project.Version.IsDefined)
 		//			prjView.IsSnapshot = value;
 		//	}
 

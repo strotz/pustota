@@ -2,20 +2,6 @@
 
 namespace Pustota.Maven.Models
 {
-	public interface IProjectReferenceOperations
-	{
-		bool ReferenceEqualTo(IProjectReference another, bool strictVersion = true);
-
-		bool IsEmpty { get; }
-
-		// TODO: maybe move to version
-		bool VersionEqualTo(string anotherVersion);
-		bool HasSpecificVersion { get; }
-		bool IsSnapshot { get; }
-		string SwitchToRelease(string postfix = null);
-		string SwitchToSnapshotWithVersionIncrement();
-	}
-
 	internal class ProjectReferenceOperations : IProjectReferenceOperations
 	{
 		private readonly IProjectReference _projectReference;
@@ -40,18 +26,15 @@ namespace Pustota.Maven.Models
 
 		public bool VersionEqualTo(string anotherVersion)
 		{
-			return HasSpecificVersion && VersionEqual(_projectReference.Version, anotherVersion);
-		}
-
-		public bool HasSpecificVersion
-		{
-			get { return !string.IsNullOrEmpty(_projectReference.Version); }
+			return _projectReference.Version.IsDefined && VersionEqual(_projectReference.Version, anotherVersion);
 		}
 
 		public bool IsSnapshot
 		{
-			get { return HasSpecificVersion
-				&& _projectReference.Version.ToUpper().EndsWith(VersionOperations.SnapshotPosfix); }
+			get
+			{
+				return _projectReference.Version.IsDefined
+				&& _projectReference.Version.Value.ToUpper().EndsWith(VersionOperations.SnapshotPosfix); }
 		}
 
 		public string  SwitchToRelease(string postfix = null)
@@ -62,7 +45,7 @@ namespace Pustota.Maven.Models
 
 		public string SwitchToSnapshotWithVersionIncrement()
 		{
-			if (!HasSpecificVersion)
+			if (!_projectReference.Version.IsDefined)
 			{
 				return _projectReference.Version = VersionOperations.DefaultVersion.ToSnapshot();
 			}

@@ -36,7 +36,7 @@ namespace Pustota.Maven.Base.Tests.Actions
 
 			action.Execute();
 
-			Assert.That(project.Version, Is.EqualTo("1.0.0-test"));
+			Assert.That(project.Version.Value, Is.EqualTo("1.0.0-test"));
 			Assert.False(project.ReferenceOperations().IsSnapshot);
 		}
 
@@ -64,10 +64,10 @@ namespace Pustota.Maven.Base.Tests.Actions
 
 			action.Execute();
 
-			Assert.That(projectA.Version, Is.EqualTo("1.0.0-test"));
+			Assert.That(projectA.Version.Value, Is.EqualTo("1.0.0-test"));
 			Assert.False(projectA.ReferenceOperations().IsSnapshot);
 
-			Assert.That(projectB.Version, Is.EqualTo("1.0.1-test"));
+			Assert.That(projectB.Version.Value, Is.EqualTo("1.0.1-test"));
 			Assert.False(projectB.ReferenceOperations().IsSnapshot);
 		}
 
@@ -100,7 +100,7 @@ namespace Pustota.Maven.Base.Tests.Actions
 
 			action.Execute();
 
-			Assert.That(projectB.Parent.Version, Is.EqualTo("1.0.0-test"));
+			Assert.That(projectB.Parent.Version, Is.EqualTo(new Version("1.0.0-test")));
 			Assert.False(projectB.Parent.ReferenceOperations().IsSnapshot);
 		}
 
@@ -138,7 +138,7 @@ namespace Pustota.Maven.Base.Tests.Actions
 			action.Execute();
 
 			var dependency = projectB.Dependencies.Single();
-			Assert.That(dependency.Version, Is.EqualTo("1.0.0-test"));
+			Assert.That(dependency.Version.Value, Is.EqualTo("1.0.0-test"));
 			Assert.False(dependency.ReferenceOperations().IsSnapshot);
 		}
 
@@ -176,7 +176,7 @@ namespace Pustota.Maven.Base.Tests.Actions
 			action.Execute();
 
 			var plugin = projectB.Plugins.Single();
-			Assert.That(plugin.Version, Is.EqualTo("1.0.0-test"));
+			Assert.That(plugin.Version.Value, Is.EqualTo("1.0.0-test"));
 			Assert.False(plugin.ReferenceOperations().IsSnapshot);
 		}
 
@@ -219,7 +219,7 @@ namespace Pustota.Maven.Base.Tests.Actions
 
 			action.Execute();
 
-			Assert.That(projectB.Parent.Version, Is.EqualTo("1.0.0-SNAPSHOT"));
+			Assert.That(projectB.Parent.Version.Value, Is.EqualTo("1.0.0-SNAPSHOT"));
 			Assert.True(projectB.Parent.ReferenceOperations().IsSnapshot); // REVIEW: should we fail, when switch to release and parent is snapshot?
 		}
 

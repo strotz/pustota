@@ -93,7 +93,7 @@ namespace Pustota.Maven.Models
 
 			foreach (var plugin in AllPlugins.Where(d => d.ReferenceOperations().ReferenceEqualTo(projectReference, false)))
 			{
-				if (plugin.ReferenceOperations().HasSpecificVersion && plugin.Version != projectReference.Version)
+				if (plugin.Version.IsDefined && plugin.Version != projectReference.Version)
 				{
 					plugin.Version = projectReference.Version;
 					usageUpdated = true;

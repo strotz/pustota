@@ -9,7 +9,7 @@ namespace Pustota.Maven.Validation
 		{
 			if (project.Parent != null) 
 			{
-				if (!project.Parent.ReferenceOperations().HasSpecificVersion)
+				if (!project.Parent.Version.IsDefined)
 				{
 					// var error = new ValidationError(project, "Project parent error", ErrorLevel.Error);
 					// TODO: if there is correct parent found via relativePath, and it has version (or resolvedVersion) - add fix

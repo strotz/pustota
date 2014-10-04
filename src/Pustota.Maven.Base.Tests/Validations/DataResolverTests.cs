@@ -25,7 +25,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 		public void EmptyVersionTest()
 		{
 			var resolved = _extractor.Extract(Project.Object);
-			Assert.That(resolved.Version, Is.Null);
+			Assert.That(resolved.Version.IsDefined, Is.False);
 		}
 
 		[Test]
@@ -33,7 +33,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 		{
 			Project.Setup(p => p.Version).Returns("abc");
 			var resolved = _extractor.Extract(Project.Object);
-			Assert.That(resolved.Version, Is.EqualTo("abc"));
+			Assert.That(resolved.Version.Value, Is.EqualTo("abc"));
 		}
 
 		[Test]
@@ -42,7 +42,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 			Project.Setup(p => p.Parent).Returns(_parent.Object);
 			_parent.Setup(p => p.Version).Returns("abc");
 			var resolved = _extractor.Extract(Project.Object);
-			Assert.That(resolved.Version, Is.EqualTo("abc"));
+			Assert.That(resolved.Version.Value, Is.EqualTo("abc"));
 		}
 
 	}

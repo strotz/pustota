@@ -44,9 +44,7 @@ namespace Pustota.Maven.Validation
 
 		private IProjectValidationProblem ValidateDependency(IExecutionContext context, IProject project, IDependency dependency)
 		{
-			IProjectReferenceOperations operation = dependency.ReferenceOperations();
-
-			if (operation.HasSpecificVersion) // REVIEW: inhereited too
+			if (dependency.Version.IsDefined) // REVIEW: inhereited too
 			{
 				var validation = new ReferenceValidator(context);
 				return validation.ValidateReference(project, dependency, "dependency");

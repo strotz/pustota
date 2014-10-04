@@ -37,7 +37,7 @@ namespace Pustota.Maven.Base.Tests
 			var module = result.Single();
 			Assert.That(module.GroupId, Is.EqualTo("a"));
 			Assert.That(module.ArtifactId, Is.EqualTo("b"));
-			Assert.That(module.Version, Is.EqualTo("c"));
+			Assert.That(module.Version.Value, Is.EqualTo("c"));
 		}
 	}
 }

@@ -8,7 +8,7 @@ namespace Pustota.Maven.Serialization.Data
 	{
 		public string ArtifactId { get; set; }
 		public string GroupId { get; set; }
-		public string Version { get; set; }
+		public Version Version { get; set; }
 
 		// REVIEW: review all usage
 		public override string ToString()

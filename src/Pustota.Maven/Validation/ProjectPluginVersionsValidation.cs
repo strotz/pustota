@@ -11,7 +11,7 @@ namespace Pustota.Maven.Validation
 	{
 		public IEnumerable<IProjectValidationProblem> Validate(IExecutionContext context, IProject project)
 		{
-			foreach (var plugin in project.Operations().AllPlugins.Where(p => p.ReferenceOperations().HasSpecificVersion))
+			foreach (var plugin in project.Operations().AllPlugins.Where(p => p.Version.IsDefined))
 			{
 				//		&& !_externalModules.Contains(p, true)))
 				// TODO: inherit plugin version

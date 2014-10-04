@@ -27,13 +27,13 @@ namespace Pustota.Maven.Models
 				}
 			}
 
-			if (project.ReferenceOperations().HasSpecificVersion)
+			if (project.Version.IsDefined)
 			{
 				data.Version = project.Version;
 			}
 			else
 			{
-				if (project.Parent != null && project.Parent.ReferenceOperations().HasSpecificVersion)
+				if (project.Parent != null && project.Parent.Version.IsDefined)
 				{
 					data.Version = project.Parent.Version; // inherit from parent reference 
 				}

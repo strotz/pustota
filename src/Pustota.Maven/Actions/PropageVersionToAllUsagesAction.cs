@@ -19,7 +19,7 @@ namespace Pustota.Maven.Actions
 
 			//foreach (var childPrj in FindProjectChildren(original))
 			//{
-			//	if (childPrj.Project.Parent.HasSpecificVersion && childPrj.Project.Parent.Version != versionToPropagate)
+			//	if (childPrj.Project.Parent.Version.IsDefined && childPrj.Project.Parent.Version != versionToPropagate)
 			//	{
 			//		childPrj.Project.Parent.Version = versionToPropagate;
 			//		childPrj.Changed = true;
