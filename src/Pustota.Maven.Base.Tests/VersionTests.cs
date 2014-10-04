@@ -23,5 +23,25 @@ namespace Pustota.Maven.Base.Tests
 			var version = new ComponentVersion("a");
 			Assert.True(version.IsDefined);
 		}
+
+		[Test]
+		public void IsNotDefinedTest()
+		{
+			var version = new ComponentVersion(string.Empty);
+			Assert.True(!version.IsDefined);
+		}
+
+		[Test]
+		public void IsSnapshotPositiveTest()
+		{
+			var version = new ComponentVersion("A-SNAPSHOT");
+			Assert.True(version.IsSnapshot);
+		}
+
+		[Test]
+		public void EmptyIsNotSnapshotTest()
+		{
+			Assert.False(new ComponentVersion(null).IsSnapshot);
+		}
 	}
 }

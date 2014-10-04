@@ -42,7 +42,6 @@ namespace Pustota.Maven.Base.Tests.Actions
 			action.ExecuteFor(project);
 
 			Assert.That(project.Version.Value, Is.EqualTo("1.0.1-SNAPSHOT"));
-			Assert.True(project.ReferenceOperations().IsSnapshot);
 		}
 
 		[Test]
@@ -63,7 +62,6 @@ namespace Pustota.Maven.Base.Tests.Actions
 			action.ExecuteFor(project);
 
 			Assert.That(project.Version.Value, Is.EqualTo("1.0.1-SNAPSHOT"));
-			Assert.True(project.ReferenceOperations().IsSnapshot);
 		}
 
 		[Test]
@@ -96,10 +94,7 @@ namespace Pustota.Maven.Base.Tests.Actions
 			action.ExecuteFor(projectA);
 
 			Assert.That(projectA.Version.Value, Is.EqualTo("1.0.1-SNAPSHOT"));
-			Assert.True(projectA.ReferenceOperations().IsSnapshot);
-
 			Assert.That(projectB.Version.Value, Is.EqualTo("1.0.2-SNAPSHOT"));
-			Assert.True(projectB.ReferenceOperations().IsSnapshot);
 		}
 	}
 }

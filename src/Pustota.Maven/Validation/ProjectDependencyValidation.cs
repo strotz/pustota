@@ -11,7 +11,7 @@ namespace Pustota.Maven.Validation
 		{
 			foreach (IDependency dependency in project.Operations().AllDependencies)
 			{
-				if (dependency.ReferenceOperations().IsSnapshot && !project.ReferenceOperations().IsSnapshot)
+				if (dependency.Version.IsSnapshot && !project.Version.IsSnapshot)
 				{
 					yield return new ValidationProblem("releasesnapshot")
 					{

@@ -19,6 +19,11 @@ namespace Pustota.Maven.Models
 			get { return !string.IsNullOrEmpty(_value); }
 		}
 
+		public bool IsSnapshot
+		{
+			get { return IsDefined && _value.EndsWith(VersionOperations.SnapshotPosfix); }
+		}
+
 		static public implicit operator ComponentVersion(string version) // TODO: remove 
 		{
 			return new ComponentVersion(version);

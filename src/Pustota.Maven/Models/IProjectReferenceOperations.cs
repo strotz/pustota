@@ -7,8 +7,6 @@ namespace Pustota.Maven.Models
 		bool IsEmpty { get; }
 
 		// TODO: maybe move to version
-		bool VersionEqualTo(string anotherVersion);
-		bool IsSnapshot { get; }
 		string SwitchToRelease(string postfix = null);
 		string SwitchToSnapshotWithVersionIncrement();
 	}

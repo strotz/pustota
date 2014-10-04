@@ -33,7 +33,7 @@ namespace Pustota.Maven.Validation
 
 			// REVIEW: First is enougth
 			// REVIEW: many exact matches is not a problem of project reference, but need to be catched differently 
-			var exact = potencial.FirstOrDefault(p => operation.VersionEqualTo(p.Version));
+			var exact = potencial.FirstOrDefault(p => reference.Version == p.Version);
 			if (exact != null)
 			{
 				return null;

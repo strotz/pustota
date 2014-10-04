@@ -16,7 +16,7 @@ namespace Pustota.Maven.Actions
 
 		public void Execute()
 		{
-			foreach (var project in _projects.AllProjects.Where(pn => pn.ReferenceOperations().IsSnapshot))
+			foreach (var project in _projects.AllProjects.Where(pn => pn.Version.IsSnapshot))
 			{
 				project.ReferenceOperations().SwitchToRelease(_postfix);
 				foreach (var dependentProject in _projects.AllProjects)
