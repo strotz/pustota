@@ -8,7 +8,7 @@ namespace Pustota.Maven.Models
 		public const string SnapshotPosfix = "-SNAPSHOT";
 		public const string DefaultVersion = "1.0.0";
 
-		private string _value;
+		private readonly string _value;
 
 		public ComponentVersion(string value)
 		{
@@ -30,60 +30,46 @@ namespace Pustota.Maven.Models
 			get { return IsDefined && _value.EndsWith(SnapshotPosfix); }
 		}
 
-		public void SwitchToRelease()
+		public ComponentVersion SwitchToRelease(string postfix = null)
 		{
+			var normalized = NormalizeSuffix(postfix);
+
 			if (!IsDefined)
 			{
-				_value = DefaultVersion;
+				return new ComponentVersion(DefaultVersion + normalized);
 			}
-			else if (IsSnapshot)
+			if (IsSnapshot)
 			{
-				_value = _value.Substring(0, _value.Length - SnapshotPosfix.Length);
+				return new ComponentVersion(_value.Substring(0, _value.Length - SnapshotPosfix.Length) + normalized);
 			}
+			return new ComponentVersion(_value + normalized);
 		}
 
-		public void SwitchToSnapshotWithVersionIncrement()
+		public ComponentVersion SwitchToSnapshotWithVersionIncrement()
 		{
 			if (!IsDefined)
 			{
-				_value = DefaultVersion + SnapshotPosfix;
+				return new ComponentVersion(DefaultVersion + SnapshotPosfix);
 			}
-			else if (IsSnapshot)
+			if (IsSnapshot)
 			{
 				// nothing to do
+				return new ComponentVersion(_value);
 			}
-			else
-			{
-				if (_value.Contains("-"))
-				{
-					_value = _value + SnapshotPosfix;
-				}
-				else
-				{
-					_value = IncrementNumber(_value, 2) + SnapshotPosfix; // TODO: make it flexable
-				}
-			}
+			return new ComponentVersion(IncrementNumber(_value, 2) + SnapshotPosfix); // TODO: make it flexable
 		}
 
-		public void AddPostfix(string postfix)
+		private static string NormalizeSuffix(string postfix)
 		{
-			if (!IsDefined)
-			{
-				_value = DefaultVersion;
-			}
-
 			if (string.IsNullOrEmpty(postfix))
 			{
-				return;
+				return string.Empty;
 			}
 			if (postfix.StartsWith("-"))
 			{
-				_value = _value + postfix;
+				return postfix;
 			}
-			else
-			{
-				_value = _value + "-" + postfix;
-			}
+			return "-" + postfix;
 		}
 
 		private static string IncrementNumber(string version, int position)
