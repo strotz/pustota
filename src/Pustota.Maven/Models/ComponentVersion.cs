@@ -1,8 +1,14 @@
+using System;
+using System.Globalization;
+
 namespace Pustota.Maven.Models
 {
 	public struct ComponentVersion
 	{
-		private readonly string _value;
+		public const string SnapshotPosfix = "-SNAPSHOT";
+		public const string DefaultVersion = "1.0.0";
+
+		private string _value;
 
 		public ComponentVersion(string value)
 		{
@@ -21,7 +27,90 @@ namespace Pustota.Maven.Models
 
 		public bool IsSnapshot
 		{
-			get { return IsDefined && _value.EndsWith(VersionOperations.SnapshotPosfix); }
+			get { return IsDefined && _value.EndsWith(SnapshotPosfix); }
+		}
+
+		public void SwitchToRelease()
+		{
+			if (!IsDefined)
+			{
+				_value = DefaultVersion;
+			}
+			else if (IsSnapshot)
+			{
+				_value = _value.Substring(0, _value.Length - SnapshotPosfix.Length);
+			}
+		}
+
+		public void SwitchToSnapshotWithVersionIncrement()
+		{
+			if (!IsDefined)
+			{
+				_value = DefaultVersion + SnapshotPosfix;
+			}
+			else if (IsSnapshot)
+			{
+				// nothing to do
+			}
+			else
+			{
+				if (_value.Contains("-"))
+				{
+					_value = _value + SnapshotPosfix;
+				}
+				else
+				{
+					_value = IncrementNumber(_value, 2) + SnapshotPosfix; // TODO: make it flexable
+				}
+			}
+		}
+
+		public void AddPostfix(string postfix)
+		{
+			if (!IsDefined)
+			{
+				_value = DefaultVersion;
+			}
+
+			if (string.IsNullOrEmpty(postfix))
+			{
+				return;
+			}
+			if (postfix.StartsWith("-"))
+			{
+				_value = _value + postfix;
+			}
+			else
+			{
+				_value = _value + "-" + postfix;
+			}
+		}
+
+		private static string IncrementNumber(string version, int position)
+		{
+			string postfix = "";
+			int pos = version.IndexOf('-');
+			if (pos >= 0)
+			{
+				postfix = version.Substring(pos);
+				version = version.Substring(0, pos);
+			}
+			string[] data = version.Split('.');
+
+			for (int i = 0; i < data.Length; i++)
+			{
+				int value = int.Parse(data[i]);
+				if (i == position)
+				{
+					data[i] = (value + 1).ToString(CultureInfo.InvariantCulture);
+				}
+				else if (i > position)
+				{
+					data[i] = "0";
+				}
+			}
+
+			return string.Join(".", data) + postfix;
 		}
 
 		static public implicit operator ComponentVersion(string version) // TODO: remove 
@@ -36,7 +125,7 @@ namespace Pustota.Maven.Models
 
 		public bool Equals(ComponentVersion other)
 		{
-			return string.Equals(_value, other._value);
+			return string.Equals(_value, other._value, StringComparison.Ordinal);
 		}
 
 		public override bool Equals(object obj)

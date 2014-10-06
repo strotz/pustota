@@ -139,7 +139,6 @@
     <Compile Include="Validation\ValidationFactory.cs" />
     <Compile Include="Validation\ValidationResult.cs" />
     <Compile Include="Validation\Fixes\ApplyVersionFix.cs" />
-    <Compile Include="VersionOperations.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Validation\Data\" />

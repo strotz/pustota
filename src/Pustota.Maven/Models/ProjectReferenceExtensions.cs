@@ -24,27 +24,6 @@ namespace Pustota.Maven.Models
 			get { return string.IsNullOrEmpty(_projectReference.ArtifactId); }
 		}
 
-		public string  SwitchToRelease(string postfix = null)
-		{
-			string version = VersionOperations.ResetVersion(_projectReference.Version);
-			return _projectReference.Version = VersionOperations.AddPostfix(version, postfix);
-		}
-
-		public string SwitchToSnapshotWithVersionIncrement()
-		{
-			if (!_projectReference.Version.IsDefined)
-			{
-				return _projectReference.Version = VersionOperations.DefaultVersion.ToSnapshot();
-			}
-			if (_projectReference.Version.IsSnapshot)
-			{
-				return _projectReference.Version;
-			}
-			string version = VersionOperations.ResetVersion(_projectReference.Version);
-			version = VersionOperations.IncrementNumber(version, 2); // TODO: make it flexable
-			return _projectReference.Version = version.ToSnapshot();
-		}
-
 		private static bool VersionEqual(string version1, string version2)
 		{
 			return NullableStringEqual(version1, version2);

@@ -34,7 +34,7 @@ namespace Pustota.Maven.Actions
 				var project = queue.Dequeue();
 				if (!project.Version.IsSnapshot)
 				{
-					project.ReferenceOperations().SwitchToSnapshotWithVersionIncrement();
+					project.Version.SwitchToSnapshotWithVersionIncrement();
 				}
 
 				foreach (var dependentProject in selector.SelectUsages(project))
