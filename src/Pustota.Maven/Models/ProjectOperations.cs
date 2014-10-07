@@ -48,6 +48,24 @@ namespace Pustota.Maven.Models
 			}
 		}
 
+		public IEnumerable<IProjectReference> AllReferences
+		{
+			get
+			{
+				if (_project.Parent != null)
+					yield return _project.Parent;
+
+				foreach (var dependency in AllDependencies)
+				{
+					yield return dependency;
+				}
+				foreach (var plugin in AllPlugins)
+				{
+					yield return plugin;
+				}
+			}
+		}
+
 		// my parent reference is equal to project reference 
 		public bool HasProjectAsParent(IProjectReference projectReference, bool strictVersion)
 		{

@@ -9,6 +9,8 @@ namespace Pustota.Maven.Models
 		IEnumerable<IProperty> AllProperties { get; }
 		IEnumerable<IPlugin> AllPlugins { get; }
 
+		IEnumerable<IProjectReference> AllReferences { get; }
+
 		bool HasProjectAsParent(IProjectReference projectReference, bool strictVersion = true);
 
 		bool UsesProjectAs(IProjectReference projectReference, SearchOptions creteria);

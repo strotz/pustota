@@ -16,6 +16,7 @@ namespace Pustota.Maven.Validation
 			yield return new ParentReferenceExistValidation();
 			yield return new ProjectPluginVersionsValidation();
 			yield return new ProjectDependencyValidation();
+			yield return new EmptyClassifierValidation();
 			// yield return new ProjecModulesValidation();
 		}
 

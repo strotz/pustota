@@ -116,6 +116,7 @@
     <Compile Include="Models\ProjectDataExtractor.cs" />
     <Compile Include="Validation\DuplicatedExternalModulesValidation.cs" />
     <Compile Include="Validation\DuplicatedProjectValidation.cs" />
+    <Compile Include="Validation\EmptyClassifierValidation.cs" />
     <Compile Include="Validation\Fixes\AddExternalModuleFix.cs" />
     <Compile Include="Validation\DelegatedFix.cs" />
     <Compile Include="Validation\FatalValidationException.cs" />

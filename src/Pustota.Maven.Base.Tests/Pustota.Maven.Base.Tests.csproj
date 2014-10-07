@@ -67,6 +67,7 @@
     <Compile Include="ReferenceOperationsTests.cs" />
     <Compile Include="Validations\DataResolverTests.cs" />
     <Compile Include="Validations\DuplicatedExternalModulesValidationTests.cs" />
+    <Compile Include="Validations\EmptyClassifierValidationTests.cs" />
     <Compile Include="Validations\ParentReferenceTests.cs" />
     <Compile Include="Validations\RepositoryValidatorTests.cs" />
     <Compile Include="SerializationWithUpdateTests.cs" />
