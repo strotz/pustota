@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Moq;
 using NUnit.Framework;
-using Pustota.Maven.Externals;
 using Pustota.Maven.Models;
 using Pustota.Maven.Validation;
 
@@ -12,13 +11,13 @@ namespace Pustota.Maven.Base.Tests.Validations
 	{
 		private RepositoryValidator _validator;
 
-		private Mock<IProjectValidationFactory> _factory;
+		private Mock<IRepositoryValidationFactory> _factory;
 		private Mock<IExecutionContext> _context;
 
 		[SetUp]
 		public void Initialize()
 		{
-			_factory = new Mock<IProjectValidationFactory>();
+			_factory = new Mock<IRepositoryValidationFactory>();
 			_validator = new RepositoryValidator(_factory.Object);
 
 			_context = new Mock<IExecutionContext>();

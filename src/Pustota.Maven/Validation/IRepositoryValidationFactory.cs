@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Pustota.Maven.Validation
 {
-	public interface IRepositoryValidationFactory
+	public interface IRepositoryValidationFactory : IProjectValidationFactory
 	{
 		IEnumerable<IRepositoryValidator> BuildRepositoryValidationSequence();
 	}

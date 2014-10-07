@@ -21,6 +21,7 @@ namespace Pustota.Maven.Validation
 
 		public IEnumerable<IRepositoryValidator> BuildRepositoryValidationSequence()
 		{
+			yield return new DuplicatedExternalModulesValidation();
 			yield return new UselessExternalModulesValidation();
 		}
 	}

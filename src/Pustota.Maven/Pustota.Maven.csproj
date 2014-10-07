@@ -114,6 +114,7 @@
     <Compile Include="Solution.cs" />
     <Compile Include="SolutionManagement.cs" />
     <Compile Include="Models\ProjectDataExtractor.cs" />
+    <Compile Include="Validation\DuplicatedExternalModulesValidation.cs" />
     <Compile Include="Validation\DuplicatedProjectValidation.cs" />
     <Compile Include="Validation\Fixes\AddExternalModuleFix.cs" />
     <Compile Include="Validation\DelegatedFix.cs" />

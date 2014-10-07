@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Pustota.Maven.Externals;
 
 namespace Pustota.Maven.Validation
 {
@@ -11,16 +7,28 @@ namespace Pustota.Maven.Validation
 	{
 		public IEnumerable<IProjectValidationProblem> Validate(IExecutionContext context)
 		{
-			//foreach (var externalModule in context.ExternalModules.Items)
-			//{
-				//if (!_repository.IsItUsed(externalModule))
-				//{
-				//	ValidationError error = new ValidationError(
-				//		externalModule,
-				//		"The external module is not used",
-				//		externalModule.ToString(), ErrorLevel.Info);
+			var searchOptions = new SearchOptions
+			{
+				LookForDependent = true,
+				LookForParents = true,
+				LookForPlugin = true,
+				OnlyDirectUsages = true,
+				StrictVersion = true
+			};
 
-				//	ExternalModule module = externalModule;
+			var selector = new DependencySelector(context, searchOptions);
+
+			foreach (var module in context.AllExternalModules)
+			{
+				if (!selector.SelectUsages(module).Any())
+				{
+					yield return new ValidationProblem("moduleuseless")
+					{
+						ProjectReference = module,
+						Description = "external module not used",
+						Severity = ProblemSeverity.ProjectWarning
+					};
+				}
 				//	DelegatedFix fix = new DelegatedFix
 				//	{
 				//		ShouldBeConfirmed = true,
@@ -34,8 +42,7 @@ namespace Pustota.Maven.Validation
 				//	error.AddFix(fix);
 				//	ValidationErrors.Add(error);
 				//}
-			//}
-			throw new NotImplementedException();
+			}
 		}
 	}
 }
