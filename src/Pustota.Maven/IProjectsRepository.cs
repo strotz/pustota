@@ -35,6 +35,7 @@ namespace Pustota.Maven
 		IProjectTree
 	{
 		bool TryGetParentByPath(IProject project, out IProject parent);
+		bool TryGetModule(IProject project, string moduleName, out IProject module);
 
 		IEnumerable<IExternalModule> AllExternalModules { get; }
 

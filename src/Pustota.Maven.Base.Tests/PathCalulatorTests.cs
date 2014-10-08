@@ -8,13 +8,25 @@ namespace Pustota.Maven.Base.Tests
 	{
 		private PathCalculator _pathCalculator;
 
-		[Test]
-		public void PathCalculatorTest()
+		[SetUp]
+		public void Initialize()
 		{
 			_pathCalculator = new PathCalculator(new FileSystemAccess());
+		}
 
+		[Test]
+		public void ParentPathCalculatorTest()
+		{
 			var result = _pathCalculator.CalculateParentPath(new FullPath(@"c:\a\b\c\d\pom.xml"), "../pom.xml");
 			Assert.That(result.Value, Is.EqualTo(@"c:\a\b\c\pom.xml"));
 		}
+
+		[Test]
+		public void ModulePathCalculatorTest()
+		{
+			var result = _pathCalculator.CalculateModulePath(new FullPath(@"c:\a\b\pom.xml"), @"c\d");
+			Assert.That(result.Value, Is.EqualTo(@"c:\a\b\c\d\pom.xml"));
+		}
+
 	}
 }

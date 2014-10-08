@@ -1,8 +1,8 @@
+using System.Collections.Generic;
 using Moq;
 using NUnit.Framework;
 using Pustota.Maven.Models;
 using Pustota.Maven.Serialization;
-using Pustota.Maven.SystemServices;
 
 namespace Pustota.Maven.Base.Tests
 {
@@ -11,11 +11,12 @@ namespace Pustota.Maven.Base.Tests
 	{
 		private ExecutionContextInstance _context;
 		private Mock<IProject> _project;
-		private Mock<IProject> _parent;
+		private Mock<IProject> _other;
 		private ProjectTreeElement _item;
 		private Mock<IParentReference> _parentReference;
 		private FullPath _projectPath;
 		private Mock<IPathCalculator> _pathCalculator;
+		private Mock<IModule> _module;
 
 		internal class ExecutionContextInstance : ExecutionContext
 		{
@@ -50,9 +51,10 @@ namespace Pustota.Maven.Base.Tests
 				Project = _project.Object,
 				Path = _projectPath
 			};
-			_parent = new Mock<IProject>();
+			_other = new Mock<IProject>();
 
 			_parentReference = new Mock<IParentReference>();
+			_module = new Mock<IModule>();
 		}
 
 		[Test] // to cover not implemented 
@@ -64,6 +66,7 @@ namespace Pustota.Maven.Base.Tests
 
 			IProject found;
 			_context.TryGetParentByPath(null, out found);
+			_context.TryGetModule(null, "", out found);
 		}
 
 		[Test]
@@ -75,7 +78,7 @@ namespace Pustota.Maven.Base.Tests
 			var parentPath = new FullPath("/a/b/c/pom.xml");
 			var parentItem = new ProjectTreeElement
 			{
-				Project = _parent.Object,
+				Project = _other.Object,
 				Path = parentPath
 			};
 
@@ -89,7 +92,36 @@ namespace Pustota.Maven.Base.Tests
 
 			Assert.True(found);
 			Assert.That(foundProject, Is.Not.Null);
-			Assert.That(foundProject, Is.EqualTo(_parent.Object));
+			Assert.That(foundProject, Is.EqualTo(_other.Object));
+		}
+
+		[Test]
+		public void GoodFindModuleTest()
+		{
+			_module.Setup(m => m.Path).Returns("child");
+			var modules = new List<IModule>();
+			modules.Add(_module.Object);
+
+			var modulePath = new FullPath("/a/b/c/pom.xml");
+			var moduleItem = new ProjectTreeElement
+			{
+				Project = _other.Object,
+				Path = modulePath
+			};
+
+			_project.Setup(p => p.Modules).Returns(modules);
+			_project.Setup(p => p.Profiles).Returns(new List<IProfile>());
+
+			_pathCalculator.Setup(c => c.CalculateModulePath(_projectPath, "child")).Returns(modulePath);
+
+			_context.CallAdd(_item);
+			_context.CallAdd(moduleItem);
+
+			IProject foundModule;
+			bool found = _context.TryGetModule(_project.Object, "child", out foundModule);
+
+			Assert.True(found);
+			Assert.That(foundModule, Is.Not.Null);
 		}
 	}
 }

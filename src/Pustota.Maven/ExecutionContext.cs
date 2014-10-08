@@ -40,6 +40,20 @@ namespace Pustota.Maven
 			return TryGetProjectByPath(fullPath, out parent);
 		}
 
+		public bool TryGetModule(IProject project, string moduleName, out IProject module)
+		{
+			module = null;
+
+			FullPath currentProjectPath;
+			if (!TryGetPathByProject(project, out currentProjectPath))
+			{
+				return false;
+			}
+
+			var fullPath = _pathCalculator.CalculateModulePath(currentProjectPath, moduleName);
+			return TryGetProjectByPath(fullPath, out module);
+		}
+
 		public IEnumerable<IExternalModule> AllExternalModules
 		{
 			get { return _externalModules; }
