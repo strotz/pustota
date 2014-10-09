@@ -604,5 +604,31 @@ namespace Pustota.Maven.Base.Tests
 
 			Assert.That(pluginElement, Is.Not.Null);
 		}
+
+		const string DependencyWithExlcusions =
+@"<?xml version=""1.0"" encoding=""us-ascii""?>
+<project xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"" xmlns=""http://maven.apache.org/POM/4.0.0"">
+	<dependencies>
+		<dependency>
+			<artifactId>1m2xa54bkrv</artifactId>
+			<groupId>ghyyejpkw0i</groupId>
+			<version>41zyt5fjrjl</version>
+			<exclusions>
+				<exclusion>
+					<groupId>directory</groupId>
+					<artifactId>apacheds-main</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	</dependencies>
+</project>";
+
+		[Test]
+		public void DependencyExlusionDeserialization()
+		{
+			var deserialized = _serializer.Deserialize(DependencyWithExlcusions);
+			var dependency = (Dependency)deserialized.Dependencies.Single();
+			Assert.That(dependency.Exclusions, Is.Not.Null);
+		}
 	}
 }

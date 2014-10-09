@@ -126,6 +126,8 @@ namespace Pustota.Maven.Serialization
 			bool optional;
 			dependency.Optional = bool.TryParse(element.ReadElementValueOrNull("optional"), out optional) && optional;
 
+			dependency.Exclusions = new BlackBox(element.SingleOrNull("exclusions"));
+	
 			return dependency;
 		}
 
@@ -139,6 +141,9 @@ namespace Pustota.Maven.Serialization
 
 			if (dependency.Optional)
 				element.SetElementValue("optional", "true");
+
+			if (dependency.Exclusions != null && dependency.Exclusions.Value != null)
+				element.Add(dependency.Exclusions.Value as PomElement);
 		}
 
 

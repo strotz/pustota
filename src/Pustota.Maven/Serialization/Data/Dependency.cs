@@ -12,5 +12,7 @@ namespace Pustota.Maven.Serialization.Data
 		public string Type { get; set; }
 		public string Scope { get; set; }
 		public bool Optional { get; set; }
+
+		public IBlackBox Exclusions { get; set; }
 	}
 }

@@ -7,5 +7,6 @@ namespace Pustota.Maven.Models
 		string Scope { get; set; }
 		string ToString();
 		bool Optional { get; set; }
+		IBlackBox Exclusions { get; set; }
 	}
 }
