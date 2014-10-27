@@ -60,6 +60,12 @@ namespace Pustota.Maven.Serialization.Data
 			set { _container.PluginManagement = value; }
 		}
 
+		public IBlackBox TestResources 
+		{ 
+			get { return _container.TestResources; }
+			set { _container.TestResources = value; }
+		}
+
 		public bool Changed { get; set; }
 	}
 }

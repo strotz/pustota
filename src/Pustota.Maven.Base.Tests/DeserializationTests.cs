@@ -585,7 +585,9 @@ namespace Pustota.Maven.Base.Tests
 			var plugin = deserialized.Plugins.Single() as Plugin; 
 
 			Assert.That(plugin.Executions, Is.Not.Null);
+			Assert.That(plugin.Executions.IsEmpty, Is.False);
 			Assert.That(plugin.Configuration, Is.Not.Null);
+			Assert.That(plugin.Configuration.IsEmpty, Is.False);
 			// Assert.That(plugin.Dependencies, Is.Not.Null);
 		}
 
@@ -629,6 +631,8 @@ namespace Pustota.Maven.Base.Tests
 			var deserialized = _serializer.Deserialize(DependencyWithExlcusions);
 			var dependency = (Dependency)deserialized.Dependencies.Single();
 			Assert.That(dependency.Exclusions, Is.Not.Null);
+			Assert.That(dependency.Exclusions.IsEmpty, Is.False);
+		}
 		}
 	}
 }

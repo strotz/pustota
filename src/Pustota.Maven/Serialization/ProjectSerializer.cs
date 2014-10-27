@@ -142,7 +142,7 @@ namespace Pustota.Maven.Serialization
 			if (dependency.Optional)
 				element.SetElementValue("optional", "true");
 
-			if (dependency.Exclusions != null && dependency.Exclusions.Value != null)
+			if (!dependency.Exclusions.IsEmpty)
 				element.Add(dependency.Exclusions.Value as PomElement);
 		}
 
@@ -167,10 +167,10 @@ namespace Pustota.Maven.Serialization
 			if (plugin.Extensions)
 				element.SetElementValue("extensions", "true");
 
-			if (plugin.Configuration != null && plugin.Configuration.Value != null)
+			if (!plugin.Configuration.IsEmpty)
 				element.Add(plugin.Configuration.Value as PomElement);
 
-			if (plugin.Executions != null && plugin.Executions.Value != null)
+			if (!plugin.Executions.IsEmpty)
 				element.Add(plugin.Executions.Value as PomElement);
 		}
 

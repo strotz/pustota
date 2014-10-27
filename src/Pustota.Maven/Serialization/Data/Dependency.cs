@@ -8,6 +8,11 @@ namespace Pustota.Maven.Serialization.Data
 		ProjectReference,
 		IDependency
 	{
+		internal Dependency()
+		{
+			Exclusions = new BlackBox();
+		}
+
 		public string Classifier { get; set; }
 		public string Type { get; set; }
 		public string Scope { get; set; }
