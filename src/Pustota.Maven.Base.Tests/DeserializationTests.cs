@@ -633,6 +633,28 @@ namespace Pustota.Maven.Base.Tests
 			Assert.That(dependency.Exclusions, Is.Not.Null);
 			Assert.That(dependency.Exclusions.IsEmpty, Is.False);
 		}
+
+		const string BuildWithTestResources =
+@"<?xml version=""1.0"" encoding=""utf-8""?>
+<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
+	<build>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>false</filtering>
+			</testResource>
+		</testResources>
+	</build>
+</project>";
+
+		[Test]
+		public void TestResourcesDeserialization()
+		{
+			var deserialized = _serializer.Deserialize(BuildWithTestResources);
+			Assert.That(deserialized.TestResources.IsEmpty, Is.False);
+
+			string serialized = _serializer.Serialize(deserialized);
+			Assert.That(serialized, Is.EqualTo(BuildWithTestResources));
 		}
 	}
 }

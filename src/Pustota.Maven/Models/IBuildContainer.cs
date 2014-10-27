@@ -10,5 +10,6 @@ namespace Pustota.Maven.Models
 		List<IProperty> Properties { get; set; }
 		List<IPlugin> Plugins { get; set; }
 		List<IPlugin> PluginManagement { get; set; }
+		IBlackBox TestResources { get; set; }
 	}
 }

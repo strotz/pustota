@@ -11,6 +11,7 @@ namespace Pustota.Maven.Serialization.Data
 		public List<IProperty> Properties { get; set; }
 		public List<IPlugin> Plugins { get; set; }
 		public List<IPlugin> PluginManagement { get; set; }
+		public IBlackBox TestResources { get; set; }
 
 		public BuildContainter()
 		{
@@ -20,6 +21,7 @@ namespace Pustota.Maven.Serialization.Data
 			DependencyManagement = new List<IDependency>();
 			Plugins = new List<IPlugin>();
 			PluginManagement = new List<IPlugin>();
+			TestResources = new BlackBox();
 		}
 	}
 }

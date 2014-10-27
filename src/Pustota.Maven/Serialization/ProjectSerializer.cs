@@ -203,6 +203,9 @@ namespace Pustota.Maven.Serialization
 
 			container.PluginManagement = element.ReadElements("build", "pluginManagement", "plugins", "plugin")
 				.Select(LoadPlugin).ToList();
+
+			container.TestResources = new BlackBox(element.SingleOrNull("build", "testResources"));
+
 		}
 
 		internal void SaveBuildContainer(IBuildContainer container, PomElement element)
@@ -266,8 +269,11 @@ namespace Pustota.Maven.Serialization
 					SaveDependency(dependency, dependencyNode);
 				}
 			}
+			
 
-			if (!container.Plugins.Any() && !container.PluginManagement.Any()) // empty build section 
+			// empty build section 
+			// REVIEW: need refactoring
+			if (!container.Plugins.Any() && !container.PluginManagement.Any() && container.TestResources.IsEmpty) 
 			{
 				element.RemoveElement("build");
 			}
@@ -289,7 +295,6 @@ namespace Pustota.Maven.Serialization
 					}
 				}
 
-
 				if (!container.PluginManagement.Any())
 				{
 					buildNode.RemoveElement("pluginManagement");
@@ -305,6 +310,15 @@ namespace Pustota.Maven.Serialization
 						var pluginNode = pluginManagementPluginsNode.AddElement("plugin");
 						SavePlugin(plugin, pluginNode);
 					}
+				}
+
+				if (container.TestResources.IsEmpty)
+				{
+					buildNode.RemoveElement("testResources");
+				}
+				else
+				{
+					buildNode.Add(container.TestResources.Value as PomElement);
 				}
 			}
 		}
