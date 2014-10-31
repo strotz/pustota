@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
@@ -58,6 +59,11 @@ namespace Pustota.Maven.Serialization
 		internal void Add(PomElement childElement)
 		{
 			_element.Add(childElement._element);
+		}
+
+		internal void ReplaceWith(PomElement element)
+		{
+			_element.ReplaceWith(element._element);
 		}
 
 		internal void SetElementValue(string name, string value)

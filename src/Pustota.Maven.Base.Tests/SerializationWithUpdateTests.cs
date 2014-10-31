@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
@@ -115,6 +116,44 @@ namespace Pustota.Maven.Base.Tests
 			var updatedTwice = _serializer.Serialize(project, updatedOnce);
 
 			Assert.That(updatedTwice, Is.EqualTo(projectXml));
+		}
+
+		const string BuildWithTestResources =
+@"<?xml version=""1.0"" encoding=""utf-8""?>
+<project xmlns=""http://maven.apache.org/POM/4.0.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"">
+	<build>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>false</filtering>
+			</testResource>
+		</testResources>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<configuration>
+							<descriptors>
+								<descriptor>assembly.xml</descriptor>
+							</descriptors>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>";
+
+		[Test]
+		public void TestResourcesDeserialization()
+		{
+			var deserialized = _serializer.Deserialize(BuildWithTestResources);
+			string serialized = _serializer.Serialize(deserialized, BuildWithTestResources);
+
+			Trace.WriteLine(serialized);
+
+			Assert.That(serialized, Is.EqualTo(BuildWithTestResources));
 		}
 
 	}

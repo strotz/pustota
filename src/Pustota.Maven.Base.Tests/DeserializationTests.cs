@@ -652,9 +652,6 @@ namespace Pustota.Maven.Base.Tests
 		{
 			var deserialized = _serializer.Deserialize(BuildWithTestResources);
 			Assert.That(deserialized.TestResources.IsEmpty, Is.False);
-
-			string serialized = _serializer.Serialize(deserialized);
-			Assert.That(serialized, Is.EqualTo(BuildWithTestResources));
 		}
 	}
 }

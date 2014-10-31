@@ -318,7 +318,8 @@ namespace Pustota.Maven.Serialization
 				}
 				else
 				{
-					buildNode.Add(container.TestResources.Value as PomElement);
+					var testResources = buildNode.SingleOrCreate("testResources");
+					testResources.ReplaceWith(container.TestResources.Value as PomElement);
 				}
 			}
 		}
