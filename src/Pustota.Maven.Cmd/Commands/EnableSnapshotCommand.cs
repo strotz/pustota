@@ -24,7 +24,7 @@ namespace Pustota.Maven.Cmd.Commands
 
 		public void Execute()
 		{
-			var solutionManagement = new SolutionManagement();
+			var solutionManagement = new SolutionManagement(GetActionLog());
 			var solution = solutionManagement.OpenSolution(Path, LoadAllProjects);
 			
 			IProject target;

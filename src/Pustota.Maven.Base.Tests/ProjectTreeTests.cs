@@ -94,7 +94,7 @@ namespace Pustota.Maven.Base.Tests
 		[Test]
 		public void ProjectLoaderTest()
 		{
-			var loader = new ProjectLoader(_fileIOMock.Object, _serializerMock.Object);
+			var loader = new ProjectLoader(_fileIOMock.Object, _serializerMock.Object, NoLog.Instance);
 			var project = loader.ReadProject(_topProjectPath);
 
 			Assert.That(project, Is.Not.Null);

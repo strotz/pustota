@@ -30,7 +30,7 @@ namespace Pustota.Maven.Cmd.Commands
 			string value = split[1];
 			Console.WriteLine("Apply value \"{0}\" to property \"{1}\"", value, name);
 
-			var solutionManagement = new SolutionManagement();
+			var solutionManagement = new SolutionManagement(GetActionLog());
 			var solution = solutionManagement.OpenSolution(Path, LoadAllProjects);
 
 			ApplyClassifierAction action = new ApplyClassifierAction(solution, name, value);

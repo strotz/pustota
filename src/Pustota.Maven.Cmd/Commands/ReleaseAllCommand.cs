@@ -24,7 +24,7 @@ namespace Pustota.Maven.Cmd.Commands
 		{
 			Console.WriteLine("Release for all SNAPSHOT projects in folder {0} with \"{1}\" suffix", Path, Suffix);
 
-			var solutionManagement = new SolutionManagement();
+			var solutionManagement = new SolutionManagement(GetActionLog());
 			var solution = solutionManagement.OpenSolution(Path, LoadAllProjects);
 
 			Debug.WriteLine(solution.AllProjects.Count() + " projects loaded");

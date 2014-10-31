@@ -2,6 +2,6 @@
 {
 	public interface IActionLog
 	{
-		void WriteMessage(string message);
+		void WriteMessage(string messageFormat, params object[] args);
 	}
 }

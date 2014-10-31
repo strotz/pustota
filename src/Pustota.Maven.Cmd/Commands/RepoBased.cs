@@ -1,10 +1,9 @@
 ﻿using System;
-using System.ComponentModel;
 using CommandLine;
 
 namespace Pustota.Maven.Cmd.Commands
 {
-	internal class RepoBased
+	internal class RepoBased : CommandBase
 	{
 		internal RepoBased()
 		{

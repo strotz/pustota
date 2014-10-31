@@ -183,6 +183,7 @@
       <Link>CommandLine\Text\_ParsingErrorsHandler.cs</Link>
     </Compile>
     <Compile Include="Commands\ApplyClassifierCommand.cs" />
+    <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\DumpClassifiersCommand.cs" />
     <Compile Include="Commands\EnableSnapshotCommand.cs" />
     <Compile Include="Commands\ICommand.cs" />
@@ -190,6 +191,7 @@
     <Compile Include="Commands\ReleaseAllCommand.cs" />
     <Compile Include="Commands\RepoBased.cs" />
     <Compile Include="Commands\ValidateAndFixCommand.cs" />
+    <Compile Include="ConsoleActionLog.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
