@@ -68,8 +68,18 @@ namespace Pustota.Maven.Serialization
 		internal PomElement SingleOrCreate(string name)
 		{
 			// TODO: review usage, what will happend if 2
-			PomElement element = _element.Elements(Name(name)).Select(Wrap).SingleOrDefault() ?? AddElement(name);
-			return element;
+			var result = _element.Elements(Name(name)).Select(Wrap).ToArray();
+			int count = result.Length;
+			if (count == 0)
+			{
+				return AddElement(name);
+			}
+			if (count == 1)
+			{
+				return result.Single();
+			}
+			string message = string.Format("Found 2 elements with same name {0}", name);
+			throw new InvalidOperationException(message);
 		}
 
 		// REVIEW: remove 
@@ -104,7 +114,18 @@ namespace Pustota.Maven.Serialization
 
 		internal PomElement SingleOrNull(params string[] pathElems)
 		{
-			return ReadElements(pathElems).SingleOrDefault();
+			var result = ReadElements(pathElems).ToArray();
+			int count = result.Length;
+			if (count == 0)
+			{
+				return null;
+			}
+			if (count == 1)
+			{
+				return result.Single();
+			}
+			string message = string.Format("Found 2 elements with same path {0}", string.Join("/", pathElems));
+			throw new InvalidOperationException(message);
 		}
 
 		internal void RemoveElement(string name)
