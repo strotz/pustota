@@ -6,7 +6,7 @@ namespace Pustota.Maven.Validation
 {
 	class DuplicatedExternalModulesValidation : IRepositoryValidator
 	{
-		public IEnumerable<IProjectValidationProblem> Validate(IExecutionContext context)
+		public IEnumerable<IProjectValidationProblem> Validate(IExternalModuleRepository context)
 		{
 			foreach (var module in context.AllExternalModules)
 			{

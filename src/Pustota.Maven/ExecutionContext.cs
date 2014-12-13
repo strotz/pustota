@@ -6,7 +6,31 @@ using Pustota.Maven.Models;
 
 namespace Pustota.Maven
 {
+	internal class ExternalModuleRepository : IExternalModuleRepository
+	{
+		private readonly IList<IExternalModule> _externalModules = new List<IExternalModule>();
 
+		public IEnumerable<IExternalModule> AllExternalModules
+		{
+			get { return _externalModules; }
+		}
+
+		public bool IsExternalModule(IProjectReference projectReference)
+		{
+			var operation = projectReference.ReferenceOperations();
+			return _externalModules.FirstOrDefault(i => operation.ReferenceEqualTo(i, true)) != null;
+		}
+
+		internal void Reset()
+		{
+			_externalModules.Clear();
+		}
+
+		internal void Add(IExternalModule externalModule)
+		{
+			_externalModules.Add(externalModule);
+		}
+	}
 
 	internal class ExecutionContext : 
 		ProjectTree,
@@ -14,68 +38,66 @@ namespace Pustota.Maven
 	{
 		private readonly IPathCalculator _pathCalculator;
 
-		private readonly IList<IExternalModule> _externalModules; 
 
 		protected ExecutionContext(IPathCalculator pathCalculator)
 		{
 			_pathCalculator = pathCalculator;
-			_externalModules = new List<IExternalModule>();
 		}
 
-		// TODO: test
-		// TODO: it should not be here
-		public IEnumerable<IProject> BuildInheritanceChain(IProjectReference reference)
-		{
-			IProject project;
-			if (!TryGetProject(reference, out project))
-			{
-				throw new Exception();
-			}
+		//// TODO: test
+		//// TODO: it should not be here
+		//public IEnumerable<IProject> BuildInheritanceChain(IProjectReference reference)
+		//{
+		//	IProject project;
+		//	if (!TryGetProject(reference, out project))
+		//	{
+		//		throw new Exception();
+		//	}
 
-			var parentReference = project.Parent;
-			if (parentReference == null)
-			{
-				return null;
-			}
+		//	var parentReference = project.Parent;
+		//	if (parentReference == null)
+		//	{
+		//		return null;
+		//	}
 
-			IProject parent;
-			if (!TryGetParent(project, out parentReference))
-			{
-				throw new Exception();
-			}
-		}
+		//	IProject parent;
+		//	if (!TryGetParent(project, out parentReference))
+		//	{
+		//		throw new Exception();
+		//	}
+		//}
 
-		// possible cases:
-		// project -> has parent reference
-		// project -> no parent reference => 
-		private bool TryGetParent(IProject project, out IParentReference parentReference)
-		{
-			throw new NotImplementedException();
+		//// possible cases:
+		//// project -> has parent reference
+		//// project -> no parent reference => 
+		//private bool TryGetParent(IProject project, out IParentReference parentReference)
+		//{
+		//	throw new NotImplementedException();
 
-			var parentReference = project.Parent;
-			if (parentReference == null)
-			{
-				return null;
-			}
+		//	var parentReference = project.Parent;
+		//	if (parentReference == null)
+		//	{
+		//		return null;
+		//	}
 
-			var extractor = new ProjectDataExtractor();
+		//	var extractor = new ProjectDataExtractor();
 
-			IProject parentByPath;
-			if (context.TryGetParentByPath(project, out parentByPath))
-			{
-				var resolved = extractor.Extract(parentByPath);
-				if (project.Operations().HasProjectAsParent(resolved))
-				{
-					OK
-				}
+		//	IProject parentByPath;
+		//	if (context.TryGetParentByPath(project, out parentByPath))
+		//	{
+		//		var resolved = extractor.Extract(parentByPath);
+		//		if (project.Operations().HasProjectAsParent(resolved))
+		//		{
+		//			OK
+		//		}
 
-				if (project.Operations().HasProjectAsParent(resolved, false))
-				{
-					WARNING
-				}
-			}
+		//		if (project.Operations().HasProjectAsParent(resolved, false))
+		//		{
+		//			WARNING
+		//		}
+		//	}
 
-		}
+		//}
 		
 		// TODO: project reference ?
 		public bool TryGetParentByPath(IProject project, out IProject parent)
@@ -110,17 +132,6 @@ namespace Pustota.Maven
 			return TryGetProjectByPath(fullPath, out module);
 		}
 
-		public IEnumerable<IExternalModule> AllExternalModules
-		{
-			get { return _externalModules; }
-		}
-
-		public bool IsExternalModule(IProjectReference projectReference)
-		{
-			var operation = projectReference.ReferenceOperations();
-			return _externalModules.FirstOrDefault(i => operation.ReferenceEqualTo(i, true)) != null;
-		}
-
 		public IEnumerable<IProjectReference> AllAvailableProjectReferences
 		{
 			get { return AllExtractedProjects.Concat(_externalModules); }
@@ -129,12 +140,12 @@ namespace Pustota.Maven
 		protected override void Reset()
 		{
 			base.Reset();
-			_externalModules.Clear();
+			//_externalModules.Clear();
 		}
 
 		protected virtual void Add(IExternalModule externalModule)
 		{
-			_externalModules.Add(externalModule);
+			//_externalModules.Add(externalModule);
 		}
 	}
 }

@@ -31,17 +31,20 @@ namespace Pustota.Maven
 		//	bool IsItUsed(IProjectReference projectReference);
 		//	IEnumerable<ProjectNode> SelectProjectNodes(IProjectReference projectReference, bool strictVersion = false);
 
+	public interface IExternalModuleRepository
+	{
+		IEnumerable<IExternalModule> AllExternalModules { get; }
+		bool IsExternalModule(IProjectReference projectReference);
+	}
+
 	public interface IExecutionContext : 
 		IProjectTree
 	{
-		IEnumerable<IProject> BuildInheritanceChain(IProjectReference reference);
+		// IEnumerable<IProject> BuildInheritanceChain(IProjectReference reference);
 
 		bool TryGetParentByPath(IProject project, out IProject parent);
 		bool TryGetModule(IProject project, string moduleName, out IProject module);
 
-		IEnumerable<IExternalModule> AllExternalModules { get; }
-
-		bool IsExternalModule(IProjectReference projectReference);
 		IEnumerable<IProjectReference> AllAvailableProjectReferences { get; } // REVIEW: should it be Get with parameters?
 	}
 }
