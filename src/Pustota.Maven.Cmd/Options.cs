@@ -28,6 +28,9 @@ namespace Pustota.Maven.Cmd
 		[VerbOption("dumpClassifiers", HelpText = "Dump titles of classifiers for all dependencies")]
 		public DumpClassifiersCommand DumpClassifiersCommand { get; set; }
 
+		[VerbOption("dumpDependencies", HelpText = "Dump projects with all plugins and dependencies")]
+		public DumpDependenciesCommand DumpDependenciesCommand { get; set; }
+
 		[VerbOption("validate", HelpText = "Validate project tree")]
 		public ValidateAndFixCommand ValidateAndFixCommand { get; set; }
 
@@ -63,6 +66,10 @@ namespace Pustota.Maven.Cmd
 
 				case "enableSnapshot":
 					EnableSnapshotCommand.Execute();
+					break;
+
+				case "dumpDependencies":
+					DumpDependenciesCommand.Execute();
 					break;
 			}
 		}

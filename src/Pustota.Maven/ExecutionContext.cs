@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Pustota.Maven.Externals;
 using Pustota.Maven.Models;
@@ -23,6 +24,60 @@ namespace Pustota.Maven
 
 		// TODO: test
 		// TODO: it should not be here
+		public IEnumerable<IProject> BuildInheritanceChain(IProjectReference reference)
+		{
+			IProject project;
+			if (!TryGetProject(reference, out project))
+			{
+				throw new Exception();
+			}
+
+			var parentReference = project.Parent;
+			if (parentReference == null)
+			{
+				return null;
+			}
+
+			IProject parent;
+			if (!TryGetParent(project, out parentReference))
+			{
+				throw new Exception();
+			}
+		}
+
+		// possible cases:
+		// project -> has parent reference
+		// project -> no parent reference => 
+		private bool TryGetParent(IProject project, out IParentReference parentReference)
+		{
+			throw new NotImplementedException();
+
+			var parentReference = project.Parent;
+			if (parentReference == null)
+			{
+				return null;
+			}
+
+			var extractor = new ProjectDataExtractor();
+
+			IProject parentByPath;
+			if (context.TryGetParentByPath(project, out parentByPath))
+			{
+				var resolved = extractor.Extract(parentByPath);
+				if (project.Operations().HasProjectAsParent(resolved))
+				{
+					OK
+				}
+
+				if (project.Operations().HasProjectAsParent(resolved, false))
+				{
+					WARNING
+				}
+			}
+
+		}
+		
+		// TODO: project reference ?
 		public bool TryGetParentByPath(IProject project, out IProject parent)
 		{
 			parent = null;
@@ -40,6 +95,7 @@ namespace Pustota.Maven
 			return TryGetProjectByPath(fullPath, out parent);
 		}
 
+		// TODO: project reference ?
 		public bool TryGetModule(IProject project, string moduleName, out IProject module)
 		{
 			module = null;

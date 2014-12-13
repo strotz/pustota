@@ -55,7 +55,8 @@ namespace Pustota.Maven
 		// TODO: test it
 		public bool TryGetPathByProject(IProject project, out FullPath fullPath)
 		{
-			var item = _projects.SingleOrDefault(i => i.Project == project);
+			var item = _projects.SingleOrDefault(i => i.Project == project); // REVIEW: reference equal - should be GAV
+			// REVIEW: SingleOrDefault will not work  
 			if (item != null)
 			{
 				fullPath = item.Path;

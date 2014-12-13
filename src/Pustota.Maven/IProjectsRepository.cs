@@ -34,6 +34,8 @@ namespace Pustota.Maven
 	public interface IExecutionContext : 
 		IProjectTree
 	{
+		IEnumerable<IProject> BuildInheritanceChain(IProjectReference reference);
+
 		bool TryGetParentByPath(IProject project, out IProject parent);
 		bool TryGetModule(IProject project, string moduleName, out IProject module);
 
