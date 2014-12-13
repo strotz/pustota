@@ -59,7 +59,8 @@ namespace Pustota.Maven.Models
 
 		public static string GetProjectKey(this IProjectReference reference)
 		{
-			return string.Format("{0}:{1} ({2})", reference.GroupId, reference.ArtifactId, reference.Version);
+			string group = (string.IsNullOrEmpty(reference.GroupId)) ? "/" : '/' + reference.GroupId.Replace('.', '/') + '/';
+			return string.Format("{0}{1}-{2}", group, reference.ArtifactId, reference.Version);
 		} 
 	}
 }
