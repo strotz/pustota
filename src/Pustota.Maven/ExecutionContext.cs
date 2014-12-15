@@ -6,42 +6,17 @@ using Pustota.Maven.Models;
 
 namespace Pustota.Maven
 {
-	internal class ExternalModuleRepository : IExternalModuleRepository
-	{
-		private readonly IList<IExternalModule> _externalModules = new List<IExternalModule>();
-
-		public IEnumerable<IExternalModule> AllExternalModules
-		{
-			get { return _externalModules; }
-		}
-
-		public bool IsExternalModule(IProjectReference projectReference)
-		{
-			var operation = projectReference.ReferenceOperations();
-			return _externalModules.FirstOrDefault(i => operation.ReferenceEqualTo(i, true)) != null;
-		}
-
-		internal void Reset()
-		{
-			_externalModules.Clear();
-		}
-
-		internal void Add(IExternalModule externalModule)
-		{
-			_externalModules.Add(externalModule);
-		}
-	}
-
 	internal class ExecutionContext : 
 		ProjectTree,
 		IExecutionContext
 	{
 		private readonly IPathCalculator _pathCalculator;
+		private readonly IExternalModuleRepository _externalModules;
 
-
-		protected ExecutionContext(IPathCalculator pathCalculator)
+		protected ExecutionContext(IPathCalculator pathCalculator, IExternalModuleRepository externalModules)
 		{
 			_pathCalculator = pathCalculator;
+			_externalModules = externalModules;
 		}
 
 		//// TODO: test
@@ -134,13 +109,18 @@ namespace Pustota.Maven
 
 		public IEnumerable<IProjectReference> AllAvailableProjectReferences
 		{
-			get { return AllExtractedProjects.Concat(_externalModules); }
+			get { return AllExtractedProjects.Concat(ExternalModules.All); }
+		}
+
+		public IExternalModuleRepository ExternalModules
+		{
+			get { return _externalModules; }
 		}
 
 		protected override void Reset()
 		{
 			base.Reset();
-			//_externalModules.Clear();
+			// _externalModules.Reset();
 		}
 
 		protected virtual void Add(IExternalModule externalModule)

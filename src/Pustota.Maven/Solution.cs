@@ -23,7 +23,8 @@ namespace Pustota.Maven
 		internal Solution(
 			IFileSystemAccess fileIo, 
 			IProjectTreeLoader loader, 
-			IExternalModulesLoader externalModulesLoader) : base(new PathCalculator(fileIo))
+			IExternalModulesLoader externalModulesLoader) : 
+				base(new PathCalculator(fileIo), new ExternalModuleRepository())
 		{
 			_fileIo = fileIo;
 			_loader = loader;

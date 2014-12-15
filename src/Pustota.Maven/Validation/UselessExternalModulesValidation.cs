@@ -18,7 +18,7 @@ namespace Pustota.Maven.Validation
 
 			var selector = new DependencySelector(context, searchOptions);
 
-			foreach (var module in context.AllExternalModules)
+			foreach (var module in context.ExternalModules.All)
 			{
 				if (!selector.SelectUsages(module).Any())
 				{

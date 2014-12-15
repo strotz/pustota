@@ -6,12 +6,12 @@ namespace Pustota.Maven.Validation
 {
 	class DuplicatedExternalModulesValidation : IRepositoryValidator
 	{
-		public IEnumerable<IProjectValidationProblem> Validate(IExternalModuleRepository context)
+		public IEnumerable<IProjectValidationProblem> Validate(IExecutionContext context)
 		{
-			foreach (var module in context.AllExternalModules)
+			foreach (var module in context.ExternalModules.All)
 			{
 				var operation = module.ReferenceOperations();
-				if (context.AllExternalModules.Count(m => operation.ReferenceEqualTo(m, true)) > 1)
+				if (context.ExternalModules.All.Count(m => operation.ReferenceEqualTo(m, true)) > 1)
 				{
 					yield return new ValidationProblem("moduleduplication")
 					{

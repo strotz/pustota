@@ -18,7 +18,8 @@ namespace Pustota.Maven.Validation
 				.Select(extractor.Extract)
 				.Where(pe => operation.ReferenceEqualTo(pe));
 
-			var external = context.AllExternalModules
+			var external = context.ExternalModules
+				.All
 				.Where(ex => operation.ReferenceEqualTo(ex));
 
 			return potencial

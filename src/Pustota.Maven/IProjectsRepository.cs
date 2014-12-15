@@ -31,12 +31,6 @@ namespace Pustota.Maven
 		//	bool IsItUsed(IProjectReference projectReference);
 		//	IEnumerable<ProjectNode> SelectProjectNodes(IProjectReference projectReference, bool strictVersion = false);
 
-	public interface IExternalModuleRepository
-	{
-		IEnumerable<IExternalModule> AllExternalModules { get; }
-		bool IsExternalModule(IProjectReference projectReference);
-	}
-
 	public interface IExecutionContext : 
 		IProjectTree
 	{
@@ -45,6 +39,9 @@ namespace Pustota.Maven
 		bool TryGetParentByPath(IProject project, out IProject parent);
 		bool TryGetModule(IProject project, string moduleName, out IProject module);
 
-		IEnumerable<IProjectReference> AllAvailableProjectReferences { get; } // REVIEW: should it be Get with parameters?
+		IEnumerable<IProjectReference> AllAvailableProjectReferences { get; }
+		
+		IExternalModuleRepository ExternalModules { get; }
+		// REVIEW: should it be Get with parameters?
 	}
 }

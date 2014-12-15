@@ -54,7 +54,7 @@ namespace Pustota.Maven.Validation
 			}
 
 			// previosly found exact match, but it includes including external modules, should be ignored
-			if (string.IsNullOrEmpty(parentReference.RelativePath) && context.IsExternalModule(parentReference))
+			if (string.IsNullOrEmpty(parentReference.RelativePath) && context.ExternalModules.Contains(parentReference))
 			{
 				return null;
 			}

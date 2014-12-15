@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Moq;
 using NUnit.Framework;
+using Pustota.Maven.Externals;
 using Pustota.Maven.Models;
 using Pustota.Maven.Serialization;
 
@@ -21,7 +22,7 @@ namespace Pustota.Maven.Base.Tests
 		internal class ExecutionContextInstance : ExecutionContext
 		{
 			internal ExecutionContextInstance(IPathCalculator pathCalculator)
-				: base(pathCalculator)
+				: base(pathCalculator, new ExternalModuleRepository())
 			{
 			}
 
