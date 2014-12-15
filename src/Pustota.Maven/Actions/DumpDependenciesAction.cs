@@ -1,9 +1,28 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Pustota.Maven.Models;
 
 namespace Pustota.Maven.Actions
 {
+	internal class ProjectInheritanceFolder
+	{
+		internal ProjectInheritanceFolder()
+		{
+			
+		}
+
+		public IEnumerable<IProject> BuildInheritanceChain(IProjectReference reference)
+		{
+			
+		}
+
+		public IProject FoldProject(IEnumerable<IProject> inheritanceChain)
+		{
+			
+		}
+	}
+
 	public class DumpDependenciesAction
 	{
 		private readonly IProjectsRepository _projects;
