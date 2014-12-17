@@ -7,19 +7,28 @@ namespace Pustota.Maven.Actions
 {
 	internal class ProjectInheritanceFolder
 	{
-		internal ProjectInheritanceFolder()
+		private readonly IProjectsRepository _projects;
+
+		internal ProjectInheritanceFolder(IProjectsRepository projects)
 		{
-			
+			_projects = projects;
 		}
 
+		// TODO: it does not download or use m2 cache for projects
 		public IEnumerable<IProject> BuildInheritanceChain(IProjectReference reference)
 		{
-			
+			IProject project;
+			if (!_projects.TryGetProject(reference, out project, true))
+			{
+				throw new InvalidOperationException("Project not found");
+			}
+
+			yield return project;
 		}
 
 		public IProject FoldProject(IEnumerable<IProject> inheritanceChain)
 		{
-			
+			throw new NotImplementedException();
 		}
 	}
 

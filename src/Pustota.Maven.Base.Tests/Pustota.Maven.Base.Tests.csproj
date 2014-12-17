@@ -59,6 +59,7 @@
     <Compile Include="ExternalModulesTests.cs" />
     <Compile Include="PathCalulatorTests.cs" />
     <Compile Include="ProjectChangedTests.cs" />
+    <Compile Include="ProjectInheritanceTests.cs" />
     <Compile Include="ProjectNodeTests.cs" />
     <Compile Include="ProjectTreeClassTests.cs" />
     <Compile Include="ProjectTreeTests.cs" />
