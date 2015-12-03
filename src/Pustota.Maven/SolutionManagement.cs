@@ -29,7 +29,9 @@ namespace Pustota.Maven
 			IDataFactory factory = new DataFactory();
 			IProjectSerializerWithUpdate serializer = new ProjectSerializer(factory);
 			IProjectLoader projectLoader = new ProjectLoader(fileIo, serializer, Log);
-			var loader = new ProjectTreeLoader(fileIo, projectLoader, projectLoader, Log);
+
+			var pathCalculator = new PathCalculator(fileIo);
+			var loader = new ProjectTreeLoader(fileIo, projectLoader, projectLoader, pathCalculator, Log);
 
 			IExternalModulesLoader externalModulesLoader = new ExternalModulesLoader(fileIo);
 

@@ -22,13 +22,20 @@ namespace Pustota.Maven
 			return new FullPath(full);
 		}
 
-		public FullPath CalculateModulePath(FullPath currentPath, string modulePath)
+		public bool TryResolveModulePath(FullPath currentProjectPath, string moduleTagValue, out FullPath modulePath)
 		{
-			string moduleNormalized = _system.Normalize(modulePath);
-			string projectFolder = _system.GetDirectoryName(currentPath);
-			string combined = _system.Combine(projectFolder, moduleNormalized, ProjectFilePattern);
+			string moduleNormalized = _system.Normalize(moduleTagValue);
+			string projectFolder = _system.GetDirectoryName(currentProjectPath);
+			string moduleFolder = _system.Combine(projectFolder, moduleNormalized); // <module>ABC</module> is reference to project folder
+			string combined = _system.IsDirectoryExist(moduleFolder) ? _system.Combine(moduleFolder, ProjectFilePattern) : moduleFolder; // sometimes module value includes file name
 			string full = _system.GetFullPath(combined);
-			return new FullPath(full);
+			if (_system.IsFileExist(full))
+			{
+				modulePath = new FullPath(full);
+				return true;
+			}
+			modulePath = FullPath.Undefined;
+			return false;
 		}
 	}
 }

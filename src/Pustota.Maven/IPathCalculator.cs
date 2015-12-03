@@ -3,6 +3,6 @@
 	public interface IPathCalculator
 	{
 		FullPath CalculateParentPath(FullPath currentPath, string relativePath);
-		FullPath CalculateModulePath(FullPath currentPath, string modulePath);
+		bool TryResolveModulePath(FullPath currentPath, string modulePath, out FullPath module);
 	}
 }

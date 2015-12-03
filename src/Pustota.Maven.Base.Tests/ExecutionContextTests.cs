@@ -112,7 +112,8 @@ namespace Pustota.Maven.Base.Tests
 			_project.Setup(p => p.Modules).Returns(modules);
 			_project.Setup(p => p.Profiles).Returns(new List<IProfile>());
 
-			_pathCalculator.Setup(c => c.CalculateModulePath(_projectPath, "child")).Returns(modulePath);
+			FullPath fullPath = new FullPath(modulePath);
+			_pathCalculator.Setup(c => c.TryResolveModulePath(_projectPath, "child", out fullPath)).Returns(true);
 
 			_context.CallAdd(_item);
 			_context.CallAdd(moduleItem);

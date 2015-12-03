@@ -21,11 +21,13 @@ namespace Pustota.Maven.Serialization
 		private readonly IProjectWriter _projectWriter;
 		private readonly IActionLog _log;
 		private readonly IFileSystemAccess _fileSystem;
+		private readonly IPathCalculator _path;
 
 		public const string ProjectFilePattern = "pom.xml";
 
-		internal ProjectTreeLoader(IFileSystemAccess fileSystem, IProjectReader projectReader, IProjectWriter projectWriter, IActionLog log)
+		internal ProjectTreeLoader(IFileSystemAccess fileSystem, IProjectReader projectReader, IProjectWriter projectWriter, IPathCalculator path, IActionLog log)
 		{
+			_path = path;
 			_fileSystem = fileSystem;
 			_projectReader = projectReader;
 			_projectWriter = projectWriter;
@@ -39,7 +41,8 @@ namespace Pustota.Maven.Serialization
 				throw new FileNotFoundException("Entry to project tree not found", fileName);
 			}
 
-			return ScanProject(fileName);
+			var fullPath = new FullPath(_fileSystem.GetFullPath(fileName));
+			return ScanProject(fullPath);
 		}
 
 		public IEnumerable<IProjectTreeItem> ScanForProjects(string folderName)
@@ -63,51 +66,41 @@ namespace Pustota.Maven.Serialization
 			}
 		}
 
-		private IEnumerable<ProjectTreeElement> ScanProject(string fileName)
+		private IEnumerable<ProjectTreeElement> ScanProject(FullPath projectFullPath)
 		{
 			var treeState = new LoadTreeState();
 
 			Queue<ProjectTreeElement> queue = new Queue<ProjectTreeElement>();
 
-			var rootNode = AddProject(treeState, fileName);
+			var rootNode = AddProject(treeState, projectFullPath);
 			queue.Enqueue(rootNode);
 
 			while (queue.Count != 0)
 			{
 				var projectContainer = queue.Dequeue();
-				string baseDir = _fileSystem.GetDirectoryName(projectContainer.Path);
-				var modules =
-					projectContainer.Project.Operations().AllModules
-						.Select(module => _fileSystem.Combine(baseDir, module.Path));
+				var modules = projectContainer.Project.Operations().AllModules;
 
-				foreach (var moduleFolderPath in modules)
+				foreach (IModule module in modules)
 				{
-					string modulePath = moduleFolderPath;
-					if (_fileSystem.IsDirectoryExist(moduleFolderPath))
-					{
-						modulePath = _fileSystem.Combine(moduleFolderPath, ProjectFilePattern);
-					}
-
-					if (_fileSystem.IsFileExist(modulePath))
+					FullPath modulePath;
+					if (_path.TryResolveModulePath(projectContainer.Path, module.Path, out modulePath))
 					{
 						var subProjectNode = AddProject(treeState, modulePath);
 						queue.Enqueue(subProjectNode);
 					}
 					else
 					{
-						_log.WriteMessage("Module is missing at {0}", moduleFolderPath);	
+						_log.WriteMessage("Project: {0}, module is missing at {1}", projectContainer.Path, module.Path);	
 					}
-					// REVIEW: add validation? 
 				}
 			}
 
 			return treeState.ScannedProjects;
 		}
 
-		private ProjectTreeElement AddProject(LoadTreeState treeState, string path)
+		private ProjectTreeElement AddProject(LoadTreeState treeState, FullPath fullPath)
 		{
-			var project = _projectReader.ReadProject(path);
-			var fullPath = new FullPath(_fileSystem.GetFullPath(path));
+			var project = _projectReader.ReadProject(fullPath);
 			var projectContainer = new ProjectTreeElement(fullPath, project);
 			treeState.ScannedProjects.Add(projectContainer);
 			return projectContainer;

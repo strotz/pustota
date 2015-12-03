@@ -13,7 +13,6 @@ namespace Pustota.Maven.Base.Tests
 	public class ProjectTreeTests
 	{
 		private string _topFolder;
-		//private string _secondFolder;
 
 		private string _topProjectPath;
 		private string _secondProjectPath;
@@ -22,14 +21,12 @@ namespace Pustota.Maven.Base.Tests
 		private Project _secondProject;
 
 		private string _topProjectContent;
-		//private string _secondProjectContent;
 
 		private Mock<IFileSystemAccess> _fileIOMock;
 
 		private string _secondFolderName;
 
 		private Mock<IProjectSerializerWithUpdate> _serializerMock;
-		//private IProjectSerializer _serializer;
 
 		private Mock<IProjectReader> _readerMock;
 		private Mock<IProjectWriter> _writerMock;
@@ -56,39 +53,36 @@ namespace Pustota.Maven.Base.Tests
 
 			var realSerializer = new ProjectSerializer(new DataFactory());
 			_topProjectContent = realSerializer.Serialize(_topProject);
-			//	_secondProjectContent = _serializer.Serialize(_secondProject);
 
 			_serializerMock.Setup(s => s.Deserialize(_topProjectContent)).Returns(_topProject);
 
 			_topFolder = "top";
 			_secondFolderName = "second";
-			//	_secondFolder = "top\\second";
 			_topProjectPath = "top\\pom.xml";
 			_secondProjectPath = "top\\second\\pom.xml";
 
 			_fileIOMock = new Mock<IFileSystemAccess>();
 			_fileIOMock.Setup(io => io.GetFullPath(It.IsAny<string>())).Returns((string s) => s);
+
+			// load tree
 			_fileIOMock.Setup(io => io.ReadAllText(_topProjectPath)).Returns(_topProjectContent);
-			//	_fileIOMock.Setup(io => io.ReadAllText(_secondProjectPath)).Returns(_secondProjectContent);
 			_fileIOMock.Setup(io => io.IsFileExist(_topProjectPath)).Returns(true);
 			_fileIOMock.Setup(io => io.IsFileExist(_secondProjectPath)).Returns(true);
+
+			// scan for files
 			_fileIOMock.Setup(io => io.IsDirectoryExist(_topFolder)).Returns(true);
 			_fileIOMock.Setup(io => io.GetFiles(_topFolder, "pom.xml", SearchOption.AllDirectories))
 				.Returns(new[] { _topProjectPath, _secondProjectPath });
 
-			_fileIOMock.Setup(io => io.Combine(It.IsAny<string>(), _secondFolderName, It.IsAny<string>())).Returns(_secondProjectPath);
-
-			//	_fileIOMock.Setup(io => io.Combine(It.IsAny<string>(), It.IsAny<string>())).Returns(
-			//		(string s1, string s2) => (s1 + '\\' + s2));
-			//	_fileIOMock.Setup(io => io.Combine(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(
-			//	(string s1, string s2, string s3) => (s1 + '\\' + s2 + '\\' + s3));
-			//	_fileIOMock.Setup(io => io.GetDirectoryName(_topProjectPath)).Returns(_topFolder);
-			//	_fileIOMock.Setup(io => io.GetDirectoryName(_secondProjectPath)).Returns(_secondFolder);
+			Mock<IPathCalculator> path = new Mock<IPathCalculator>();
+			FullPath topFullPath = new FullPath(_topProjectPath);
+			FullPath seconFullPath = new FullPath(_secondProjectPath);
+			path.Setup(p => p.TryResolveModulePath(topFullPath, _secondFolderName, out seconFullPath)).Returns(true);
 
 			_readerMock.Setup(l => l.ReadProject(_topProjectPath)).Returns(_topProject);
 			_readerMock.Setup(l => l.ReadProject(_secondProjectPath)).Returns(_secondProject);
 
-			_loader = new ProjectTreeLoader(_fileIOMock.Object, _readerMock.Object, _writerMock.Object, null);
+			_loader = new ProjectTreeLoader(_fileIOMock.Object, _readerMock.Object, _writerMock.Object, path.Object, new NoLog()); 
 		}
 
 		[Test]
@@ -117,6 +111,16 @@ namespace Pustota.Maven.Base.Tests
 			_topProject.Modules.Add(new Module { Path = _secondFolderName });
 			var projects = _loader.LoadProjectTree(_topProjectPath).ToList();
 			Assert.That(projects.Count, Is.EqualTo(2));
+		}
+
+		[Test]
+		public void ProjectRepositoryLoadViaModulesSomeTest()
+		{
+			_topProject.Modules.Add(new Module { Path = _secondFolderName });
+			_topProject.Modules.Add(new Module { Path = "fake" }); // module does not exist, it will be logged 
+			var projects = _loader.LoadProjectTree(_topProjectPath).ToList();
+			Assert.That(projects.Count, Is.EqualTo(2));
+			// TODO: check that error logged
 		}
 
 		[Test]
