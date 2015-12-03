@@ -19,15 +19,17 @@ namespace Pustota.Maven.Serialization
 
 		private readonly IProjectReader _projectReader;
 		private readonly IProjectWriter _projectWriter;
+		private readonly IActionLog _log;
 		private readonly IFileSystemAccess _fileSystem;
 
 		public const string ProjectFilePattern = "pom.xml";
 
-		internal ProjectTreeLoader(IFileSystemAccess fileSystem, IProjectReader projectReader, IProjectWriter projectWriter)
+		internal ProjectTreeLoader(IFileSystemAccess fileSystem, IProjectReader projectReader, IProjectWriter projectWriter, IActionLog log)
 		{
 			_fileSystem = fileSystem;
 			_projectReader = projectReader;
 			_projectWriter = projectWriter;
+			_log = log;
 		}
 
 		public IEnumerable<IProjectTreeItem> LoadProjectTree(string fileName)
@@ -76,14 +78,24 @@ namespace Pustota.Maven.Serialization
 				string baseDir = _fileSystem.GetDirectoryName(projectContainer.Path);
 				var modules =
 					projectContainer.Project.Operations().AllModules
-						.Select(module => BuildAbsoluteModulePath(baseDir, module));
+						.Select(module => _fileSystem.Combine(baseDir, module.Path));
 
-				foreach (var modulePath in modules)
+				foreach (var moduleFolderPath in modules)
 				{
+					string modulePath = moduleFolderPath;
+					if (_fileSystem.IsDirectoryExist(moduleFolderPath))
+					{
+						modulePath = _fileSystem.Combine(moduleFolderPath, ProjectFilePattern);
+					}
+
 					if (_fileSystem.IsFileExist(modulePath))
 					{
 						var subProjectNode = AddProject(treeState, modulePath);
 						queue.Enqueue(subProjectNode);
+					}
+					else
+					{
+						_log.WriteMessage("Module is missing at {0}", moduleFolderPath);	
 					}
 					// REVIEW: add validation? 
 				}
@@ -99,11 +111,6 @@ namespace Pustota.Maven.Serialization
 			var projectContainer = new ProjectTreeElement(fullPath, project);
 			treeState.ScannedProjects.Add(projectContainer);
 			return projectContainer;
-		}
-
-		private string BuildAbsoluteModulePath(string baseDir, IModule module)
-		{
-			return _fileSystem.Combine(baseDir, module.Path, ProjectFilePattern);
 		}
 	}
 }

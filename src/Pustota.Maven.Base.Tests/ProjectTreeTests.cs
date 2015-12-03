@@ -88,7 +88,7 @@ namespace Pustota.Maven.Base.Tests
 			_readerMock.Setup(l => l.ReadProject(_topProjectPath)).Returns(_topProject);
 			_readerMock.Setup(l => l.ReadProject(_secondProjectPath)).Returns(_secondProject);
 
-			_loader = new ProjectTreeLoader(_fileIOMock.Object, _readerMock.Object, _writerMock.Object);
+			_loader = new ProjectTreeLoader(_fileIOMock.Object, _readerMock.Object, _writerMock.Object, null);
 		}
 
 		[Test]
