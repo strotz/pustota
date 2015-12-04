@@ -86,8 +86,15 @@ namespace Pustota.Maven.Serialization
 					FullPath modulePath;
 					if (_path.TryResolveModulePath(projectContainer.Path, module.Path, out modulePath))
 					{
-						var subProjectNode = AddProject(treeState, modulePath);
-						queue.Enqueue(subProjectNode);
+						if (treeState.ScannedProjects.Any(item => item.Path.SameAs(modulePath)))
+						{
+							_log.Warning("Adding second instance of {0}", modulePath.Value);
+						}
+						else
+						{
+							var subProjectNode = AddProject(treeState, modulePath);
+							queue.Enqueue(subProjectNode);
+						}
 					}
 					else
 					{
