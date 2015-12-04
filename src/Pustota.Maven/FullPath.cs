@@ -34,5 +34,11 @@ namespace Pustota.Maven
 		{
 			get { return new FullPath(String.Empty); }
 		}
+
+		// REVIEW: comparer?
+		public bool SameAs(FullPath fullPath)
+		{
+			return String.Equals(_value, fullPath.Value, StringComparison.InvariantCultureIgnoreCase);
+		}
 	}
 }

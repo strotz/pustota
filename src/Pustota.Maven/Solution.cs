@@ -116,7 +116,7 @@ namespace Pustota.Maven
 		//	foreach (var modulePath in projectNode.ModulePathList)
 		//	{
 		//		var moduleNode = _allProjectNodes
-		//			.SingleOrDefault(node => modulePath.Equals(node.FullPath, StringComparison.InvariantCultureIgnoreCase));
+		//			.SingleOrDefault(node => modulePath.SameAs(node.FullPath));
 		//		if (moduleNode != null)
 		//		{
 		//			yield return moduleNode;
