@@ -69,11 +69,19 @@ namespace Pustota.Maven
 		// TODO: to match path it use string compare, to simplify 
 		public bool TryGetProjectByPath(FullPath fullPath, out IProject project)
 		{
-			var item = _projects.SingleOrDefault(i => String.Equals(fullPath, i.Path, StringComparison.InvariantCultureIgnoreCase));
-			if (item != null)
+			try
 			{
-				project = item.Project;
-				return true;
+				var item = _projects.SingleOrDefault(i => i.Path.SameAs(fullPath));
+				if (item != null)
+				{
+					project = item.Project;
+					return true;
+				}
+			}
+			catch (InvalidOperationException ex)
+			{
+				string message = "Problem requesting single key \"" + fullPath.Value + "\"";
+				throw new InternalProjectTreeException(message, ex);
 			}
 			project = null;
 			return false;

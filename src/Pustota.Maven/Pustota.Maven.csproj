@@ -43,6 +43,7 @@
     <Compile Include="Actions\ValidateTreeStructureAction.cs" />
     <Compile Include="ExecutionContext.cs" />
     <Compile Include="FullPath.cs" />
+    <Compile Include="InternalProjectTreeException.cs" />
     <Compile Include="IPathCalculator.cs" />
     <Compile Include="LogHelper.cs" />
     <Compile Include="Models\IProjectOperations.cs" />
