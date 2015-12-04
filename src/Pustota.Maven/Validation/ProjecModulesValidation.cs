@@ -20,7 +20,7 @@ namespace Pustota.Maven.Validation
 						{
 							ProjectReference = project,
 							Severity = ProblemSeverity.ProjectWarning,
-							Description = string.Format("release has SNAPSHOT module {0}", module.Path)
+							Description = string.Format("try to build module in release during snapshot build: {0}", module.Path)
 						};
 					}
 				}
