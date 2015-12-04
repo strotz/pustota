@@ -18,7 +18,7 @@ namespace Pustota.Maven.Serialization
 
 		public IProject ReadProject(string path)
 		{
-			_log.WriteMessage("Try to load project {0}", path);
+			_log.Info("Try to load project {0}", path);
 
 			string content = _fileSystem.ReadAllText(path);
 			var project = _serializer.Deserialize(content);
@@ -27,7 +27,7 @@ namespace Pustota.Maven.Serialization
 
 		public void UpdateProject(IProject project, string path)
 		{
-			_log.WriteMessage("Try to save project {0}", path);
+			_log.Info("Try to save project {0}", path);
 
 			string content = _fileSystem.ReadAllText(path);
 			string updated = _serializer.Serialize(project, content);

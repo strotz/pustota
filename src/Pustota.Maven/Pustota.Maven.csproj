@@ -44,6 +44,7 @@
     <Compile Include="ExecutionContext.cs" />
     <Compile Include="FullPath.cs" />
     <Compile Include="IPathCalculator.cs" />
+    <Compile Include="LogHelper.cs" />
     <Compile Include="Models\IProjectOperations.cs" />
     <Compile Include="Models\IProjectQueries.cs" />
     <Compile Include="Models\IProjectReferenceOperations.cs" />

@@ -78,6 +78,7 @@ namespace Pustota.Maven.Serialization
 			while (queue.Count != 0)
 			{
 				var projectContainer = queue.Dequeue();
+				_log.Info("Parsing project {0}", projectContainer.Path.Value);
 				var modules = projectContainer.Project.Operations().AllModules;
 
 				foreach (IModule module in modules)
