@@ -1,4 +1,4 @@
 [submodule "lib/CommandLine"]
 	path = lib/CommandLine
-	url = git://github.com/gsscoder/commandline.git
+	url = https://github.com/gsscoder/commandline.git
 	branch = stable-1.9.71.2
