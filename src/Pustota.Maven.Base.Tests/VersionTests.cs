@@ -26,6 +26,12 @@ namespace Pustota.Maven.Base.Tests
 			Assert.True(new ComponentVersion("1.2.3") != new ComponentVersion(null));
 		}
 
+		[Test]
+		public void UndefinedVersionIsNullTest()
+		{
+			Assert.That(ComponentVersion.Undefined, Is.EqualTo(new ComponentVersion(null)));
+		} 
+
 		// Query
 
 		[Test]

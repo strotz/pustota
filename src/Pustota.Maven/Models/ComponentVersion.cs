@@ -30,6 +30,8 @@ namespace Pustota.Maven.Models
 			get { return IsDefined && _value.EndsWith(SnapshotPosfix); }
 		}
 
+		public static ComponentVersion Undefined => new ComponentVersion();
+
 		public ComponentVersion SwitchToRelease(string postfix = null)
 		{
 			var normalized = NormalizeSuffix(postfix);
