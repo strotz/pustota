@@ -149,6 +149,52 @@ namespace Pustota.Maven.Base.Tests.Actions
 		}
 
 		[Test]
+		public void ThreeProjectsCascadeGrouplessParentTest()
+		{
+			var projectA = new Project
+			{
+				GroupId = "group",
+				ArtifactId = "a",
+				Version = "1.0.0-SNAPSHOT",
+			};
+
+			var projectB = new Project
+			{
+				ArtifactId = "b",
+				Parent = new ParentReference
+				{
+					GroupId = "group",
+					ArtifactId = "a",
+					Version = "1.0.0-SNAPSHOT",
+				},
+			};
+
+			var projectC = new Project
+			{
+				ArtifactId = "c",
+				Parent = new ParentReference
+				{
+					GroupId = "group",
+					ArtifactId = "b",
+					Version = "1.0.0-SNAPSHOT",
+				},
+			};
+
+			var repo = new Mock<IProjectsRepository>();
+			repo.SetupGet(r => r.AllProjects).Returns(new IProject[] { projectA, projectB, projectC });
+
+			var action = new BulkSwitchToReleaseAction(repo.Object, "-test");
+
+			action.Execute();
+
+			Assert.That(projectB.Parent.Version, Is.EqualTo(new ComponentVersion("1.0.0-test")));
+			Assert.That(projectB.Version.IsDefined, Is.False);
+
+			Assert.That(projectC.Parent.Version, Is.EqualTo(new ComponentVersion("1.0.0-test")), "cascade parent version");
+			Assert.That(projectC.Version.IsDefined, Is.False);
+		}
+
+		[Test]
 		public void TwoProjectsDependencyTest()
 		{
 			var projectA = new Project

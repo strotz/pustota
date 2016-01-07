@@ -19,6 +19,7 @@ namespace Pustota.Maven.Actions
 		public void Execute()
 		{
 			var queue = new Queue<IProject>();
+			var extractor = new ProjectDataExtractor();
 
 			foreach (var project in _projects.AllProjects.Where(pn => pn.Version.IsSnapshot)) // first, deal with explicit version
 			{
@@ -37,12 +38,7 @@ namespace Pustota.Maven.Actions
 			while (queue.Count != 0) // handle queue of projects with inherited version, no need to switch, it is done already, only propagate
 			{
 				var project = queue.Dequeue();
-				var projectReference = new ProjectReference
-				{
-					GroupId = project.GroupId,
-					ArtifactId = project.ArtifactId,
-					Version = project.Parent.Version
-				};
+				var projectReference = extractor.Extract(project);
 				foreach (var dependentProject in _projects.AllProjects)
 				{
 					dependentProject.Operations().PropagateVersionToUsages(projectReference);
