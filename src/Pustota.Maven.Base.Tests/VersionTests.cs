@@ -42,7 +42,7 @@ namespace Pustota.Maven.Base.Tests
 		}
 
 		[Test]
-		public void IsNotDefinedTest()
+		public void EmptyStringIsNotDefinedTest()
 		{
 			var version = new ComponentVersion(string.Empty);
 			Assert.True(!version.IsDefined);
@@ -64,52 +64,53 @@ namespace Pustota.Maven.Base.Tests
 		// To Release
 
 		[Test]
-		public void ToReleaseFromNullBareTest()
+		public void ToReleaseFromUndefinedBareTest()
 		{
-			var version = new ComponentVersion(null).SwitchToRelease(null);
-			Assert.That(version.Value, Is.EqualTo("1.0.0"));
+			var version = ComponentVersion.Undefined;
+			Assert.Throws<InvalidOperationException>(delegate { version.SwitchSnapshotToRelease(); });
 		}
 
 		[Test]
-		public void ToReleaseFromNullAddPostfixWithDashTest()
+		public void ToReleaseFromUndefinedAddPostfixWithDashTest()
 		{
-			var version = new ComponentVersion(null).SwitchToRelease("-test");
-			Assert.That(version.Value, Is.EqualTo("1.0.0-test"));
+			var version = ComponentVersion.Undefined;
+			Assert.Throws<InvalidOperationException>(delegate { version.SwitchSnapshotToRelease("-test"); });
 		}
 
 		[Test]
 		public void ToReleaseFromNullAddPostfixNoDashTest()
 		{
-			var version = new ComponentVersion(null).SwitchToRelease("test");
-			Assert.That(version.Value, Is.EqualTo("1.0.0-test"));
+			var version = ComponentVersion.Undefined;
+			Assert.Throws<InvalidOperationException>(delegate { version.SwitchSnapshotToRelease("test"); });
 		}
 
 		[Test]
 		public void ToReleaseFromSnapshotBareTest()
 		{
-			var version = new ComponentVersion("1.0.0-SNAPSHOT").SwitchToRelease();
+			var version = new ComponentVersion("1.0.0-SNAPSHOT").SwitchSnapshotToRelease();
 			Assert.That(version.Value, Is.EqualTo("1.0.0"));
 		}
 
 		[Test]
 		public void ToReleaseFromReleaseBareTest() 
 		{
-			var version = new ComponentVersion("1.0.0").SwitchToRelease();
-			Assert.That(version.Value, Is.EqualTo("1.0.0"));
+			var version = new ComponentVersion("1.0.0");
+			Assert.Throws<InvalidOperationException>(delegate { version.SwitchSnapshotToRelease(); });
+
 		}
 
 		[Test]
 		public void ToReleaseFromReleaseTest()
 		{
-			var version = new ComponentVersion("1.0.0-RE").SwitchToRelease();
-			Assert.That(version.Value, Is.EqualTo("1.0.0-RE"));
+			var version = new ComponentVersion("1.0.0-RE");
+			Assert.Throws<InvalidOperationException>(delegate { version.SwitchSnapshotToRelease(); });
 		}
 
 		[Test]
 		public void AddPostfixReleaseWithSuffixTest()
 		{
-			var version = new ComponentVersion("1.0.0-RE").SwitchToRelease("rel123");
-			Assert.That(version.Value, Is.EqualTo("1.0.0-RE-rel123"));
+			var version = new ComponentVersion("1.0.0-RE");
+			Assert.Throws<InvalidOperationException>(delegate { version.SwitchSnapshotToRelease("abc"); });
 		}
 
 		// To Snapshot

@@ -25,26 +25,23 @@ namespace Pustota.Maven.Models
 			get { return !string.IsNullOrEmpty(_value); }
 		}
 
-		public bool IsSnapshot
-		{
-			get { return IsDefined && _value.EndsWith(SnapshotPosfix); }
-		}
+		public bool IsSnapshot => IsDefined && _value.EndsWith(SnapshotPosfix);
 
 		public static ComponentVersion Undefined => new ComponentVersion();
 
-		public ComponentVersion SwitchToRelease(string postfix = null)
+		public ComponentVersion SwitchSnapshotToRelease(string postfix = null)
 		{
 			var normalized = NormalizeSuffix(postfix);
 
 			if (!IsDefined)
 			{
-				return new ComponentVersion(DefaultVersion + normalized);
+				throw new InvalidOperationException("version undefined");
 			}
 			if (IsSnapshot)
 			{
 				return new ComponentVersion(_value.Substring(0, _value.Length - SnapshotPosfix.Length) + normalized);
 			}
-			return new ComponentVersion(_value + normalized);
+			throw new InvalidOperationException("version already in release");
 		}
 
 		public ComponentVersion SwitchToSnapshotWithVersionIncrement()
