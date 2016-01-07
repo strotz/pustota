@@ -60,7 +60,6 @@
     <Compile Include="PathCalulatorTests.cs" />
     <Compile Include="ProjectChangedTests.cs" />
     <Compile Include="ProjectNodeTests.cs" />
-    <Compile Include="ProjectOperationsTests.cs" />
     <Compile Include="ProjectTreeClassTests.cs" />
     <Compile Include="ProjectTreeTests.cs" />
     <Compile Include="ProjectModelTests.cs" />

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 
 namespace Pustota.Maven.Models
 {
@@ -67,24 +66,6 @@ namespace Pustota.Maven.Models
 			}
 		}
 
-		public ComponentVersion ActualVersion
-		{
-			get
-			{
-				if (_project.Version.IsDefined)
-				{
-					return _project.Version;
-				}
-
-				if (_project.Parent != null && _project.Parent.Version.IsDefined)
-				{
-					return _project.Parent.Version;
-				}
-
-				return ComponentVersion.Undefined;
-			}
-		}
-
 		// my parent reference is equal to project reference 
 		public bool HasProjectAsParent(IProjectReference projectReference, bool strictVersion)
 		{
@@ -109,31 +90,30 @@ namespace Pustota.Maven.Models
 		public void PropagateVersionToUsages(IProjectReference projectReference)
 		{
 			bool usageUpdated = false;
-			var newVersion = projectReference.Version;
 
 			if (HasProjectAsParent(projectReference, false))
 			{
-				if (_project.Parent.Version != newVersion)
+				if (_project.Parent.Version != projectReference.Version)
 				{
-					_project.Parent.Version = newVersion;
+					_project.Parent.Version = projectReference.Version;
 					usageUpdated = true;
 				}
 			}
 
 			foreach (var dependency in AllDependencies.Where(d => d.ReferenceOperations().ReferenceEqualTo(projectReference, false)))
 			{
-				if (dependency.Version != newVersion)
+				if (dependency.Version != projectReference.Version)
 				{
-					dependency.Version = newVersion;
+					dependency.Version = projectReference.Version;
 					usageUpdated = true;
 				}
 			}
 
 			foreach (var plugin in AllPlugins.Where(d => d.ReferenceOperations().ReferenceEqualTo(projectReference, false)))
 			{
-				if (plugin.Version.IsDefined && plugin.Version != newVersion)
+				if (plugin.Version.IsDefined && plugin.Version != projectReference.Version)
 				{
-					plugin.Version = newVersion;
+					plugin.Version = projectReference.Version;
 					usageUpdated = true;
 				}
 			}
