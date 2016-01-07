@@ -9,7 +9,7 @@ namespace Pustota.Maven.Validation
 		public IEnumerable<IProjectValidationProblem> Validate(IExecutionContext context, IProject project)
 		{
 			var resolvedData = new ProjectDataExtractor().Extract(project);
-			if (string.IsNullOrEmpty(resolvedData.Version)) // REVIEW: class for Version
+			if (!resolvedData.Version.IsDefined)
 			{
 				//	var error = new ValidationError(project, "Project does not have version", ErrorLevel.Error);
 				//	error.Details = string.Format("Project {0} version is not specified of cannot be inherited from {1}", project, project.Parent);
@@ -17,7 +17,16 @@ namespace Pustota.Maven.Validation
 				{
 					ProjectReference = project,
 					Severity = ProblemSeverity.ProjectFatal,
-					Description = string.Format("either version or parent version must be specified specified")
+					Description = "either version or parent version must be specified specified"
+				};
+			}
+			else if (!project.Version.IsDefined)
+			{
+				yield return new ValidationProblem("explicitversion")
+				{
+					ProjectReference = project,
+					Severity = ProblemSeverity.ProjectInfo,
+					Description = "consider explicitly define project version"
 				};
 			}
 		}

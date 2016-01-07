@@ -34,9 +34,10 @@ namespace Pustota.Maven.Base.Tests.Validations
 			parentReference.Setup(p => p.Version).Returns("abc");
 			Project.Setup(p => p.Parent).Returns(parentReference.Object);
 
-			var result = _projectValidator.Validate(Context.Object, Project.Object);
+			var result = _projectValidator.Validate(Context.Object, Project.Object).ToArray();
 			Assert.That(result, Is.Not.Null);
-			Assert.That(result.Count(), Is.EqualTo(0));
+			Assert.That(result.Length, Is.EqualTo(1));
+			Assert.That(result[0].Severity, Is.EqualTo(ProblemSeverity.ProjectInfo));
 		}
 	}
 }
