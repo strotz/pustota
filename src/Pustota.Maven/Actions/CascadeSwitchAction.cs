@@ -12,7 +12,7 @@ namespace Pustota.Maven.Actions
 			_projects = projects;
 		}
 
-		public void ExecuteFor(IProject targetProject)
+		public void ExecuteFor(IProject targetProject) 
 		{
 			// var selected = _views.AllViews.Where(v => v.Checked).Select(v => v.ProjectNode);
 			var searchOptions = new SearchOptions
@@ -34,7 +34,7 @@ namespace Pustota.Maven.Actions
 				var project = queue.Dequeue();
 				if (!project.Version.IsSnapshot)
 				{
-					project.Version = project.Version.SwitchToSnapshotWithVersionIncrement();
+					project.Version = project.Version.SwitchReleaseToSnapshotWithVersionIncrement();
 				}
 
 				foreach (var dependentProject in selector.SelectUsages(project))

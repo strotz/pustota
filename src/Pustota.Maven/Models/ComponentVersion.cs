@@ -27,31 +27,29 @@ namespace Pustota.Maven.Models
 
 		public ComponentVersion SwitchSnapshotToRelease(string postfix = null)
 		{
-			var normalized = NormalizeSuffix(postfix);
-
 			if (!IsDefined)
 			{
 				throw new InvalidOperationException("version undefined");
 			}
 			if (IsSnapshot)
 			{
+				var normalized = NormalizeSuffix(postfix);
 				return new ComponentVersion(_value.Substring(0, _value.Length - SnapshotPosfix.Length) + normalized);
 			}
 			throw new InvalidOperationException("version already in release");
 		}
 
-		public ComponentVersion SwitchToSnapshotWithVersionIncrement()
+		public ComponentVersion SwitchReleaseToSnapshotWithVersionIncrement()
 		{
 			if (!IsDefined)
 			{
-				return new ComponentVersion(DefaultVersion + SnapshotPosfix);
+				throw new InvalidOperationException("version undefined");
 			}
-			if (IsSnapshot)
+			if (IsRelease)
 			{
-				// nothing to do
-				return new ComponentVersion(_value);
+				return new ComponentVersion(IncrementNumber(_value, 2) + SnapshotPosfix); // TODO: make it flexable
 			}
-			return new ComponentVersion(IncrementNumber(_value, 2) + SnapshotPosfix); // TODO: make it flexable
+			throw new InvalidOperationException("version already in snapshot");
 		}
 
 		private static string NormalizeSuffix(string postfix)

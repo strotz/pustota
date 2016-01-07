@@ -141,29 +141,29 @@ namespace Pustota.Maven.Base.Tests
 		[Test]
 		public void ToSnapshotFromNullBareTest()
 		{
-			var version = new ComponentVersion(null).SwitchToSnapshotWithVersionIncrement();
-			Assert.That(version.Value, Is.EqualTo("1.0.0-SNAPSHOT"));
+			var version = new ComponentVersion(null);
+			Assert.Throws<InvalidOperationException>(delegate { version.SwitchReleaseToSnapshotWithVersionIncrement(); });
 		}
 
 		[Test]
 		public void ToSnapshotFromReleaseBareTest()
 		{
-			var version = new ComponentVersion("1.0.0").SwitchToSnapshotWithVersionIncrement();
+			var version = new ComponentVersion("1.0.0").SwitchReleaseToSnapshotWithVersionIncrement();
 			Assert.That(version.Value, Is.EqualTo("1.0.1-SNAPSHOT")); // TODO: Add ability to manage what version to increment
 		}
 
 		[Test]
 		public void ToSnapshotFromReleaseWithSuffixTest()
 		{
-			var version = new ComponentVersion("1.0.0-RE").SwitchToSnapshotWithVersionIncrement();
+			var version = new ComponentVersion("1.0.0-RE").SwitchReleaseToSnapshotWithVersionIncrement();
 			Assert.That(version.Value, Is.EqualTo("1.0.1-RE-SNAPSHOT"));
 		}
 
 		[Test]
 		public void ToSnapshotFromSnapshotTest()
 		{
-			var version = new ComponentVersion("1.0.0-SNAPSHOT").SwitchToSnapshotWithVersionIncrement();
-			Assert.That(version.Value, Is.EqualTo("1.0.0-SNAPSHOT"));
+			var version = new ComponentVersion("1.0.0-SNAPSHOT");
+			Assert.Throws<InvalidOperationException>(delegate { version.SwitchReleaseToSnapshotWithVersionIncrement(); });
 		}
 
 	}
