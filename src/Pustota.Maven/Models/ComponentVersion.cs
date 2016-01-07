@@ -15,17 +15,13 @@ namespace Pustota.Maven.Models
 			_value = value;
 		}
 
-		public string Value
-		{
-			get { return _value; }
-		}
+		public string Value => _value;
 
-		public bool IsDefined
-		{
-			get { return !string.IsNullOrEmpty(_value); }
-		}
+		public bool IsDefined => !string.IsNullOrEmpty(_value);
 
 		public bool IsSnapshot => IsDefined && _value.EndsWith(SnapshotPosfix);
+
+		public bool IsRelease => IsDefined && !_value.EndsWith(SnapshotPosfix);
 
 		public static ComponentVersion Undefined => new ComponentVersion();
 
@@ -98,12 +94,12 @@ namespace Pustota.Maven.Models
 			return string.Join(".", data) + postfix;
 		}
 
-		static public implicit operator ComponentVersion(string version) // TODO: remove 
+		public static implicit operator ComponentVersion(string version) // TODO: remove 
 		{
 			return new ComponentVersion(version);
 		}
 
-		static public implicit operator string(ComponentVersion version)
+		public static implicit operator string(ComponentVersion version)
 		{
 			return version.Value;
 		}
@@ -122,7 +118,7 @@ namespace Pustota.Maven.Models
 
 		public override int GetHashCode()
 		{
-			return (_value != null ? _value.GetHashCode() : 0);
+			return _value?.GetHashCode() ?? 0;
 		}
 
 		public static bool operator ==(ComponentVersion a, ComponentVersion b)

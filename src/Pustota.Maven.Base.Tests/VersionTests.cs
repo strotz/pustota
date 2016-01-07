@@ -61,6 +61,29 @@ namespace Pustota.Maven.Base.Tests
 			Assert.False(new ComponentVersion(null).IsSnapshot);
 		}
 
+		[Test]
+		public void UndefinedIsNotSnapshotTest()
+		{
+			Assert.False(ComponentVersion.Undefined.IsSnapshot);
+		}
+
+		[Test]
+		public void UndefinedIsNotReleaseTest()
+		{
+			Assert.False(ComponentVersion.Undefined.IsRelease);
+		}
+
+		[Test]
+		public void SnapshotIsNotReleaseTest()
+		{
+			Assert.False(new ComponentVersion("1.2.3-SNAPSHOT").IsRelease);
+		}
+
+		[Test]
+		public void VersionIsReleaseTest()
+		{
+			Assert.True(new ComponentVersion("1.2.3").IsRelease);
+		}
 		// To Release
 
 		[Test]
