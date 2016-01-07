@@ -98,6 +98,41 @@ namespace Pustota.Maven.Base.Tests.Actions
 		}
 
 		[Test]
+		public void TwoProjectsVersionInheritedParentTest()
+		{
+			var projectA = new Project
+			{
+				GroupId = "group",
+				ArtifactId = "a",
+				Version = "1.0.0"
+			};
+
+			var projectB = new Project
+			{
+				GroupId = "group",
+				ArtifactId = "b",
+				Parent = new ParentReference
+				{
+					GroupId = "group",
+					ArtifactId = "a",
+					Version = "1.0.0",
+				},
+			};
+
+			var repo = new Mock<IProjectsRepository>();
+			repo.SetupGet(r => r.AllProjects).Returns(new IProject[] { projectA, projectB });
+
+			var action = new CascadeSwitchAction(repo.Object);
+
+			action.ExecuteFor(projectA);
+
+			Assert.That(projectA.Version.Value, Is.EqualTo("1.0.1-SNAPSHOT"));
+
+			Assert.That(projectB.Version.IsDefined, Is.False);
+			Assert.That(projectB.Parent.Version.Value, Is.EqualTo("1.0.1-SNAPSHOT"));
+		}
+
+		[Test]
 		public void ThreeProjectsCascadeParentTest()
 		{
 			var projectA = new Project
@@ -141,10 +176,43 @@ namespace Pustota.Maven.Base.Tests.Actions
 			Assert.That(projectA.Version.Value, Is.EqualTo("1.0.1-SNAPSHOT"));
 
 			Assert.That(projectB.Parent.Version.Value, Is.EqualTo("1.0.1-SNAPSHOT"));
-			Assert.That(projectB.Version.IsDefined, Is.EqualTo(false));
+			Assert.That(projectB.Version.IsDefined, Is.False);
 
 			Assert.That(projectC.Parent.Version.Value, Is.EqualTo("1.0.1-SNAPSHOT"));
-			Assert.That(projectC.Version.IsDefined, Is.EqualTo(false));
+			Assert.That(projectC.Version.IsDefined, Is.False);
+		}
+
+		[Test]
+		public void InheritedParentTest()
+		{
+			var projectA = new Project
+			{
+				GroupId = "group",
+				ArtifactId = "a",
+				Version = "1.0.0"
+			};
+
+			var projectB = new Project
+			{
+				GroupId = "group",
+				ArtifactId = "b",
+				Parent = new ParentReference
+				{
+					GroupId = "group",
+					ArtifactId = "a",
+					Version = "1.0.0",
+				},
+			};
+
+			var repo = new Mock<IProjectsRepository>();
+			repo.SetupGet(r => r.AllProjects).Returns(new IProject[] { projectA, projectB });
+
+			var action = new CascadeSwitchAction(repo.Object);
+
+			action.ExecuteFor(projectB);
+
+			Assert.That(projectA.Version.Value, Is.EqualTo("1.0.0"));
+			Assert.That(projectB.Version.Value, Is.EqualTo("1.0.1-SNAPSHOT"));
 		}
 	}
 }
