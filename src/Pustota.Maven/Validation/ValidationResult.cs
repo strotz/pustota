@@ -5,6 +5,7 @@ namespace Pustota.Maven.Validation
 {
 	public enum ProblemSeverity // REVIEW: im not sure that it will help
 	{
+		ProjectInfo, // validation OK, but best practice 
 		ProjectWarning, // validation failed, but can continue with same project
 		ProjectFatal // no reason to continue with this project
 	}

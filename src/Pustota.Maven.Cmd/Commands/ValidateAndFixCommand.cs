@@ -38,6 +38,8 @@ namespace Pustota.Maven.Cmd.Commands
 					return "error:";
 				case ProblemSeverity.ProjectWarning:
 					return "warning:";
+				case ProblemSeverity.ProjectInfo:
+					return "info";
 				default:
 					return "Undefined:";
 			}
