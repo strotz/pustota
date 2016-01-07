@@ -96,5 +96,55 @@ namespace Pustota.Maven.Base.Tests.Actions
 			Assert.That(projectA.Version.Value, Is.EqualTo("1.0.1-SNAPSHOT"));
 			Assert.That(projectB.Version.Value, Is.EqualTo("1.0.2-SNAPSHOT"));
 		}
+
+		[Test]
+		public void ThreeProjectsCascadeParentTest()
+		{
+			var projectA = new Project
+			{
+				GroupId = "group",
+				ArtifactId = "a",
+				Version = "1.0.0"
+			};
+
+			var projectB = new Project
+			{
+				GroupId = "group",
+				ArtifactId = "b",
+				Parent = new ParentReference
+				{
+					GroupId = "group",
+					ArtifactId = "a",
+					Version = "1.0.0",
+				},
+			};
+
+			var projectC = new Project
+			{
+				GroupId = "group",
+				ArtifactId = "c",
+				Parent = new ParentReference
+				{
+					GroupId = "group",
+					ArtifactId = "b",
+					Version = "1.0.0",
+				},
+			};
+
+			var repo = new Mock<IProjectsRepository>();
+			repo.SetupGet(r => r.AllProjects).Returns(new IProject[] { projectA, projectB, projectC });
+
+			var action = new CascadeSwitchAction(repo.Object);
+
+			action.ExecuteFor(projectA);
+
+			Assert.That(projectA.Version.Value, Is.EqualTo("1.0.1-SNAPSHOT"));
+
+			Assert.That(projectB.Parent.Version.Value, Is.EqualTo("1.0.1-SNAPSHOT"));
+			Assert.That(projectB.Version.IsDefined, Is.EqualTo(false));
+
+			Assert.That(projectC.Parent.Version.Value, Is.EqualTo("1.0.1-SNAPSHOT"));
+			Assert.That(projectC.Version.IsDefined, Is.EqualTo(false));
+		}
 	}
 }
