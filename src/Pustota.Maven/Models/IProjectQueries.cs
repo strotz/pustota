@@ -14,5 +14,7 @@ namespace Pustota.Maven.Models
 		bool HasProjectAsParent(IProjectReference projectReference, bool strictVersion = true);
 
 		bool UsesProjectAs(IProjectReference projectReference, SearchOptions creteria);
+
+		ComponentVersion ActualVersion { get; }
 	}
 }
