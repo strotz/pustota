@@ -30,7 +30,7 @@ namespace Pustota.Maven.Base.Tests.Actions
 			};
 
 			var repo = new Mock<IProjectsRepository>();
-			repo.SetupGet(r => r.AllProjects).Returns(new IProject[] {project});
+			repo.SetupGet(r => r.AllProjects).Returns(new IProject[] { project });
 
 			var action = new BulkSwitchToReleaseAction(repo.Object, "-test");
 
@@ -82,7 +82,8 @@ namespace Pustota.Maven.Base.Tests.Actions
 				GroupId = "group",
 				ArtifactId = "b",
 				Version = "1.0.1-SNAPSHOT",
-				Parent = new ParentReference{
+				Parent = new ParentReference
+				{
 					GroupId = "group",
 					ArtifactId = "a",
 					Version = "1.0.0-SNAPSHOT",
@@ -97,6 +98,54 @@ namespace Pustota.Maven.Base.Tests.Actions
 			action.Execute();
 
 			Assert.That(projectB.Parent.Version, Is.EqualTo(new ComponentVersion("1.0.0-test")));
+		}
+
+		[Test]
+		public void ThreeProjectsCascadeParentTest()
+		{
+			var projectA = new Project
+			{
+				GroupId = "group",
+				ArtifactId = "a",
+				Version = "1.0.0-SNAPSHOT",
+			};
+
+			var projectB = new Project
+			{
+				GroupId = "group",
+				ArtifactId = "b",
+				Parent = new ParentReference
+				{
+					GroupId = "group",
+					ArtifactId = "a",
+					Version = "1.0.0-SNAPSHOT",
+				},
+			};
+
+			var projectC = new Project
+			{
+				GroupId = "group",
+				ArtifactId = "c",
+				Parent = new ParentReference
+				{
+					GroupId = "group",
+					ArtifactId = "b",
+					Version = "1.0.0-SNAPSHOT",
+				},
+			};
+
+			var repo = new Mock<IProjectsRepository>();
+			repo.SetupGet(r => r.AllProjects).Returns(new IProject[] { projectA, projectB, projectC });
+
+			var action = new BulkSwitchToReleaseAction(repo.Object, "-test");
+
+			action.Execute();
+
+			Assert.That(projectB.Parent.Version, Is.EqualTo(new ComponentVersion("1.0.0-test")));
+			Assert.That(projectB.Version.IsDefined, Is.False);
+
+			Assert.That(projectC.Parent.Version, Is.EqualTo(new ComponentVersion("1.0.0-test")), "cascade parent version");
+			Assert.That(projectC.Version.IsDefined, Is.False);
 		}
 
 		[Test]
@@ -213,7 +262,7 @@ namespace Pustota.Maven.Base.Tests.Actions
 			action.Execute();
 
 			Assert.That(projectB.Parent.Version.Value, Is.EqualTo("1.0.0-SNAPSHOT"));
-			 // REVIEW: should we fail, when switch to release and parent is snapshot?
+			// REVIEW: should we fail, when switch to release and parent is snapshot?
 		}
 
 	}
