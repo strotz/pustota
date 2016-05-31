@@ -8,11 +8,13 @@ namespace Pustota.Maven.Actions
 	public class BulkSwitchToReleaseAction
 	{
 		private readonly IProjectsRepository _projects;
+		private readonly long? _build;
 		private readonly string _postfix;
 
-		public BulkSwitchToReleaseAction(IProjectsRepository projects, string postfix)
+		public BulkSwitchToReleaseAction(IProjectsRepository projects, string postfix, long? build = null)
 		{
 			_projects = projects;
+			_build = build;
 			_postfix = postfix;
 		}
 
@@ -23,7 +25,7 @@ namespace Pustota.Maven.Actions
 
 			foreach (var project in _projects.AllProjects.Where(pn => pn.Version.IsSnapshot)) // first, deal with explicit version
 			{
-				project.Version = project.Version.SwitchSnapshotToRelease(_postfix);
+				project.Version = project.Version.SwitchSnapshotToRelease(_postfix, _build);
 				foreach (var dependentProject in _projects.AllProjects)
 				{
 					dependentProject.Operations().PropagateVersionToUsages(project);

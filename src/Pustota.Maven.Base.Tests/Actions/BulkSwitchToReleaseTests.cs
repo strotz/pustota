@@ -40,6 +40,27 @@ namespace Pustota.Maven.Base.Tests.Actions
 		}
 
 		[Test]
+		public void SingleProjectWithBuildTest()
+		{
+			var project = new Project
+			{
+				GroupId = "group",
+				ArtifactId = "a",
+				Version = "1.0.0-SNAPSHOT"
+			};
+
+			var repo = new Mock<IProjectsRepository>();
+			repo.SetupGet(r => r.AllProjects).Returns(new IProject[] { project });
+
+			var action = new BulkSwitchToReleaseAction(repo.Object, "-test", 123);
+
+			action.Execute();
+
+			Assert.That(project.Version.Value, Is.EqualTo("1.0.0.123-test"));
+		}
+
+
+		[Test]
 		public void TwoProjectsTest()
 		{
 			var projectA = new Project
