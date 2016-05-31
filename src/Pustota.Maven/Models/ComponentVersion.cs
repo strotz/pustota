@@ -25,7 +25,7 @@ namespace Pustota.Maven.Models
 
 		public static ComponentVersion Undefined => new ComponentVersion();
 
-		public ComponentVersion SwitchSnapshotToRelease(string postfix = null)
+		public ComponentVersion SwitchSnapshotToRelease(string postfix = null, long? build = null)
 		{
 			if (!IsDefined)
 			{
@@ -33,7 +33,7 @@ namespace Pustota.Maven.Models
 			}
 			if (IsSnapshot)
 			{
-				var normalized = NormalizeSuffix(postfix);
+				var normalized = NormalizeSuffix(postfix, build);
 				return new ComponentVersion(_value.Substring(0, _value.Length - SnapshotPosfix.Length) + normalized);
 			}
 			throw new InvalidOperationException("version already in release");
@@ -52,17 +52,21 @@ namespace Pustota.Maven.Models
 			throw new InvalidOperationException("version already in snapshot");
 		}
 
-		private static string NormalizeSuffix(string postfix)
+		private static string NormalizeSuffix(string postfix, long? build)
 		{
-			if (string.IsNullOrEmpty(postfix))
+			string result = build.HasValue ? "." + build.Value : string.Empty;
+			if (!string.IsNullOrEmpty(postfix))
 			{
-				return string.Empty;
+				if (postfix.StartsWith("-"))
+				{
+					result += postfix;
+				}
+				else
+				{
+					result += "-" + postfix;
+				}
 			}
-			if (postfix.StartsWith("-"))
-			{
-				return postfix;
-			}
-			return "-" + postfix;
+			return result;
 		}
 
 		private static string IncrementNumber(string version, int position)

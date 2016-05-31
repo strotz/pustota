@@ -115,6 +115,20 @@ namespace Pustota.Maven.Base.Tests
 		}
 
 		[Test]
+		public void ToReleaseFromSnapshotWithBuildTest()
+		{
+			var version = new ComponentVersion("1.0.0-SNAPSHOT").SwitchSnapshotToRelease(build: 66);
+			Assert.That(version.Value, Is.EqualTo("1.0.0.66"));
+		}
+
+		[Test]
+		public void ToReleaseFromSnapshotWithBuildAndSuffixTest()
+		{
+			var version = new ComponentVersion("1.0.0-SNAPSHOT").SwitchSnapshotToRelease(build: 66, postfix: "zzz");
+			Assert.That(version.Value, Is.EqualTo("1.0.0.66-zzz"));
+		}
+
+		[Test]
 		public void ToReleaseFromReleaseBareTest() 
 		{
 			var version = new ComponentVersion("1.0.0");
