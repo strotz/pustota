@@ -84,6 +84,7 @@ namespace Pustota.Maven.Base.Tests
 		{
 			Assert.True(new ComponentVersion("1.2.3").IsRelease);
 		}
+
 		// To Release
 
 		[Test]
@@ -93,18 +94,25 @@ namespace Pustota.Maven.Base.Tests
 			Assert.Throws<InvalidOperationException>(delegate { version.SwitchSnapshotToRelease(); });
 		}
 
-		[Test]
+        [Test]
+        public void ToReleaseVersionFromUndefinedBareTest()
+        {
+            var version = ComponentVersion.Undefined;
+            Assert.Throws<InvalidOperationException>(delegate { version.SwitchSnapshotToRelease(new ComponentVersion("1.0.0")); });
+        }
+
+        [Test]
 		public void ToReleaseFromUndefinedAddPostfixWithDashTest()
 		{
 			var version = ComponentVersion.Undefined;
-			Assert.Throws<InvalidOperationException>(delegate { version.SwitchSnapshotToRelease("-test"); });
+			Assert.Throws<InvalidOperationException>(delegate { version.SwitchSnapshotToRelease(postfix: "-test"); });
 		}
 
 		[Test]
 		public void ToReleaseFromNullAddPostfixNoDashTest()
 		{
 			var version = ComponentVersion.Undefined;
-			Assert.Throws<InvalidOperationException>(delegate { version.SwitchSnapshotToRelease("test"); });
+			Assert.Throws<InvalidOperationException>(delegate { version.SwitchSnapshotToRelease(postfix: "test"); });
 		}
 
 		[Test]
@@ -128,12 +136,39 @@ namespace Pustota.Maven.Base.Tests
 			Assert.That(version.Value, Is.EqualTo("1.0.0.66-zzz"));
 		}
 
-		[Test]
+        [Test]
+        public void ToReleaseFromSnapshotWithVersionTest()
+        {
+            var version = new ComponentVersion("1.0.0-SNAPSHOT").SwitchSnapshotToRelease("1.0.0.66".ToVersion());
+            Assert.That(version.Value, Is.EqualTo("1.0.0.66"));
+        }
+
+        [Test]
+        public void ToReleaseFromSnapshotNoCompatibleTest()
+        {
+            var version = new ComponentVersion("1.0.0-SNAPSHOT");
+            Assert.Throws<InvalidOperationException>(delegate { version.SwitchSnapshotToRelease("1.1.0.8".ToVersion());});
+        }
+
+        [Test]
+        public void ToUndefinedFromSnapshotTest()
+        {
+            var version = new ComponentVersion("1.0.0-SNAPSHOT");
+            Assert.Throws<InvalidOperationException>(delegate { version.SwitchSnapshotToRelease(ComponentVersion.Undefined); });
+        }
+
+        [Test]
+        public void ToSnapshotFromSnapshotVersionTest()
+        {
+            var version = new ComponentVersion("1.0.0-SNAPSHOT");
+            Assert.Throws<InvalidOperationException>(delegate { version.SwitchSnapshotToRelease("1.0.0-SNAPSHOT".ToVersion()); });
+        }
+
+        [Test]
 		public void ToReleaseFromReleaseBareTest() 
 		{
 			var version = new ComponentVersion("1.0.0");
 			Assert.Throws<InvalidOperationException>(delegate { version.SwitchSnapshotToRelease(); });
-
 		}
 
 		[Test]
@@ -147,7 +182,7 @@ namespace Pustota.Maven.Base.Tests
 		public void AddPostfixReleaseWithSuffixTest()
 		{
 			var version = new ComponentVersion("1.0.0-RE");
-			Assert.Throws<InvalidOperationException>(delegate { version.SwitchSnapshotToRelease("abc"); });
+			Assert.Throws<InvalidOperationException>(delegate { version.SwitchSnapshotToRelease(postfix: "abc"); });
 		}
 
 		// To Snapshot

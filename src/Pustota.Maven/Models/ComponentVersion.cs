@@ -34,7 +34,7 @@ namespace Pustota.Maven.Models
 
 		public static ComponentVersion Undefined => new ComponentVersion();
 
-		public ComponentVersion SwitchSnapshotToRelease(string postfix = null, long? build = null)
+		public ComponentVersion SwitchSnapshotToRelease(long? build = null, string postfix = null)
 		{
 			if (!IsDefined)
 			{
@@ -48,7 +48,33 @@ namespace Pustota.Maven.Models
 			throw new InvalidOperationException("version already in release");
 		}
 
-		public ComponentVersion SwitchReleaseToSnapshotWithVersionIncrement()
+        public ComponentVersion SwitchSnapshotToRelease(ComponentVersion anotherVersion)
+        {
+            if (!IsDefined)
+            {
+                throw new InvalidOperationException("version undefined");
+            }
+            if (!anotherVersion.IsDefined)
+            {
+                throw new InvalidOperationException("target version undefined");
+            }
+            if (anotherVersion.IsSnapshot)
+            {
+                throw new InvalidOperationException("targer version is SNAPSHOT");
+            }
+            if (IsSnapshot)
+            {
+                string v = _value.Substring(0, _value.Length - SnapshotPosfix.Length);
+                if (!anotherVersion.Value.StartsWith(v))
+                {
+                    throw new InvalidOperationException($"release version must extend snapshot. {anotherVersion.Value} does not start with {v}");
+                }
+                return new ComponentVersion(anotherVersion.Value);
+            }
+            throw new InvalidOperationException("version already in release");
+        }
+
+        public ComponentVersion SwitchReleaseToSnapshotWithVersionIncrement()
 		{
 			if (!IsDefined)
 			{

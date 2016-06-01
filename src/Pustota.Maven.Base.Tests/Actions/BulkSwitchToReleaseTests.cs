@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Moq;
 using NUnit.Framework;
 using Pustota.Maven.Actions;
@@ -14,7 +15,7 @@ namespace Pustota.Maven.Base.Tests.Actions
 		public void EmptyTest()
 		{
 			var repo = new Mock<IProjectsRepository>();
-			var action = new BulkSwitchToReleaseAction(repo.Object, "test");
+			var action = new BulkSwitchToReleaseAction(repo.Object, null, "test");
 
 			action.Execute();
 		}
@@ -32,7 +33,7 @@ namespace Pustota.Maven.Base.Tests.Actions
 			var repo = new Mock<IProjectsRepository>();
 			repo.SetupGet(r => r.AllProjects).Returns(new IProject[] { project });
 
-			var action = new BulkSwitchToReleaseAction(repo.Object, "-test");
+			var action = new BulkSwitchToReleaseAction(repo.Object, null, "-test");
 
 			action.Execute();
 
@@ -52,15 +53,51 @@ namespace Pustota.Maven.Base.Tests.Actions
 			var repo = new Mock<IProjectsRepository>();
 			repo.SetupGet(r => r.AllProjects).Returns(new IProject[] { project });
 
-			var action = new BulkSwitchToReleaseAction(repo.Object, "-test", 123);
+			var action = new BulkSwitchToReleaseAction(repo.Object, 123, "-test");
 
 			action.Execute();
 
 			Assert.That(project.Version.Value, Is.EqualTo("1.0.0.123-test"));
 		}
 
+        [Test]
+        public void SingleProjectToReleaseTest()
+        {
+            var project = new Project
+            {
+                GroupId = "group",
+                ArtifactId = "a",
+                Version = "1.0.0-SNAPSHOT".ToVersion()
+            };
 
-		[Test]
+            var repo = new Mock<IProjectsRepository>();
+            repo.SetupGet(r => r.AllProjects).Returns(new IProject[] { project });
+
+            var action = new BulkSwitchToReleaseAction(repo.Object, "1.0.0.123".ToVersion());
+
+            action.Execute();
+
+            Assert.That(project.Version.Value, Is.EqualTo("1.0.0.123"));
+        }
+
+        [Test]
+        public void SingleProjectToReleaseStrictTest()
+        {
+            var project = new Project
+            {
+                GroupId = "group",
+                ArtifactId = "a",
+                Version = "1.0.0-SNAPSHOT".ToVersion()
+            };
+
+            var repo = new Mock<IProjectsRepository>();
+            repo.SetupGet(r => r.AllProjects).Returns(new IProject[] { project });
+
+            var action = new BulkSwitchToReleaseAction(repo.Object, "0.1.0.123".ToVersion());
+            Assert.Throws<InvalidOperationException>(delegate { action.Execute(); });
+        }
+
+        [Test]
 		public void TwoProjectsTest()
 		{
 			var projectA = new Project
@@ -80,7 +117,7 @@ namespace Pustota.Maven.Base.Tests.Actions
 			var repo = new Mock<IProjectsRepository>();
 			repo.SetupGet(r => r.AllProjects).Returns(new IProject[] { projectA, projectB });
 
-			var action = new BulkSwitchToReleaseAction(repo.Object, "-test");
+			var action = new BulkSwitchToReleaseAction(repo.Object, null, "-test");
 
 			action.Execute();
 
@@ -88,7 +125,32 @@ namespace Pustota.Maven.Base.Tests.Actions
 			Assert.That(projectB.Version.Value, Is.EqualTo("1.0.1-test"));
 		}
 
-		[Test]
+        [Test]
+        public void TwoProjectsStrictTest()
+        {
+            var projectA = new Project
+            {
+                GroupId = "group",
+                ArtifactId = "a",
+                Version = "1.0.0-SNAPSHOT".ToVersion()
+            };
+
+            var projectB = new Project
+            {
+                GroupId = "group",
+                ArtifactId = "b",
+                Version = "1.0.1-SNAPSHOT".ToVersion()
+            };
+
+            var repo = new Mock<IProjectsRepository>();
+            repo.SetupGet(r => r.AllProjects).Returns(new IProject[] { projectA, projectB });
+
+            var action = new BulkSwitchToReleaseAction(repo.Object, "1.0.0.6".ToVersion());
+
+            Assert.Throws<InvalidOperationException>(delegate { action.Execute(); });
+        }
+
+        [Test]
 		public void TwoProjectsParentTest()
 		{
 			var projectA = new Project
@@ -114,7 +176,7 @@ namespace Pustota.Maven.Base.Tests.Actions
 			var repo = new Mock<IProjectsRepository>();
 			repo.SetupGet(r => r.AllProjects).Returns(new IProject[] { projectA, projectB });
 
-			var action = new BulkSwitchToReleaseAction(repo.Object, "-test");
+			var action = new BulkSwitchToReleaseAction(repo.Object, null, "-test");
 
 			action.Execute();
 
@@ -158,7 +220,7 @@ namespace Pustota.Maven.Base.Tests.Actions
 			var repo = new Mock<IProjectsRepository>();
 			repo.SetupGet(r => r.AllProjects).Returns(new IProject[] { projectA, projectB, projectC });
 
-			var action = new BulkSwitchToReleaseAction(repo.Object, "-test");
+			var action = new BulkSwitchToReleaseAction(repo.Object, null, "-test");
 
 			action.Execute();
 
@@ -204,7 +266,7 @@ namespace Pustota.Maven.Base.Tests.Actions
 			var repo = new Mock<IProjectsRepository>();
 			repo.SetupGet(r => r.AllProjects).Returns(new IProject[] { projectA, projectB, projectC });
 
-			var action = new BulkSwitchToReleaseAction(repo.Object, "-test");
+			var action = new BulkSwitchToReleaseAction(repo.Object, null, "-test");
 
 			action.Execute();
 
@@ -244,7 +306,7 @@ namespace Pustota.Maven.Base.Tests.Actions
 			var repo = new Mock<IProjectsRepository>();
 			repo.SetupGet(r => r.AllProjects).Returns(new IProject[] { projectA, projectB });
 
-			var action = new BulkSwitchToReleaseAction(repo.Object, "-test");
+			var action = new BulkSwitchToReleaseAction(repo.Object, null, "-test");
 
 			action.Execute();
 
@@ -281,7 +343,7 @@ namespace Pustota.Maven.Base.Tests.Actions
 			var repo = new Mock<IProjectsRepository>();
 			repo.SetupGet(r => r.AllProjects).Returns(new IProject[] { projectA, projectB });
 
-			var action = new BulkSwitchToReleaseAction(repo.Object, "-test");
+			var action = new BulkSwitchToReleaseAction(repo.Object, null, "-test");
 
 			action.Execute();
 
@@ -325,7 +387,7 @@ namespace Pustota.Maven.Base.Tests.Actions
 			var repo = new Mock<IProjectsRepository>();
 			repo.SetupGet(r => r.AllProjects).Returns(new IProject[] { projectA, projectB });
 
-			var action = new BulkSwitchToReleaseAction(repo.Object, "-test");
+			var action = new BulkSwitchToReleaseAction(repo.Object, null, "-test");
 
 			action.Execute();
 
