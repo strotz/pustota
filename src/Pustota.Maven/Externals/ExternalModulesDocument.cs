@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using Pustota.Maven.Models;
 
 namespace Pustota.Maven.Externals
 {
@@ -37,7 +38,7 @@ namespace Pustota.Maven.Externals
 			{
 				GroupId = FirstValueOrNull(element, "groupId"),
 				ArtifactId = FirstValueOrNull(element, "artifactId"),
-				Version = FirstValueOrNull(element, "version")
+				Version = FirstValueOrNull(element, "version").ToVersion()
 			};
 			return result;
 		}

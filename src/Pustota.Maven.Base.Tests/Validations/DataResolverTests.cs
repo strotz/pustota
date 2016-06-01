@@ -31,7 +31,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 		[Test]
 		public void ProjectHasVersionTest()
 		{
-			Project.Setup(p => p.Version).Returns("abc");
+			Project.Setup(p => p.Version).Returns("abc".ToVersion());
 			var resolved = _extractor.Extract(Project.Object);
 			Assert.That(resolved.Version.Value, Is.EqualTo("abc"));
 		}
@@ -40,7 +40,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 		public void ParentHasVersionTest()
 		{
 			Project.Setup(p => p.Parent).Returns(_parent.Object);
-			_parent.Setup(p => p.Version).Returns("abc");
+			_parent.Setup(p => p.Version).Returns("abc".ToVersion());
 			var resolved = _extractor.Extract(Project.Object);
 			Assert.That(resolved.Version.Value, Is.EqualTo("abc"));
 		}

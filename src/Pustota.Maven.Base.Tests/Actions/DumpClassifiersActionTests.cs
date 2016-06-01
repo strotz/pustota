@@ -20,22 +20,22 @@ namespace Pustota.Maven.Base.Tests.Actions
 			{
 				GroupId = "group",
 				ArtifactId = "a",
-				Version = "1.0.0-SNAPSHOT",
-			};
+				Version = "1.0.0-SNAPSHOT".ToVersion()
+            };
 
 			var projectB = new Project
 			{
 				GroupId = "group",
 				ArtifactId = "b",
-				Version = "1.0.1-SNAPSHOT",
-			};
+				Version = "1.0.1-SNAPSHOT".ToVersion()
+            };
 
 			projectB.Dependencies.Add(
 				new Dependency
 				{
 					GroupId = "group",
 					ArtifactId = "a",
-					Version = "1.0.0-SNAPSHOT",
+					Version = "1.0.0-SNAPSHOT".ToVersion(),
 					Classifier = "${test}"
 				}
 				);
@@ -45,7 +45,7 @@ namespace Pustota.Maven.Base.Tests.Actions
 				{
 					GroupId = "group",
 					ArtifactId = "a",
-					Version = "1.0.0-SNAPSHOT",
+					Version = "1.0.0-SNAPSHOT".ToVersion(),
 					Classifier = "something on front ${test}"
 				}
 				);
@@ -55,7 +55,7 @@ namespace Pustota.Maven.Base.Tests.Actions
 				{
 					GroupId = "group",
 					ArtifactId = "a",
-					Version = "1.0.0-SNAPSHOT",
+					Version = "1.0.0-SNAPSHOT".ToVersion(),
 					Classifier = "${test} something on back"
 				}
 				);
@@ -65,7 +65,7 @@ namespace Pustota.Maven.Base.Tests.Actions
 				{
 					GroupId = "group",
 					ArtifactId = "a",
-					Version = "1.0.0-SNAPSHOT",
+					Version = "1.0.0-SNAPSHOT".ToVersion(),
 					Classifier = "${test}"
 				}
 				);

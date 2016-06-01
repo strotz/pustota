@@ -24,9 +24,9 @@ namespace Pustota.Maven.Models
 			get { return string.IsNullOrEmpty(_projectReference.ArtifactId); }
 		}
 
-		private static bool VersionEqual(string version1, string version2)
+		private static bool VersionEqual(ComponentVersion version1, ComponentVersion version2)
 		{
-			return NullableStringEqual(version1, version2);
+			return NullableStringEqual(version1.Value, version2.Value); // TODO: it is questionable, need review logic 
 		}
 
 		private static bool GroupIdEqual(string group1, string group2) //

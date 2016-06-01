@@ -33,7 +33,7 @@ namespace Pustota.Maven
 			{
 				GroupId = groupId,
 				ArtifactId = artifactId,
-				Version = version
+				Version = version.ToVersion()
 			};
 			return TryGetProject(reference, out project, strictVersion);
 		}

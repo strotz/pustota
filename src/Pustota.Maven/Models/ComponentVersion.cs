@@ -3,7 +3,16 @@ using System.Globalization;
 
 namespace Pustota.Maven.Models
 {
-	public struct ComponentVersion
+    public static class ComponentVersionExtensions
+    {
+        public static ComponentVersion ToVersion(this string stringValue)
+        {
+            return new ComponentVersion(stringValue);
+        } 
+    } 
+
+
+    public struct ComponentVersion
 	{
 		public const string SnapshotPosfix = "-SNAPSHOT";
 		public const string DefaultVersion = "1.0.0";
@@ -94,16 +103,6 @@ namespace Pustota.Maven.Models
 			}
 
 			return string.Join(".", data) + postfix;
-		}
-
-		public static implicit operator ComponentVersion(string version) // TODO: remove 
-		{
-			return new ComponentVersion(version);
-		}
-
-		public static implicit operator string(ComponentVersion version)
-		{
-			return version.Value;
 		}
 
 		public bool Equals(ComponentVersion other)

@@ -44,7 +44,7 @@ namespace Pustota.Maven.Serialization
 		{
 			projectReference.ArtifactId = element.ReadElementValueOrNull("artifactId");
 			projectReference.GroupId = element.ReadElementValueOrNull("groupId");
-			projectReference.Version = element.ReadElementValueOrNull("version");
+			projectReference.Version = element.ReadElementValueOrNull("version").ToVersion();
 		}
 
 		// REVIEW: element is not PomDocument, it is wrapper XElement (dependency, parent)
@@ -52,7 +52,7 @@ namespace Pustota.Maven.Serialization
 		{
 			element.SetElementValue("groupId", projectReference.GroupId);
 			element.SetElementValue("artifactId", projectReference.ArtifactId);
-			element.SetElementValue("version", projectReference.Version);
+			element.SetElementValue("version", projectReference.Version.Value);
 		}
 
 		internal void LoadParentReference(PomElement rootElement, IProject project)

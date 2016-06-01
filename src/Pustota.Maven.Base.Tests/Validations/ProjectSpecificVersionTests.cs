@@ -31,7 +31,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 		public void ParentVersionTest()
 		{
 			var parentReference = new Mock<IParentReference>();
-			parentReference.Setup(p => p.Version).Returns("abc");
+			parentReference.Setup(p => p.Version).Returns("abc".ToVersion());
 			Project.Setup(p => p.Parent).Returns(parentReference.Object);
 
 			var result = _projectValidator.Validate(Context.Object, Project.Object).ToArray();

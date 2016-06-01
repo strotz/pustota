@@ -6,14 +6,14 @@ namespace Pustota.Maven.Validation.Fixes
 	internal class ApplyVersionFix : Fix
 	{
 		private readonly IProjectReference _reference;
-		private readonly string _version;
+		private readonly ComponentVersion _version;
 
-		public ApplyVersionFix(IProjectReference reference, string version)
+		public ApplyVersionFix(IProjectReference reference, ComponentVersion version)
 		{
 			_reference = reference;
 			_version = version;
 
-			Title = string.Format("version will be changed to {0}", version);
+			Title = $"version will be changed to {version}";
 		}
 
 		public override void Do()

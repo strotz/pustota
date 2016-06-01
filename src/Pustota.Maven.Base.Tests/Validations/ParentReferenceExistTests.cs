@@ -21,7 +21,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 
 			_parentReference = new Mock<IParentReference>();
 			_parentReference.Setup(pr => pr.ArtifactId).Returns("parentId");
-			_parentReference.Setup(pr => pr.Version).Returns("parentVersion1");
+			_parentReference.Setup(pr => pr.Version).Returns("parentVersion1".ToVersion());
 			Project.Setup(p => p.Parent).Returns(_parentReference.Object);
 
 			_parent = new Mock<IProject>();
@@ -58,7 +58,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 		{
 			var external = new Mock<IProjectReference>();
 			external.Setup(pr => pr.ArtifactId).Returns("parentId");
-			external.Setup(pr => pr.Version).Returns("parentVersion1");
+			external.Setup(pr => pr.Version).Returns("parentVersion1".ToVersion());
 
 			IProject foundParent = null;
 			Context.Setup(c => c.TryGetParentByPath(Project.Object, out foundParent)).Returns(false);
@@ -75,7 +75,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 		{
 			var external = new Mock<IProjectReference>();
 			external.Setup(pr => pr.ArtifactId).Returns("parentId");
-			external.Setup(pr => pr.Version).Returns("parentVersion1");
+			external.Setup(pr => pr.Version).Returns("parentVersion1".ToVersion());
 			
 			_parentReference.Setup(pr => pr.RelativePath).Returns("path");
 
@@ -95,7 +95,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 		[Test]
 		public void ProjectHasMatchedParentTest()
 		{
-			_parent.Setup(pr => pr.Version).Returns("parentVersion1");
+			_parent.Setup(pr => pr.Version).Returns("parentVersion1".ToVersion());
 
 			IProject foundParent = _parent.Object;
 			Context.Setup(c => c.TryGetParentByPath(Project.Object, out foundParent)).Returns(true);
@@ -108,11 +108,11 @@ namespace Pustota.Maven.Base.Tests.Validations
 		[Test]
 		public void ProjectHasMatchedParentThatInheritsItsVersionTest() // to use inherited version 
 		{
-			_parent.Setup(pr => pr.Version).Returns((string)null);
+			_parent.Setup(pr => pr.Version).Returns(((string)null).ToVersion());
 
 			var grandReference = new Mock<IParentReference>();
 			grandReference.Setup(pr => pr.ArtifactId).Returns("grandId");
-			grandReference.Setup(g => g.Version).Returns("parentVersion1");
+			grandReference.Setup(g => g.Version).Returns("parentVersion1".ToVersion());
 			_parent.Setup(pr => pr.Parent).Returns(grandReference.Object);
 
 			IProject foundParent = _parent.Object;
@@ -126,7 +126,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 		[Test]
 		public void ProjectHasSemiMatchedParentTest()
 		{
-			_parent.Setup(pr => pr.Version).Returns("parentVersion2");
+			_parent.Setup(pr => pr.Version).Returns("parentVersion2".ToVersion());
 
 			IProject foundParent = _parent.Object;
 			Context.Setup(c => c.TryGetParentByPath(Project.Object, out foundParent)).Returns(true);
@@ -139,7 +139,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 		[Test]
 		public void NoProjectInPathButRepoHasGoodParentTest()
 		{
-			_parent.Setup(pr => pr.Version).Returns("parentVersion1");
+			_parent.Setup(pr => pr.Version).Returns("parentVersion1".ToVersion());
 
 			IProject foundParentByPath = null;
 			Context.Setup(c => c.TryGetParentByPath(Project.Object, out foundParentByPath)).Returns(false);
@@ -155,7 +155,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 		[Test]
 		public void NoProjectInPathButRepoHasSemiGoodParentTest()
 		{
-			_parent.Setup(pr => pr.Version).Returns("parentVersion1");
+			_parent.Setup(pr => pr.Version).Returns("parentVersion1".ToVersion());
 
 			IProject foundParentByPath = null;
 			Context.Setup(c => c.TryGetParentByPath(Project.Object, out foundParentByPath)).Returns(false);

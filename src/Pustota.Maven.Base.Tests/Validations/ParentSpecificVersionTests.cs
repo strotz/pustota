@@ -46,7 +46,7 @@ namespace Pustota.Maven.Base.Tests.Validations
 		public void ParentWithVersionTest()
 		{
 			Project.Setup(p => p.Parent).Returns(_parent.Object);
-			_parent.Setup(p => p.Version).Returns("abc");
+			_parent.Setup(p => p.Version).Returns("abc".ToVersion());
 
 			var result = _projectValidator.Validate(Context.Object, Project.Object).ToList();
 			Assert.That(result, Is.Not.Null);

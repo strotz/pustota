@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using NUnit.Framework;
+using Pustota.Maven.Models;
 using Pustota.Maven.Serialization;
 using Pustota.Maven.Serialization.Data;
 
@@ -76,8 +77,8 @@ namespace Pustota.Maven.Base.Tests
 			{
 				ArtifactId = GetRandomString(),
 				GroupId = GetRandomString(),
-				Version = GetRandomString()
-			};
+				Version = GetRandomString().ToVersion()
+            };
 			string serialized = _serializer.Serialize(project);
 			var deserialized = _serializer.Deserialize(serialized);
 
@@ -103,8 +104,8 @@ namespace Pustota.Maven.Base.Tests
 			{
 				ArtifactId = GetRandomString(),
 				GroupId = GetRandomString(),
-				Version = GetRandomString()
-			};
+				Version = GetRandomString().ToVersion()
+            };
 			string serialized = _serializer.Serialize(project);
 
 			var projectElement = XDocument.Parse(serialized).Element(E("project"));
@@ -535,7 +536,7 @@ namespace Pustota.Maven.Base.Tests
 			{
 				ArtifactId = GetRandomString(),
 				GroupId = GetRandomString(),
-				Version = GetRandomString(),
+				Version = GetRandomString().ToVersion(),
 				Extensions = true,
 //				Inherited = "false"
 			};

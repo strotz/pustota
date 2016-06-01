@@ -26,7 +26,7 @@ namespace Pustota.Maven.Base.Tests.Actions
 			{
 				GroupId = "group",
 				ArtifactId = "a",
-				Version = "1.0.0-SNAPSHOT"
+				Version = "1.0.0-SNAPSHOT".ToVersion()
 			};
 
 			var repo = new Mock<IProjectsRepository>();
@@ -46,7 +46,7 @@ namespace Pustota.Maven.Base.Tests.Actions
 			{
 				GroupId = "group",
 				ArtifactId = "a",
-				Version = "1.0.0-SNAPSHOT"
+				Version = "1.0.0-SNAPSHOT".ToVersion()
 			};
 
 			var repo = new Mock<IProjectsRepository>();
@@ -67,15 +67,15 @@ namespace Pustota.Maven.Base.Tests.Actions
 			{
 				GroupId = "group",
 				ArtifactId = "a",
-				Version = "1.0.0-SNAPSHOT"
+				Version = "1.0.0-SNAPSHOT".ToVersion()
 			};
 
 			var projectB = new Project
 			{
 				GroupId = "group",
 				ArtifactId = "b",
-				Version = "1.0.1-SNAPSHOT"
-			};
+				Version = "1.0.1-SNAPSHOT".ToVersion()
+            };
 
 			var repo = new Mock<IProjectsRepository>();
 			repo.SetupGet(r => r.AllProjects).Returns(new IProject[] { projectA, projectB });
@@ -95,19 +95,19 @@ namespace Pustota.Maven.Base.Tests.Actions
 			{
 				GroupId = "group",
 				ArtifactId = "a",
-				Version = "1.0.0-SNAPSHOT",
+				Version = "1.0.0-SNAPSHOT".ToVersion()
 			};
 
 			var projectB = new Project
 			{
 				GroupId = "group",
 				ArtifactId = "b",
-				Version = "1.0.1-SNAPSHOT",
+				Version = "1.0.1-SNAPSHOT".ToVersion(),
 				Parent = new ParentReference
 				{
 					GroupId = "group",
 					ArtifactId = "a",
-					Version = "1.0.0-SNAPSHOT",
+					Version = "1.0.0-SNAPSHOT".ToVersion()
 				},
 			};
 
@@ -128,7 +128,7 @@ namespace Pustota.Maven.Base.Tests.Actions
 			{
 				GroupId = "group",
 				ArtifactId = "a",
-				Version = "1.0.0-SNAPSHOT",
+				Version = "1.0.0-SNAPSHOT".ToVersion()
 			};
 
 			var projectB = new Project
@@ -139,8 +139,8 @@ namespace Pustota.Maven.Base.Tests.Actions
 				{
 					GroupId = "group",
 					ArtifactId = "a",
-					Version = "1.0.0-SNAPSHOT",
-				},
+					Version = "1.0.0-SNAPSHOT".ToVersion()
+                },
 			};
 
 			var projectC = new Project
@@ -151,8 +151,8 @@ namespace Pustota.Maven.Base.Tests.Actions
 				{
 					GroupId = "group",
 					ArtifactId = "b",
-					Version = "1.0.0-SNAPSHOT",
-				},
+					Version = "1.0.0-SNAPSHOT".ToVersion()
+                },
 			};
 
 			var repo = new Mock<IProjectsRepository>();
@@ -176,8 +176,8 @@ namespace Pustota.Maven.Base.Tests.Actions
 			{
 				GroupId = "group",
 				ArtifactId = "a",
-				Version = "1.0.0-SNAPSHOT",
-			};
+				Version = "1.0.0-SNAPSHOT".ToVersion()
+            };
 
 			var projectB = new Project
 			{
@@ -186,8 +186,8 @@ namespace Pustota.Maven.Base.Tests.Actions
 				{
 					GroupId = "group",
 					ArtifactId = "a",
-					Version = "1.0.0-SNAPSHOT",
-				},
+					Version = "1.0.0-SNAPSHOT".ToVersion()
+                },
 			};
 
 			var projectC = new Project
@@ -197,8 +197,8 @@ namespace Pustota.Maven.Base.Tests.Actions
 				{
 					GroupId = "group",
 					ArtifactId = "b",
-					Version = "1.0.0-SNAPSHOT",
-				},
+					Version = "1.0.0-SNAPSHOT".ToVersion()
+                },
 			};
 
 			var repo = new Mock<IProjectsRepository>();
@@ -222,23 +222,23 @@ namespace Pustota.Maven.Base.Tests.Actions
 			{
 				GroupId = "group",
 				ArtifactId = "a",
-				Version = "1.0.0-SNAPSHOT",
-			};
+				Version = "1.0.0-SNAPSHOT".ToVersion()
+            };
 
 			var projectB = new Project
 			{
 				GroupId = "group",
 				ArtifactId = "b",
-				Version = "1.0.1-SNAPSHOT",
-			};
+				Version = "1.0.1-SNAPSHOT".ToVersion()
+            };
 
 			projectB.Dependencies.Add(
 				new Dependency
 				{
 					GroupId = "group",
 					ArtifactId = "a",
-					Version = "1.0.0-SNAPSHOT",
-				}
+					Version = "1.0.0-SNAPSHOT".ToVersion()
+                }
 			);
 
 			var repo = new Mock<IProjectsRepository>();
@@ -259,23 +259,23 @@ namespace Pustota.Maven.Base.Tests.Actions
 			{
 				GroupId = "group",
 				ArtifactId = "a",
-				Version = "1.0.0-SNAPSHOT",
-			};
+				Version = "1.0.0-SNAPSHOT".ToVersion()
+            };
 
 			var projectB = new Project
 			{
 				GroupId = "group",
 				ArtifactId = "b",
-				Version = "1.0.1-SNAPSHOT",
-			};
+				Version = "1.0.1-SNAPSHOT".ToVersion()
+            };
 
 			projectB.Plugins.Add(
 				new Plugin
 				{
 					GroupId = "group",
 					ArtifactId = "a",
-					Version = "1.0.0-SNAPSHOT",
-				}
+					Version = "1.0.0-SNAPSHOT".ToVersion()
+                }
 			);
 
 			var repo = new Mock<IProjectsRepository>();
@@ -296,20 +296,21 @@ namespace Pustota.Maven.Base.Tests.Actions
 			{
 				GroupId = "group",
 				ArtifactId = "a",
-				Version = "1.0.0-SNAPSHOT",
-			};
+				Version = "1.0.0-SNAPSHOT".ToVersion()
+            };
 
 			var projectB = new Project
 			{
 				GroupId = "group",
 				ArtifactId = "b",
-				Version = "1.0.1-SNAPSHOT",
-				Parent = new ParentReference
+				Version = "1.0.1-SNAPSHOT".ToVersion(),
+
+                Parent = new ParentReference
 				{
 					GroupId = "group",
 					ArtifactId = "x",
-					Version = "1.0.0-SNAPSHOT",
-				},
+					Version = "1.0.0-SNAPSHOT".ToVersion()
+                },
 			};
 
 			projectB.Plugins.Add(
@@ -317,8 +318,8 @@ namespace Pustota.Maven.Base.Tests.Actions
 				{
 					GroupId = "group",
 					ArtifactId = "a",
-					Version = "1.0.0-SNAPSHOT",
-				}
+					Version = "1.0.0-SNAPSHOT".ToVersion()
+                }
 			);
 
 			var repo = new Mock<IProjectsRepository>();
