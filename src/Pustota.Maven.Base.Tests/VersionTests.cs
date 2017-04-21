@@ -191,20 +191,20 @@ namespace Pustota.Maven.Base.Tests
 		public void ToSnapshotFromNullBareTest()
 		{
 			var version = new ComponentVersion(null);
-			Assert.Throws<InvalidOperationException>(delegate { version.SwitchReleaseToSnapshotWithVersionIncrement(); });
+			Assert.Throws<InvalidOperationException>(delegate { version.Operations().ToSnapshotWithVersionIncrement(); });
 		}
 
 		[Test]
 		public void ToSnapshotFromReleaseBareTest()
 		{
-			var version = new ComponentVersion("1.0.0").SwitchReleaseToSnapshotWithVersionIncrement();
-			Assert.That(version.Value, Is.EqualTo("1.0.1-SNAPSHOT")); // TODO: Add ability to manage what version to increment
+			var version = new ComponentVersion("1.0.0").Operations().ToSnapshotWithVersionIncrement();
+			Assert.That(version.Value, Is.EqualTo("1.0.1-SNAPSHOT")); 
 		}
 
 		[Test]
 		public void ToSnapshotFromReleaseWithSuffixTest()
 		{
-			var version = new ComponentVersion("1.0.0-RE").SwitchReleaseToSnapshotWithVersionIncrement();
+			var version = new ComponentVersion("1.0.0-RE").Operations().ToSnapshotWithVersionIncrement();
 			Assert.That(version.Value, Is.EqualTo("1.0.1-RE-SNAPSHOT"));
 		}
 
@@ -212,8 +212,46 @@ namespace Pustota.Maven.Base.Tests
 		public void ToSnapshotFromSnapshotTest()
 		{
 			var version = new ComponentVersion("1.0.0-SNAPSHOT");
-			Assert.Throws<InvalidOperationException>(delegate { version.SwitchReleaseToSnapshotWithVersionIncrement(); });
+			Assert.Throws<InvalidOperationException>(delegate { version.Operations().ToSnapshotWithVersionIncrement(); });
 		}
+
+		// To Snapshot with position
+
+		[Test]
+		public void ToSnapshotFromNullWithPositionTest()
+		{
+			var version = new ComponentVersion(null);
+			Assert.Throws<InvalidOperationException>(delegate { version.Operations().ToSnapshotWithVersionIncrement(1); });
+		}
+
+		[Test]
+		public void ToSnapshotFromReleaseWithFirstPositionTest()
+		{
+			var version = new ComponentVersion("1.0.0").Operations().ToSnapshotWithVersionIncrement(1);
+			Assert.That(version.Value, Is.EqualTo("1.1.0-SNAPSHOT")); 
+		}
+
+		[Test]
+		public void ToSnapshotFromReleaseWithZeroPositionTest()
+		{
+			var version = new ComponentVersion("1.0.0").Operations().ToSnapshotWithVersionIncrement(0);
+			Assert.That(version.Value, Is.EqualTo("2.0.0-SNAPSHOT"));
+		}
+
+		[Test]
+		public void ToSnapshotFromReleaseWithSuffixAndPositionTest()
+		{
+			var version = new ComponentVersion("1.0.0-RE").Operations().ToSnapshotWithVersionIncrement(1);
+			Assert.That(version.Value, Is.EqualTo("1.1.0-RE-SNAPSHOT"));
+		}
+
+		[Test]
+		public void ToSnapshotFromReleaseWithWrongPositionTest()
+		{
+			var version = new ComponentVersion("1.0.0");
+			Assert.Throws<InvalidOperationException>(delegate { version.Operations().ToSnapshotWithVersionIncrement(4); });
+		}
+
 
 	}
 }

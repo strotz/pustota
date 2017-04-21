@@ -65,6 +65,26 @@ namespace Pustota.Maven.Base.Tests.Actions
 		}
 
 		[Test]
+		public void SingleProjectPositionTest()
+		{
+			var project = new Project
+			{
+				GroupId = "group",
+				ArtifactId = "a",
+				Version = "1.0.0".ToVersion()
+			};
+
+			var repo = new Mock<IProjectsRepository>();
+			repo.SetupGet(r => r.AllProjects).Returns(new IProject[] { project });
+
+			var action = new CascadeSwitchAction(repo.Object);
+
+			action.ExecuteFor(project, 0);
+
+			Assert.That(project.Version.Value, Is.EqualTo("2.0.0-SNAPSHOT"));
+		}
+
+		[Test]
 		public void TwoProjectsParentTest()
 		{
 			var projectA = new Project

@@ -1,18 +1,101 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 
 namespace Pustota.Maven.Models
 {
-    public static class ComponentVersionExtensions
-    {
-        public static ComponentVersion ToVersion(this string stringValue)
-        {
-            return new ComponentVersion(stringValue);
-        } 
-    } 
+	public static class ComponentVersionExtensions
+	{
+		public static ComponentVersion ToVersion(this string stringValue)
+		{
+			return new ComponentVersion(stringValue);
+		}
 
+		public static VersionOperations Operations(this ComponentVersion version)
+		{
+			return new VersionOperations(version);
+		}
+	}
 
-    public struct ComponentVersion
+	public class VersionOperations
+	{
+		private readonly ComponentVersion _version;
+		private readonly string _suffix;
+		private readonly int[] _parts;
+
+		public VersionOperations(ComponentVersion version)
+		{
+			if (!version.IsDefined)
+			{
+				throw new InvalidOperationException("version undefined");
+			}
+			_version = version;
+
+			var value = version.Value;
+
+			_suffix = "";
+			int pos = value.IndexOf('-');
+			if (pos >= 0)
+			{
+				_suffix = value.Substring(pos);
+				value = value.Substring(0, pos);
+			}
+
+			_parts = ParseVersion(value).ToArray();
+		}
+
+		private static IEnumerable<int> ParseVersion(string versionValue)
+		{
+			return versionValue.Split('.').Select(part => int.Parse(part));
+		}
+
+		private int LastPosition => _parts.Length - 1;
+
+		public ComponentVersion ToSnapshotWithVersionIncrement(int? position = null)
+		{
+			if (!_version.IsRelease)
+			{
+				throw new InvalidOperationException("version already in snapshot");
+			}
+
+			if (!position.HasValue)
+			{
+				position = LastPosition;
+			}
+
+			if (position.Value < 0 || position.Value > LastPosition)
+			{
+				throw new InvalidOperationException("wrong version increment");
+			}
+
+			var incremented = GetIncrementedParts(position.Value).Select(i => i.ToString(CultureInfo.InvariantCulture));
+			var value = string.Join(".", incremented) + _suffix + ComponentVersion.SnapshotPosfix;
+
+			return new ComponentVersion(value); 
+		}
+
+		private IEnumerable<int> GetIncrementedParts(int position)
+		{
+			for (int i = 0; i < _parts.Length; i++)
+			{
+				if (i < position)
+				{
+					yield return _parts[i];
+				}
+				else if (i == position)
+				{
+					yield return _parts[i] + 1;
+				}
+				else
+				{
+					yield return 0;
+				}
+			}
+		}
+	}
+
+	public struct ComponentVersion
 	{
 		public const string SnapshotPosfix = "-SNAPSHOT";
 		public const string DefaultVersion = "1.0.0";
@@ -48,44 +131,32 @@ namespace Pustota.Maven.Models
 			throw new InvalidOperationException("version already in release");
 		}
 
-        public ComponentVersion SwitchSnapshotToRelease(ComponentVersion anotherVersion)
-        {
-            if (!IsDefined)
-            {
-                throw new InvalidOperationException("version undefined");
-            }
-            if (!anotherVersion.IsDefined)
-            {
-                throw new InvalidOperationException("target version undefined");
-            }
-            if (anotherVersion.IsSnapshot)
-            {
-                throw new InvalidOperationException("targer version is SNAPSHOT");
-            }
-            if (IsSnapshot)
-            {
-                string v = _value.Substring(0, _value.Length - SnapshotPosfix.Length);
-                if (!anotherVersion.Value.StartsWith(v))
-                {
-                    throw new InvalidOperationException($"release version must extend snapshot. {anotherVersion.Value} does not start with {v}");
-                }
-                return new ComponentVersion(anotherVersion.Value);
-            }
-            throw new InvalidOperationException("version already in release");
-        }
-
-        public ComponentVersion SwitchReleaseToSnapshotWithVersionIncrement()
+		public ComponentVersion SwitchSnapshotToRelease(ComponentVersion anotherVersion)
 		{
 			if (!IsDefined)
 			{
 				throw new InvalidOperationException("version undefined");
 			}
-			if (IsRelease)
+			if (!anotherVersion.IsDefined)
 			{
-				return new ComponentVersion(IncrementNumber(_value, 2) + SnapshotPosfix); // TODO: make it flexable
+				throw new InvalidOperationException("target version undefined");
 			}
-			throw new InvalidOperationException("version already in snapshot");
+			if (anotherVersion.IsSnapshot)
+			{
+				throw new InvalidOperationException("targer version is SNAPSHOT");
+			}
+			if (IsSnapshot)
+			{
+				string v = _value.Substring(0, _value.Length - SnapshotPosfix.Length);
+				if (!anotherVersion.Value.StartsWith(v))
+				{
+					throw new InvalidOperationException($"release version must extend snapshot. {anotherVersion.Value} does not start with {v}");
+				}
+				return new ComponentVersion(anotherVersion.Value);
+			}
+			throw new InvalidOperationException("version already in release");
 		}
+
 
 		private static string NormalizeSuffix(string postfix, long? build)
 		{
@@ -104,32 +175,6 @@ namespace Pustota.Maven.Models
 			return result;
 		}
 
-		private static string IncrementNumber(string version, int position)
-		{
-			string postfix = "";
-			int pos = version.IndexOf('-');
-			if (pos >= 0)
-			{
-				postfix = version.Substring(pos);
-				version = version.Substring(0, pos);
-			}
-			string[] data = version.Split('.');
-
-			for (int i = 0; i < data.Length; i++)
-			{
-				int value = int.Parse(data[i]);
-				if (i == position)
-				{
-					data[i] = (value + 1).ToString(CultureInfo.InvariantCulture);
-				}
-				else if (i > position)
-				{
-					data[i] = "0";
-				}
-			}
-
-			return string.Join(".", data) + postfix;
-		}
 
 		public bool Equals(ComponentVersion other)
 		{

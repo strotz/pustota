@@ -20,6 +20,9 @@ namespace Pustota.Maven.Cmd.Commands
 		[Option('v', "version", HelpText = "Project version")]
 		public string Version { get; set; }
 
+		[Option("position", DefaultValue = -1, HelpText = "Position of number to increment")]
+		public int Position { get; set; }
+
 		// TODO: use current folder to identify project if current folder is under repo
 
 		public void Execute()
@@ -35,11 +38,25 @@ namespace Pustota.Maven.Cmd.Commands
 			}
 
 			Console.WriteLine("Switch to SNAPSHOT project {0} and all dependent in folder {1}", target, Path);
+			if (Position != -1)
+			{
+				Console.WriteLine($"Increment {Position} position");
+			}
+			else
+			{
+				Console.WriteLine("Increment last version position");
+			}
 
 			Debug.WriteLine(solution.AllProjects.Count() + " projects loaded");
 
 			CascadeSwitchAction cascade = new CascadeSwitchAction(solution);
-			cascade.ExecuteFor(target);
+			int? position = null;
+			if (Position >= 0)
+			{
+				position = Position;
+			}
+			 
+			cascade.ExecuteFor(target, position);
 
 			solution.ForceSaveAll();
 		}
