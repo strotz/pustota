@@ -102,7 +102,7 @@ namespace Pustota.Maven.Models
 
 			foreach (var dependency in AllDependencies.Where(d => d.ReferenceOperations().ReferenceEqualTo(projectReference, false)))
 			{
-				if (dependency.Version != projectReference.Version)
+				if (dependency.Version.IsDefined && dependency.Version != projectReference.Version)
 				{
 					dependency.Version = projectReference.Version;
 					usageUpdated = true;
