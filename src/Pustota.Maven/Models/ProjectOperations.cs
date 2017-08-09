@@ -25,7 +25,8 @@ namespace Pustota.Maven.Models
 				return _project.Dependencies
 					.Concat(_project.DependencyManagement)
 					.Concat(_project.Profiles.SelectMany(p => p.Dependencies))
-					.Concat(_project.Profiles.SelectMany(p => p.DependencyManagement));
+					.Concat(_project.Profiles.SelectMany(p => p.DependencyManagement))
+					.Concat(_project.Plugins.SelectMany(p => p.Dependencies));
 			}
 		}
 
