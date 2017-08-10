@@ -157,6 +157,12 @@ namespace Pustota.Maven.Serialization
 
 			plugin.Executions = new BlackBox(element.SingleOrNull("executions"));
 			plugin.Configuration = new BlackBox(element.SingleOrNull("configuration"));
+
+			plugin.Dependencies = element
+				.ReadElements("dependencies", "dependency")
+				.Select(LoadDependency)
+				.ToList();
+
 			return plugin;
 		}
 
@@ -172,6 +178,21 @@ namespace Pustota.Maven.Serialization
 
 			if (!plugin.Executions.IsEmpty)
 				element.Add(plugin.Executions.Value as PomElement);
+
+			if (!plugin.Dependencies.Any())
+			{
+				element.RemoveElement("dependencies");
+			}
+			else
+			{
+				var dependenciesNode = element.SingleOrCreate("dependencies");
+				dependenciesNode.RemoveAllChildElements();
+				foreach (IDependency dependency in plugin.Dependencies)
+				{
+					var dependencyNode = dependenciesNode.AddElement("dependency");
+					SaveDependency(dependency, dependencyNode);
+				}
+			}
 		}
 
 

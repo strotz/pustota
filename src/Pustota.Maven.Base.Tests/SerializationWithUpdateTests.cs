@@ -140,6 +140,13 @@ namespace Pustota.Maven.Base.Tests
 						</configuration>
 					</execution>
 				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>ghyyejpkw0i</groupId>
+						<artifactId>1m2xa54bkrv</artifactId>
+						<version>41zyt5fjrjl</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
