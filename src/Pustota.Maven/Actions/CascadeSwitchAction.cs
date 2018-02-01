@@ -13,7 +13,7 @@ namespace Pustota.Maven.Actions
 			_projects = projects;
 		}
 
-		public void ExecuteFor(IProject targetProject, int? position = null) 
+		public void ExecuteFor(IProject targetProject, int? position = null, int? stopAtPosition = null) 
 		{
 			// var selected = _views.AllViews.Where(v => v.Checked).Select(v => v.ProjectNode);
 			var searchOptions = new SearchOptions
@@ -37,14 +37,14 @@ namespace Pustota.Maven.Actions
 
 				if (project.Version.IsRelease) // explicit release
 				{
-					project.Version = project.Version.Operations().ToSnapshotWithVersionIncrement(position);
+					project.Version = project.Version.Operations().ToSnapshotWithVersionIncrement(position, stopAtPosition);
 				}
 				else if (project.Version.IsSnapshot) // explicit snapshot, just propogate
 				{
 				}
 				else if (!project.Version.IsDefined && project.Parent != null && project.Parent.Version.IsRelease) // inherited from release
 				{
-					project.Version = project.Parent.Version.Operations().ToSnapshotWithVersionIncrement(position); // make it explicit
+					project.Version = project.Parent.Version.Operations().ToSnapshotWithVersionIncrement(position, stopAtPosition); // make it explicit
 				}
 				else if (!project.Version.IsDefined && project.Parent != null && project.Parent.Version.IsSnapshot) // inherited from snapshot, just propogate
 				{

@@ -52,7 +52,7 @@ namespace Pustota.Maven.Models
 
 		private int LastPosition => _parts.Length - 1;
 
-		public ComponentVersion ToSnapshotWithVersionIncrement(int? position = null)
+		public ComponentVersion ToSnapshotWithVersionIncrement(int? position = null, int? stopAtPosition = null)
 		{
 			if (!_version.IsRelease)
 			{
@@ -69,15 +69,21 @@ namespace Pustota.Maven.Models
 				throw new InvalidOperationException("wrong version increment");
 			}
 
-			var incremented = GetIncrementedParts(position.Value).Select(i => i.ToString(CultureInfo.InvariantCulture));
+			var incremented = GetIncrementedParts(position.Value, stopAtPosition).Select(i => i.ToString(CultureInfo.InvariantCulture));
 			var value = string.Join(".", incremented) + _suffix + ComponentVersion.SnapshotPosfix;
 
 			return new ComponentVersion(value); 
 		}
 
-		private IEnumerable<int> GetIncrementedParts(int position)
+		private IEnumerable<int> GetIncrementedParts(int position, int? stopAtPosition = null)
 		{
-			for (int i = 0; i < _parts.Length; i++)
+			int stop = _parts.Length;
+			if (stopAtPosition.HasValue)
+			{
+				stop = Math.Min(stop, stopAtPosition.Value + 1);
+			}
+
+			for (int i = 0; i < stop; i++)
 			{
 				if (i < position)
 				{
@@ -85,7 +91,7 @@ namespace Pustota.Maven.Models
 				}
 				else if (i == position)
 				{
-					yield return _parts[i] + 1;
+					yield return _parts[i] + 1;	
 				}
 				else
 				{

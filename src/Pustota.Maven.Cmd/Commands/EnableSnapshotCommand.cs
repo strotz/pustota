@@ -23,6 +23,9 @@ namespace Pustota.Maven.Cmd.Commands
 		[Option("position", DefaultValue = -1, HelpText = "Position of number to increment")]
 		public int Position { get; set; }
 
+		[Option("stop", DefaultValue = -1, HelpText = "Position of number to stop")]
+		public int StopAtPosition { get; set; }
+
 		// TODO: use current folder to identify project if current folder is under repo
 
 		public void Execute()
@@ -55,8 +58,25 @@ namespace Pustota.Maven.Cmd.Commands
 			{
 				position = Position;
 			}
+
+			int? stopAtPosition = null;
+			if (Position >= 0)
+			{
+				stopAtPosition = StopAtPosition;
+				if (!position.HasValue)
+				{
+					Console.Error.WriteLine("Position has to be specified");
+					return;
+				}
+
+				if (position.Value > StopAtPosition)
+				{
+					Console.Error.WriteLine("Stop position has to be less or equal to position");
+					return;
+				}
+			}
 			 
-			cascade.ExecuteFor(target, position);
+			cascade.ExecuteFor(target, position, stopAtPosition);
 
 			solution.ForceSaveAll();
 		}

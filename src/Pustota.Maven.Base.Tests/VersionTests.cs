@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using Pustota.Maven.Models;
 namespace Pustota.Maven.Base.Tests
@@ -229,6 +225,13 @@ namespace Pustota.Maven.Base.Tests
 		{
 			var version = new ComponentVersion("1.0.0").Operations().ToSnapshotWithVersionIncrement(1);
 			Assert.That(version.Value, Is.EqualTo("1.1.0-SNAPSHOT")); 
+		}
+
+		[Test]
+		public void ToSnapshotFromReleaseWithFirstPositionStoppedTest()
+		{
+			var version = new ComponentVersion("1.0.0.0").Operations().ToSnapshotWithVersionIncrement(1, 2);
+			Assert.That(version.Value, Is.EqualTo("1.1.0-SNAPSHOT"));
 		}
 
 		[Test]
